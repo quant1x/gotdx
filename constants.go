@@ -3,8 +3,8 @@ package gotdx
 import "errors"
 
 const (
-	MarketSz = 0 // 深圳
-	MarketSh = 1 // 上海
+	MarketSh = 0 // 上海
+	MarketSz = 1 // 深圳
 	MarketBj = 2 // 北京
 )
 

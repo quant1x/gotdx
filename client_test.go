@@ -2,6 +2,7 @@ package gotdx
 
 import (
 	"fmt"
+	"gotdx/proto"
 	"testing"
 )
 
@@ -47,6 +48,22 @@ func Test_tdx_GetSecurityCount(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(reply)
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetSecurityQuotes(t *testing.T) {
+	api := prepare()
+	params := []proto.Stock{}
+	params = append(params, proto.Stock{Market: MarketSh, Code: "002062"})
+	params = append(params, proto.Stock{Market: MarketSh, Code: "000001"})
+	reply, err := api.GetSecurityQuotes(params)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	fmt.Println(reply)
 
 	_ = api.Disconnect()

@@ -129,9 +129,20 @@ func (client *Client) Disconnect() error {
 }
 
 // GetSecurityCount 获取指定市场内的证券数目
-func (client *Client) GetSecurityCount(market uint16) (*proto.SecurityCountReply, error) {
-	obj := proto.NewSecurityCount()
+func (client *Client) GetSecurityCount(market uint16) (*proto.GetSecurityCountReply, error) {
+	obj := proto.NewGetSecurityCount()
 	obj.SetParams(market)
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply, err
+}
+
+// GetSecurityQuotes 获取盘口五档报价
+func (client *Client) GetSecurityQuotes(params []proto.Stock) (*proto.GetSecurityQuotesReply, error) {
+	obj := proto.NewGetSecurityQuotes()
+	obj.SetParams(params)
 	err := client.do(obj)
 	if err != nil {
 		return nil, err
