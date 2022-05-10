@@ -101,9 +101,9 @@ func (client *Client) do(msg proto.Msg) error {
 		b := bytes.NewReader(msgData)
 		r, _ := zlib.NewReader(b)
 		io.Copy(&out, r)
-		err = msg.UnSerialize(header, out.Bytes())
+		err = msg.UnSerialize(&header, out.Bytes())
 	} else {
-		err = msg.UnSerialize(header, msgData)
+		err = msg.UnSerialize(&header, msgData)
 	}
 
 	return err
@@ -120,7 +120,7 @@ func (client *Client) Connect() (*proto.Hello1Reply, error) {
 	if err != nil {
 		return nil, err
 	}
-	return obj.Reply, err
+	return obj.Reply(), err
 }
 
 // Disconnect 断开服务器
@@ -131,21 +131,73 @@ func (client *Client) Disconnect() error {
 // GetSecurityCount 获取指定市场内的证券数目
 func (client *Client) GetSecurityCount(market uint16) (*proto.GetSecurityCountReply, error) {
 	obj := proto.NewGetSecurityCount()
-	obj.SetParams(market)
+	obj.SetParams(&proto.GetSecurityCountRequest{
+		Market: market,
+	})
 	err := client.do(obj)
 	if err != nil {
 		return nil, err
 	}
-	return obj.Reply, err
+	return obj.Reply(), err
 }
 
 // GetSecurityQuotes 获取盘口五档报价
 func (client *Client) GetSecurityQuotes(params []proto.Stock) (*proto.GetSecurityQuotesReply, error) {
 	obj := proto.NewGetSecurityQuotes()
-	obj.SetParams(params)
+	obj.SetParams(&proto.GetSecurityQuotesRequest{StockList: params})
 	err := client.do(obj)
 	if err != nil {
 		return nil, err
 	}
-	return obj.Reply, err
+	return obj.Reply(), err
+}
+
+// GetSecurityList 获取市场内指定范围内的所有证券代码
+func (client *Client) GetSecurityList(market uint16, start uint16) (*proto.GetSecurityListReply, error) {
+	obj := proto.NewGetSecurityList()
+	obj.SetParams(&proto.GetSecurityListRequest{Market: market, Start: start})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}
+
+// GetSecurityBars 获取股票K线
+// e Category, byte Market, char* Zqdm, short Start, short& Count, char* Result, char* ErrInfo
+func (client *Client) GetSecurityBars(category uint16, market uint16, code string, start uint16, count uint16) (*proto.GetSecurityBarsReply, error) {
+	obj := proto.NewGetSecurityBars()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&proto.GetSecurityBarsRequest{
+		Market:   market,
+		Code:     _code,
+		Category: category,
+		Start:    start,
+		Count:    count,
+	})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}
+
+// GetIndexBars 获取指数K线
+func (client *Client) GetIndexBars(category uint16, market uint16, code string, start uint16, count uint16) (*proto.GetIndexBarsReply, error) {
+	obj := proto.NewGetIndexBars()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&proto.GetIndexBarsRequest{
+		Market:   market,
+		Code:     _code,
+		Category: category,
+		Start:    start,
+		Count:    count,
+	})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
 }

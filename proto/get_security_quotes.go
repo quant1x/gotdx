@@ -8,18 +8,22 @@ import (
 	"gotdx/utils"
 )
 
-// GetSecurityQuotes //获取盘口五档报价
 type GetSecurityQuotes struct {
-	ReqHeader
-	contentHex string
-	Reply      *GetSecurityQuotesReply
+	reqHeader  *ReqHeader
+	respHeader *RespHeader
+	request    *GetSecurityQuotesRequest
+	reply      *GetSecurityQuotesReply
 
-	stocks []Stock
+	contentHex string
 }
 
 type Stock struct {
 	Market uint8
 	Code   string
+}
+
+type GetSecurityQuotesRequest struct {
+	StockList []Stock
 }
 
 type GetSecurityQuotesReply struct {
@@ -83,30 +87,36 @@ type Level struct {
 }
 
 func NewGetSecurityQuotes() *GetSecurityQuotes {
-	obj := &GetSecurityQuotes{}
-	obj.Zip = 0x0c
-	obj.SeqID = seqID()
-	obj.PacketType = 0x01
-	obj.Method = KMSG_SECURITYQUOTES
+	obj := new(GetSecurityQuotes)
+	obj.reqHeader = new(ReqHeader)
+	obj.respHeader = new(RespHeader)
+	obj.request = new(GetSecurityQuotesRequest)
+	obj.reply = new(GetSecurityQuotesReply)
+
+	obj.reqHeader.Zip = 0x0c
+	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.PacketType = 0x01
+	obj.reqHeader.Method = KMSG_SECURITYQUOTES
 	obj.contentHex = "0500000000000000"
 	return obj
 }
-func (obj *GetSecurityQuotes) SetParams(stocks []Stock) {
-	obj.stocks = stocks
+
+func (obj *GetSecurityQuotes) SetParams(req *GetSecurityQuotesRequest) {
+	obj.request = req
 }
 
 func (obj *GetSecurityQuotes) Serialize() ([]byte, error) {
-	obj.PkgLen1 = 2 + uint16(len(obj.stocks)*7) + 10
-	obj.PkgLen2 = 2 + uint16(len(obj.stocks)*7) + 10
+	obj.reqHeader.PkgLen1 = 2 + uint16(len(obj.request.StockList)*7) + 10
+	obj.reqHeader.PkgLen2 = 2 + uint16(len(obj.request.StockList)*7) + 10
 
 	buf := new(bytes.Buffer)
-	err := binary.Write(buf, binary.LittleEndian, obj.ReqHeader)
+	err := binary.Write(buf, binary.LittleEndian, obj.reqHeader)
 	b, err := hex.DecodeString(obj.contentHex)
 	buf.Write(b)
 
-	err = binary.Write(buf, binary.LittleEndian, uint16(len(obj.stocks)))
+	err = binary.Write(buf, binary.LittleEndian, uint16(len(obj.request.StockList)))
 
-	for _, stock := range obj.stocks {
+	for _, stock := range obj.request.StockList {
 		//code, _ := hex.DecodeString(stock.Code)
 		//code := []byte{}
 		code := make([]byte, 6)
@@ -115,18 +125,20 @@ func (obj *GetSecurityQuotes) Serialize() ([]byte, error) {
 		tmp = append(tmp, code...)
 		buf.Write(tmp)
 	}
+
 	return buf.Bytes(), err
 }
 
 func (obj *GetSecurityQuotes) UnSerialize(header interface{}, data []byte) error {
-	obj.Reply = new(GetSecurityQuotesReply)
+	obj.respHeader = header.(*RespHeader)
+
 	//fmt.Println(hex.EncodeToString(data))
 	pos := 0
 
 	pos += 2 // 跳过两个字节
-	binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.Reply.Count)
+	binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
-	for index := uint16(0); index < obj.Reply.Count; index++ {
+	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := SecurityQuote{}
 		binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.Market)
 		pos += 1
@@ -209,10 +221,13 @@ func (obj *GetSecurityQuotes) UnSerialize(header interface{}, data []byte) error
 		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
 		pos += 2
 
-		obj.Reply.List = append(obj.Reply.List, ele)
+		obj.reply.List = append(obj.reply.List, ele)
 	}
-	//obj.Reply.Count = binary.LittleEndian.Uint16(data[:2])
 	return nil
+}
+
+func (obj *GetSecurityQuotes) Reply() *GetSecurityQuotesReply {
+	return obj.reply
 }
 
 func (obj *GetSecurityQuotes) getPrice(price int, diff int) float64 {

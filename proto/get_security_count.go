@@ -6,13 +6,16 @@ import (
 	"encoding/hex"
 )
 
-// GetSecurityCount
 type GetSecurityCount struct {
-	ReqHeader
-	content string
-	Reply   *GetSecurityCountReply
+	reqHeader  *ReqHeader
+	respHeader *RespHeader
+	request    *GetSecurityCountRequest
+	reply      *GetSecurityCountReply
+	contentHex string
+}
 
-	market uint16
+type GetSecurityCountRequest struct {
+	Market uint16
 }
 
 type GetSecurityCountReply struct {
@@ -20,32 +23,42 @@ type GetSecurityCountReply struct {
 }
 
 func NewGetSecurityCount() *GetSecurityCount {
-	obj := &GetSecurityCount{}
-	obj.Zip = 0x0c
-	obj.SeqID = seqID()
-	obj.PacketType = 0x01
-	obj.Method = KMSG_SECURITYCOUNT
-	obj.content = "75c73301" // 未解
+	obj := new(GetSecurityCount)
+	obj.reqHeader = new(ReqHeader)
+	obj.respHeader = new(RespHeader)
+	obj.request = new(GetSecurityCountRequest)
+	obj.reply = new(GetSecurityCountReply)
+
+	obj.reqHeader.Zip = 0x0c
+	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.PacketType = 0x01
+	obj.reqHeader.Method = KMSG_SECURITYCOUNT
+	obj.contentHex = "75c73301" // 未解
 	return obj
 }
-func (obj *GetSecurityCount) SetParams(market uint16) {
-	obj.market = market
+func (obj *GetSecurityCount) SetParams(req *GetSecurityCountRequest) {
+	obj.request = req
 }
 
 func (obj *GetSecurityCount) Serialize() ([]byte, error) {
-	obj.PkgLen1 = 2 + uint16(len(obj.content)) + 2
-	obj.PkgLen2 = 2 + uint16(len(obj.content)) + 2
+	obj.reqHeader.PkgLen1 = 2 + uint16(len(obj.contentHex)) + 2
+	obj.reqHeader.PkgLen2 = 2 + uint16(len(obj.contentHex)) + 2
 
 	buf := new(bytes.Buffer)
-	err := binary.Write(buf, binary.LittleEndian, obj.ReqHeader)
-	err = binary.Write(buf, binary.LittleEndian, obj.market)
-	b, err := hex.DecodeString(obj.content)
+	err := binary.Write(buf, binary.LittleEndian, obj.reqHeader)
+	err = binary.Write(buf, binary.LittleEndian, obj.request)
+	b, err := hex.DecodeString(obj.contentHex)
 	buf.Write(b)
 	return buf.Bytes(), err
 }
 
 func (obj *GetSecurityCount) UnSerialize(header interface{}, data []byte) error {
-	obj.Reply = new(GetSecurityCountReply)
-	obj.Reply.Count = binary.LittleEndian.Uint16(data[:2])
+	obj.respHeader = header.(*RespHeader)
+
+	obj.reply.Count = binary.LittleEndian.Uint16(data[:2])
 	return nil
+}
+
+func (obj *GetSecurityCount) Reply() *GetSecurityCountReply {
+	return obj.reply
 }

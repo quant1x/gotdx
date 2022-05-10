@@ -27,6 +27,7 @@ const (
 	KMSG_HISTORYMINUTETIMEDATE  = 0x0fb4 // 历史分时信息
 	KMSG_HISTORYTRANSACTIONDATA = 0x0fb5 // 历史分笔成交信息
 	KMSG_INDEXBARS              = 0x052d // 指数K线
+	KMSG_SECURITYBARS           = 0x052d // 股票K线
 	KMSG_MINUTETIMEDATA         = 0x0537 // 分时数据
 	KMSG_SECURITYLIST           = 0x0450 // 证券列表
 	KMSG_SECURITYQUOTES         = 0x053e // 行情信息

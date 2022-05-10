@@ -44,14 +44,7 @@ func Test_tdx_GetSecurityCount(t *testing.T) {
 	}
 	fmt.Println(reply)
 
-	reply, err = api.GetSecurityCount(MarketSz)
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(reply)
-
 	_ = api.Disconnect()
-
 }
 
 func Test_tdx_GetSecurityQuotes(t *testing.T) {
@@ -65,6 +58,54 @@ func Test_tdx_GetSecurityQuotes(t *testing.T) {
 	}
 
 	fmt.Println(reply)
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetSecurityList(t *testing.T) {
+	api := prepare()
+	reply, err := api.GetSecurityList(MarketSh, 0)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetSecurityBars(t *testing.T) {
+	// GetSecurityBars 与 GetIndexBars 使用同一个接口靠market区分
+	api := prepare()
+	reply, err := api.GetSecurityBars(proto.KLINE_TYPE_RI_K, 0, "000001", 0, 10)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+	for _, bar := range reply.List {
+		fmt.Println(bar)
+	}
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetIndexBars(t *testing.T) {
+	// GetSecurityBars 与 GetIndexBars 使用同一个接口靠market区分
+
+	api := prepare()
+	reply, err := api.GetIndexBars(proto.KLINE_TYPE_RI_K, 1, "000001", 0, 10)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+	for _, bar := range reply.List {
+		fmt.Println(bar)
+	}
 
 	_ = api.Disconnect()
 
