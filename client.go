@@ -201,3 +201,73 @@ func (client *Client) GetIndexBars(category uint16, market uint16, code string, 
 	}
 	return obj.Reply(), err
 }
+
+// GetMinuteTimeData 获取分时图数据
+func (client *Client) GetMinuteTimeData(market uint16, code string) (*proto.GetMinuteTimeDataReply, error) {
+	obj := proto.NewGetMinuteTimeData()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&proto.GetMinuteTimeDataRequest{
+		Market: market,
+		Code:   _code,
+	})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}
+
+// GetHistoryMinuteTimeData 获取历史分时图数据
+func (client *Client) GetHistoryMinuteTimeData(date uint32, market uint16, code string) (*proto.GetHistoryMinuteTimeDataReply, error) {
+	obj := proto.NewGetHistoryMinuteTimeData()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&proto.GetHistoryMinuteTimeDataRequest{
+		Date:   date,
+		Market: uint8(market),
+		Code:   _code,
+	})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}
+
+// GetTransactionData 获取分时成交
+func (client *Client) GetTransactionData(market uint16, code string, start uint16, count uint16) (*proto.GetTransactionDataReply, error) {
+	obj := proto.NewGetTransactionData()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&proto.GetTransactionDataRequest{
+		Market: market,
+		Code:   _code,
+		Start:  start,
+		Count:  count,
+	})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}
+
+// GetHistoryTransactionData 获取历史分时成交
+func (client *Client) GetHistoryTransactionData(date uint32, market uint16, code string, start uint16, count uint16) (*proto.GetHistoryTransactionDataReply, error) {
+	obj := proto.NewGetHistoryTransactionData()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&proto.GetHistoryTransactionDataRequest{
+		Date:   date,
+		Market: market,
+		Code:   _code,
+		Start:  start,
+		Count:  count,
+	})
+	err := client.do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}

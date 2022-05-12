@@ -110,3 +110,70 @@ func Test_tdx_GetIndexBars(t *testing.T) {
 	_ = api.Disconnect()
 
 }
+
+func Test_tdx_GetMinuteTimeData(t *testing.T) {
+	api := prepare()
+	reply, err := api.GetMinuteTimeData(0, "159607")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+	for _, bar := range reply.List {
+		fmt.Println(bar)
+	}
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetHistoryMinuteTimeData(t *testing.T) {
+	api := prepare()
+	//reply, err := api.GetHistoryMinuteTimeData(20220511, 0, "159607")
+	reply, err := api.GetHistoryMinuteTimeData(20220511, 0, "159607")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+	for _, bar := range reply.List {
+		fmt.Println(bar)
+	}
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetTransactionData(t *testing.T) {
+	api := prepare()
+	//reply, err := api.GetHistoryMinuteTimeData(20220511, 0, "159607")
+	reply, err := api.GetTransactionData(0, "159607", 0, 10)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+	for _, bar := range reply.List {
+		fmt.Println(bar)
+	}
+
+	_ = api.Disconnect()
+
+}
+
+func Test_tdx_GetHistoryTransactionData(t *testing.T) {
+	api := prepare()
+	//reply, err := api.GetHistoryMinuteTimeData(20220511, 0, "159607")
+	reply, err := api.GetHistoryTransactionData(20220511, 0, "159607", 0, 10)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(reply)
+	for _, bar := range reply.List {
+		fmt.Println(bar)
+	}
+
+	_ = api.Disconnect()
+
+}

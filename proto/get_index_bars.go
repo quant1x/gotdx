@@ -27,10 +27,10 @@ type GetIndexBarsRequest struct {
 
 type GetIndexBarsReply struct {
 	Count uint16
-	List  []GetIndexBar
+	List  []IndexBar
 }
 
-type GetIndexBar struct {
+type IndexBar struct {
 	Open      float64
 	Close     float64
 	High      float64
@@ -98,7 +98,7 @@ func (obj *GetIndexBars) UnSerialize(header interface{}, data []byte) error {
 	pre_diff_base := 0
 	//lasttime := ""
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := GetIndexBar{}
+		ele := IndexBar{}
 
 		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getdatetime(int(obj.request.Category), data, &pos)
 

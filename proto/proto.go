@@ -102,34 +102,42 @@ func seqID() uint32 {
 
 // pytdx : 类似utf-8的编码方式保存有符号数字
 func getprice(b []byte, pos *int) int {
-	posbype := 6
-	bdata := b[*pos]
-	intdata := int(bdata & 0x3f)
+	/*
+		    0x7f与常量做与运算实质是保留常量（转换为二进制形式）的后7位数，既取值区间为[0,127]
+		    0x3f与常量做与运算实质是保留常量（转换为二进制形式）的后6位数，既取值区间为[0,63]
 
-	sign := false
-	if (bdata & 0x40) > 0 {
-		sign = true
+			0x80 1000 0000
+			0x7f 0111 1111
+			0x40  100 0000
+			0x3f  011 1111
+	*/
+	posByte := 6
+	bData := b[*pos]
+	data := int(bData & 0x3f)
+	bSign := false
+	if (bData & 0x40) > 0 {
+		bSign = true
 	}
 
-	if (bdata & 0x80) > 0 {
+	if (bData & 0x80) > 0 {
 		for {
 			*pos += 1
-			bdata = b[*pos]
-			intdata += (int(bdata&0x7f) << posbype)
+			bData = b[*pos]
+			data += (int(bData&0x7f) << posByte)
 
-			posbype += 7
+			posByte += 7
 
-			if (bdata & 0x80) <= 0 {
+			if (bData & 0x80) <= 0 {
 				break
 			}
 		}
 	}
-	*pos += 1
+	*pos++
 
-	if sign {
-		intdata = -intdata
+	if bSign {
+		data = -data
 	}
-	return intdata
+	return data
 }
 
 func gettime(b []byte, pos *int) (h uint16, m uint16) {
@@ -277,4 +285,14 @@ func getvolume(ivol int) (volume float64) {
 	}
 	volume = dbl_xmm6 + dbl_xmm4 + dbl_xmm3 + dbl_xmm1
 	return
+}
+
+func baseUnit(code string) float64 {
+	c := code[:2]
+	switch c {
+	case "60", "30", "68", "00":
+		return 100.0
+
+	}
+	return 1000.0
 }

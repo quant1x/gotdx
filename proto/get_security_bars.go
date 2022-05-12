@@ -27,10 +27,10 @@ type GetSecurityBarsRequest struct {
 
 type GetSecurityBarsReply struct {
 	Count uint16
-	List  []GetSecurityBar
+	List  []SecurityBar
 }
 
-type GetSecurityBar struct {
+type SecurityBar struct {
 	Open     float64
 	Close    float64
 	High     float64
@@ -100,7 +100,7 @@ func (obj *GetSecurityBars) UnSerialize(header interface{}, data []byte) error {
 	pre_diff_base := 0
 
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := GetSecurityBar{}
+		ele := SecurityBar{}
 		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getdatetime(int(obj.request.Category), data, &pos)
 
 		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
