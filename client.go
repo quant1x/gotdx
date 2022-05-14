@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/zlib"
 	"encoding/binary"
+	"errors"
 	"gotdx/proto"
 	"io"
 	"log"
@@ -142,8 +143,18 @@ func (client *Client) GetSecurityCount(market uint16) (*proto.GetSecurityCountRe
 }
 
 // GetSecurityQuotes 获取盘口五档报价
-func (client *Client) GetSecurityQuotes(params []proto.Stock) (*proto.GetSecurityQuotesReply, error) {
+func (client *Client) GetSecurityQuotes(markets []uint8, codes []string) (*proto.GetSecurityQuotesReply, error) {
+	if len(markets) != len(codes) {
+		return nil, errors.New("market code count error")
+	}
 	obj := proto.NewGetSecurityQuotes()
+	var params []proto.Stock
+	for i, market := range markets {
+		params = append(params, proto.Stock{
+			Market: market,
+			Code:   codes[i],
+		})
+	}
 	obj.SetParams(&proto.GetSecurityQuotesRequest{StockList: params})
 	err := client.do(obj)
 	if err != nil {
@@ -153,9 +164,10 @@ func (client *Client) GetSecurityQuotes(params []proto.Stock) (*proto.GetSecurit
 }
 
 // GetSecurityList 获取市场内指定范围内的所有证券代码
-func (client *Client) GetSecurityList(market uint16, start uint16) (*proto.GetSecurityListReply, error) {
+func (client *Client) GetSecurityList(market uint8, start uint16) (*proto.GetSecurityListReply, error) {
 	obj := proto.NewGetSecurityList()
-	obj.SetParams(&proto.GetSecurityListRequest{Market: market, Start: start})
+	_market := uint16(market)
+	obj.SetParams(&proto.GetSecurityListRequest{Market: _market, Start: start})
 	err := client.do(obj)
 	if err != nil {
 		return nil, err
@@ -164,13 +176,13 @@ func (client *Client) GetSecurityList(market uint16, start uint16) (*proto.GetSe
 }
 
 // GetSecurityBars 获取股票K线
-// e Category, byte Market, char* Zqdm, short Start, short& Count, char* Result, char* ErrInfo
-func (client *Client) GetSecurityBars(category uint16, market uint16, code string, start uint16, count uint16) (*proto.GetSecurityBarsReply, error) {
+func (client *Client) GetSecurityBars(category uint16, market uint8, code string, start uint16, count uint16) (*proto.GetSecurityBarsReply, error) {
 	obj := proto.NewGetSecurityBars()
 	_code := [6]byte{}
+	_market := uint16(market)
 	copy(_code[:], code)
 	obj.SetParams(&proto.GetSecurityBarsRequest{
-		Market:   market,
+		Market:   _market,
 		Code:     _code,
 		Category: category,
 		Start:    start,
@@ -184,12 +196,13 @@ func (client *Client) GetSecurityBars(category uint16, market uint16, code strin
 }
 
 // GetIndexBars 获取指数K线
-func (client *Client) GetIndexBars(category uint16, market uint16, code string, start uint16, count uint16) (*proto.GetIndexBarsReply, error) {
+func (client *Client) GetIndexBars(category uint16, market uint8, code string, start uint16, count uint16) (*proto.GetIndexBarsReply, error) {
 	obj := proto.NewGetIndexBars()
 	_code := [6]byte{}
+	_market := uint16(market)
 	copy(_code[:], code)
 	obj.SetParams(&proto.GetIndexBarsRequest{
-		Market:   market,
+		Market:   _market,
 		Code:     _code,
 		Category: category,
 		Start:    start,
@@ -203,12 +216,13 @@ func (client *Client) GetIndexBars(category uint16, market uint16, code string, 
 }
 
 // GetMinuteTimeData 获取分时图数据
-func (client *Client) GetMinuteTimeData(market uint16, code string) (*proto.GetMinuteTimeDataReply, error) {
+func (client *Client) GetMinuteTimeData(market uint8, code string) (*proto.GetMinuteTimeDataReply, error) {
 	obj := proto.NewGetMinuteTimeData()
 	_code := [6]byte{}
+	_market := uint16(market)
 	copy(_code[:], code)
 	obj.SetParams(&proto.GetMinuteTimeDataRequest{
-		Market: market,
+		Market: _market,
 		Code:   _code,
 	})
 	err := client.do(obj)
@@ -219,13 +233,13 @@ func (client *Client) GetMinuteTimeData(market uint16, code string) (*proto.GetM
 }
 
 // GetHistoryMinuteTimeData 获取历史分时图数据
-func (client *Client) GetHistoryMinuteTimeData(date uint32, market uint16, code string) (*proto.GetHistoryMinuteTimeDataReply, error) {
+func (client *Client) GetHistoryMinuteTimeData(date uint32, market uint8, code string) (*proto.GetHistoryMinuteTimeDataReply, error) {
 	obj := proto.NewGetHistoryMinuteTimeData()
 	_code := [6]byte{}
 	copy(_code[:], code)
 	obj.SetParams(&proto.GetHistoryMinuteTimeDataRequest{
 		Date:   date,
-		Market: uint8(market),
+		Market: market,
 		Code:   _code,
 	})
 	err := client.do(obj)
@@ -236,12 +250,13 @@ func (client *Client) GetHistoryMinuteTimeData(date uint32, market uint16, code 
 }
 
 // GetTransactionData 获取分时成交
-func (client *Client) GetTransactionData(market uint16, code string, start uint16, count uint16) (*proto.GetTransactionDataReply, error) {
+func (client *Client) GetTransactionData(market uint8, code string, start uint16, count uint16) (*proto.GetTransactionDataReply, error) {
 	obj := proto.NewGetTransactionData()
 	_code := [6]byte{}
+	_market := uint16(market)
 	copy(_code[:], code)
 	obj.SetParams(&proto.GetTransactionDataRequest{
-		Market: market,
+		Market: _market,
 		Code:   _code,
 		Start:  start,
 		Count:  count,
@@ -254,13 +269,14 @@ func (client *Client) GetTransactionData(market uint16, code string, start uint1
 }
 
 // GetHistoryTransactionData 获取历史分时成交
-func (client *Client) GetHistoryTransactionData(date uint32, market uint16, code string, start uint16, count uint16) (*proto.GetHistoryTransactionDataReply, error) {
+func (client *Client) GetHistoryTransactionData(date uint32, market uint8, code string, start uint16, count uint16) (*proto.GetHistoryTransactionDataReply, error) {
 	obj := proto.NewGetHistoryTransactionData()
 	_code := [6]byte{}
+	_market := uint16(market)
 	copy(_code[:], code)
 	obj.SetParams(&proto.GetHistoryTransactionDataRequest{
 		Date:   date,
-		Market: market,
+		Market: _market,
 		Code:   _code,
 		Start:  start,
 		Count:  count,

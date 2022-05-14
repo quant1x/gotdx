@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"gotdx/utils"
+	"gotdx/util"
 )
 
 type Hello2 struct {
@@ -57,7 +57,7 @@ func (obj *Hello2) Serialize() ([]byte, error) {
 func (obj *Hello2) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*RespHeader)
 
-	serverInfo := utils.Utf8ToGbk(data[58:])
+	serverInfo := util.Utf8ToGbk(data[58:])
 	//fmt.Println(hex.EncodeToString(data))
 	obj.reply.Info = serverInfo
 	return nil

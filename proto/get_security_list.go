@@ -3,7 +3,7 @@ package proto
 import (
 	"bytes"
 	"encoding/binary"
-	"gotdx/utils"
+	"gotdx/util"
 )
 
 type GetSecurityList struct {
@@ -88,7 +88,7 @@ func (obj *GetSecurityList) UnSerialize(header interface{}, data []byte) error {
 		binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &name)
 		pos += 8
 
-		ele.Code = utils.Utf8ToGbk(name[:])
+		ele.Code = util.Utf8ToGbk(name[:])
 
 		pos += 4
 		binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.DecimalPoint)

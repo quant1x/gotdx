@@ -41,8 +41,8 @@ func (obj *GetSecurityCount) SetParams(req *GetSecurityCountRequest) {
 }
 
 func (obj *GetSecurityCount) Serialize() ([]byte, error) {
-	obj.reqHeader.PkgLen1 = 2 + uint16(len(obj.contentHex)) + 2
-	obj.reqHeader.PkgLen2 = 2 + uint16(len(obj.contentHex)) + 2
+	obj.reqHeader.PkgLen1 = 2 + 4 + 2
+	obj.reqHeader.PkgLen2 = 2 + 4 + 2
 
 	buf := new(bytes.Buffer)
 	err := binary.Write(buf, binary.LittleEndian, obj.reqHeader)
