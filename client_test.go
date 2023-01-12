@@ -34,7 +34,7 @@ func Test_tdx_Connect(t *testing.T) {
 
 func Test_tdx_GetSecurityCount(t *testing.T) {
 	api := prepare()
-	reply, err := api.GetSecurityCount(MarketSh)
+	reply, err := api.GetSecurityCount(MARKET_SH)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -45,7 +45,7 @@ func Test_tdx_GetSecurityCount(t *testing.T) {
 
 func Test_tdx_GetSecurityQuotes(t *testing.T) {
 	api := prepare()
-	reply, err := api.GetSecurityQuotes([]uint8{MarketSh}, []string{"002062"})
+	reply, err := api.GetSecurityQuotes([]uint8{MARKET_SH}, []string{"002062"})
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -60,7 +60,7 @@ func Test_tdx_GetSecurityQuotes(t *testing.T) {
 
 func Test_tdx_GetSecurityList(t *testing.T) {
 	api := prepare()
-	reply, err := api.GetSecurityList(MarketSh, 0)
+	reply, err := api.GetSecurityList(MARKET_SH, 0)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
