@@ -154,7 +154,7 @@ func Test_tdx_GetTransactionData(t *testing.T) {
 func Test_tdx_GetHistoryTransactionData(t *testing.T) {
 	api := prepare()
 	//reply, err := api.HistoryMinuteTimeData(20220511, 0, "159607")
-	reply, err := api.GetHistoryTransactionData(20230111, 1, "600600", 0, 10)
+	reply, err := api.GetHistoryTransactionData(20230111, 1, "600600", 99, 2)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
