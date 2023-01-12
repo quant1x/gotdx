@@ -8,8 +8,8 @@ import (
 )
 
 type GetTransactionData struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *TransactionRequest
 	reply      *TransactionReply
 
@@ -38,8 +38,8 @@ type TickTransaction struct {
 
 func NewGetTransactionData() *GetTransactionData {
 	obj := new(GetTransactionData)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(TransactionRequest)
 	obj.reply = new(TransactionReply)
 
@@ -76,7 +76,7 @@ func (obj *GetTransactionData) Serialize() ([]byte, error) {
 }
 
 func (obj *GetTransactionData) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)

@@ -76,7 +76,7 @@ var _seqId uint32
 0c 02189300 01 0300 0300 0d00 01
 0c 00000000 00 0200 0200 1500
 */
-type ReqHeader struct {
+type RequestHeader struct {
 	Zip        uint8  // ZipFlag
 	SeqID      uint32 // 请求编号
 	PacketType uint8
@@ -85,7 +85,7 @@ type ReqHeader struct {
 	Method     uint16 // method 请求方法
 }
 
-type RespHeader struct {
+type ResponseHeader struct {
 	I1        uint32
 	I2        uint8
 	SeqID     uint32 // 请求编号

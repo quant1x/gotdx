@@ -7,8 +7,8 @@ import (
 )
 
 type GetSecurityList struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *SecurityListRequest
 	reply      *SecurityListReply
 
@@ -35,8 +35,8 @@ type Security struct {
 
 func NewGetSecurityList() *GetSecurityList {
 	obj := new(GetSecurityList)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityListRequest)
 	obj.reply = new(SecurityListReply)
 
@@ -68,7 +68,7 @@ func (obj *GetSecurityList) Serialize() ([]byte, error) {
 }
 
 func (obj *GetSecurityList) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	//fmt.Println(hex.EncodeToString(data))
 	pos := 0

@@ -8,8 +8,8 @@ import (
 )
 
 type GetSecurityBars struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *SecurityBarsRequest
 	reply      *SecurityBarsReply
 
@@ -49,8 +49,8 @@ type SecurityBar struct {
 
 func NewGetSecurityBars() *GetSecurityBars {
 	obj := new(GetSecurityBars)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityBarsRequest)
 	obj.reply = new(SecurityBarsReply)
 
@@ -91,7 +91,7 @@ func (obj *GetSecurityBars) Serialize() ([]byte, error) {
 // /20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
 // /20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
 func (obj *GetSecurityBars) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)

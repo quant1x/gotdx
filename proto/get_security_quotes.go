@@ -9,8 +9,8 @@ import (
 )
 
 type GetSecurityQuotes struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *SecurityQuotesRequest
 	reply      *SecurityQuotesReply
 
@@ -88,8 +88,8 @@ type Level struct {
 
 func NewGetSecurityQuotes() *GetSecurityQuotes {
 	obj := new(GetSecurityQuotes)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityQuotesRequest)
 	obj.reply = new(SecurityQuotesReply)
 
@@ -130,7 +130,7 @@ func (obj *GetSecurityQuotes) Serialize() ([]byte, error) {
 }
 
 func (obj *GetSecurityQuotes) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	//fmt.Println(hex.EncodeToString(data))
 	pos := 0

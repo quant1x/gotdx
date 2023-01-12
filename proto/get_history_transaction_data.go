@@ -8,8 +8,8 @@ import (
 )
 
 type GetHistoryTransactionData struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *HistoryTransactionRequest
 	reply      *HistoryTransactionReply
 
@@ -39,8 +39,8 @@ type HistoryTransaction struct {
 
 func NewGetHistoryTransactionData() *GetHistoryTransactionData {
 	obj := new(GetHistoryTransactionData)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(HistoryTransactionRequest)
 	obj.reply = new(HistoryTransactionReply)
 
@@ -79,7 +79,7 @@ func (obj *GetHistoryTransactionData) Serialize() ([]byte, error) {
 }
 
 func (obj *GetHistoryTransactionData) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)

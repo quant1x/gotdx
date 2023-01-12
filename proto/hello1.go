@@ -8,8 +8,8 @@ import (
 )
 
 type Hello1 struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *Hello1Request
 	reply      *Hello1Reply
 
@@ -26,8 +26,8 @@ type Hello1Reply struct {
 
 func NewHello1() *Hello1 {
 	obj := new(Hello1)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(Hello1Request)
 	obj.reply = new(Hello1Reply)
 
@@ -58,7 +58,7 @@ func (obj *Hello1) Serialize() ([]byte, error) {
 	分  时    秒                                                                      日期
 */
 func (obj *Hello1) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	serverInfo := util.Utf8ToGbk(data[68:])
 

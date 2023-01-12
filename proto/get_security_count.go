@@ -7,8 +7,8 @@ import (
 )
 
 type GetSecurityCount struct {
-	reqHeader  *ReqHeader
-	respHeader *RespHeader
+	reqHeader  *RequestHeader
+	respHeader *ResponseHeader
 	request    *SecurityCountRequest
 	reply      *SecurityCountReply
 	contentHex string
@@ -24,8 +24,8 @@ type SecurityCountReply struct {
 
 func NewGetSecurityCount() *GetSecurityCount {
 	obj := new(GetSecurityCount)
-	obj.reqHeader = new(ReqHeader)
-	obj.respHeader = new(RespHeader)
+	obj.reqHeader = new(RequestHeader)
+	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityCountRequest)
 	obj.reply = new(SecurityCountReply)
 
@@ -53,7 +53,7 @@ func (obj *GetSecurityCount) Serialize() ([]byte, error) {
 }
 
 func (obj *GetSecurityCount) UnSerialize(header interface{}, data []byte) error {
-	obj.respHeader = header.(*RespHeader)
+	obj.respHeader = header.(*ResponseHeader)
 
 	obj.reply.Count = binary.LittleEndian.Uint16(data[:2])
 	return nil

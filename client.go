@@ -81,7 +81,7 @@ func (client *TcpClient) do(msg proto.Msg) error {
 	}
 
 	headerBuf := bytes.NewReader(headerBytes)
-	var header proto.RespHeader
+	var header proto.ResponseHeader
 	if err := binary.Read(headerBuf, binary.LittleEndian, &header); err != nil {
 		return err
 	}
