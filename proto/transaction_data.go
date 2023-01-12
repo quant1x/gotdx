@@ -7,6 +7,7 @@ import (
 	"fmt"
 )
 
+// TransactionData 当日分笔成交信息
 type TransactionData struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
