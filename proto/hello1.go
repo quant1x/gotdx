@@ -59,9 +59,7 @@ func (obj *Hello1) Serialize() ([]byte, error) {
 */
 func (obj *Hello1) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
-
 	serverInfo := util.Utf8ToGbk(data[68:])
-
 	obj.reply.Info = serverInfo
 	return nil
 }
