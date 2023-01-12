@@ -39,6 +39,7 @@ func NewClient(opt *Opt) *TcpClient {
 	return client
 }
 
+// 链接服务器
 func (client *TcpClient) connect() error {
 	addr := strings.Join([]string{client.opt.Host, strconv.Itoa(client.opt.Port)}, ":")
 	conn, err := net.Dial("tcp", addr)
