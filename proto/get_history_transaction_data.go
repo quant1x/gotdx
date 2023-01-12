@@ -37,7 +37,7 @@ type HistoryTransaction struct {
 	BuyOrSell int
 }
 
-func NewGetHistoryTransactionData() *HistoryTransactionData {
+func NewHistoryTransactionData() *HistoryTransactionData {
 	obj := new(HistoryTransactionData)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)

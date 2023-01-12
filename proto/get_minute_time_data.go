@@ -33,7 +33,7 @@ type MinuteTime struct {
 	Vol   int
 }
 
-func NewGetMinuteTimeData() *MinuteTimeData {
+func NewMinuteTimeData() *MinuteTimeData {
 	obj := new(MinuteTimeData)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)

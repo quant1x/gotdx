@@ -31,7 +31,7 @@ type HistoryMinuteTime struct {
 	Vol   int
 }
 
-func NewGetHistoryMinuteTimeData() *HistoryMinuteTimeData {
+func NewHistoryMinuteTimeData() *HistoryMinuteTimeData {
 	obj := new(HistoryMinuteTimeData)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)

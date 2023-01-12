@@ -47,7 +47,7 @@ type SecurityBar struct {
 	//DownCount uint16
 }
 
-func NewGetSecurityBars() *SecurityBars {
+func NewSecurityBars() *SecurityBars {
 	obj := new(SecurityBars)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)

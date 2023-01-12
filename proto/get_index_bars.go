@@ -47,7 +47,7 @@ type IndexBar struct {
 	DownCount uint16
 }
 
-func NewGetIndexBars() *MarketIndexBars {
+func NewIndexBars() *MarketIndexBars {
 	obj := new(MarketIndexBars)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)

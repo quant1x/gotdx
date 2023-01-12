@@ -22,7 +22,7 @@ type SecurityCountReply struct {
 	Count uint16
 }
 
-func NewGetSecurityCount() *SecurityCounts {
+func NewSecurityCounts() *SecurityCounts {
 	obj := new(SecurityCounts)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)

@@ -6,7 +6,7 @@ import (
 	"gitee.com/quant1x/gotdx/util"
 )
 
-type GetSecurityList struct {
+type SecurityList struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *SecurityListRequest
@@ -33,8 +33,8 @@ type Security struct {
 	PreClose     float64
 }
 
-func NewGetSecurityList() *GetSecurityList {
-	obj := new(GetSecurityList)
+func GetSecurityList() *SecurityList {
+	obj := new(SecurityList)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityListRequest)
@@ -47,11 +47,11 @@ func NewGetSecurityList() *GetSecurityList {
 	return obj
 }
 
-func (obj *GetSecurityList) SetParams(req *SecurityListRequest) {
+func (obj *SecurityList) SetParams(req *SecurityListRequest) {
 	obj.request = req
 }
 
-func (obj *GetSecurityList) Serialize() ([]byte, error) {
+func (obj *SecurityList) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 2 + 4
 	obj.reqHeader.PkgLen2 = 2 + 4
 
@@ -67,7 +67,7 @@ func (obj *GetSecurityList) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *GetSecurityList) UnSerialize(header interface{}, data []byte) error {
+func (obj *SecurityList) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	//fmt.Println(hex.EncodeToString(data))
@@ -105,6 +105,6 @@ func (obj *GetSecurityList) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *GetSecurityList) Reply() *SecurityListReply {
+func (obj *SecurityList) Reply() *SecurityListReply {
 	return obj.reply
 }

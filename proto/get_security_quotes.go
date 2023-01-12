@@ -8,7 +8,7 @@ import (
 	"gitee.com/quant1x/gotdx/util"
 )
 
-type GetSecurityQuotes struct {
+type SecurityQuotes struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *SecurityQuotesRequest
@@ -86,8 +86,8 @@ type Level struct {
 	Vol   int
 }
 
-func NewGetSecurityQuotes() *GetSecurityQuotes {
-	obj := new(GetSecurityQuotes)
+func NewGetSecurityQuotes() *SecurityQuotes {
+	obj := new(SecurityQuotes)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityQuotesRequest)
@@ -101,11 +101,11 @@ func NewGetSecurityQuotes() *GetSecurityQuotes {
 	return obj
 }
 
-func (obj *GetSecurityQuotes) SetParams(req *SecurityQuotesRequest) {
+func (obj *SecurityQuotes) SetParams(req *SecurityQuotesRequest) {
 	obj.request = req
 }
 
-func (obj *GetSecurityQuotes) Serialize() ([]byte, error) {
+func (obj *SecurityQuotes) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 2 + uint16(len(obj.request.StockList)*7) + 10
 	obj.reqHeader.PkgLen2 = 2 + uint16(len(obj.request.StockList)*7) + 10
 
@@ -129,7 +129,7 @@ func (obj *GetSecurityQuotes) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *GetSecurityQuotes) UnSerialize(header interface{}, data []byte) error {
+func (obj *SecurityQuotes) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	//fmt.Println(hex.EncodeToString(data))
@@ -226,10 +226,10 @@ func (obj *GetSecurityQuotes) UnSerialize(header interface{}, data []byte) error
 	return nil
 }
 
-func (obj *GetSecurityQuotes) Reply() *SecurityQuotesReply {
+func (obj *SecurityQuotes) Reply() *SecurityQuotesReply {
 	return obj.reply
 }
 
-func (obj *GetSecurityQuotes) getPrice(price int, diff int) float64 {
+func (obj *SecurityQuotes) getPrice(price int, diff int) float64 {
 	return float64(price+diff) / 100.0
 }
