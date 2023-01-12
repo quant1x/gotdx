@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"gotdx/util"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 type GetSecurityQuotes struct {

@@ -1,4 +1,4 @@
-module gotdx
+module gitee.com/quant1x/gotdx
 
 go 1.18
 

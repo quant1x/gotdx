@@ -2,7 +2,7 @@ package gotdx
 
 import (
 	"fmt"
-	"gotdx/proto"
+	"gitee.com/quant1x/gotdx/proto"
 	"testing"
 )
 
@@ -11,7 +11,7 @@ var opt = &Opt{
 	Port: 7709,
 }
 
-func prepare() *Client {
+func prepare() *TcpClient {
 	api := NewClient(opt)
 	reply, err := api.Connect()
 	if err != nil {

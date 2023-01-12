@@ -3,7 +3,7 @@ package proto
 import (
 	"bytes"
 	"encoding/binary"
-	"gotdx/util"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 type GetSecurityList struct {

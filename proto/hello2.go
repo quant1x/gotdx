@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"gotdx/util"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 type Hello2 struct {
