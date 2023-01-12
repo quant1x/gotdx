@@ -73,7 +73,7 @@ func Test_tdx_GetSecurityList(t *testing.T) {
 }
 
 func Test_tdx_GetSecurityBars(t *testing.T) {
-	// GetSecurityBars 与 MarketIndexBars 使用同一个接口靠market区分
+	// SecurityBars 与 MarketIndexBars 使用同一个接口靠market区分
 	api := prepare()
 	reply, err := api.GetSecurityBars(proto.KLINE_TYPE_RI_K, 0, "000001", 0, 10)
 	if err != nil {
@@ -89,7 +89,7 @@ func Test_tdx_GetSecurityBars(t *testing.T) {
 }
 
 func Test_tdx_GetIndexBars(t *testing.T) {
-	// GetSecurityBars 与 MarketIndexBars 使用同一个接口靠market区分
+	// SecurityBars 与 MarketIndexBars 使用同一个接口靠market区分
 	api := prepare()
 	reply, err := api.GetIndexBars(proto.KLINE_TYPE_RI_K, 1, "000001", 0, 10)
 	if err != nil {
