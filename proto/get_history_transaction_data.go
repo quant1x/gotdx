@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-type GetHistoryTransactionData struct {
+type HistoryTransactionData struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *HistoryTransactionRequest
@@ -37,8 +37,8 @@ type HistoryTransaction struct {
 	BuyOrSell int
 }
 
-func NewGetHistoryTransactionData() *GetHistoryTransactionData {
-	obj := new(GetHistoryTransactionData)
+func NewGetHistoryTransactionData() *HistoryTransactionData {
+	obj := new(HistoryTransactionData)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(HistoryTransactionRequest)
@@ -56,11 +56,11 @@ func NewGetHistoryTransactionData() *GetHistoryTransactionData {
 }
 
 // SetParams 设置参数
-func (obj *GetHistoryTransactionData) SetParams(req *HistoryTransactionRequest) {
+func (obj *HistoryTransactionData) SetParams(req *HistoryTransactionRequest) {
 	obj.request = req
 }
 
-func (obj *GetHistoryTransactionData) Serialize() ([]byte, error) {
+func (obj *HistoryTransactionData) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x12
 	obj.reqHeader.PkgLen2 = 0x12
 
@@ -78,7 +78,7 @@ func (obj *GetHistoryTransactionData) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *GetHistoryTransactionData) UnSerialize(header interface{}, data []byte) error {
+func (obj *HistoryTransactionData) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -103,6 +103,6 @@ func (obj *GetHistoryTransactionData) UnSerialize(header interface{}, data []byt
 	return err
 }
 
-func (obj *GetHistoryTransactionData) Reply() *HistoryTransactionReply {
+func (obj *HistoryTransactionData) Reply() *HistoryTransactionReply {
 	return obj.reply
 }

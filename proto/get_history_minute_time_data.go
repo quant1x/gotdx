@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 )
 
-type GetHistoryMinuteTimeData struct {
+type HistoryMinuteTimeData struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *HistoryMinuteTimeRequest
@@ -31,8 +31,8 @@ type HistoryMinuteTime struct {
 	Vol   int
 }
 
-func NewGetHistoryMinuteTimeData() *GetHistoryMinuteTimeData {
-	obj := new(GetHistoryMinuteTimeData)
+func NewGetHistoryMinuteTimeData() *HistoryMinuteTimeData {
+	obj := new(HistoryMinuteTimeData)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(HistoryMinuteTimeRequest)
@@ -50,11 +50,11 @@ func NewGetHistoryMinuteTimeData() *GetHistoryMinuteTimeData {
 }
 
 // SetParams 设置参数
-func (obj *GetHistoryMinuteTimeData) SetParams(req *HistoryMinuteTimeRequest) {
+func (obj *HistoryMinuteTimeData) SetParams(req *HistoryMinuteTimeRequest) {
 	obj.request = req
 }
 
-func (obj *GetHistoryMinuteTimeData) Serialize() ([]byte, error) {
+func (obj *HistoryMinuteTimeData) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x0d
 	obj.reqHeader.PkgLen2 = 0x0d
 
@@ -76,7 +76,7 @@ func (obj *GetHistoryMinuteTimeData) Serialize() ([]byte, error) {
 // /“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
 // /20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
 // /20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
-func (obj *GetHistoryMinuteTimeData) UnSerialize(header interface{}, data []byte) error {
+func (obj *HistoryMinuteTimeData) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -107,6 +107,6 @@ func (obj *GetHistoryMinuteTimeData) UnSerialize(header interface{}, data []byte
 	return err
 }
 
-func (obj *GetHistoryMinuteTimeData) Reply() *HistoryMinuteTimeReply {
+func (obj *HistoryMinuteTimeData) Reply() *HistoryMinuteTimeReply {
 	return obj.reply
 }
