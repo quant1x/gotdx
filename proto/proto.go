@@ -18,6 +18,7 @@ const (
 	KMSG_CMD2                   = 0x0fdb // 建立链接
 	KMSG_PING                   = 0x0015 // 测试连接
 	KMSG_HEARTBEAT              = 0xFFFF // 心跳(自定义)
+	KMSG_HEARTBEAT2             = 0x0523 // 心跳
 	KMSG_SECURITYCOUNT          = 0x044e // 证券数量
 	KMSG_BLOCKINFOMETA          = 0x02c5 // 板块文件信息
 	KMSG_BLOCKINFO              = 0x06b9 // 板块文件
