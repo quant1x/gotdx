@@ -11,8 +11,8 @@ import (
 type GetSecurityQuotes struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetSecurityQuotesRequest
-	reply      *GetSecurityQuotesReply
+	request    *SecurityQuotesRequest
+	reply      *SecurityQuotesReply
 
 	contentHex string
 }
@@ -22,11 +22,11 @@ type Stock struct {
 	Code   string
 }
 
-type GetSecurityQuotesRequest struct {
+type SecurityQuotesRequest struct {
 	StockList []Stock
 }
 
-type GetSecurityQuotesReply struct {
+type SecurityQuotesReply struct {
 	Count uint16
 	List  []SecurityQuote
 }
@@ -90,8 +90,8 @@ func NewGetSecurityQuotes() *GetSecurityQuotes {
 	obj := new(GetSecurityQuotes)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetSecurityQuotesRequest)
-	obj.reply = new(GetSecurityQuotesReply)
+	obj.request = new(SecurityQuotesRequest)
+	obj.reply = new(SecurityQuotesReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -101,7 +101,7 @@ func NewGetSecurityQuotes() *GetSecurityQuotes {
 	return obj
 }
 
-func (obj *GetSecurityQuotes) SetParams(req *GetSecurityQuotesRequest) {
+func (obj *GetSecurityQuotes) SetParams(req *SecurityQuotesRequest) {
 	obj.request = req
 }
 
@@ -226,7 +226,7 @@ func (obj *GetSecurityQuotes) UnSerialize(header interface{}, data []byte) error
 	return nil
 }
 
-func (obj *GetSecurityQuotes) Reply() *GetSecurityQuotesReply {
+func (obj *GetSecurityQuotes) Reply() *SecurityQuotesReply {
 	return obj.reply
 }
 

@@ -10,25 +10,25 @@ import (
 type GetTransactionData struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetTransactionDataRequest
-	reply      *GetTransactionDataReply
+	request    *TransactionRequest
+	reply      *TransactionReply
 
 	contentHex string
 }
 
-type GetTransactionDataRequest struct {
+type TransactionRequest struct {
 	Market uint16
 	Code   [6]byte
 	Start  uint16
 	Count  uint16
 }
 
-type GetTransactionDataReply struct {
+type TransactionReply struct {
 	Count uint16
-	List  []TransactionData
+	List  []TickTransaction
 }
 
-type TransactionData struct {
+type TickTransaction struct {
 	Time      string
 	Price     float64
 	Vol       int
@@ -40,8 +40,8 @@ func NewGetTransactionData() *GetTransactionData {
 	obj := new(GetTransactionData)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetTransactionDataRequest)
-	obj.reply = new(GetTransactionDataReply)
+	obj.request = new(TransactionRequest)
+	obj.reply = new(TransactionReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -53,7 +53,7 @@ func NewGetTransactionData() *GetTransactionData {
 	obj.contentHex = ""
 	return obj
 }
-func (obj *GetTransactionData) SetParams(req *GetTransactionDataRequest) {
+func (obj *GetTransactionData) SetParams(req *TransactionRequest) {
 	obj.request = req
 }
 
@@ -84,7 +84,7 @@ func (obj *GetTransactionData) UnSerialize(header interface{}, data []byte) erro
 
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := TransactionData{}
+		ele := TickTransaction{}
 		hour, minute := gettime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", hour, minute)
 		priceraw := getprice(data, &pos)
@@ -99,6 +99,6 @@ func (obj *GetTransactionData) UnSerialize(header interface{}, data []byte) erro
 	return err
 }
 
-func (obj *GetTransactionData) Reply() *GetTransactionDataReply {
+func (obj *GetTransactionData) Reply() *TransactionReply {
 	return obj.reply
 }

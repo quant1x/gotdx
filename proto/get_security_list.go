@@ -9,18 +9,18 @@ import (
 type GetSecurityList struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetSecurityListRequest
-	reply      *GetSecurityListReply
+	request    *SecurityListRequest
+	reply      *SecurityListReply
 
 	contentHex string
 }
 
-type GetSecurityListRequest struct {
+type SecurityListRequest struct {
 	Market uint16
 	Start  uint16
 }
 
-type GetSecurityListReply struct {
+type SecurityListReply struct {
 	Count uint16
 	List  []Security
 }
@@ -37,8 +37,8 @@ func NewGetSecurityList() *GetSecurityList {
 	obj := new(GetSecurityList)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetSecurityListRequest)
-	obj.reply = new(GetSecurityListReply)
+	obj.request = new(SecurityListRequest)
+	obj.reply = new(SecurityListReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -47,7 +47,7 @@ func NewGetSecurityList() *GetSecurityList {
 	return obj
 }
 
-func (obj *GetSecurityList) SetParams(req *GetSecurityListRequest) {
+func (obj *GetSecurityList) SetParams(req *SecurityListRequest) {
 	obj.request = req
 }
 
@@ -105,6 +105,6 @@ func (obj *GetSecurityList) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *GetSecurityList) Reply() *GetSecurityListReply {
+func (obj *GetSecurityList) Reply() *SecurityListReply {
 	return obj.reply
 }

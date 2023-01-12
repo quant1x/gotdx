@@ -11,19 +11,19 @@ import (
 type GetMinuteTimeData struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetMinuteTimeDataRequest
-	reply      *GetMinuteTimeDataReply
+	request    *MinuteTimeRequest
+	reply      *MinuteTimeReply
 
 	contentHex string
 }
 
-type GetMinuteTimeDataRequest struct {
+type MinuteTimeRequest struct {
 	Market uint16
 	Code   [6]byte
 	Date   uint32
 }
 
-type GetMinuteTimeDataReply struct {
+type MinuteTimeReply struct {
 	Count uint16
 	List  []MinuteTimeData
 }
@@ -37,8 +37,8 @@ func NewGetMinuteTimeData() *GetMinuteTimeData {
 	obj := new(GetMinuteTimeData)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetMinuteTimeDataRequest)
-	obj.reply = new(GetMinuteTimeDataReply)
+	obj.request = new(MinuteTimeRequest)
+	obj.reply = new(MinuteTimeReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -50,7 +50,7 @@ func NewGetMinuteTimeData() *GetMinuteTimeData {
 	obj.contentHex = ""
 	return obj
 }
-func (obj *GetMinuteTimeData) SetParams(req *GetMinuteTimeDataRequest) {
+func (obj *GetMinuteTimeData) SetParams(req *MinuteTimeRequest) {
 	obj.request = req
 }
 
@@ -73,9 +73,9 @@ func (obj *GetMinuteTimeData) Serialize() ([]byte, error) {
 }
 
 // 结果数据都是\n,\t分隔的中文字符串，比如查询K线数据，返回的结果字符串就形如
-///“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
-///20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
-///20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
+// /“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
+// /20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
+// /20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
 func (obj *GetMinuteTimeData) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*RespHeader)
 
@@ -96,6 +96,6 @@ func (obj *GetMinuteTimeData) UnSerialize(header interface{}, data []byte) error
 	return err
 }
 
-func (obj *GetMinuteTimeData) Reply() *GetMinuteTimeDataReply {
+func (obj *GetMinuteTimeData) Reply() *MinuteTimeReply {
 	return obj.reply
 }

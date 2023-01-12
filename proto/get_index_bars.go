@@ -10,13 +10,13 @@ import (
 type GetIndexBars struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetIndexBarsRequest
+	request    *IndexBarsRequest
 	reply      *GetIndexBarsReply
 
 	contentHex string
 }
 
-type GetIndexBarsRequest struct {
+type IndexBarsRequest struct {
 	Market   uint16
 	Code     [6]byte
 	Category uint16 // 种类 5分钟  10分钟
@@ -51,7 +51,7 @@ func NewGetIndexBars() *GetIndexBars {
 	obj := new(GetIndexBars)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetIndexBarsRequest)
+	obj.request = new(IndexBarsRequest)
 	obj.reply = new(GetIndexBarsReply)
 
 	obj.reqHeader.Zip = 0x0c
@@ -63,7 +63,7 @@ func NewGetIndexBars() *GetIndexBars {
 	obj.contentHex = "00000000000000000000"
 	return obj
 }
-func (obj *GetIndexBars) SetParams(req *GetIndexBarsRequest) {
+func (obj *GetIndexBars) SetParams(req *IndexBarsRequest) {
 	obj.request = req
 	obj.request.I = 1
 }

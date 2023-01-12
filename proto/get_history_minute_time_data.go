@@ -9,24 +9,24 @@ import (
 type GetHistoryMinuteTimeData struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetHistoryMinuteTimeDataRequest
-	reply      *GetHistoryMinuteTimeDataReply
+	request    *HistoryMinuteTimeRequest
+	reply      *HistoryMinuteTimeReply
 
 	contentHex string
 }
 
-type GetHistoryMinuteTimeDataRequest struct {
+type HistoryMinuteTimeRequest struct {
 	Date   uint32
 	Market uint8
 	Code   [6]byte
 }
 
-type GetHistoryMinuteTimeDataReply struct {
+type HistoryMinuteTimeReply struct {
 	Count uint16
-	List  []HistoryMinuteTimeData
+	List  []HistoryMinuteTime
 }
 
-type HistoryMinuteTimeData struct {
+type HistoryMinuteTime struct {
 	Price float32
 	Vol   int
 }
@@ -35,8 +35,8 @@ func NewGetHistoryMinuteTimeData() *GetHistoryMinuteTimeData {
 	obj := new(GetHistoryMinuteTimeData)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetHistoryMinuteTimeDataRequest)
-	obj.reply = new(GetHistoryMinuteTimeDataReply)
+	obj.request = new(HistoryMinuteTimeRequest)
+	obj.reply = new(HistoryMinuteTimeReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -48,7 +48,9 @@ func NewGetHistoryMinuteTimeData() *GetHistoryMinuteTimeData {
 	obj.contentHex = ""
 	return obj
 }
-func (obj *GetHistoryMinuteTimeData) SetParams(req *GetHistoryMinuteTimeDataRequest) {
+
+// SetParams 设置参数
+func (obj *GetHistoryMinuteTimeData) SetParams(req *HistoryMinuteTimeRequest) {
 	obj.request = req
 }
 
@@ -71,9 +73,9 @@ func (obj *GetHistoryMinuteTimeData) Serialize() ([]byte, error) {
 }
 
 // 结果数据都是\n,\t分隔的中文字符串，比如查询K线数据，返回的结果字符串就形如
-///“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
-///20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
-///20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
+// /“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
+// /20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
+// /20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
 func (obj *GetHistoryMinuteTimeData) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*RespHeader)
 
@@ -98,13 +100,13 @@ func (obj *GetHistoryMinuteTimeData) UnSerialize(header interface{}, data []byte
 			p = float32(lastprice) / 1000.0
 		}
 
-		ele := HistoryMinuteTimeData{Price: p,
+		ele := HistoryMinuteTime{Price: p,
 			Vol: vol}
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	return err
 }
 
-func (obj *GetHistoryMinuteTimeData) Reply() *GetHistoryMinuteTimeDataReply {
+func (obj *GetHistoryMinuteTimeData) Reply() *HistoryMinuteTimeReply {
 	return obj.reply
 }

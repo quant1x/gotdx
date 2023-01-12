@@ -9,16 +9,16 @@ import (
 type GetSecurityCount struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetSecurityCountRequest
-	reply      *GetSecurityCountReply
+	request    *SecurityCountRequest
+	reply      *SecurityCountReply
 	contentHex string
 }
 
-type GetSecurityCountRequest struct {
+type SecurityCountRequest struct {
 	Market uint16
 }
 
-type GetSecurityCountReply struct {
+type SecurityCountReply struct {
 	Count uint16
 }
 
@@ -26,8 +26,8 @@ func NewGetSecurityCount() *GetSecurityCount {
 	obj := new(GetSecurityCount)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetSecurityCountRequest)
-	obj.reply = new(GetSecurityCountReply)
+	obj.request = new(SecurityCountRequest)
+	obj.reply = new(SecurityCountReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -36,7 +36,7 @@ func NewGetSecurityCount() *GetSecurityCount {
 	obj.contentHex = "75c73301" // 未解
 	return obj
 }
-func (obj *GetSecurityCount) SetParams(req *GetSecurityCountRequest) {
+func (obj *GetSecurityCount) SetParams(req *SecurityCountRequest) {
 	obj.request = req
 }
 
@@ -59,6 +59,6 @@ func (obj *GetSecurityCount) UnSerialize(header interface{}, data []byte) error 
 	return nil
 }
 
-func (obj *GetSecurityCount) Reply() *GetSecurityCountReply {
+func (obj *GetSecurityCount) Reply() *SecurityCountReply {
 	return obj.reply
 }

@@ -10,13 +10,13 @@ import (
 type GetHistoryTransactionData struct {
 	reqHeader  *ReqHeader
 	respHeader *RespHeader
-	request    *GetHistoryTransactionDataRequest
-	reply      *GetHistoryTransactionDataReply
+	request    *HistoryTransactionRequest
+	reply      *HistoryTransactionReply
 
 	contentHex string
 }
 
-type GetHistoryTransactionDataRequest struct {
+type HistoryTransactionRequest struct {
 	Date   uint32
 	Market uint16
 	Code   [6]byte
@@ -24,12 +24,12 @@ type GetHistoryTransactionDataRequest struct {
 	Count  uint16
 }
 
-type GetHistoryTransactionDataReply struct {
+type HistoryTransactionReply struct {
 	Count uint16
-	List  []HistoryTransactionData
+	List  []HistoryTransaction
 }
 
-type HistoryTransactionData struct {
+type HistoryTransaction struct {
 	Time      string
 	Price     float64
 	Vol       int
@@ -41,8 +41,8 @@ func NewGetHistoryTransactionData() *GetHistoryTransactionData {
 	obj := new(GetHistoryTransactionData)
 	obj.reqHeader = new(ReqHeader)
 	obj.respHeader = new(RespHeader)
-	obj.request = new(GetHistoryTransactionDataRequest)
-	obj.reply = new(GetHistoryTransactionDataReply)
+	obj.request = new(HistoryTransactionRequest)
+	obj.reply = new(HistoryTransactionReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -54,7 +54,9 @@ func NewGetHistoryTransactionData() *GetHistoryTransactionData {
 	obj.contentHex = ""
 	return obj
 }
-func (obj *GetHistoryTransactionData) SetParams(req *GetHistoryTransactionDataRequest) {
+
+// SetParams 设置参数
+func (obj *GetHistoryTransactionData) SetParams(req *HistoryTransactionRequest) {
 	obj.request = req
 }
 
@@ -86,7 +88,7 @@ func (obj *GetHistoryTransactionData) UnSerialize(header interface{}, data []byt
 
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := HistoryTransactionData{}
+		ele := HistoryTransaction{}
 		h, m := gettime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", h, m)
 		priceraw := getprice(data, &pos)
@@ -101,6 +103,6 @@ func (obj *GetHistoryTransactionData) UnSerialize(header interface{}, data []byt
 	return err
 }
 
-func (obj *GetHistoryTransactionData) Reply() *GetHistoryTransactionDataReply {
+func (obj *GetHistoryTransactionData) Reply() *HistoryTransactionReply {
 	return obj.reply
 }
