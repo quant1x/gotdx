@@ -8,7 +8,7 @@ import (
 	"encoding/hex"
 )
 
-type GetMinuteTimeData struct {
+type MinuteTimeData struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *MinuteTimeRequest
@@ -25,16 +25,16 @@ type MinuteTimeRequest struct {
 
 type MinuteTimeReply struct {
 	Count uint16
-	List  []MinuteTimeData
+	List  []MinuteTime
 }
 
-type MinuteTimeData struct {
+type MinuteTime struct {
 	Price float32
 	Vol   int
 }
 
-func NewGetMinuteTimeData() *GetMinuteTimeData {
-	obj := new(GetMinuteTimeData)
+func NewGetMinuteTimeData() *MinuteTimeData {
+	obj := new(MinuteTimeData)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(MinuteTimeRequest)
@@ -50,11 +50,11 @@ func NewGetMinuteTimeData() *GetMinuteTimeData {
 	obj.contentHex = ""
 	return obj
 }
-func (obj *GetMinuteTimeData) SetParams(req *MinuteTimeRequest) {
+func (obj *MinuteTimeData) SetParams(req *MinuteTimeRequest) {
 	obj.request = req
 }
 
-func (obj *GetMinuteTimeData) Serialize() ([]byte, error) {
+func (obj *MinuteTimeData) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x0e
 	obj.reqHeader.PkgLen2 = 0x0e
 
@@ -76,7 +76,7 @@ func (obj *GetMinuteTimeData) Serialize() ([]byte, error) {
 // /“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
 // /20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
 // /20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
-func (obj *GetMinuteTimeData) UnSerialize(header interface{}, data []byte) error {
+func (obj *MinuteTimeData) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -90,12 +90,12 @@ func (obj *GetMinuteTimeData) UnSerialize(header interface{}, data []byte) error
 		getprice(data, &pos)
 		vol := getprice(data, &pos)
 		lastprice = lastprice + priceraw
-		ele := MinuteTimeData{float32(lastprice) / 100.0, vol}
+		ele := MinuteTime{float32(lastprice) / 100.0, vol}
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	return err
 }
 
-func (obj *GetMinuteTimeData) Reply() *MinuteTimeReply {
+func (obj *MinuteTimeData) Reply() *MinuteTimeReply {
 	return obj.reply
 }

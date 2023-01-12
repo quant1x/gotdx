@@ -7,11 +7,11 @@ import (
 	"fmt"
 )
 
-type GetIndexBars struct {
+type MarketIndexBars struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *IndexBarsRequest
-	reply      *GetIndexBarsReply
+	reply      *IndexBarsReply
 
 	contentHex string
 }
@@ -25,7 +25,7 @@ type IndexBarsRequest struct {
 	Count    uint16
 }
 
-type GetIndexBarsReply struct {
+type IndexBarsReply struct {
 	Count uint16
 	List  []IndexBar
 }
@@ -47,12 +47,12 @@ type IndexBar struct {
 	DownCount uint16
 }
 
-func NewGetIndexBars() *GetIndexBars {
-	obj := new(GetIndexBars)
+func NewGetIndexBars() *MarketIndexBars {
+	obj := new(MarketIndexBars)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(IndexBarsRequest)
-	obj.reply = new(GetIndexBarsReply)
+	obj.reply = new(IndexBarsReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -63,12 +63,12 @@ func NewGetIndexBars() *GetIndexBars {
 	obj.contentHex = "00000000000000000000"
 	return obj
 }
-func (obj *GetIndexBars) SetParams(req *IndexBarsRequest) {
+func (obj *MarketIndexBars) SetParams(req *IndexBarsRequest) {
 	obj.request = req
 	obj.request.I = 1
 }
 
-func (obj *GetIndexBars) Serialize() ([]byte, error) {
+func (obj *MarketIndexBars) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x1c
 	obj.reqHeader.PkgLen2 = 0x1c
 
@@ -86,7 +86,7 @@ func (obj *GetIndexBars) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *GetIndexBars) UnSerialize(header interface{}, data []byte) error {
+func (obj *MarketIndexBars) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -143,6 +143,6 @@ func (obj *GetIndexBars) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *GetIndexBars) Reply() *GetIndexBarsReply {
+func (obj *MarketIndexBars) Reply() *IndexBarsReply {
 	return obj.reply
 }

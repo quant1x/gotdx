@@ -196,7 +196,7 @@ func (client *TcpClient) GetSecurityBars(category uint16, market uint8, code str
 }
 
 // GetIndexBars 获取指数K线
-func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string, start uint16, count uint16) (*proto.GetIndexBarsReply, error) {
+func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string, start uint16, count uint16) (*proto.IndexBarsReply, error) {
 	obj := proto.NewGetIndexBars()
 	_code := [6]byte{}
 	_market := uint16(market)
