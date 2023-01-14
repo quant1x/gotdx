@@ -4,6 +4,10 @@ import (
 	"math"
 )
 
+func GetVolume2[T uint16 | uint32 | float32](v T) float64 {
+	return float64(v)
+}
+
 func GetVolume(ivol int) float64 {
 	logPoint := ivol >> (8 * 3)
 	//hheax := ivol >> (8*3)  // [4]

@@ -2,7 +2,7 @@ package gotdx
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/proto/v1"
 	"testing"
 )
 
@@ -34,7 +34,7 @@ func Test_tdx_Connect(t *testing.T) {
 
 func Test_tdx_GetSecurityCount(t *testing.T) {
 	api := prepare()
-	reply, err := api.GetSecurityCount(MARKET_SH)
+	reply, err := api.GetSecurityCount(v1.MARKET_SH)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -45,7 +45,7 @@ func Test_tdx_GetSecurityCount(t *testing.T) {
 
 func Test_tdx_GetSecurityQuotes(t *testing.T) {
 	api := prepare()
-	reply, err := api.GetSecurityQuotes([]uint8{MARKET_SH}, []string{"002062"})
+	reply, err := api.GetSecurityQuotes([]uint8{v1.MARKET_SH}, []string{"002062"})
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -60,7 +60,7 @@ func Test_tdx_GetSecurityQuotes(t *testing.T) {
 
 func Test_tdx_GetSecurityList(t *testing.T) {
 	api := prepare()
-	reply, err := api.GetSecurityList(MARKET_SH, 0)
+	reply, err := api.GetSecurityList(v1.MARKET_SH, 0)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -75,7 +75,7 @@ func Test_tdx_GetSecurityList(t *testing.T) {
 func Test_tdx_GetSecurityBars(t *testing.T) {
 	// SecurityBars 与 MarketIndexBars 使用同一个接口靠market区分
 	api := prepare()
-	reply, err := api.GetSecurityBars(proto.KLINE_TYPE_RI_K, 0, "000001", 0, 10)
+	reply, err := api.GetSecurityBars(v1.KLINE_TYPE_RI_K, 0, "000001", 0, 10)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -91,7 +91,7 @@ func Test_tdx_GetSecurityBars(t *testing.T) {
 func Test_tdx_GetIndexBars(t *testing.T) {
 	// SecurityBars 与 MarketIndexBars 使用同一个接口靠market区分
 	api := prepare()
-	reply, err := api.GetIndexBars(proto.KLINE_TYPE_RI_K, 1, "000001", 0, 10)
+	reply, err := api.GetIndexBars(v1.KLINE_TYPE_RI_K, 1, "000001", 0, 10)
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}
@@ -122,7 +122,7 @@ func Test_tdx_GetMinuteTimeData(t *testing.T) {
 func Test_tdx_GetHistoryMinuteTimeData(t *testing.T) {
 	api := prepare()
 	//reply, err := api.HistoryMinuteTimeData(20220511, 0, "159607")
-	reply, err := api.GetHistoryMinuteTimeData(20220511, 0, "159607")
+	reply, err := api.GetHistoryMinuteTimeData(20230113, v1.MARKET_SH, "600600")
 	if err != nil {
 		t.Errorf("error:%s", err)
 	}

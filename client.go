@@ -5,7 +5,7 @@ import (
 	"compress/zlib"
 	"encoding/binary"
 	"errors"
-	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/proto/v1"
 	"io"
 	"log"
 	"net"
@@ -29,7 +29,7 @@ type Opt struct {
 func NewClient(opt *Opt) *TcpClient {
 	client := &TcpClient{}
 	if opt.MaxRetryTimes <= 0 {
-		opt.MaxRetryTimes = DefaultRetryTimes
+		opt.MaxRetryTimes = v1.DefaultRetryTimes
 	}
 
 	client.opt = opt
@@ -50,7 +50,7 @@ func (client *TcpClient) connect() error {
 	return err
 }
 
-func (client *TcpClient) do(msg proto.Msg) error {
+func (client *TcpClient) Do(msg v1.Message) error {
 	sendData, err := msg.Serialize()
 	if err != nil {
 		return err
@@ -75,21 +75,21 @@ func (client *TcpClient) do(msg proto.Msg) error {
 		}
 	}
 
-	headerBytes := make([]byte, proto.MessageHeaderBytes)
+	headerBytes := make([]byte, v1.MessageHeaderBytes)
 	_, err = io.ReadFull(client.conn, headerBytes)
 	if err != nil {
 		return err
 	}
 
 	headerBuf := bytes.NewReader(headerBytes)
-	var header proto.ResponseHeader
+	var header v1.ResponseHeader
 	if err := binary.Read(headerBuf, binary.LittleEndian, &header); err != nil {
 		return err
 	}
 
-	if header.ZipSize > proto.MessageMaxBytes {
-		log.Printf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, proto.MessageMaxBytes)
-		return ErrBadData
+	if header.ZipSize > v1.MessageMaxBytes {
+		log.Printf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, v1.MessageMaxBytes)
+		return v1.ErrBadData
 	}
 
 	msgData := make([]byte, header.ZipSize)
@@ -112,13 +112,13 @@ func (client *TcpClient) do(msg proto.Msg) error {
 }
 
 // Connect 连接券商行情服务器
-func (client *TcpClient) Connect() (*proto.Hello1Reply, error) {
+func (client *TcpClient) Connect() (*v1.Hello1Reply, error) {
 	err := client.connect()
 	if err != nil {
 		return nil, err
 	}
-	obj := proto.NewHello1()
-	err = client.do(obj)
+	obj := v1.NewHello1()
+	err = client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -131,12 +131,12 @@ func (client *TcpClient) Disconnect() error {
 }
 
 // GetSecurityCount 获取指定市场内的证券数目
-func (client *TcpClient) GetSecurityCount(market uint16) (*proto.SecurityCountReply, error) {
-	obj := proto.NewSecurityCounts()
-	obj.SetParams(&proto.SecurityCountRequest{
+func (client *TcpClient) GetSecurityCount(market uint16) (*v1.SecurityCountReply, error) {
+	obj := v1.NewSecurityCounts()
+	obj.SetParams(&v1.SecurityCountRequest{
 		Market: market,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -144,20 +144,20 @@ func (client *TcpClient) GetSecurityCount(market uint16) (*proto.SecurityCountRe
 }
 
 // GetSecurityQuotes 获取盘口五档报价
-func (client *TcpClient) GetSecurityQuotes(markets []uint8, codes []string) (*proto.SecurityQuotesReply, error) {
+func (client *TcpClient) GetSecurityQuotes(markets []uint8, codes []string) (*v1.SecurityQuotesReply, error) {
 	if len(markets) != len(codes) {
 		return nil, errors.New("market code count error")
 	}
-	obj := proto.NewGetSecurityQuotes()
-	var params []proto.Stock
+	obj := v1.NewGetSecurityQuotes()
+	var params []v1.Stock
 	for i, market := range markets {
-		params = append(params, proto.Stock{
+		params = append(params, v1.Stock{
 			Market: market,
 			Code:   codes[i],
 		})
 	}
-	obj.SetParams(&proto.SecurityQuotesRequest{StockList: params})
-	err := client.do(obj)
+	obj.SetParams(&v1.SecurityQuotesRequest{StockList: params})
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -165,11 +165,11 @@ func (client *TcpClient) GetSecurityQuotes(markets []uint8, codes []string) (*pr
 }
 
 // GetSecurityList 获取市场内指定范围内的所有证券代码
-func (client *TcpClient) GetSecurityList(market uint8, start uint16) (*proto.SecurityListReply, error) {
-	obj := proto.GetSecurityList()
+func (client *TcpClient) GetSecurityList(market uint8, start uint16) (*v1.SecurityListReply, error) {
+	obj := v1.GetSecurityList()
 	_market := uint16(market)
-	obj.SetParams(&proto.SecurityListRequest{Market: _market, Start: start})
-	err := client.do(obj)
+	obj.SetParams(&v1.SecurityListRequest{Market: _market, Start: start})
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -177,19 +177,19 @@ func (client *TcpClient) GetSecurityList(market uint8, start uint16) (*proto.Sec
 }
 
 // GetSecurityBars 获取股票K线
-func (client *TcpClient) GetSecurityBars(category uint16, market uint8, code string, start uint16, count uint16) (*proto.SecurityBarsReply, error) {
-	obj := proto.NewSecurityBars()
+func (client *TcpClient) GetSecurityBars(category uint16, market uint8, code string, start uint16, count uint16) (*v1.SecurityBarsReply, error) {
+	obj := v1.NewSecurityBars()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
-	obj.SetParams(&proto.SecurityBarsRequest{
+	obj.SetParams(&v1.SecurityBarsRequest{
 		Market:   _market,
 		Code:     _code,
 		Category: category,
 		Start:    start,
 		Count:    count,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -197,19 +197,19 @@ func (client *TcpClient) GetSecurityBars(category uint16, market uint8, code str
 }
 
 // GetIndexBars 获取指数K线
-func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string, start uint16, count uint16) (*proto.IndexBarsReply, error) {
-	obj := proto.NewIndexBars()
+func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string, start uint16, count uint16) (*v1.IndexBarsReply, error) {
+	obj := v1.NewIndexBars()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
-	obj.SetParams(&proto.IndexBarsRequest{
+	obj.SetParams(&v1.IndexBarsRequest{
 		Market:   _market,
 		Code:     _code,
 		Category: category,
 		Start:    start,
 		Count:    count,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -217,16 +217,16 @@ func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string
 }
 
 // GetMinuteTimeData 获取分时图数据
-func (client *TcpClient) GetMinuteTimeData(market uint8, code string) (*proto.MinuteTimeReply, error) {
-	obj := proto.NewMinuteTimeData()
+func (client *TcpClient) GetMinuteTimeData(market uint8, code string) (*v1.MinuteTimeReply, error) {
+	obj := v1.NewMinuteTimeData()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
-	obj.SetParams(&proto.MinuteTimeRequest{
+	obj.SetParams(&v1.MinuteTimeRequest{
 		Market: _market,
 		Code:   _code,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -234,16 +234,16 @@ func (client *TcpClient) GetMinuteTimeData(market uint8, code string) (*proto.Mi
 }
 
 // GetHistoryMinuteTimeData 获取历史分时图数据
-func (client *TcpClient) GetHistoryMinuteTimeData(date uint32, market uint8, code string) (*proto.HistoryMinuteTimeReply, error) {
-	obj := proto.NewHistoryMinuteTimeData()
+func (client *TcpClient) GetHistoryMinuteTimeData(date uint32, market uint8, code string) (*v1.HistoryMinuteTimeReply, error) {
+	obj := v1.NewHistoryMinuteTimeData()
 	_code := [6]byte{}
 	copy(_code[:], code)
-	obj.SetParams(&proto.HistoryMinuteTimeRequest{
+	obj.SetParams(&v1.HistoryMinuteTimeRequest{
 		Date:   date,
 		Market: market,
 		Code:   _code,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -251,18 +251,18 @@ func (client *TcpClient) GetHistoryMinuteTimeData(date uint32, market uint8, cod
 }
 
 // GetTransactionData 获取分时成交
-func (client *TcpClient) GetTransactionData(market uint8, code string, start uint16, count uint16) (*proto.TransactionReply, error) {
-	obj := proto.NewGetTransactionData()
+func (client *TcpClient) GetTransactionData(market uint8, code string, start uint16, count uint16) (*v1.TransactionReply, error) {
+	obj := v1.NewGetTransactionData()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
-	obj.SetParams(&proto.TransactionRequest{
+	obj.SetParams(&v1.TransactionRequest{
 		Market: _market,
 		Code:   _code,
 		Start:  start,
 		Count:  count,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
@@ -270,19 +270,19 @@ func (client *TcpClient) GetTransactionData(market uint8, code string, start uin
 }
 
 // GetHistoryTransactionData 获取历史分时成交
-func (client *TcpClient) GetHistoryTransactionData(date uint32, market uint8, code string, start uint16, count uint16) (*proto.HistoryTransactionReply, error) {
-	obj := proto.NewHistoryTransactionData()
+func (client *TcpClient) GetHistoryTransactionData(date uint32, market uint8, code string, start uint16, count uint16) (*v1.HistoryTransactionReply, error) {
+	obj := v1.NewHistoryTransactionData()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
-	obj.SetParams(&proto.HistoryTransactionRequest{
+	obj.SetParams(&v1.HistoryTransactionRequest{
 		Date:   date,
 		Market: _market,
 		Code:   _code,
 		Start:  start,
 		Count:  count,
 	})
-	err := client.do(obj)
+	err := client.Do(obj)
 	if err != nil {
 		return nil, err
 	}
