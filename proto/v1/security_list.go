@@ -5,7 +5,7 @@ import (
 	"encoding/binary"
 )
 
-type SecurityList struct {
+type SecurityListPackage struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *SecurityListRequest
@@ -32,8 +32,8 @@ type Security struct {
 	PreClose     float64
 }
 
-func GetSecurityList() *SecurityList {
-	obj := new(SecurityList)
+func NewSecurityListPackage() *SecurityListPackage {
+	obj := new(SecurityListPackage)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityListRequest)
@@ -46,11 +46,11 @@ func GetSecurityList() *SecurityList {
 	return obj
 }
 
-func (obj *SecurityList) SetParams(req *SecurityListRequest) {
+func (obj *SecurityListPackage) SetParams(req *SecurityListRequest) {
 	obj.request = req
 }
 
-func (obj *SecurityList) Serialize() ([]byte, error) {
+func (obj *SecurityListPackage) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 2 + 4
 	obj.reqHeader.PkgLen2 = 2 + 4
 
@@ -66,7 +66,7 @@ func (obj *SecurityList) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *SecurityList) UnSerialize(header interface{}, data []byte) error {
+func (obj *SecurityListPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	//fmt.Println(hex.EncodeToString(data))
@@ -104,6 +104,6 @@ func (obj *SecurityList) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *SecurityList) Reply() *SecurityListReply {
+func (obj *SecurityListPackage) Reply() *SecurityListReply {
 	return obj.reply
 }

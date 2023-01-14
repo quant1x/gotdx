@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-type SecurityQuotes struct {
+type SecurityQuotesPackage struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *SecurityQuotesRequest
@@ -85,8 +85,8 @@ type Level struct {
 	Vol   int
 }
 
-func NewGetSecurityQuotes() *SecurityQuotes {
-	obj := new(SecurityQuotes)
+func NewGetSecurityQuotesPackage() *SecurityQuotesPackage {
+	obj := new(SecurityQuotesPackage)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityQuotesRequest)
@@ -100,11 +100,11 @@ func NewGetSecurityQuotes() *SecurityQuotes {
 	return obj
 }
 
-func (obj *SecurityQuotes) SetParams(req *SecurityQuotesRequest) {
+func (obj *SecurityQuotesPackage) SetParams(req *SecurityQuotesRequest) {
 	obj.request = req
 }
 
-func (obj *SecurityQuotes) Serialize() ([]byte, error) {
+func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 2 + uint16(len(obj.request.StockList)*7) + 10
 	obj.reqHeader.PkgLen2 = 2 + uint16(len(obj.request.StockList)*7) + 10
 
@@ -128,7 +128,7 @@ func (obj *SecurityQuotes) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *SecurityQuotes) UnSerialize(header interface{}, data []byte) error {
+func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	//fmt.Println(hex.EncodeToString(data))
@@ -225,10 +225,10 @@ func (obj *SecurityQuotes) UnSerialize(header interface{}, data []byte) error {
 	return nil
 }
 
-func (obj *SecurityQuotes) Reply() *SecurityQuotesReply {
+func (obj *SecurityQuotesPackage) Reply() *SecurityQuotesReply {
 	return obj.reply
 }
 
-func (obj *SecurityQuotes) getPrice(price int, diff int) float64 {
+func (obj *SecurityQuotesPackage) getPrice(price int, diff int) float64 {
 	return float64(price+diff) / 100.0
 }

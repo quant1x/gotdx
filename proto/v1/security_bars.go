@@ -8,7 +8,7 @@ import (
 )
 
 // SecurityBars K线
-type SecurityBars struct {
+type SecurityBarsPackage struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *SecurityBarsRequest
@@ -49,8 +49,8 @@ type SecurityBar struct {
 	//DownCount uint16
 }
 
-func NewSecurityBars() *SecurityBars {
-	obj := new(SecurityBars)
+func NewSecurityBarsPackage() *SecurityBarsPackage {
+	obj := new(SecurityBarsPackage)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityBarsRequest)
@@ -66,12 +66,12 @@ func NewSecurityBars() *SecurityBars {
 	return obj
 }
 
-func (obj *SecurityBars) SetParams(req *SecurityBarsRequest) {
+func (obj *SecurityBarsPackage) SetParams(req *SecurityBarsRequest) {
 	obj.request = req
 	obj.request.I = 1
 }
 
-func (obj *SecurityBars) Serialize() ([]byte, error) {
+func (obj *SecurityBarsPackage) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x1c
 	obj.reqHeader.PkgLen2 = 0x1c
 
@@ -93,7 +93,7 @@ func (obj *SecurityBars) Serialize() ([]byte, error) {
 // /“时间\t开盘价\t收盘价\t最高价\t最低价\t成交量\t成交额\n
 // /20150519\t4.644000\t4.732000\t4.747000\t4.576000\t146667487\t683638848.000000\n
 // /20150520\t4.756000\t4.850000\t4.960000\t4.756000\t353161092\t1722953216.000000”
-func (obj *SecurityBars) UnSerialize(header interface{}, data []byte) error {
+func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -138,6 +138,6 @@ func (obj *SecurityBars) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *SecurityBars) Reply() *SecurityBarsReply {
+func (obj *SecurityBarsPackage) Reply() *SecurityBarsReply {
 	return obj.response
 }

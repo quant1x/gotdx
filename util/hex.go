@@ -22,5 +22,5 @@ func HexString2Bytes(hexStr string) []byte {
 // Bytes2HexString bytes转16进制字符串
 func Bytes2HexString(b []byte) string {
 	// with "%x" format byte array into hex string
-	return fmt.Sprintf("%x", b)
+	return fmt.Sprintf("% x", b)
 }

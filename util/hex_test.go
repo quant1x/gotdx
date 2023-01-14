@@ -7,7 +7,8 @@ import (
 
 func TestBytes2HexString(t *testing.T) {
 	str := Bytes2HexString([]byte{0, 1, 1, 5, 4, 16, 255})
-	assert.Equal(t, "000101050410ff", str)
+	t.Log(str)
+	assert.Equal(t, "00 01 01 05 04 10 ff", str)
 }
 
 func TestHexString2Bytes(t *testing.T) {

@@ -132,7 +132,7 @@ func (client *TcpClient) Disconnect() error {
 
 // GetSecurityCount 获取指定市场内的证券数目
 func (client *TcpClient) GetSecurityCount(market uint16) (*v1.SecurityCountReply, error) {
-	obj := v1.NewSecurityCounts()
+	obj := v1.NewSecurityCountPackage()
 	obj.SetParams(&v1.SecurityCountRequest{
 		Market: market,
 	})
@@ -148,7 +148,7 @@ func (client *TcpClient) GetSecurityQuotes(markets []uint8, codes []string) (*v1
 	if len(markets) != len(codes) {
 		return nil, errors.New("market code count error")
 	}
-	obj := v1.NewGetSecurityQuotes()
+	obj := v1.NewGetSecurityQuotesPackage()
 	var params []v1.Stock
 	for i, market := range markets {
 		params = append(params, v1.Stock{
@@ -166,7 +166,7 @@ func (client *TcpClient) GetSecurityQuotes(markets []uint8, codes []string) (*v1
 
 // GetSecurityList 获取市场内指定范围内的所有证券代码
 func (client *TcpClient) GetSecurityList(market uint8, start uint16) (*v1.SecurityListReply, error) {
-	obj := v1.GetSecurityList()
+	obj := v1.NewSecurityListPackage()
 	_market := uint16(market)
 	obj.SetParams(&v1.SecurityListRequest{Market: _market, Start: start})
 	err := client.Do(obj)
@@ -178,7 +178,7 @@ func (client *TcpClient) GetSecurityList(market uint8, start uint16) (*v1.Securi
 
 // GetSecurityBars 获取股票K线
 func (client *TcpClient) GetSecurityBars(category uint16, market uint8, code string, start uint16, count uint16) (*v1.SecurityBarsReply, error) {
-	obj := v1.NewSecurityBars()
+	obj := v1.NewSecurityBarsPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
@@ -198,7 +198,7 @@ func (client *TcpClient) GetSecurityBars(category uint16, market uint8, code str
 
 // GetIndexBars 获取指数K线
 func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string, start uint16, count uint16) (*v1.IndexBarsReply, error) {
-	obj := v1.NewIndexBars()
+	obj := v1.NewIndexBarsPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
@@ -218,7 +218,7 @@ func (client *TcpClient) GetIndexBars(category uint16, market uint8, code string
 
 // GetMinuteTimeData 获取分时图数据
 func (client *TcpClient) GetMinuteTimeData(market uint8, code string) (*v1.MinuteTimeReply, error) {
-	obj := v1.NewMinuteTimeData()
+	obj := v1.NewMinuteTimePackage()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
@@ -235,7 +235,7 @@ func (client *TcpClient) GetMinuteTimeData(market uint8, code string) (*v1.Minut
 
 // GetHistoryMinuteTimeData 获取历史分时图数据
 func (client *TcpClient) GetHistoryMinuteTimeData(date uint32, market uint8, code string) (*v1.HistoryMinuteTimeReply, error) {
-	obj := v1.NewHistoryMinuteTimeData()
+	obj := v1.NewHistoryMinuteTimePackage()
 	_code := [6]byte{}
 	copy(_code[:], code)
 	obj.SetParams(&v1.HistoryMinuteTimeRequest{
@@ -252,7 +252,7 @@ func (client *TcpClient) GetHistoryMinuteTimeData(date uint32, market uint8, cod
 
 // GetTransactionData 获取分时成交
 func (client *TcpClient) GetTransactionData(market uint8, code string, start uint16, count uint16) (*v1.TransactionReply, error) {
-	obj := v1.NewGetTransactionData()
+	obj := v1.NewTransactionPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
@@ -271,7 +271,7 @@ func (client *TcpClient) GetTransactionData(market uint8, code string, start uin
 
 // GetHistoryTransactionData 获取历史分时成交
 func (client *TcpClient) GetHistoryTransactionData(date uint32, market uint8, code string, start uint16, count uint16) (*v1.HistoryTransactionReply, error) {
-	obj := v1.NewHistoryTransactionData()
+	obj := v1.NewHistoryTransactionPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
@@ -281,6 +281,22 @@ func (client *TcpClient) GetHistoryTransactionData(date uint32, market uint8, co
 		Code:   _code,
 		Start:  start,
 		Count:  count,
+	})
+	err := client.Do(obj)
+	if err != nil {
+		return nil, err
+	}
+	return obj.Reply(), err
+}
+
+func (client *TcpClient) GetFinanceInfo(market uint8, code string) (*v1.FinanceInfo, error) {
+	obj := v1.NewFinanceInfoPackage()
+	_code := [6]byte{}
+	_market := uint8(market)
+	copy(_code[:], code)
+	obj.SetParams(&v1.FinanceInfoRequest{
+		Market: _market,
+		Code:   _code,
 	})
 	err := client.Do(obj)
 	if err != nil {

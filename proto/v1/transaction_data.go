@@ -7,8 +7,8 @@ import (
 	"fmt"
 )
 
-// TransactionData 当日分笔成交信息
-type TransactionData struct {
+// TransactionPackage 当日分笔成交信息
+type TransactionPackage struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *TransactionRequest
@@ -37,8 +37,8 @@ type TickTransaction struct {
 	BuyOrSell int
 }
 
-func NewGetTransactionData() *TransactionData {
-	obj := new(TransactionData)
+func NewTransactionPackage() *TransactionPackage {
+	obj := new(TransactionPackage)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(TransactionRequest)
@@ -54,11 +54,11 @@ func NewGetTransactionData() *TransactionData {
 	obj.contentHex = ""
 	return obj
 }
-func (obj *TransactionData) SetParams(req *TransactionRequest) {
+func (obj *TransactionPackage) SetParams(req *TransactionRequest) {
 	obj.request = req
 }
 
-func (obj *TransactionData) Serialize() ([]byte, error) {
+func (obj *TransactionPackage) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x0e
 	obj.reqHeader.PkgLen2 = 0x0e
 
@@ -76,7 +76,7 @@ func (obj *TransactionData) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *TransactionData) UnSerialize(header interface{}, data []byte) error {
+func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -100,6 +100,6 @@ func (obj *TransactionData) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *TransactionData) Reply() *TransactionReply {
+func (obj *TransactionPackage) Reply() *TransactionReply {
 	return obj.reply
 }

@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 )
 
-type Hello1 struct {
+type Hello1Package struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *Hello1Request
@@ -23,8 +23,8 @@ type Hello1Reply struct {
 	serverTime string
 }
 
-func NewHello1() *Hello1 {
-	obj := new(Hello1)
+func NewHello1() *Hello1Package {
+	obj := new(Hello1Package)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(Hello1Request)
@@ -38,7 +38,7 @@ func NewHello1() *Hello1 {
 	return obj
 }
 
-func (obj *Hello1) Serialize() ([]byte, error) {
+func (obj *Hello1Package) Serialize() ([]byte, error) {
 	b, err := hex.DecodeString(obj.contentHex)
 
 	obj.reqHeader.PkgLen1 = 2 + uint16(len(b))
@@ -51,18 +51,16 @@ func (obj *Hello1) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-/*
-00e60708051 50 f0 00 d3 a02b2020c03840384038403840384033a02b2020c0384038403840384038403 00 5a8a3401 f94a0100 5a8a3401 fd4a0100ff00e 700000101013f
-
-	分  时    秒                                                                      日期
-*/
-func (obj *Hello1) UnSerialize(header interface{}, data []byte) error {
+// 00e60708051 50 f0 00 d3 a02b2020c03840384038403840384033a02b2020c0384038403840384038403 00 5a8a3401 f94a0100 5a8a3401 fd4a0100ff00e 700000101013f
+//
+//	分  时    秒                                                                      日期
+func (obj *Hello1Package) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 	serverInfo := Utf8ToGbk(data[68:])
 	obj.reply.Info = serverInfo
 	return nil
 }
 
-func (obj *Hello1) Reply() *Hello1Reply {
+func (obj *Hello1Package) Reply() *Hello1Reply {
 	return obj.reply
 }

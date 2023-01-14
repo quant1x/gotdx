@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-type MarketIndexBars struct {
+type IndexBarsPackage struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *IndexBarsRequest
@@ -47,8 +47,8 @@ type IndexBar struct {
 	DownCount uint16
 }
 
-func NewIndexBars() *MarketIndexBars {
-	obj := new(MarketIndexBars)
+func NewIndexBarsPackage() *IndexBarsPackage {
+	obj := new(IndexBarsPackage)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(IndexBarsRequest)
@@ -63,12 +63,12 @@ func NewIndexBars() *MarketIndexBars {
 	obj.contentHex = "00000000000000000000"
 	return obj
 }
-func (obj *MarketIndexBars) SetParams(req *IndexBarsRequest) {
+func (obj *IndexBarsPackage) SetParams(req *IndexBarsRequest) {
 	obj.request = req
 	obj.request.I = 1
 }
 
-func (obj *MarketIndexBars) Serialize() ([]byte, error) {
+func (obj *IndexBarsPackage) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 0x1c
 	obj.reqHeader.PkgLen2 = 0x1c
 
@@ -86,7 +86,7 @@ func (obj *MarketIndexBars) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *MarketIndexBars) UnSerialize(header interface{}, data []byte) error {
+func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	pos := 0
@@ -143,6 +143,6 @@ func (obj *MarketIndexBars) UnSerialize(header interface{}, data []byte) error {
 	return err
 }
 
-func (obj *MarketIndexBars) Reply() *IndexBarsReply {
+func (obj *IndexBarsPackage) Reply() *IndexBarsReply {
 	return obj.reply
 }

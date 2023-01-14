@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 )
 
-// SecurityCounts 市场股票数量
-type SecurityCounts struct {
+// SecurityCountPackage 市场股票数量
+type SecurityCountPackage struct {
 	reqHeader  *RequestHeader
 	respHeader *ResponseHeader
 	request    *SecurityCountRequest
@@ -23,8 +23,8 @@ type SecurityCountReply struct {
 	Count uint16
 }
 
-func NewSecurityCounts() *SecurityCounts {
-	obj := new(SecurityCounts)
+func NewSecurityCountPackage() *SecurityCountPackage {
+	obj := new(SecurityCountPackage)
 	obj.reqHeader = new(RequestHeader)
 	obj.respHeader = new(ResponseHeader)
 	obj.request = new(SecurityCountRequest)
@@ -38,11 +38,11 @@ func NewSecurityCounts() *SecurityCounts {
 	return obj
 }
 
-func (obj *SecurityCounts) SetParams(req *SecurityCountRequest) {
+func (obj *SecurityCountPackage) SetParams(req *SecurityCountRequest) {
 	obj.request = req
 }
 
-func (obj *SecurityCounts) Serialize() ([]byte, error) {
+func (obj *SecurityCountPackage) Serialize() ([]byte, error) {
 	obj.reqHeader.PkgLen1 = 2 + 4 + 2
 	obj.reqHeader.PkgLen2 = 2 + 4 + 2
 
@@ -54,13 +54,13 @@ func (obj *SecurityCounts) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-func (obj *SecurityCounts) UnSerialize(header interface{}, data []byte) error {
+func (obj *SecurityCountPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*ResponseHeader)
 
 	obj.reply.Count = binary.LittleEndian.Uint16(data[:2])
 	return nil
 }
 
-func (obj *SecurityCounts) Reply() *SecurityCountReply {
+func (obj *SecurityCountPackage) Reply() *SecurityCountReply {
 	return obj.reply
 }
