@@ -35,37 +35,44 @@ func main() {
 }
 func T(ip string, port int) {
 	quotesSrv := Server{IP: ip, Port: port}
-	cp := internal.NewConnPool(quotesSrv.Addr(), 1)
-
+	//cp := internal.NewConnPool(quotesSrv.Addr(), 1, v2.ConnCreate, v2.ConnClose, nil)
+	cp := internal.NewConnPool(quotesSrv.Addr(), 1, func(s string) (interface{}, error) {
+		return v2.NewClient2(s)
+	}, func(v interface{}) error {
+		client := v.(*v2.Client)
+		return client.Close()
+	}, nil)
 	// CMD信令 1
-	internal.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+	v2.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 		req, resp, err = v2.NewSetupCmd1()
 		return
 	})
 	// CMD信令 2
-	internal.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+	v2.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 		req, resp, err = v2.NewSetupCmd2()
 		return
 	})
 	// CMD信令 3
-	internal.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+	v2.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 		req, resp, err = v2.NewSetupCmd3()
 		return
 	})
 	// 查询股票数量
-	internal.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+	v2.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 		req, resp, err = v2.NewSecurityCount(v2.MarketShangHai)
 		return
 	})
 	// 查询股票列表
-	internal.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+	v2.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 		req, resp, err = v2.NewGetSecurityList(v2.MarketShangHai, 255)
 		return
 	})
 	// 查询个股基本面
-	resp := internal.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+	resp := v2.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 		req, resp, err = v2.NewFinanceInfo(v2.MarketShangHai, "600600")
 		return
 	})
 	fmt.Println(resp)
+
+	cp.Close()
 }

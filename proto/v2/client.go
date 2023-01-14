@@ -1,8 +1,7 @@
-package internal
+package v2
 
 import (
 	"errors"
-	"gitee.com/quant1x/gotdx/proto/v2"
 	"gitee.com/quant1x/gotdx/util"
 	"log"
 	"net"
@@ -22,17 +21,18 @@ type Client struct {
 }
 
 // NewClient 创建BaseClient实例
-func NewClient(host string, port int) *Client {
+func NewClient(host string, port int) (*Client, error) {
 	addr := strings.Join([]string{host, strconv.Itoa(port)}, ":")
 
 	return NewClient2(addr)
 }
 
-func NewClient2(addr string) *Client {
+func NewClient2(addr string) (*Client, error) {
 	conn, err := net.Dial("tcp", addr) // net.DialTimeout()
 
 	if err != nil {
 		log.Fatalln(err)
+		return nil, err
 	}
 	return &Client{
 		conn: conn,
@@ -42,10 +42,10 @@ func NewClient2(addr string) *Client {
 		MaxRetryTimes: 5,
 		Timeout:       1 * time.Second,
 		RetryDuration: time.Millisecond * 200,
-	}
+	}, nil
 }
 
-func (cli *Client) Do(request v2.Marshaler, response v2.Unmarshaler) error {
+func (cli *Client) Do(request Marshaler, response Unmarshaler) error {
 	// 序列化请求
 	req, err := request.Marshal()
 	if err != nil {
@@ -69,7 +69,7 @@ SEND:
 		return err
 	}
 	// 解析响应包头
-	var header v2.PacketHeader
+	var header PacketHeader
 	// 读取包头 大小为16字节
 	// 单次获取的字列流
 	headerLength := 0x10

@@ -1,12 +1,12 @@
-package internal
+package v2
 
 import (
-	"gitee.com/quant1x/gotdx/proto/v2"
+	"gitee.com/quant1x/gotdx/internal"
 	"log"
 )
 
 // Command 命令字
-func Command(pool *ConnPool, factory v2.Factory) v2.Unmarshaler {
+func Command(pool *internal.ConnPool, factory Factory) Unmarshaler {
 	conn := pool.GetConn()
 
 	cli := conn.(*Client)

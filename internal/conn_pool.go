@@ -63,19 +63,13 @@ func NewConnPool_old(addr string, size int) *ConnPool {
 	return cp
 }
 
-func NewConnPool(addr string, size int) *ConnPool {
+func NewConnPool(addr string, size int, _factory func(string) (interface{}, error), _close func(interface{}) error, _ping func(interface{}) error) *ConnPool {
 	//ping 检测连接的方法
 	//ping := redisPing
 	//factory 创建连接的方法
-	_factory := func() (interface{}, error) {
-		conn := conn_create(addr)
-		return conn, nil
-	}
-
-	//close 关闭连接的方法
-	_close := func(v interface{}) error {
-		fd := v.(*Client)
-		return conn_close(fd)
+	//factory 创建连接的方法
+	factory := func() (interface{}, error) {
+		return _factory(addr)
 	}
 
 	if size < POOL_INITED {
@@ -87,9 +81,9 @@ func NewConnPool(addr string, size int) *ConnPool {
 		InitialCap: POOL_INITED,
 		MaxCap:     size,
 		MaxIdle:    size,
-		Factory:    _factory,
+		Factory:    factory,
 		Close:      _close,
-		//Ping:       ping,
+		Ping:       _ping,
 		//连接最大空闲时间，超过该时间的连接 将会关闭，可避免空闲时连接EOF，自动失效的问题
 		IdleTimeout: CONN_TIMEOUT * time.Second,
 	}
@@ -117,20 +111,6 @@ func (p *ConnPool) ReturnConn(conn interface{}) {
 	p.pool.Put(conn)
 }
 
-/*
-func (p *ConnPool) MarkUnusable(context net.Conn) {
-	if pc, ok := context.(*group.PoolConn); ok {
-		pc.MarkUnusable()
-	}
-}*/
-
-func conn_create(addr string) *Client {
-	return NewClient2(addr)
-}
-
-func conn_close(client *Client) error {
-	if client == nil {
-		return nil
-	}
-	return client.Close()
+func (p *ConnPool) Close() {
+	p.pool.Release()
 }
