@@ -3,7 +3,7 @@ module gitee.com/quant1x/gotdx
 go 1.18
 
 require (
-	github.com/mymmsc/asio v1.0.21
+	github.com/mymmsc/asio v1.0.22
 	github.com/mymmsc/gox v1.2.1
 	github.com/stretchr/testify v1.8.1
 	golang.org/x/text v0.5.0
