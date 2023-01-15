@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"gitee.com/quant1x/gotdx/util/cstruct"
-	"gitee.com/quant1x/gotdx/util/parse"
+	"gitee.com/quant1x/gotdx/util"
+	"github.com/mymmsc/gox/util/cstruct"
 )
 
 // FinanceInfoPackage 基本信息
@@ -153,41 +153,41 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 		return err
 	}
 	var resp FinanceInfo
-	resp.LiuTongGuBen = parse.GetVolume2(raw.LiuTongGuBen) * 10000
+	resp.LiuTongGuBen = util.GetVolume2(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry
 	resp.UpdatedDate = raw.UpdatedDate
 	resp.IPODate = raw.IPODate
-	resp.ZongGuBen = parse.GetVolume2(raw.ZongGuBen) * 10000
-	resp.GuoJiaGu = parse.GetVolume2(raw.GuoJiaGu) * 10000
-	resp.FaQiRenFaRenGu = parse.GetVolume2(raw.FaQiRenFaRenGu) * 10000
-	resp.FaRenGu = parse.GetVolume2(raw.FaRenGu) * 10000
-	resp.BGu = parse.GetVolume2(raw.BGu) * 10000
-	resp.HGu = parse.GetVolume2(raw.HGu) * 10000
-	resp.ZhiGongGu = parse.GetVolume2(raw.ZhiGongGu) * 10000
-	resp.ZongZiChan = parse.GetVolume2(raw.ZongZiChan) * 10000
-	resp.LiuDongZiChan = parse.GetVolume2(raw.LiuDongZiChan) * 10000
-	resp.GuDingZiChan = parse.GetVolume2(raw.GuDingZiChan) * 10000
-	resp.WuXingZiChan = parse.GetVolume2(raw.WuXingZiChan) * 10000
-	resp.GuDongRenShu = parse.GetVolume2(raw.GuDongRenShu)
-	resp.LiuDongFuZhai = parse.GetVolume2(raw.LiuDongFuZhai) * 10000
-	resp.ChangQiFuZhai = parse.GetVolume2(raw.ChangQiFuZhai) * 10000
-	resp.ZiBenGongJiJin = parse.GetVolume2(raw.ZiBenGongJiJin) * 10000
-	resp.JingZiChan = parse.GetVolume2(raw.JingZiChan) * 10000
-	resp.ZhuYingShouRu = parse.GetVolume2(raw.ZhuYingShouRu) * 10000
-	resp.ZhuYingLiRun = parse.GetVolume2(raw.ZhuYingLiRun) * 10000
-	resp.YingShouZhangKuan = parse.GetVolume2(raw.Yingshouzhangkuan) * 10000
-	resp.YingyeLiRun = parse.GetVolume2(raw.YingyeLiRun) * 10000
-	resp.TouZiShouYu = parse.GetVolume2(raw.TouZiShouYu) * 10000
-	resp.JingYingxianJinLiu = parse.GetVolume2(raw.JingYingxianJinLiu) * 10000
-	resp.ZongXianJinLiu = parse.GetVolume2(raw.ZongXianJinLiu) * 10000
-	resp.CunHuo = parse.GetVolume2(raw.CunHuo) * 10000
-	resp.LiRunZongHe = parse.GetVolume2(raw.LiRunZongHe) * 10000
-	resp.ShuiHouLiRun = parse.GetVolume2(raw.ShuiHouLiRun) * 10000
-	resp.JingLiRun = parse.GetVolume2(raw.JingLiRun) * 10000
-	resp.WeiFenLiRun = parse.GetVolume2(raw.WeiFenLiRun) * 10000
-	resp.MeiGuJingZiChan = parse.GetVolume2(raw.BaoLiu1) * 10000
-	resp.BaoLiu2 = parse.GetVolume2(raw.BaoLiu2)
+	resp.ZongGuBen = util.GetVolume2(raw.ZongGuBen) * 10000
+	resp.GuoJiaGu = util.GetVolume2(raw.GuoJiaGu) * 10000
+	resp.FaQiRenFaRenGu = util.GetVolume2(raw.FaQiRenFaRenGu) * 10000
+	resp.FaRenGu = util.GetVolume2(raw.FaRenGu) * 10000
+	resp.BGu = util.GetVolume2(raw.BGu) * 10000
+	resp.HGu = util.GetVolume2(raw.HGu) * 10000
+	resp.ZhiGongGu = util.GetVolume2(raw.ZhiGongGu) * 10000
+	resp.ZongZiChan = util.GetVolume2(raw.ZongZiChan) * 10000
+	resp.LiuDongZiChan = util.GetVolume2(raw.LiuDongZiChan) * 10000
+	resp.GuDingZiChan = util.GetVolume2(raw.GuDingZiChan) * 10000
+	resp.WuXingZiChan = util.GetVolume2(raw.WuXingZiChan) * 10000
+	resp.GuDongRenShu = util.GetVolume2(raw.GuDongRenShu)
+	resp.LiuDongFuZhai = util.GetVolume2(raw.LiuDongFuZhai) * 10000
+	resp.ChangQiFuZhai = util.GetVolume2(raw.ChangQiFuZhai) * 10000
+	resp.ZiBenGongJiJin = util.GetVolume2(raw.ZiBenGongJiJin) * 10000
+	resp.JingZiChan = util.GetVolume2(raw.JingZiChan) * 10000
+	resp.ZhuYingShouRu = util.GetVolume2(raw.ZhuYingShouRu) * 10000
+	resp.ZhuYingLiRun = util.GetVolume2(raw.ZhuYingLiRun) * 10000
+	resp.YingShouZhangKuan = util.GetVolume2(raw.Yingshouzhangkuan) * 10000
+	resp.YingyeLiRun = util.GetVolume2(raw.YingyeLiRun) * 10000
+	resp.TouZiShouYu = util.GetVolume2(raw.TouZiShouYu) * 10000
+	resp.JingYingxianJinLiu = util.GetVolume2(raw.JingYingxianJinLiu) * 10000
+	resp.ZongXianJinLiu = util.GetVolume2(raw.ZongXianJinLiu) * 10000
+	resp.CunHuo = util.GetVolume2(raw.CunHuo) * 10000
+	resp.LiRunZongHe = util.GetVolume2(raw.LiRunZongHe) * 10000
+	resp.ShuiHouLiRun = util.GetVolume2(raw.ShuiHouLiRun) * 10000
+	resp.JingLiRun = util.GetVolume2(raw.JingLiRun) * 10000
+	resp.WeiFenLiRun = util.GetVolume2(raw.WeiFenLiRun) * 10000
+	resp.MeiGuJingZiChan = util.GetVolume2(raw.BaoLiu1) * 10000
+	resp.BaoLiu2 = util.GetVolume2(raw.BaoLiu2)
 	obj.reply = &resp
 	return nil
 }

@@ -3,7 +3,6 @@ package v2
 // 获取股票列表
 import (
 	"gitee.com/quant1x/gotdx/util"
-	"gitee.com/quant1x/gotdx/util/parse"
 )
 
 // 请求包结构
@@ -43,7 +42,7 @@ func (resp *getSecurityListResponseRaw) Stocks() ([]Stock, error) {
 	)
 	// 后续处理
 	for idx := range resp.StocksRaw {
-		name, err := parse.DecodeGBK(resp.StocksRaw[idx].Name) // .rstrip("\x00")
+		name, err := util.DecodeGBK(resp.StocksRaw[idx].Name) // .rstrip("\x00")
 		if err != nil {
 			return nil, err
 		}
@@ -53,7 +52,7 @@ func (resp *getSecurityListResponseRaw) Stocks() ([]Stock, error) {
 			VolUnit:      resp.StocksRaw[idx].VolUnit,
 			DecimalPoint: resp.StocksRaw[idx].DecimalPoint,
 			Name:         string(name),
-			PreClose:     parse.GetVolume(resp.StocksRaw[idx].PreCloseRaw),
+			PreClose:     util.GetVolume(resp.StocksRaw[idx].PreCloseRaw),
 		})
 	}
 	return stocks, nil

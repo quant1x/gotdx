@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"github.com/mymmsc/asio"
 	"github.com/mymmsc/gox/pool"
 	"time"
 )
@@ -21,48 +20,6 @@ type ConnPool struct {
 	pool pool.Pool
 }
 
-func NewConnPool_old(addr string, size int) *ConnPool {
-	//ping 检测连接的方法
-	//ping := redisPing
-	//factory 创建连接的方法
-	_factory := func() (interface{}, error) {
-		fd, err := asio.Socket()
-		if err == nil {
-			err = asio.Connect(fd, addr)
-		}
-		if err == nil {
-			_ = asio.Setsockopt(fd)
-		}
-		return fd, err
-	}
-
-	//close 关闭连接的方法
-	_close := func(v interface{}) error {
-		fd := v.(int)
-		return asio.Close(fd)
-	}
-
-	//创建一个连接池： 初始化5，最大连接30
-	poolConfig := &pool.Config{
-		InitialCap: 5,
-		MaxCap:     size,
-		Factory:    _factory,
-		Close:      _close,
-		//Ping:       ping,
-		//连接最大空闲时间，超过该时间的连接 将会关闭，可避免空闲时连接EOF，自动失效的问题
-		IdleTimeout: CONN_TIMEOUT * time.Second,
-	}
-	_pool, err := pool.NewChannelPool(poolConfig)
-	if err != nil {
-		fmt.Println("err=", err)
-	}
-	cp := &ConnPool{
-		addr: addr,
-		pool: _pool,
-	}
-	return cp
-}
-
 func NewConnPool(addr string, size int, _factory func(string) (interface{}, error), _close func(interface{}) error, _ping func(interface{}) error) *ConnPool {
 	//ping 检测连接的方法
 	//ping := redisPing
@@ -79,7 +36,7 @@ func NewConnPool(addr string, size int, _factory func(string) (interface{}, erro
 	//创建一个连接池： 初始化5，最大连接30
 	poolConfig := &pool.Config{
 		InitialCap: POOL_INITED,
-		MaxCap:     size,
+		MaxCap:     POOL_MAX,
 		MaxIdle:    size,
 		Factory:    factory,
 		Close:      _close,
@@ -108,7 +65,7 @@ func (p *ConnPool) GetConn() interface{} {
 }
 
 func (p *ConnPool) ReturnConn(conn interface{}) {
-	p.pool.Put(conn)
+	_ = p.pool.Put(conn)
 }
 
 func (p *ConnPool) Close() {
