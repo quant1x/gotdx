@@ -31,7 +31,33 @@ func NewClient2(addr string) (*Client, error) {
 	conn, err := net.Dial("tcp", addr) // net.DialTimeout()
 
 	if err != nil {
-		log.Fatalln(err)
+		//log.Println(err)
+		return nil, err
+	}
+	return &Client{
+		conn: conn,
+		addr: addr,
+		//Host:          host,
+		//Port:          port,
+		MaxRetryTimes: 5,
+		Timeout:       1 * time.Second,
+		RetryDuration: time.Millisecond * 200,
+	}, nil
+}
+
+func NewClientForTest(addr string) (*Client, error) {
+	//defer func() {
+	//	if info := recover(); info != nil {
+	//		fmt.Println("触发了宕机", info)
+	//	} else {
+	//		fmt.Println("程序正常退出")
+	//	}
+	//}()
+	conn, err := net.DialTimeout("tcp", addr, 1*time.Second) // net.DialTimeout()
+
+	if err != nil {
+		//log.Fatalln(err)
+		log.Println(err)
 		return nil, err
 	}
 	return &Client{

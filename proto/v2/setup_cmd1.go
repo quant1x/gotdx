@@ -1,6 +1,7 @@
 package v2
 
 import (
+	v1 "gitee.com/quant1x/gotdx/proto/v1"
 	"gitee.com/quant1x/gotdx/util"
 )
 
@@ -15,12 +16,15 @@ func (req *SetupCmd1Request) Marshal() ([]byte, error) {
 }
 
 // 响应包结构
+// serverInfo := Utf8ToGbk(data[68:])
 type SetupCmd1Response struct {
 	Unknown []byte `json:"unknown"`
+	Reply   string `json:"reply"`
 }
 
 func (resp *SetupCmd1Response) Unmarshal(data []byte) error {
-	resp.Unknown = data
+	//resp.Unknown = data
+	resp.Reply = v1.Utf8ToGbk(data[68:])
 	return nil
 }
 
