@@ -20,11 +20,8 @@ type ConnPool struct {
 	pool pool.Pool
 }
 
+// NewConnPool 创新一个新连接池
 func NewConnPool(addr string, size int, _factory func(string) (interface{}, error), _close func(interface{}) error, _ping func(interface{}) error) *ConnPool {
-	//ping 检测连接的方法
-	//ping := redisPing
-	//factory 创建连接的方法
-	//factory 创建连接的方法
 	factory := func() (interface{}, error) {
 		return _factory(addr)
 	}
@@ -33,7 +30,7 @@ func NewConnPool(addr string, size int, _factory func(string) (interface{}, erro
 		size = POOL_INITED
 	}
 
-	//创建一个连接池： 初始化5，最大连接30
+	//创建一个连接池: 初始化5,最大连接30
 	poolConfig := &pool.Config{
 		InitialCap: POOL_INITED,
 		MaxCap:     POOL_MAX,
