@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	v2 "gitee.com/quant1x/gotdx/proto/v2"
+	"github.com/mymmsc/gox/util/lambda"
 	"math"
-	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -86,19 +86,19 @@ type Server struct {
 	CrossTime int64  `json:"crossTime"`
 }
 
-type _serers []Server
-
-func (s _serers) Len() int { return len(s) }
-
-func (s _serers) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
-
-func (s _serers) Less(i, j int) bool {
-	if s[i].CrossTime < s[j].CrossTime {
-		return true
-	}
-
-	return false
-}
+//type _serers []Server
+//
+//func (s _serers) Len() int { return len(s) }
+//
+//func (s _serers) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+//
+//func (s _serers) Less(i, j int) bool {
+//	if s[i].CrossTime < s[j].CrossTime {
+//		return true
+//	}
+//
+//	return false
+//}
 
 // ServerGroup 主机组
 type ServerGroup struct {
@@ -115,27 +115,72 @@ type AllServers struct {
 
 // BestIP 测试最快的服务器
 func BestIP() {
-	//json, err := fastjson.Parse(HQ_HOSTS)
-	//fmt.Printf("%+v, error=%+v\n", json, err)
-	var hqServers []Server
-	err := json.Unmarshal([]byte(HQ_HOSTS), &hqServers)
-	if err != nil {
-		return
-	}
-	fmt.Printf("%+v\n", hqServers)
-	for i := 0; i < len(hqServers); i++ {
-		v := &hqServers[i]
-		fmt.Printf("%d: %+v\n", i, v)
-		_ = detect(v)
-		//fmt.Printf("%d: %+v, cross time: %d \n", i, v, crossTime)
-		fmt.Printf("%d: %+v\n", i, v)
-	}
-	fmt.Println("----")
-	sort.Sort(_serers(hqServers))
-	fmt.Println(hqServers)
+	var as AllServers
+
+	// HQ-servers
+	//var hqServers []Server
+	//err := json.Unmarshal([]byte(HQ_HOSTS), &hqServers)
+	//if err != nil {
+	//	fmt.Printf("没有HQ服务器\n")
+	//} else {
+	//	as.Server.HQ = hqServers
+	//	fmt.Printf("%+v\n", hqServers)
+	//	for i := 0; i < len(hqServers); i++ {
+	//		v := &hqServers[i]
+	//		fmt.Printf("%d: %+v\n", i, v)
+	//		_ = detect(v)
+	//		fmt.Printf("%d: %+v\n", i, v)
+	//	}
+	//	fmt.Println("----")
+	//	hqS := lambda.LambdaArray(hqServers).Sort(func(a Server, b Server) bool {
+	//		return a.CrossTime < b.CrossTime
+	//	}).Filter(func(e Server) bool { return e.CrossTime < 100 }).Pointer().([]Server)
+	//	fmt.Println(hqS)
+	//}
+
+	// HQ-servers
+	src, dst := cleanServers(HQ_HOSTS)
+	as.Server.HQ = src
+	as.BestIP.HQ = dst
+	// EX-server
+	src, dst = cleanServers(EX_HOSTS)
+	as.Server.EX = src
+	as.BestIP.EX = dst
+
+	// SP-servers
+	src, dst = cleanServers(GP_HOSTS)
+	as.Server.GP = src
+	as.BestIP.GP = dst
+
+	str, _ := json.Marshal(as)
+	fmt.Println(string(str))
 }
 
-// 检测, 返回纳秒
+func cleanServers(str string) (src, dst []Server) {
+	err := json.Unmarshal([]byte(str), &src)
+	if err != nil {
+		return src, dst
+	}
+	fmt.Printf("%+v\n", src)
+	for i := 0; i < len(src); i++ {
+		v := &src[i]
+		fmt.Printf("%d: %+v\n", i, v)
+		_ = detect(v)
+		fmt.Printf("%d: %+v\n", i, v)
+	}
+	//dst = lambda.LambdaArray(src).Sort(func(a Server, b Server) bool {
+	//	return a.CrossTime < b.CrossTime
+	//}).Filter(func(e Server) bool { return e.CrossTime < 100 }).Pointer().([]Server)
+	dst1 := lambda.LambdaArray(src).Sort(func(a Server, b Server) bool {
+		return a.CrossTime < b.CrossTime
+	})
+	dst2 := dst1.Filter(func(e Server) bool { return e.CrossTime < 100 })
+	dst = dst2.Take(0, 2).Pointer().([]Server)
+	fmt.Println(dst)
+	return
+}
+
+// 检测, 返回毫秒
 func detect(srv *Server) int64 {
 	var crossTime int64 = math.MaxInt64
 	addr := strings.Join([]string{srv.Host, strconv.Itoa(srv.Port)}, ":")
@@ -149,9 +194,11 @@ func detect(srv *Server) int64 {
 			return
 		})
 		fmt.Printf("%+v\n", data)
+		// 计算耗时, 纳秒
 		crossTime = int64(time.Since(start))
 		_ = cli.Close()
 	}
-	srv.CrossTime = crossTime
+	// 转成毫秒
+	srv.CrossTime = crossTime / int64(time.Millisecond)
 	return crossTime
 }
