@@ -15,6 +15,7 @@ const (
 	CONN_TIMEOUT = 30
 )
 
+// ConnPool 连接池
 type ConnPool struct {
 	addr string
 	pool pool.Pool
