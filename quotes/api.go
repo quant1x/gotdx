@@ -36,6 +36,7 @@ func NewStdApi(srv Server) *StdApi {
 	api := StdApi{
 		connPool: cp,
 	}
+	_, _ = api.Hello1()
 	return &api
 }
 
