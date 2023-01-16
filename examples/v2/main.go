@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto/market"
+	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/proto/v2"
 	"gitee.com/quant1x/gotdx/quotes"
 	"log"
@@ -61,17 +61,17 @@ func T(ip string, port int) {
 	})
 	// 查询股票数量
 	quotes.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
-		req, resp, err = v2.NewSecurityCount(market.MarketShangHai)
+		req, resp, err = v2.NewSecurityCount(proto.MarketShangHai)
 		return
 	})
 	// 查询股票列表
 	quotes.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
-		req, resp, err = v2.NewGetSecurityList(market.MarketShangHai, 255)
+		req, resp, err = v2.NewGetSecurityList(proto.MarketShangHai, 255)
 		return
 	})
 	// 查询个股基本面
 	resp := quotes.Command(cp, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
-		req, resp, err = v2.NewFinanceInfo(market.MarketShangHai, "600600")
+		req, resp, err = v2.NewFinanceInfo(proto.MarketShangHai, "600600")
 		return
 	})
 	fmt.Println(resp)

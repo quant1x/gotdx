@@ -2,7 +2,7 @@ package quotes
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto/market"
+	"gitee.com/quant1x/gotdx/proto"
 	"testing"
 )
 
@@ -26,21 +26,21 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", hello2)
 
 	// 3. finance_info
-	fi, err := stdApi.GetFinanceInfo(market.MarketShangHai, "600600")
+	fi, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "600600")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", fi)
 
 	// 4. kline
-	kl, err := stdApi.GetKLine(market.MarketShenZhen, "000002", market.KLINE_TYPE_RI_K, 0, 1)
+	kl, err := stdApi.GetKLine(proto.MarketShenZhen, "000002", proto.KLINE_TYPE_RI_K, 0, 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", kl)
 
 	// 5. stock list
-	sl, err := stdApi.GetSecurityList(market.MarketShenZhen, 1)
+	sl, err := stdApi.GetSecurityList(proto.MarketShenZhen, 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -48,21 +48,21 @@ func TestStdApi_ALL(t *testing.T) {
 
 	// 6 index kline
 
-	ikl, err := stdApi.GetIndexBars(market.MarketShangHai, "000001", market.KLINE_TYPE_RI_K, 0, 1)
+	ikl, err := stdApi.GetIndexBars(proto.MarketShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", ikl)
 
 	// 7. 获取指定市场内的证券数目
-	sc, err := stdApi.GetSecurityCount(market.MarketShangHai)
+	sc, err := stdApi.GetSecurityCount(proto.MarketShangHai)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", sc)
 
 	// 8. 获取5档行情
-	sq, err := stdApi.GetSecurityQuotes([]uint8{market.MarketShangHai}, []string{"600600"})
+	sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -75,7 +75,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", mt)
 	// 10. 历史分时
-	hmt, err := stdApi.GetHistoryMinuteTimeData(market.MarketShangHai, "600600", 20230113)
+	hmt, err := stdApi.GetHistoryMinuteTimeData(proto.MarketShangHai, "600600", 20230113)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -87,7 +87,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", td)
 	// 12. 历史分笔成交
-	htd, err := stdApi.GetHistoryTransactionData(market.MarketShangHai, "600600", 20230111, 99, 2)
+	htd, err := stdApi.GetHistoryTransactionData(proto.MarketShangHai, "600600", 20230111, 99, 2)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

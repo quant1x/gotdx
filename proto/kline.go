@@ -1,4 +1,4 @@
-package market
+package proto
 
 // K线种类
 const (

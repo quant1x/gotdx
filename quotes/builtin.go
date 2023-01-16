@@ -3,7 +3,7 @@ package quotes
 import (
 	"bytes"
 	"encoding/binary"
-	"gitee.com/quant1x/gotdx/proto/market"
+	"gitee.com/quant1x/gotdx/proto"
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
 	"io"
@@ -109,29 +109,29 @@ func getdatetime(category int, b []byte, pos *int) (year int, month int, day int
 func getdatetimenow(category int, lasttime string) (year int, month int, day int, hour int, minute int) {
 	utime, _ := time.Parse("2006-01-02 15:04:05", lasttime)
 	switch category {
-	case market.KLINE_TYPE_5MIN:
+	case proto.KLINE_TYPE_5MIN:
 		utime = utime.Add(time.Minute * 5)
-	case market.KLINE_TYPE_15MIN:
+	case proto.KLINE_TYPE_15MIN:
 		utime = utime.Add(time.Minute * 15)
-	case market.KLINE_TYPE_30MIN:
+	case proto.KLINE_TYPE_30MIN:
 		utime = utime.Add(time.Minute * 30)
-	case market.KLINE_TYPE_1HOUR:
+	case proto.KLINE_TYPE_1HOUR:
 		utime = utime.Add(time.Hour)
-	case market.KLINE_TYPE_DAILY:
+	case proto.KLINE_TYPE_DAILY:
 		utime = utime.AddDate(0, 0, 1)
-	case market.KLINE_TYPE_WEEKLY:
+	case proto.KLINE_TYPE_WEEKLY:
 		utime = utime.Add(time.Hour * 24 * 7)
-	case market.KLINE_TYPE_MONTHLY:
+	case proto.KLINE_TYPE_MONTHLY:
 		utime = utime.AddDate(0, 1, 0)
-	case market.KLINE_TYPE_EXHQ_1MIN:
+	case proto.KLINE_TYPE_EXHQ_1MIN:
 		utime = utime.Add(time.Minute)
-	case market.KLINE_TYPE_1MIN:
+	case proto.KLINE_TYPE_1MIN:
 		utime = utime.Add(time.Minute)
-	case market.KLINE_TYPE_RI_K:
+	case proto.KLINE_TYPE_RI_K:
 		utime = utime.AddDate(0, 0, 1)
-	case market.KLINE_TYPE_3MONTH:
+	case proto.KLINE_TYPE_3MONTH:
 		utime = utime.AddDate(0, 3, 0)
-	case market.KLINE_TYPE_YEARLY:
+	case proto.KLINE_TYPE_YEARLY:
 		utime = utime.AddDate(1, 0, 0)
 	}
 

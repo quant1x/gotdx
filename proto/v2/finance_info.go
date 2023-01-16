@@ -2,7 +2,7 @@ package v2
 
 // 获取股票列表
 import (
-	"gitee.com/quant1x/gotdx/proto/market"
+	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/util"
 )
 
@@ -13,8 +13,8 @@ type FinanceInfoRequest struct {
 	// pytdx中使用struct.Pack进行反序列化
 	// 其中<H等价于这里的struc:"uint16,little"
 	// <I等价于struc:"uint32,little"
-	Market market.Market `struc:"uint8,little" json:"market"`
-	Code   string        `struc:"[6]byte,little" json:"code"`
+	Market proto.Market `struc:"uint8,little" json:"market"`
+	Code   string       `struc:"[6]byte,little" json:"code"`
 }
 
 // 请求包序列化输出
@@ -158,7 +158,7 @@ func (resp *FinanceInfoResponse) Unmarshal(data []byte) error {
 }
 
 // todo: 检测market是否为合法值
-func NewFinanceInfoRequest(market market.Market, code string) (*FinanceInfoRequest, error) {
+func NewFinanceInfoRequest(market proto.Market, code string) (*FinanceInfoRequest, error) {
 	request := &FinanceInfoRequest{
 		Unknown1: util.HexString2Bytes("0c 1f 18 76 00 01 0b 00 0b 00 10 00 01 00"),
 		Market:   market,
@@ -167,7 +167,7 @@ func NewFinanceInfoRequest(market market.Market, code string) (*FinanceInfoReque
 	return request, nil
 }
 
-func NewFinanceInfo(market market.Market, code string) (*FinanceInfoRequest, *FinanceInfoResponse, error) {
+func NewFinanceInfo(market proto.Market, code string) (*FinanceInfoRequest, *FinanceInfoResponse, error) {
 	var response FinanceInfoResponse
 	var request, err = NewFinanceInfoRequest(market, code)
 	return request, &response, err

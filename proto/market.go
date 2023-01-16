@@ -1,4 +1,4 @@
-package market
+package proto
 
 type Market = uint8
 
