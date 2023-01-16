@@ -53,4 +53,18 @@ func TestStdApi_ALL(t *testing.T) {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", ikl)
+
+	// 7. 获取指定市场内的证券数目
+	sc, err := stdApi.GetSecurityCount(market.MarketShangHai)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", sc)
+
+	// 8.
+	sq, err := stdApi.GetSecurityQuotes([]uint8{uint8(market.MarketShangHai)}, []string{"600600"})
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", sq)
 }
