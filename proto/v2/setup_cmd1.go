@@ -1,7 +1,6 @@
 package v2
 
 import (
-	v1 "gitee.com/quant1x/gotdx/proto/v1"
 	"gitee.com/quant1x/gotdx/util"
 )
 
@@ -24,7 +23,7 @@ type SetupCmd1Response struct {
 
 func (resp *SetupCmd1Response) Unmarshal(data []byte) error {
 	//resp.Unknown = data
-	resp.Reply = v1.Utf8ToGbk(data[68:])
+	resp.Reply = Utf8ToGbk(data[68:])
 	return nil
 }
 
