@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/util/cstruct"
 )
@@ -123,7 +124,7 @@ func NewFinanceInfoPackage() *FinanceInfoPackage {
 	//PkgLen2    uint16
 	pkg.reqHeader.PkgLen2 = 0x000b
 	//10 00
-	pkg.reqHeader.Method = KMSG_FINANCEINFO
+	pkg.reqHeader.Method = proto.KMSG_FINANCEINFO
 	pkg.contentHex = "0100" // 未解
 	return pkg
 }

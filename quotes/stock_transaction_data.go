@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 // TransactionPackage 当日分笔成交信息
@@ -49,7 +50,7 @@ func NewTransactionPackage() *TransactionPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = KMSG_TRANSACTIONDATA
+	obj.reqHeader.Method = proto.KMSG_TRANSACTIONDATA
 	//obj.reqHeader.Method = KMSG_MINUTETIMEDATA
 	obj.contentHex = ""
 	return obj

@@ -1,4 +1,4 @@
-package quotes
+package proto
 
 // 标准行情
 

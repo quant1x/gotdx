@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 type HistoryTransactionPackage struct {
@@ -49,7 +50,7 @@ func NewHistoryTransactionPackage() *HistoryTransactionPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = KMSG_HISTORYTRANSACTIONDATA
+	obj.reqHeader.Method = proto.KMSG_HISTORYTRANSACTIONDATA
 	//obj.reqHeader.Method = KMSG_MINUTETIMEDATA
 	obj.contentHex = ""
 	return obj

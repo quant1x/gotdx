@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 type HistoryMinuteTimePackage struct {
@@ -43,7 +44,7 @@ func NewHistoryMinuteTimePackage() *HistoryMinuteTimePackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = KMSG_HISTORYMINUTETIMEDATE
+	obj.reqHeader.Method = proto.KMSG_HISTORYMINUTETIMEDATE
 	//obj.reqHeader.Method = KMSG_MINUTETIMEDATA
 	obj.contentHex = ""
 	return obj

@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 // SecurityBars K线
@@ -61,7 +62,7 @@ func NewSecurityBarsPackage() *SecurityBarsPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = KMSG_SECURITYBARS
+	obj.reqHeader.Method = proto.KMSG_SECURITYBARS
 	obj.contentHex = "00000000000000000000"
 	return obj
 }

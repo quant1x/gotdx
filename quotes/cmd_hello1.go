@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 type Hello1Package struct {
@@ -33,7 +34,7 @@ func NewHello1() *Hello1Package {
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
-	obj.reqHeader.Method = KMSG_CMD1
+	obj.reqHeader.Method = proto.KMSG_CMD1
 	obj.contentHex = "01"
 	return obj
 }

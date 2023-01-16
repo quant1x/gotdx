@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 // SecurityCountPackage 市场股票数量
@@ -33,7 +34,7 @@ func NewSecurityCountPackage() *SecurityCountPackage {
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
-	obj.reqHeader.Method = KMSG_SECURITYCOUNT
+	obj.reqHeader.Method = proto.KMSG_SECURITYCOUNT
 	obj.contentHex = "75c73301" // 未解
 	return obj
 }

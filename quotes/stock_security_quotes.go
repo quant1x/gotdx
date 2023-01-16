@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 // 盘口五档报价
@@ -96,7 +97,7 @@ func NewGetSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
-	obj.reqHeader.Method = KMSG_SECURITYQUOTES
+	obj.reqHeader.Method = proto.KMSG_SECURITYQUOTES
 	obj.contentHex = "0500000000000000"
 	return obj
 }

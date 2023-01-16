@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 // IndexBarsPackage 指数K线
@@ -60,7 +61,7 @@ func NewIndexBarsPackage() *IndexBarsPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = KMSG_INDEXBARS
+	obj.reqHeader.Method = proto.KMSG_INDEXBARS
 	obj.contentHex = "00000000000000000000"
 	return obj
 }

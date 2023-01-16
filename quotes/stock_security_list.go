@@ -3,6 +3,7 @@ package quotes
 import (
 	"bytes"
 	"encoding/binary"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 // 股票列表
@@ -43,7 +44,7 @@ func NewSecurityListPackage() *SecurityListPackage {
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
-	obj.reqHeader.Method = KMSG_SECURITYLIST
+	obj.reqHeader.Method = proto.KMSG_SECURITYLIST
 	return obj
 }
 
