@@ -1,5 +1,7 @@
 package quotes
 
+import "errors"
+
 type StdApi struct {
 	connPool *ConnPool
 }
@@ -142,4 +144,38 @@ func (this *StdApi) GetIndexBars(market int, code string, category uint16, start
 		return nil, err
 	}
 	return reply.(*IndexBarsReply), err
+}
+
+// GetSecurityCount 获取指定市场内的证券数目
+func (this *StdApi) GetSecurityCount(market int) (*SecurityCountReply, error) {
+	obj := NewSecurityCountPackage()
+	obj.SetParams(&SecurityCountRequest{
+		Market: uint16(market),
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*SecurityCountReply), err
+}
+
+// GetSecurityQuotes 获取盘口五档报价
+func (this *StdApi) GetSecurityQuotes(markets []uint8, codes []string) (*SecurityQuotesReply, error) {
+	if len(markets) != len(codes) {
+		return nil, errors.New("market code count error")
+	}
+	obj := NewGetSecurityQuotesPackage()
+	var params []Stock
+	for i, market := range markets {
+		params = append(params, Stock{
+			Market: market,
+			Code:   codes[i],
+		})
+	}
+	obj.SetParams(&SecurityQuotesRequest{StockList: params})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*SecurityQuotesReply), err
 }
