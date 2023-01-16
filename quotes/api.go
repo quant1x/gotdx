@@ -36,6 +36,7 @@ func NewStdApi(srv Server) *StdApi {
 	api := StdApi{
 		connPool: cp,
 	}
+	// TODO: 假定IP地址有效, IP地址的有效性依靠bestip模块
 	_, _ = api.Hello1()
 	return &api
 }
