@@ -38,6 +38,7 @@ func NewStdApi(srv Server) *StdApi {
 	}
 	// TODO: 假定IP地址有效, IP地址的有效性依靠bestip模块
 	_, _ = api.Hello1()
+	_, _ = api.Hello2()
 	return &api
 }
 
