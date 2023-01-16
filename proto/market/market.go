@@ -1,6 +1,6 @@
 package market
 
-type Market = int
+type Market = uint8
 
 const (
 	// 深圳

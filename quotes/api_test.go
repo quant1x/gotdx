@@ -61,10 +61,35 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", sc)
 
-	// 8.
-	sq, err := stdApi.GetSecurityQuotes([]uint8{uint8(market.MarketShangHai)}, []string{"600600"})
+	// 8. 获取5档行情
+	sq, err := stdApi.GetSecurityQuotes([]uint8{market.MarketShangHai}, []string{"600600"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", sq)
+
+	// 9. 分时数据
+	mt, err := stdApi.GetMinuteTimeData(0, "159607")
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", mt)
+	// 10. 历史分时
+	hmt, err := stdApi.GetHistoryMinuteTimeData(market.MarketShangHai, "600600", 20230113)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", hmt)
+	// 11. 分笔成交
+	td, err := stdApi.GetTransactionData(0, "000629", 0, 3800)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", td)
+	// 12. 历史分笔成交
+	htd, err := stdApi.GetHistoryTransactionData(market.MarketShangHai, "600600", 20230111, 99, 2)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", htd)
 }

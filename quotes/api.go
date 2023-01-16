@@ -1,6 +1,9 @@
 package quotes
 
-import "errors"
+import (
+	"errors"
+	"gitee.com/quant1x/gotdx/proto/market"
+)
 
 type StdApi struct {
 	connPool *ConnPool
@@ -75,7 +78,7 @@ func (this *StdApi) Hello2() (*Hello2Reply, error) {
 }
 
 // GetFinanceInfo 基本面
-func (this *StdApi) GetFinanceInfo(market int, code string) (*FinanceInfo, error) {
+func (this *StdApi) GetFinanceInfo(market market.Market, code string) (*FinanceInfo, error) {
 	msg := NewFinanceInfoPackage()
 	_code := [6]byte{}
 	_market := uint8(market)
@@ -93,7 +96,7 @@ func (this *StdApi) GetFinanceInfo(market int, code string) (*FinanceInfo, error
 }
 
 // GetKLine K线
-func (this *StdApi) GetKLine(market int, code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
+func (this *StdApi) GetKLine(market market.Market, code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
 	msg := NewSecurityBarsPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
@@ -114,7 +117,7 @@ func (this *StdApi) GetKLine(market int, code string, category uint16, start uin
 }
 
 // GetSecurityList 股票列表
-func (this *StdApi) GetSecurityList(market int, start uint16) (*SecurityListReply, error) {
+func (this *StdApi) GetSecurityList(market market.Market, start uint16) (*SecurityListReply, error) {
 	msg := NewSecurityListPackage()
 	_market := uint16(market)
 	msg.SetParams(&SecurityListRequest{Market: _market, Start: start})
@@ -127,7 +130,7 @@ func (this *StdApi) GetSecurityList(market int, start uint16) (*SecurityListRepl
 }
 
 // GetIndexBars 指数K线
-func (this *StdApi) GetIndexBars(market int, code string, category uint16, start uint16, count uint16) (*IndexBarsReply, error) {
+func (this *StdApi) GetIndexBars(market market.Market, code string, category uint16, start uint16, count uint16) (*IndexBarsReply, error) {
 	msg := NewIndexBarsPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
@@ -147,7 +150,7 @@ func (this *StdApi) GetIndexBars(market int, code string, category uint16, start
 }
 
 // GetSecurityCount 获取指定市场内的证券数目
-func (this *StdApi) GetSecurityCount(market int) (*SecurityCountReply, error) {
+func (this *StdApi) GetSecurityCount(market market.Market) (*SecurityCountReply, error) {
 	obj := NewSecurityCountPackage()
 	obj.SetParams(&SecurityCountRequest{
 		Market: uint16(market),
@@ -160,7 +163,7 @@ func (this *StdApi) GetSecurityCount(market int) (*SecurityCountReply, error) {
 }
 
 // GetSecurityQuotes 获取盘口五档报价
-func (this *StdApi) GetSecurityQuotes(markets []uint8, codes []string) (*SecurityQuotesReply, error) {
+func (this *StdApi) GetSecurityQuotes(markets []market.Market, codes []string) (*SecurityQuotesReply, error) {
 	if len(markets) != len(codes) {
 		return nil, errors.New("market code count error")
 	}
@@ -178,4 +181,77 @@ func (this *StdApi) GetSecurityQuotes(markets []uint8, codes []string) (*Securit
 		return nil, err
 	}
 	return reply.(*SecurityQuotesReply), err
+}
+
+// GetMinuteTimeData 获取分时图数据
+func (this *StdApi) GetMinuteTimeData(market market.Market, code string) (*MinuteTimeReply, error) {
+	obj := NewMinuteTimePackage()
+	_code := [6]byte{}
+	_market := uint16(market)
+	copy(_code[:], code)
+	obj.SetParams(&MinuteTimeRequest{
+		Market: _market,
+		Code:   _code,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*MinuteTimeReply), err
+}
+
+// GetHistoryMinuteTimeData 获取历史分时图数据
+func (this *StdApi) GetHistoryMinuteTimeData(market market.Market, code string, date uint32) (*HistoryMinuteTimeReply, error) {
+	obj := NewHistoryMinuteTimePackage()
+	_code := [6]byte{}
+	copy(_code[:], code)
+	obj.SetParams(&HistoryMinuteTimeRequest{
+		Date:   date,
+		Market: market,
+		Code:   _code,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*HistoryMinuteTimeReply), err
+}
+
+// GetTransactionData 获取分时成交
+func (this *StdApi) GetTransactionData(market market.Market, code string, start uint16, count uint16) (*TransactionReply, error) {
+	obj := NewTransactionPackage()
+	_code := [6]byte{}
+	_market := uint16(market)
+	copy(_code[:], code)
+	obj.SetParams(&TransactionRequest{
+		Market: _market,
+		Code:   _code,
+		Start:  start,
+		Count:  count,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*TransactionReply), err
+}
+
+// GetHistoryTransactionData 获取历史分时成交
+func (this *StdApi) GetHistoryTransactionData(market market.Market, code string, date uint32, start uint16, count uint16) (*HistoryTransactionReply, error) {
+	obj := NewHistoryTransactionPackage()
+	_code := [6]byte{}
+	_market := uint16(market)
+	copy(_code[:], code)
+	obj.SetParams(&HistoryTransactionRequest{
+		Date:   date,
+		Market: _market,
+		Code:   _code,
+		Start:  start,
+		Count:  count,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*HistoryTransactionReply), err
 }
