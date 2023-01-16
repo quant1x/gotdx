@@ -3,7 +3,7 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	v2 "gitee.com/quant1x/gotdx/proto/v2"
+	"gitee.com/quant1x/gotdx/proto/v2"
 	"github.com/mymmsc/gox/util/lambda"
 	"math"
 	"strconv"
@@ -189,7 +189,7 @@ func detect(srv *Server) int64 {
 	cli, err := v2.NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
-		data := v2.CommandWithConn(cli, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
+		data := CommandWithConn(cli, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
 			req, resp, err = v2.NewSetupCmd1()
 			return
 		})

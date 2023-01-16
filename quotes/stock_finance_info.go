@@ -1,38 +1,37 @@
-package v2
+package quotes
 
-// 获取股票列表
 import (
-	"gitee.com/quant1x/gotdx/proto/market"
+	"bytes"
+	"encoding/binary"
+	"encoding/hex"
 	"gitee.com/quant1x/gotdx/util"
+	"github.com/mymmsc/gox/util/cstruct"
 )
 
-// 请求包结构
-type FinanceInfoRequest struct {
-	// struc不允许slice解析，只允许包含长度的array，该长度可根据hex字符串计算
-	Unknown1 []byte `struc:"[14]byte"`
-	// pytdx中使用struct.Pack进行反序列化
-	// 其中<H等价于这里的struc:"uint16,little"
-	// <I等价于struc:"uint32,little"
-	Market market.Market `struc:"uint8,little" json:"market"`
-	Code   string        `struc:"[6]byte,little" json:"code"`
+// FinanceInfoPackage 基本信息
+type FinanceInfoPackage struct {
+	reqHeader  *StdRequestHeader
+	respHeader *StdResponseHeader
+	request    *FinanceInfoRequest
+	reply      *FinanceInfo
+	contentHex string
 }
 
-// 请求包序列化输出
-func (req *FinanceInfoRequest) Marshal() ([]byte, error) {
-	return DefaultMarshal(req)
+type FinanceInfoRequest struct {
+	Market uint8
+	Code   [6]byte
 }
 
 // 响应包结构
-type FinanceInfoResponseRaw struct {
-	Unknown1 []byte `struc:"[2]byte,little" json:"unknown1"`
-	Market   int    `struc:"uint8,little" json:"market"`
-	Code     string `struc:"[6]byte,little" json:"code"`
-	//Info     FinanceInfo `struc:"[136]byte,little" json:"info"`
-	LiuTongGuBen       float32 `struc:"float32,little" json:"liuTongGuBen"`
-	Province           uint16  `struc:"uint16,little" json:"province"`
-	Industry           uint16  `struc:"uint16,little" json:"industry"`
-	UpdatedDate        uint32  `struc:"uint32,little" json:"updatedDate"`
-	IPODate            uint32  `struc:"uint32,little" json:"ipo_date"`
+type FinanceInfoReply struct {
+	Unknown1           [2]byte `struc:"[2]byte,little"`
+	Market             uint8   `struc:"uint8,little"`
+	Code               [6]byte `struc:"[6]byte,little"`
+	LiuTongGuBen       float32 `struc:"float32,little"`
+	Province           uint16  `struc:"uint16,little"`
+	Industry           uint16  `struc:"uint16,little"`
+	UpdatedDate        uint32  `struc:"uint32,little"`
+	IPODate            uint32  `struc:"uint32,little"`
 	ZongGuBen          float32 `struc:"float32,little"`
 	GuoJiaGu           float32 `struc:"float32,little"`
 	FaQiRenFaRenGu     float32 `struc:"float32,little"`
@@ -63,10 +62,6 @@ type FinanceInfoResponseRaw struct {
 	WeiFenLiRun        float32 `struc:"float32,little"`
 	BaoLiu1            float32 `struc:"float32,little"`
 	BaoLiu2            float32 `struc:"float32,little"`
-}
-
-func (resp *FinanceInfoResponseRaw) Unmarshal(data []byte) error {
-	return DefaultUnmarshal(data, &resp)
 }
 
 type FinanceInfo struct {
@@ -107,18 +102,57 @@ type FinanceInfo struct {
 	BaoLiu2            float64 `struc:"float32,little" json:"bao_liu_2"`
 }
 
-// 响应包结构
-type FinanceInfoResponse struct {
-	FinanceInfo
+func NewFinanceInfoPackage() *FinanceInfoPackage {
+	pkg := new(FinanceInfoPackage)
+	pkg.reqHeader = new(StdRequestHeader)
+	pkg.respHeader = new(StdResponseHeader)
+	pkg.request = new(FinanceInfoRequest)
+	pkg.reply = new(FinanceInfo)
+
+	//0c 1f 18 76 00 01 0b 00 0b 00 10 00 01 00
+	//0c
+	pkg.reqHeader.Zip = 0x0c
+	//1f 18 76 00
+	pkg.reqHeader.SeqID = seqID()
+	//01
+	pkg.reqHeader.PacketType = 0x01
+	//0b 00
+	//PkgLen1    uint16
+	pkg.reqHeader.PkgLen1 = 0x000b
+	//0b 00
+	//PkgLen2    uint16
+	pkg.reqHeader.PkgLen2 = 0x000b
+	//10 00
+	pkg.reqHeader.Method = KMSG_FINANCEINFO
+	pkg.contentHex = "0100" // 未解
+	return pkg
 }
 
-// 内部套用原始结构解析，外部为经过解析之后的响应信息
-func (resp *FinanceInfoResponse) Unmarshal(data []byte) error {
-	var raw FinanceInfoResponseRaw
-	err := raw.Unmarshal(data)
+func (obj *FinanceInfoPackage) SetParams(req *FinanceInfoRequest) {
+	obj.request = req
+}
+
+func (obj *FinanceInfoPackage) Serialize() ([]byte, error) {
+	//obj.reqHeader.PkgLen1 = 2 + 4 + 2
+	//obj.reqHeader.PkgLen2 = 2 + 4 + 2
+
+	buf := new(bytes.Buffer)
+	err := binary.Write(buf, binary.LittleEndian, obj.reqHeader)
+	b, err := hex.DecodeString(obj.contentHex)
+	buf.Write(b)
+	err = binary.Write(buf, binary.LittleEndian, obj.request)
+	return buf.Bytes(), err
+}
+
+func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) error {
+	obj.respHeader = header.(*StdResponseHeader)
+
+	var raw FinanceInfoReply
+	err := cstruct.Unpack(data, &raw)
 	if err != nil {
 		return err
 	}
+	var resp FinanceInfo
 	resp.LiuTongGuBen = util.GetVolume2(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry
@@ -154,21 +188,10 @@ func (resp *FinanceInfoResponse) Unmarshal(data []byte) error {
 	resp.WeiFenLiRun = util.GetVolume2(raw.WeiFenLiRun) * 10000
 	resp.MeiGuJingZiChan = util.GetVolume2(raw.BaoLiu1) * 10000
 	resp.BaoLiu2 = util.GetVolume2(raw.BaoLiu2)
+	obj.reply = &resp
 	return nil
 }
 
-// todo: 检测market是否为合法值
-func NewFinanceInfoRequest(market market.Market, code string) (*FinanceInfoRequest, error) {
-	request := &FinanceInfoRequest{
-		Unknown1: util.HexString2Bytes("0c 1f 18 76 00 01 0b 00 0b 00 10 00 01 00"),
-		Market:   market,
-		Code:     code,
-	}
-	return request, nil
-}
-
-func NewFinanceInfo(market market.Market, code string) (*FinanceInfoRequest, *FinanceInfoResponse, error) {
-	var response FinanceInfoResponse
-	var request, err = NewFinanceInfoRequest(market, code)
-	return request, &response, err
+func (obj *FinanceInfoPackage) Reply() interface{} {
+	return obj.reply
 }

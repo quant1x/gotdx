@@ -1,6 +1,8 @@
 package quotes
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestBestIP(t *testing.T) {
 	BestIP()

@@ -1,15 +1,15 @@
-package v2
+package quotes
 
 import (
-	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto/v2"
 	"log"
 )
 
 // Command 命令字
-func Command(pool *internal.ConnPool, factory Factory) Unmarshaler {
+func Command(pool *ConnPool, factory v2.Factory) v2.Unmarshaler {
 	conn := pool.GetConn()
 
-	cli := conn.(*Client)
+	cli := conn.(*v2.Client)
 	req, resp, err := factory()
 	if err != nil {
 		log.Fatal(err)
@@ -25,7 +25,7 @@ func Command(pool *internal.ConnPool, factory Factory) Unmarshaler {
 	return resp
 }
 
-func CommandWithConn(cli *Client, callback Factory) Unmarshaler {
+func CommandWithConn(cli *v2.Client, callback v2.Factory) v2.Unmarshaler {
 	req, resp, err := callback()
 	if err != nil {
 		log.Fatal(err)
