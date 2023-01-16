@@ -100,6 +100,12 @@ type Server struct {
 //	return false
 //}
 
+const (
+	TDX_HOST_HQ = "HQ"
+	TDX_HOST_EX = "EX"
+	TDX_HOST_GP = "GP"
+)
+
 // ServerGroup 主机组
 type ServerGroup struct {
 	HQ []Server `json:"HQ"`
@@ -154,6 +160,7 @@ func BestIP() {
 
 	str, _ := json.Marshal(as)
 	fmt.Println(string(str))
+	_ = CacheServers(as)
 }
 
 func cleanServers(str string) (src, dst []Server) {

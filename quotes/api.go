@@ -9,6 +9,11 @@ type StdApi struct {
 	connPool *ConnPool
 }
 
+func NewStdApi2() *StdApi {
+	server := GetFastHost(TDX_HOST_HQ)
+	return NewStdApi(*server)
+}
+
 func NewStdApi(srv Server) *StdApi {
 	size := 1
 	opt := Opt{
