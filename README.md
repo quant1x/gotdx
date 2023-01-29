@@ -2,7 +2,7 @@
 golang实现的一个通达信数据协议库
 
 ## 1. 概要
-- 整合了[gotdx](https://github.com/bensema/gotdx.git)和[PyTdx](https://github.com/rainx/pytdx)
+- 整合了[gotdx](https://github.com/bensema/gotdx.git)和[TdxPy](https://github.com/rainx/pytdx)
 - 增加了连接池的功能
 - 自动探测主机网络速度
 - 调用简单
