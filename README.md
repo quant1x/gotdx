@@ -25,14 +25,11 @@ var (
 
 func prepare() *quotes.StdApi {
 	if stdApi == nil {
-		//srv := quotes.Server{
-		//	Name:      "临时主机",
-		//	Host:      "119.147.212.81",
-		//	Port:      7709,
-		//	CrossTime: 0,
-		//}
-		//stdApi = quotes.NewStdApi(srv)
-		stdApi = quotes.NewStdApi2()
+		std_api, err := quotes.NewStdApi()
+		if err != nil {
+			return nil
+		}
+		stdApi = std_api
 	}
 	return stdApi
 }
