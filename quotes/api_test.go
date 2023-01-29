@@ -9,7 +9,10 @@ import (
 func TestStdApi_ALL(t *testing.T) {
 	//quotesSrv := Server{Host: "119.147.212.81", Port: 7709}
 	//stdApi := NewStdApi(quotesSrv)
-	stdApi := NewStdApi2()
+	stdApi, err := NewStdApi2()
+	if err != nil {
+		panic(err)
+	}
 	defer stdApi.Close()
 
 	// 1. hello1

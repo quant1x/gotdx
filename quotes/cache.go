@@ -55,7 +55,7 @@ func CacheServers(as AllServers) error {
 	return err
 }
 
-func GetFastHost(key string) *Server {
+func GetFastHost(key string) []Server {
 	as := OpenConfig()
 	if as == nil {
 		logger.Infof("首次执行通达信数据接口, 正在进行服务器测速")
@@ -63,25 +63,25 @@ func GetFastHost(key string) *Server {
 	}
 	as = OpenConfig()
 	if as == nil && key == TDX_HOST_HQ {
-		return &DefaultHQServer
+		return []Server{DefaultHQServer}
 	}
 	if as == nil && key == TDX_HOST_EX {
-		return &DefaultHQServer
+		return []Server{DefaultHQServer}
 	}
 
 	bestIp := as.BestIP
 	if key == TDX_HOST_HQ {
 		if len(bestIp.HQ) > 0 {
-			return &bestIp.HQ[0]
+			return bestIp.HQ
 		} else {
-			return &DefaultHQServer
+			return []Server{DefaultHQServer}
 		}
 	} else if key == TDX_HOST_EX {
 		if len(bestIp.EX) > 0 {
-			return &bestIp.EX[0]
+			return bestIp.EX
 		} else {
-			return &DefaultHQServer
+			return []Server{DefaultHQServer}
 		}
 	}
-	return &DefaultEXServer
+	return []Server{DefaultHQServer}
 }

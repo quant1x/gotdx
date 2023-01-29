@@ -38,7 +38,7 @@ func main() {
 func T(ip string, port int) {
 	quotesSrv := Server{IP: ip, Port: port}
 	//cp := internal.NewConnPool(quotesSrv.Addr(), 1, v1.ConnCreate, v1.ConnClose, nil)
-	cp := quotes.NewConnPool(quotesSrv.Addr(), 1, func(s string) (interface{}, error) {
+	cp, _ := quotes.NewConnPool(quotesSrv.Addr(), 1, func(s string) (interface{}, error) {
 		return v1.NewClient2(s)
 	}, func(v interface{}) error {
 		client := v.(*v1.Client)

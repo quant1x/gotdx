@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto/v1"
+	v2 "gitee.com/quant1x/gotdx/proto/v2"
 	"github.com/mymmsc/gox/util/lambda"
 	"math"
 	"strconv"
@@ -64,11 +65,11 @@ const (
 {"name":"扩展市场武汉主站3", "host":"59.175.238.38", "port": 7727},
 {"name":"扩展市场北京双线0", "host":"47.92.127.181", "port": 7727},
 {"name":"扩展市场上海双线0", "host":"106.14.95.149", "port": 7727},
-{"name":"扩展市场新加双线0", "host":"119.23.127.172", "port": 7727},
+{"name":"扩展市场新加双线0", "host":"119.23.127.172", "port": 7727}
 ]`
 	// GP_HOSTS 财务数据 主机列表
 	GP_HOSTS = `[
-{"name":"默认财务数据线路", "host":"120.76.152.87", "port": 7709},
+{"name":"默认财务数据线路", "host":"120.76.152.87", "port": 7709}
 ]`
 
 	CONFIG = `{
@@ -145,16 +146,16 @@ func BestIP() {
 	//}
 
 	// HQ-servers
-	src, dst := cleanServers(HQ_HOSTS)
+	src, dst := cleanServers(HQ_HOSTS, testHQ)
 	as.Server.HQ = src
 	as.BestIP.HQ = dst
-	// EX-server
-	src, dst = cleanServers(EX_HOSTS)
+	// EX-server, reply提示版本不一致, 扩展服务暂不可用
+	src, dst = cleanServers(EX_HOSTS, testEX)
 	as.Server.EX = src
 	as.BestIP.EX = dst
 
 	// SP-servers
-	src, dst = cleanServers(GP_HOSTS)
+	src, dst = cleanServers(GP_HOSTS, testEX)
 	as.Server.GP = src
 	as.BestIP.GP = dst
 
@@ -163,7 +164,7 @@ func BestIP() {
 	_ = CacheServers(as)
 }
 
-func cleanServers(str string) (src, dst []Server) {
+func cleanServers(str string, test func(addr string)) (src, dst []Server) {
 	err := json.Unmarshal([]byte(str), &src)
 	if err != nil {
 		return src, dst
@@ -172,7 +173,7 @@ func cleanServers(str string) (src, dst []Server) {
 	for i := 0; i < len(src); i++ {
 		v := &src[i]
 		fmt.Printf("%d: %+v\n", i, v)
-		_ = detect(v)
+		_ = detect(v, test)
 		fmt.Printf("%d: %+v\n", i, v)
 	}
 	//dst = lambda.LambdaArray(src).Sort(func(a Server, b Server) bool {
@@ -188,11 +189,20 @@ func cleanServers(str string) (src, dst []Server) {
 }
 
 // 检测, 返回毫秒
-func detect(srv *Server) int64 {
+func detect(srv *Server, test func(addr string)) int64 {
 	var crossTime int64 = math.MaxInt64
 	addr := strings.Join([]string{srv.Host, strconv.Itoa(srv.Port)}, ":")
 	start := time.Now()
-	//conn, err := net.DialTimeout("tcp", addr, 1*time.Second)
+	test(addr)
+	// 计算耗时, 纳秒
+	crossTime = int64(time.Since(start))
+	// 转成毫秒
+	srv.CrossTime = crossTime / int64(time.Millisecond)
+	return crossTime
+}
+
+// 标准服务器测试
+func testHQ(addr string) {
 	cli, err := v1.NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
@@ -201,11 +211,20 @@ func detect(srv *Server) int64 {
 			return
 		})
 		fmt.Printf("%+v\n", data)
-		// 计算耗时, 纳秒
-		crossTime = int64(time.Since(start))
 		_ = cli.Close()
 	}
-	// 转成毫秒
-	srv.CrossTime = crossTime / int64(time.Millisecond)
-	return crossTime
+}
+
+// 扩展服务器测试
+func testEX(addr string) {
+	cli, err := v1.NewClientForTest(addr)
+	if err == nil {
+		// CMD信令 1
+		data := CommandWithConn(cli, func() (req v1.Marshaler, resp v1.Unmarshaler, err error) {
+			req, resp, err = v2.NewExCmd1()
+			return
+		})
+		fmt.Printf("%+v\n", data)
+		_ = cli.Close()
+	}
 }

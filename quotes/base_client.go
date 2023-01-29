@@ -15,11 +15,11 @@ type TcpClient struct {
 }
 
 type Opt struct {
-	Host          string
-	Port          int
-	Timeout       time.Duration
-	MaxRetryTimes int
-	RetryDuration time.Duration
+	Servers       []Server      // 服务器组
+	index         int           // 索引
+	Timeout       time.Duration // 超时
+	MaxRetryTimes int           // 最大重试次数
+	RetryDuration time.Duration // 重试时间
 }
 
 func NewClient(opt *Opt) *TcpClient {
@@ -40,13 +40,27 @@ func NewClient(opt *Opt) *TcpClient {
 
 // Connect 连接服务器
 func (client *TcpClient) Connect() error {
-	addr := strings.Join([]string{client.opt.Host, strconv.Itoa(client.opt.Port)}, ":")
-	conn, err := net.DialTimeout("tcp", addr, client.opt.Timeout) // net.DialTimeout()
-	if err != nil {
-		return err
+	opt := client.opt
+	total := len(opt.Servers)
+	for i := opt.index; i < total; i++ {
+		serv := opt.Servers[i]
+		//if i < total {
+		//	serv.Host = "127.0.0.1"
+		//}
+		addr := strings.Join([]string{serv.Host, strconv.Itoa(serv.Port)}, ":")
+		conn, err := net.DialTimeout("tcp", addr, client.opt.Timeout) // net.DialTimeout()
+		if err == nil {
+			client.conn = conn
+			break
+		} else if i+1 >= total {
+			opt.index = 0
+			return err
+		} else {
+			opt.index += 1
+		}
 	}
-	client.conn = conn
-	return err
+
+	return nil
 }
 
 // Disconnect 断开服务器

@@ -9,18 +9,17 @@ type StdApi struct {
 	connPool *ConnPool
 }
 
-func NewStdApi2() *StdApi {
+func NewStdApi2() (*StdApi, error) {
 	server := GetFastHost(TDX_HOST_HQ)
-	return NewStdApi(*server)
+	return NewStdApi(server)
 }
 
-func NewStdApi(srv Server) *StdApi {
+func NewStdApi(srvs []Server) (*StdApi, error) {
 	size := 1
 	opt := Opt{
-		Host: srv.Host,
-		Port: srv.Port,
+		Servers: srvs,
 	}
-	_factory := func(string) (interface{}, error) {
+	_factory := func() (interface{}, error) {
 		client := NewClient(&opt)
 		err := client.Connect()
 		return client, err
@@ -32,14 +31,17 @@ func NewStdApi(srv Server) *StdApi {
 	_ping := func(v interface{}) error {
 		return nil
 	}
-	cp := NewConnPool2(srv.Host, srv.Port, size, _factory, _close, _ping)
+	cp, err := NewConnPool(opt, size, _factory, _close, _ping)
+	if err != nil {
+		return nil, err
+	}
 	api := StdApi{
 		connPool: cp,
 	}
 	// TODO: 假定IP地址有效, IP地址的有效性依靠bestip模块
 	_, _ = api.Hello1()
 	_, _ = api.Hello2()
-	return &api
+	return &api, nil
 }
 
 // Close 关闭

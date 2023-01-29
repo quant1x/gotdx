@@ -3,8 +3,6 @@ package quotes
 import (
 	"fmt"
 	"github.com/mymmsc/gox/pool"
-	"strconv"
-	"strings"
 	"time"
 )
 
@@ -24,17 +22,7 @@ type ConnPool struct {
 }
 
 // NewConnPool2 创新一个新连接池
-func NewConnPool2(host string, port int, size int, factory func(string) (interface{}, error), close func(interface{}) error, ping func(interface{}) error) *ConnPool {
-	addr := strings.Join([]string{host, strconv.Itoa(port)}, ":")
-	return NewConnPool(addr, size, factory, close, ping)
-}
-
-// NewConnPool 创新一个新连接池
-func NewConnPool(addr string, size int, factory func(string) (interface{}, error), close func(interface{}) error, ping func(interface{}) error) *ConnPool {
-	_factory := func() (interface{}, error) {
-		return factory(addr)
-	}
-
+func NewConnPool(opt Opt, size int, factory func() (interface{}, error), close func(interface{}) error, ping func(interface{}) error) (*ConnPool, error) {
 	if size < POOL_INITED {
 		size = POOL_INITED
 	}
@@ -44,7 +32,7 @@ func NewConnPool(addr string, size int, factory func(string) (interface{}, error
 		InitialCap: POOL_INITED,
 		MaxCap:     POOL_MAX,
 		MaxIdle:    size,
-		Factory:    _factory,
+		Factory:    factory,
 		Close:      close,
 		Ping:       ping,
 		//连接最大空闲时间，超过该时间的连接 将会关闭，可避免空闲时连接EOF，自动失效的问题
@@ -53,13 +41,13 @@ func NewConnPool(addr string, size int, factory func(string) (interface{}, error
 	_pool, err := pool.NewChannelPool(poolConfig)
 	if err != nil {
 		fmt.Println("err=", err)
-		return nil
+		return nil, err
 	}
 	cp := &ConnPool{
-		addr: addr,
+		//addr: addr,
 		pool: _pool,
 	}
-	return cp
+	return cp, nil
 }
 
 func (p *ConnPool) GetConn() interface{} {
