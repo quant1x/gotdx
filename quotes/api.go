@@ -9,12 +9,14 @@ type StdApi struct {
 	connPool *ConnPool
 }
 
-func NewStdApi2() (*StdApi, error) {
+// NewStdApi 创建一个标准接口
+func NewStdApi() (*StdApi, error) {
 	server := GetFastHost(TDX_HOST_HQ)
-	return NewStdApi(server)
+	return NewStdApiWithServers(server)
 }
 
-func NewStdApi(srvs []Server) (*StdApi, error) {
+// NewStdApiWithServers 通过服务器组创建一个标准接口
+func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	size := 1
 	opt := Opt{
 		Servers: srvs,
