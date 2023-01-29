@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/util"
-	"github.com/mymmsc/gox/util/cstruct"
+	"github.com/mymmsc/gox/encoding/binary/cstruct"
 )
 
 // FinanceInfoPackage 基本信息

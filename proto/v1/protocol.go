@@ -1,8 +1,8 @@
-package v2
+package v1
 
 import (
 	"bytes"
-	"github.com/mymmsc/gox/util/struc"
+	"github.com/mymmsc/gox/encoding/binary/struc"
 	"log"
 )
 

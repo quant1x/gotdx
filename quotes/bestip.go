@@ -3,7 +3,7 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto/v2"
+	"gitee.com/quant1x/gotdx/proto/v1"
 	"github.com/mymmsc/gox/util/lambda"
 	"math"
 	"strconv"
@@ -193,11 +193,11 @@ func detect(srv *Server) int64 {
 	addr := strings.Join([]string{srv.Host, strconv.Itoa(srv.Port)}, ":")
 	start := time.Now()
 	//conn, err := net.DialTimeout("tcp", addr, 1*time.Second)
-	cli, err := v2.NewClientForTest(addr)
+	cli, err := v1.NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
-		data := CommandWithConn(cli, func() (req v2.Marshaler, resp v2.Unmarshaler, err error) {
-			req, resp, err = v2.NewSetupCmd1()
+		data := CommandWithConn(cli, func() (req v1.Marshaler, resp v1.Unmarshaler, err error) {
+			req, resp, err = v1.NewSetupCmd1()
 			return
 		})
 		fmt.Printf("%+v\n", data)

@@ -1,4 +1,4 @@
-package v2
+package v1
 
 import (
 	"gitee.com/quant1x/gotdx/util"
