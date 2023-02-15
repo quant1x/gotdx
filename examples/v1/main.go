@@ -11,16 +11,6 @@ import (
 	"unsafe"
 )
 
-type Server struct {
-	Name string `json:"name"`
-	IP   string `json:"ip"`
-	Port int    `json:"port"`
-}
-
-func (srv *Server) Addr() string {
-	return strings.Join([]string{srv.IP, strconv.Itoa(srv.Port)}, ":")
-}
-
 func init() {
 	log.SetFlags(log.Lshortfile | log.Ldate)
 }
@@ -28,17 +18,19 @@ func init() {
 func main() {
 	fmt.Println(unsafe.Sizeof(v1.FinanceInfo{}))
 	//quotesSrv := config.GetBestStockQuotesServer()
-	quotesSrv := Server{IP: "119.147.212.81", Port: 7709}
+	quotesSrv := quotes.Server{Host: "119.147.212.81", Port: 7709}
 	//quotesSrvAddr := "106.120.74.86:7711" // quotesSrv.Addr()
 	log.Println("正在连接到最优行情服务器: ", quotesSrv.Addr())
-	T(quotesSrv.IP, quotesSrv.Port)
+	T(quotesSrv.Host, quotesSrv.Port)
 	//T("106.120.74.86", 7709)
 }
 
 func T(ip string, port int) {
-	quotesSrv := Server{IP: ip, Port: port}
+	quotesSrv := quotes.Server{Host: ip, Port: port}
 	//cp := internal.NewConnPool(quotesSrv.Addr(), 1, v1.ConnCreate, v1.ConnClose, nil)
-	cp, _ := quotes.NewConnPool(quotesSrv.Addr(), 1, func(s string) (interface{}, error) {
+	opt := quotes.Opt{Servers: []quotes.Server{quotesSrv}}
+	cp, _ := quotes.NewConnPool(opt, 1, func() (interface{}, error) {
+		s := strings.Join([]string{quotesSrv.Host, strconv.Itoa(quotesSrv.Port)}, ":")
 		return v1.NewClient2(s)
 	}, func(v interface{}) error {
 		client := v.(*v1.Client)
