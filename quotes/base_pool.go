@@ -7,11 +7,11 @@ import (
 )
 
 const (
-	// 连接池初始化
+	// POOL_INITED 连接池初始化
 	POOL_INITED = 1
-	// 连接池最大 2
+	// POOL_MAX 连接池最大 2
 	POOL_MAX = 2
-	// 链接超时 30 s
+	// CONN_TIMEOUT 链接超时 30 s
 	CONN_TIMEOUT = 30
 )
 
@@ -21,7 +21,7 @@ type ConnPool struct {
 	pool pool.Pool
 }
 
-// NewConnPool2 创新一个新连接池
+// NewConnPool 创新一个新连接池
 func NewConnPool(opt Opt, size int, factory func() (interface{}, error), close func(interface{}) error, ping func(interface{}) error) (*ConnPool, error) {
 	if size < POOL_INITED {
 		size = POOL_INITED

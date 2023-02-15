@@ -79,28 +79,6 @@ const (
 }`
 )
 
-// Server 主机信息
-type Server struct {
-	Name      string `json:"name"`
-	Host      string `json:"host"`
-	Port      int    `json:"port"`
-	CrossTime int64  `json:"crossTime"`
-}
-
-//type _serers []Server
-//
-//func (s _serers) Len() int { return len(s) }
-//
-//func (s _serers) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
-//
-//func (s _serers) Less(i, j int) bool {
-//	if s[i].CrossTime < s[j].CrossTime {
-//		return true
-//	}
-//
-//	return false
-//}
-
 const (
 	TDX_HOST_HQ = "HQ"
 	TDX_HOST_EX = "EX"
