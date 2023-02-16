@@ -19,13 +19,25 @@ type FinanceInfoPackage struct {
 }
 
 type FinanceInfoRequest struct {
+	Num    uint16 // 总数
 	Market uint8
 	Code   [6]byte
 }
 
-// 响应包结构
+// FinanceInfoReply 响应包结构
 type FinanceInfoReply struct {
-	Unknown1           [2]byte `struc:"[2]byte,little"`
+	Count uint16 //  总数
+	//Market uint8   `struc:"uint8,little"`
+	//Code   [6]byte `struc:"[6]byte,little"`
+	First RawFinanceInfo
+	//List  [2]RawFinanceInfo
+}
+
+// RawFinanceInfo 响应包结构
+//
+//	一次返回145个字节, 现在有136个字节, 空余9个字节分别是总数、市场和代码
+type RawFinanceInfo struct {
+	//Unknown1           [2]byte `struc:"[2]byte,little"`
 	Market             uint8   `struc:"uint8,little"`
 	Code               [6]byte `struc:"[6]byte,little"`
 	LiuTongGuBen       float32 `struc:"float32,little"`
@@ -63,6 +75,49 @@ type FinanceInfoReply struct {
 	WeiFenLiRun        float32 `struc:"float32,little"`
 	BaoLiu1            float32 `struc:"float32,little"`
 	BaoLiu2            float32 `struc:"float32,little"`
+	//BaoLiu3            [7]byte `struc:"[7]byte,little"`
+}
+
+type RawFinanceInfo1 struct {
+	//Unknown1           [2]byte `struc:"[2]byte,little"`
+	//Market             uint8   `struc:"uint8,little"`
+	//Code               [6]byte `struc:"[6]byte,little"`
+	LiuTongGuBen       float32 `struc:"float32,little"`
+	Province           uint16  `struc:"uint16,little"`
+	Industry           uint16  `struc:"uint16,little"`
+	UpdatedDate        uint32  `struc:"uint32,little"`
+	IPODate            uint32  `struc:"uint32,little"`
+	ZongGuBen          float32 `struc:"float32,little"`
+	GuoJiaGu           float32 `struc:"float32,little"`
+	FaQiRenFaRenGu     float32 `struc:"float32,little"`
+	FaRenGu            float32 `struc:"float32,little"`
+	BGu                float32 `struc:"float32,little"`
+	HGu                float32 `struc:"float32,little"`
+	ZhiGongGu          float32 `struc:"float32,little"`
+	ZongZiChan         float32 `struc:"float32,little"`
+	LiuDongZiChan      float32 `struc:"float32,little"`
+	GuDingZiChan       float32 `struc:"float32,little"`
+	WuXingZiChan       float32 `struc:"float32,little"`
+	GuDongRenShu       float32 `struc:"float32,little"`
+	LiuDongFuZhai      float32 `struc:"float32,little"`
+	ChangQiFuZhai      float32 `struc:"float32,little"`
+	ZiBenGongJiJin     float32 `struc:"float32,little"`
+	JingZiChan         float32 `struc:"float32,little"`
+	ZhuYingShouRu      float32 `struc:"float32,little"`
+	ZhuYingLiRun       float32 `struc:"float32,little"`
+	Yingshouzhangkuan  float32 `struc:"float32,little"`
+	YingyeLiRun        float32 `struc:"float32,little"`
+	TouZiShouYu        float32 `struc:"float32,little"`
+	JingYingxianJinLiu float32 `struc:"float32,little"`
+	ZongXianJinLiu     float32 `struc:"float32,little"`
+	CunHuo             float32 `struc:"float32,little"`
+	LiRunZongHe        float32 `struc:"float32,little"`
+	ShuiHouLiRun       float32 `struc:"float32,little"`
+	JingLiRun          float32 `struc:"float32,little"`
+	WeiFenLiRun        float32 `struc:"float32,little"`
+	BaoLiu1            float32 `struc:"float32,little"`
+	BaoLiu2            float32 `struc:"float32,little"`
+	BaoLiu3            [7]byte `struc:"[7]byte,little"`
 }
 
 type FinanceInfo struct {
@@ -125,7 +180,7 @@ func NewFinanceInfoPackage() *FinanceInfoPackage {
 	pkg.reqHeader.PkgLen2 = 0x000b
 	//10 00
 	pkg.reqHeader.Method = proto.KMSG_FINANCEINFO
-	pkg.contentHex = "0100" // 未解
+	//pkg.contentHex = "0100" // 未解
 	return pkg
 }
 
@@ -148,12 +203,13 @@ func (obj *FinanceInfoPackage) Serialize() ([]byte, error) {
 func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	var raw FinanceInfoReply
-	err := cstruct.Unpack(data, &raw)
+	var reply FinanceInfoReply
+	err := cstruct.Unpack(data, &reply)
 	if err != nil {
 		return err
 	}
 	var resp FinanceInfo
+	raw := reply.First
 	resp.LiuTongGuBen = util.GetVolume2(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry

@@ -30,7 +30,7 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", hello2)
 
 	// 3. finance_info
-	fi, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "600600")
+	fi, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "600600", 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -91,7 +91,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", td)
 	// 12. 历史分笔成交
-	htd, err := stdApi.GetHistoryTransactionData(proto.MarketShangHai, "600600", 20230111, 99, 2)
+	htd, err := stdApi.GetHistoryTransactionData(proto.MarketShangHai, "600600", 20230210, 0, 10)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

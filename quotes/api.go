@@ -3,7 +3,21 @@ package quotes
 import (
 	"errors"
 	"gitee.com/quant1x/gotdx/proto"
+	"strconv"
+	"strings"
 )
+
+// Server 主机信息
+type Server struct {
+	Name      string `json:"name"`
+	Host      string `json:"host"`
+	Port      int    `json:"port"`
+	CrossTime int64  `json:"crossTime"`
+}
+
+func (s Server) Addr() string {
+	return strings.Join([]string{s.Host, strconv.Itoa(s.Port)}, ":")
+}
 
 type StdApi struct {
 	connPool *ConnPool
@@ -90,7 +104,7 @@ func (this *StdApi) Hello2() (*Hello2Reply, error) {
 }
 
 // GetFinanceInfo 基本面
-func (this *StdApi) GetFinanceInfo(market proto.Market, code string) (*FinanceInfo, error) {
+func (this *StdApi) GetFinanceInfo(market proto.Market, code string, num uint16) (*FinanceInfo, error) {
 	msg := NewFinanceInfoPackage()
 	_code := [6]byte{}
 	_market := uint8(market)
@@ -98,6 +112,7 @@ func (this *StdApi) GetFinanceInfo(market proto.Market, code string) (*FinanceIn
 	msg.SetParams(&FinanceInfoRequest{
 		Market: _market,
 		Code:   _code,
+		Num:    num,
 	})
 	reply, err := this.command(msg)
 	if err != nil {
