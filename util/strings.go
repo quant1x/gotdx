@@ -6,9 +6,10 @@ import (
 	"golang.org/x/text/encoding/traditionalchinese"
 	"golang.org/x/text/transform"
 	"io"
+	"strings"
 )
 
-// convert GBK to UTF-8
+// DecodeGBK convert GBK to UTF-8
 func DecodeGBK(s []byte) ([]byte, error) {
 	I := bytes.NewReader(s)
 	O := transform.NewReader(I, simplifiedchinese.GBK.NewDecoder())
@@ -19,7 +20,7 @@ func DecodeGBK(s []byte) ([]byte, error) {
 	return d, nil
 }
 
-// convert UTF-8 to GBK
+// EncodeGBK convert UTF-8 to GBK
 func EncodeGBK(s []byte) ([]byte, error) {
 	I := bytes.NewReader(s)
 	O := transform.NewReader(I, simplifiedchinese.GBK.NewEncoder())
@@ -30,7 +31,7 @@ func EncodeGBK(s []byte) ([]byte, error) {
 	return d, nil
 }
 
-// convert BIG5 to UTF-8
+// DecodeBig5 convert BIG5 to UTF-8
 func DecodeBig5(s []byte) ([]byte, error) {
 	I := bytes.NewReader(s)
 	O := transform.NewReader(I, traditionalchinese.Big5.NewDecoder())
@@ -41,7 +42,7 @@ func DecodeBig5(s []byte) ([]byte, error) {
 	return d, nil
 }
 
-// convert UTF-8 to BIG5
+// EncodeBig5 convert UTF-8 to BIG5
 func EncodeBig5(s []byte) ([]byte, error) {
 	I := bytes.NewReader(s)
 	O := transform.NewReader(I, traditionalchinese.Big5.NewEncoder())
@@ -50,4 +51,30 @@ func EncodeBig5(s []byte) ([]byte, error) {
 		return nil, e
 	}
 	return d, nil
+}
+
+// StartsWith 字符串前缀判断
+func StartsWith(str string, prefixs []string) bool {
+	if len(str) == 0 || len(prefixs) == 0 {
+		return false
+	}
+	for _, prefix := range prefixs {
+		if strings.HasPrefix(str, prefix) {
+			return true
+		}
+	}
+	return false
+}
+
+// EndsWith 字符串前缀判断
+func EndsWith(str string, suffixs []string) bool {
+	if len(str) == 0 || len(suffixs) == 0 {
+		return false
+	}
+	for _, prefix := range suffixs {
+		if strings.HasSuffix(str, prefix) {
+			return true
+		}
+	}
+	return false
 }
