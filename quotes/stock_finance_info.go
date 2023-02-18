@@ -36,6 +36,7 @@ type FinanceInfoReply struct {
 // RawFinanceInfo 响应包结构
 //
 //	一次返回145个字节, 现在有136个字节, 空余9个字节分别是总数、市场和代码
+//	Num每加1, 返回字节数增加143
 type RawFinanceInfo struct {
 	//Unknown1           [2]byte `struc:"[2]byte,little"`
 	Market             uint8   `struc:"uint8,little"`
