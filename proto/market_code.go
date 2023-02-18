@@ -15,14 +15,10 @@ const (
 
 // GetMarket 判断股票ID对应的证券市场匹配规则
 //
-// ['50', '51', '60', '90', '110'] 为 sh
-// ['00', '12'，'13', '18', '15', '16', '18', '20', '30', '39', '115'] 为 sz
-// ['5', '6', '9'] 开头的为 sh， 其余为 sz
+//	['50', '51', '60', '90', '110'] 为 sh
+//	['00', '12'，'13', '18', '15', '16', '18', '20', '30', '39', '115'] 为 sz
+//	['5', '6', '9'] 开头的为 sh， 其余为 sz
 func GetMarket(symbol string) string {
-	//:param string: False 返回市场ID，否则市场缩写名称
-	//:param symbol: 股票ID, 若以 'sz', 'sh' 开头直接返回对应类型，否则使用内置规则判断
-	//:return 'sh' or 'sz'
-
 	market := "sh"
 	if util.StartsWith(symbol, []string{"sh", "sz", "SH", "SZ"}) {
 		market = strings.ToLower(symbol[0:2])
@@ -38,6 +34,7 @@ func GetMarket(symbol string) string {
 	return market
 }
 
+// GetMarketId 获得市场ID
 func GetMarketId(symbol string) uint8 {
 	market := GetMarket(symbol)
 	marketId := MarketShangHai
@@ -48,7 +45,5 @@ func GetMarketId(symbol string) uint8 {
 	} else if market == "bj" {
 		marketId = MarketBeiJing
 	}
-	//# logger.debug(f"market => {market}")
-
 	return marketId
 }
