@@ -6,7 +6,7 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 )
 
-// 股票列表
+// SecurityListPackage 股票列表
 type SecurityListPackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader
