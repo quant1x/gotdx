@@ -103,27 +103,6 @@ func BestIP() {
 	var as AllServers
 
 	// HQ-servers
-	//var hqServers []Server
-	//err := json.Unmarshal([]byte(HQ_HOSTS), &hqServers)
-	//if err != nil {
-	//	fmt.Printf("没有HQ服务器\n")
-	//} else {
-	//	as.Server.HQ = hqServers
-	//	fmt.Printf("%+v\n", hqServers)
-	//	for i := 0; i < len(hqServers); i++ {
-	//		v := &hqServers[i]
-	//		fmt.Printf("%d: %+v\n", i, v)
-	//		_ = detect(v)
-	//		fmt.Printf("%d: %+v\n", i, v)
-	//	}
-	//	fmt.Println("----")
-	//	hqS := lambda.LambdaArray(hqServers).Sort(func(a Server, b Server) bool {
-	//		return a.CrossTime < b.CrossTime
-	//	}).Filter(func(e Server) bool { return e.CrossTime < 100 }).Pointer().([]Server)
-	//	fmt.Println(hqS)
-	//}
-
-	// HQ-servers
 	src, dst := cleanServers(HQ_HOSTS, testHQ)
 	as.Server.HQ = src
 	as.BestIP.HQ = dst
@@ -154,9 +133,6 @@ func cleanServers(str string, test func(addr string)) (src, dst []Server) {
 		_ = detect(v, test)
 		fmt.Printf("%d: %+v\n", i, v)
 	}
-	//dst = lambda.LambdaArray(src).Sort(func(a Server, b Server) bool {
-	//	return a.CrossTime < b.CrossTime
-	//}).Filter(func(e Server) bool { return e.CrossTime < 100 }).Pointer().([]Server)
 	dst1 := lambda.LambdaArray(src).Sort(func(a Server, b Server) bool {
 		return a.CrossTime < b.CrossTime
 	})

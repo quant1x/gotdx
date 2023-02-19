@@ -74,10 +74,10 @@ func getprice(b []byte, pos *int) int {
 
 func gettime(b []byte, pos *int) (h uint16, m uint16) {
 	var sec uint16
-	binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &sec)
+	_ = binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &sec)
 	h = sec / 60
 	m = sec % 60
-	(*pos) += 2
+	*pos += 2
 	return
 }
 
@@ -85,10 +85,10 @@ func getdatetime(category int, b []byte, pos *int) (year int, month int, day int
 	hour = 15
 	if category < 4 || category == 7 || category == 8 {
 		var zipday, tminutes uint16
-		binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &zipday)
-		(*pos) += 2
-		binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &tminutes)
-		(*pos) += 2
+		_ = binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &zipday)
+		*pos += 2
+		_ = binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &tminutes)
+		*pos += 2
 
 		year = int((zipday >> 11) + 2004)
 		month = int((zipday % 2048) / 100)
@@ -97,8 +97,8 @@ func getdatetime(category int, b []byte, pos *int) (year int, month int, day int
 		minute = int(tminutes % 60)
 	} else {
 		var zipday uint32
-		binary.Read(bytes.NewBuffer(b[*pos:*pos+4]), binary.LittleEndian, &zipday)
-		(*pos) += 4
+		_ = binary.Read(bytes.NewBuffer(b[*pos:*pos+4]), binary.LittleEndian, &zipday)
+		*pos += 4
 		year = int(zipday / 10000)
 		month = int((zipday % 10000) / 100)
 		day = int(zipday % 100)
