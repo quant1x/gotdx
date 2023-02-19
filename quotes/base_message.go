@@ -4,8 +4,6 @@ import (
 	"bytes"
 	"compress/zlib"
 	"encoding/binary"
-	"fmt"
-	"gitee.com/quant1x/gotdx/util"
 	log "github.com/mymmsc/gox/logger"
 	"io"
 	"net"
@@ -52,7 +50,7 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 
 	// 2. 发送指令
 	retryTimes := 0
-	fmt.Println(util.Bytes2HexString(sendData))
+	//fmt.Println(util.Bytes2HexString(sendData))
 	for {
 		n, err := conn.Write(sendData)
 		if n < len(sendData) {

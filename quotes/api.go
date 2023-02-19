@@ -66,7 +66,6 @@ func (this *StdApi) Close() {
 }
 
 func (this *StdApi) command(msg Message) (interface{}, error) {
-
 	// 2.1 获取TCP连接
 	_conn := this.connPool.GetConn()
 	cli := _conn.(*TcpClient)

@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-// 进行zlib压缩
+// ZlibCompress 进行zlib压缩
 func ZlibCompress(src []byte) ([]byte, error) {
 	var in bytes.Buffer
 	w := zlib.NewWriter(&in)
@@ -21,7 +21,7 @@ func ZlibCompress(src []byte) ([]byte, error) {
 	return in.Bytes(), nil
 }
 
-// 进行zlib解压缩
+// ZlibUnCompress 进行zlib解压缩
 func ZlibUnCompress(compressSrc []byte) ([]byte, error) {
 	b := bytes.NewReader(compressSrc)
 	var out bytes.Buffer
