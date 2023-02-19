@@ -111,7 +111,7 @@ func (this *StdApi) GetFinanceInfo(market proto.Market, code string, num uint16)
 	msg.SetParams(&FinanceInfoRequest{
 		Market: _market,
 		Code:   _code,
-		Num:    num,
+		Count:  num,
 	})
 	reply, err := this.command(msg)
 	if err != nil {

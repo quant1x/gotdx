@@ -19,9 +19,9 @@ type FinanceInfoPackage struct {
 }
 
 type FinanceInfoRequest struct {
-	Num    uint16 // 总数
-	Market uint8
-	Code   [6]byte
+	Count  uint16  // 总数
+	Market uint8   // 市场代码
+	Code   [6]byte // 股票代码
 }
 
 // FinanceInfoReply 响应包结构
