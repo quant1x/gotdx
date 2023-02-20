@@ -160,7 +160,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.Low = obj.getPrice(price, getprice(data, &pos))
 
 		ele.ReversedBytes0 = getprice(data, &pos)
-		ele.ServerTime = fmt.Sprintf("%d", ele.ReversedBytes0)
+		ele.ServerTime = _format_time(fmt.Sprintf("%d", ele.ReversedBytes0))
 		ele.ReversedBytes1 = getprice(data, &pos)
 
 		ele.Vol = getprice(data, &pos)

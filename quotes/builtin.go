@@ -3,7 +3,9 @@ package quotes
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
+	"github.com/mymmsc/gox/api"
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/transform"
 	"io"
@@ -227,4 +229,25 @@ func baseUnit(code string) float64 {
 
 	}
 	return 1000.0
+}
+
+func _format_time(time_stamp string) string {
+	// format time from reversed_bytes0
+	// by using method from https://github.com/rainx/pytdx/issues/187
+	length := len(time_stamp)
+	tm := time_stamp[:length-6] + ":"
+	tmp := time_stamp[length-6 : length-4]
+	n := api.ParseInt(tmp)
+	if n < 60 {
+		tm += fmt.Sprintf("%s:", tmp)
+		tmp = time_stamp[length-4:]
+		f := api.ParseFloat(tmp)
+		tm += fmt.Sprintf("%06.3f", (f*60.0)/10000.00)
+	} else {
+		tmp = time_stamp[length-6:]
+		f := api.ParseFloat(tmp)
+		tm += fmt.Sprintf("%02f.:", (f*60.0)/1000000)
+		tm += fmt.Sprintf("%06.3f", float64(int64(f)*60%1000000)*60/1000000.0)
+	}
+	return tm
 }
