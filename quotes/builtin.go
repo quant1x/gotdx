@@ -246,8 +246,9 @@ func _format_time(time_stamp string) string {
 	} else {
 		tmp = time_stamp[length-6:]
 		f := api.ParseFloat(tmp)
-		tm += fmt.Sprintf("%02f.:", (f*60.0)/1000000)
-		tm += fmt.Sprintf("%06.3f", float64(int64(f)*60%1000000)*60/1000000.0)
+		tm += fmt.Sprintf("%02d:", int64(f*60.0)/1000000)
+		n = int64(f)
+		tm += fmt.Sprintf("%06.3f", float64((n*60)%1000000)*60/1000000.0)
 	}
 	return tm
 }
