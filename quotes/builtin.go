@@ -231,15 +231,16 @@ func baseUnit(code string) float64 {
 	return 1000.0
 }
 
-func _format_time(time_stamp string) string {
+func _format_time0(time_stamp string) string {
 	// format time from reversed_bytes0
 	// by using method from https://github.com/rainx/pytdx/issues/187
 	length := len(time_stamp)
-	tm := time_stamp[:length-6] + ":"
+	t1 := api.ParseInt(time_stamp[:length-6])
+	tm := fmt.Sprintf("%02d:", t1)
 	tmp := time_stamp[length-6 : length-4]
 	n := api.ParseInt(tmp)
 	if n < 60 {
-		tm += fmt.Sprintf("%s:", tmp)
+		tm += fmt.Sprintf("%02s:", tmp)
 		tmp = time_stamp[length-4:]
 		f := api.ParseFloat(tmp)
 		tm += fmt.Sprintf("%06.3f", (f*60.0)/10000.00)
@@ -251,4 +252,65 @@ func _format_time(time_stamp string) string {
 		tm += fmt.Sprintf("%06.3f", float64((n*60)%1000000)*60/1000000.0)
 	}
 	return tm
+}
+
+func time_from_str(time_stamp string) string {
+	// format time from reversed_bytes0
+	// by using method from https://github.com/rainx/pytdx/issues/187
+	length := len(time_stamp)
+	t1 := api.ParseInt(time_stamp[:length-6])
+	tm := fmt.Sprintf("%02d:", t1)
+	tmp := time_stamp[length-6 : length-4]
+	n := api.ParseInt(tmp)
+	if n < 60 {
+		tm += fmt.Sprintf("%02s:", tmp)
+		tmp = time_stamp[length-4:]
+		f := api.ParseFloat(tmp)
+		tm += fmt.Sprintf("%06.3f", (f*60.0)/10000.00)
+	} else {
+		tmp = time_stamp[length-6:]
+		f := api.ParseFloat(tmp)
+		tm += fmt.Sprintf("%02d:", int64(f*60.0)/1000000)
+		n = int64(f)
+		tm += fmt.Sprintf("%06.3f", float64((n*60)%1000000)*60/1000000.0)
+	}
+	return tm
+}
+
+const (
+	__tm_h_width = 1000000
+	__tm_m_width = 10000
+	__tm_t_width = 1000
+)
+
+func time_from_int(stamp int) string {
+	//123456789
+	h := stamp / __tm_h_width
+	tmp1 := stamp % __tm_h_width
+	m1 := tmp1 / __tm_m_width
+	tmp2 := tmp1 % __tm_m_width
+	m := 0
+	s := 0
+	t := 0
+	st := float64(0.00)
+	if m1 < 60 {
+		m = m1
+		tmp3 := tmp2 * 60
+		s = tmp3 / __tm_m_width
+		t = tmp3 % __tm_m_width
+		t /= 10
+		st = float64(tmp3) / __tm_m_width
+	} else {
+		tmp3 := tmp1 * 60
+		m = tmp3 / __tm_h_width
+		tmp4 := (tmp3 % __tm_h_width) * 60
+		s = tmp4 / __tm_h_width
+		t = tmp4 % __tm_h_width
+		t /= 1000
+		st = float64(tmp4) / __tm_h_width
+	}
+	//return fmt.Sprintf("%02d:%02d:%02d.%03d", h, m, s, t)
+	_ = s
+	_ = t
+	return fmt.Sprintf("%02d:%02d:%06.3f", h, m, st)
 }

@@ -8,7 +8,7 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 )
 
-// 盘口五档报价
+// SecurityQuotesPackage 盘口五档报价
 type SecurityQuotesPackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader
@@ -160,7 +160,15 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.Low = obj.getPrice(price, getprice(data, &pos))
 
 		ele.ReversedBytes0 = getprice(data, &pos)
-		ele.ServerTime = _format_time(fmt.Sprintf("%d", ele.ReversedBytes0))
+		if ele.ReversedBytes0 > 0 {
+			ele.ServerTime = time_from_str(fmt.Sprintf("%d", ele.ReversedBytes0))
+			ele.ServerTime = time_from_int(ele.ReversedBytes0)
+		} else {
+			ele.ServerTime = "0"
+			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
+			ele.Code = proto.StockDelisting
+		}
+
 		ele.ReversedBytes1 = getprice(data, &pos)
 
 		ele.Vol = getprice(data, &pos)
