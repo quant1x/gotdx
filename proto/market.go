@@ -11,6 +11,8 @@ const (
 	MarketShenZhen Market = iota // 深圳
 	MarketShangHai Market = 1    // 上海
 	MarketBeiJing  Market = 2    // 北京
+
+	StockDelisting = "DELISTING"
 )
 
 // GetMarket 判断股票ID对应的证券市场匹配规则
