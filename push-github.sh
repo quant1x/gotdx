@@ -2,6 +2,7 @@
 
 set -e
 git remote set-url origin https://github.com/quant1x/gotdx.git
-git push --all
+git checkout master
+git push
 git push --tags
 git remote -vv

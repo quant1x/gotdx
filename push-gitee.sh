@@ -3,6 +3,7 @@
 set -e
 
 git remote set-url origin https://gitee.com/quant1x/gotdx.git
-git push --all
+git checkout master
+git push
 git push --tags
 git remote -vv
