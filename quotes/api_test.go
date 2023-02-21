@@ -52,7 +52,7 @@ func TestStdApi_ALL(t *testing.T) {
 
 	// 6 index kline
 
-	ikl, err := stdApi.GetIndexBars(proto.MarketShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 1)
+	ikl, err := stdApi.GetIndexBars(proto.MarketShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

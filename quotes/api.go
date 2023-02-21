@@ -156,12 +156,12 @@ func (this *StdApi) GetSecurityList(market proto.Market, start uint16) (*Securit
 }
 
 // GetIndexBars 指数K线
-func (this *StdApi) GetIndexBars(market proto.Market, code string, category uint16, start uint16, count uint16) (*IndexBarsReply, error) {
+func (this *StdApi) GetIndexBars(market proto.Market, code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
 	msg := NewIndexBarsPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
 	copy(_code[:], code)
-	msg.SetParams(&IndexBarsRequest{
+	msg.SetParams(&SecurityBarsRequest{
 		Market:   _market,
 		Code:     _code,
 		Category: category,
@@ -172,7 +172,7 @@ func (this *StdApi) GetIndexBars(market proto.Market, code string, category uint
 	if err != nil {
 		return nil, err
 	}
-	return reply.(*IndexBarsReply), err
+	return reply.(*SecurityBarsReply), err
 }
 
 // GetSecurityCount 获取指定市场内的证券数目

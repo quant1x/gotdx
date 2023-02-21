@@ -12,49 +12,51 @@ import (
 type IndexBarsPackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader
-	request    *IndexBarsRequest
-	reply      *IndexBarsReply
+	//request    *IndexBarsRequest
+	//reply      *IndexBarsReply
+	request *SecurityBarsRequest
+	reply   *SecurityBarsReply
 
 	contentHex string
 }
 
-type IndexBarsRequest struct {
-	Market   uint16
-	Code     [6]byte
-	Category uint16 // 种类 5分钟  10分钟
-	I        uint16 // 未知 填充
-	Start    uint16
-	Count    uint16
-}
-
-type IndexBarsReply struct {
-	Count uint16
-	List  []IndexBar
-}
-
-type IndexBar struct {
-	Open      float64
-	Close     float64
-	High      float64
-	Low       float64
-	Vol       float64
-	Amount    float64
-	Year      int
-	Month     int
-	Day       int
-	Hour      int
-	Minute    int
-	DateTime  string
-	UpCount   uint16
-	DownCount uint16
-}
+//type IndexBarsRequest struct {
+//	Market   uint16
+//	Code     [6]byte
+//	Category uint16 // 种类 5分钟  10分钟
+//	I        uint16 // 未知 填充
+//	Start    uint16
+//	Count    uint16
+//}
+//
+//type IndexBarsReply struct {
+//	Count uint16
+//	List  []IndexBar
+//}
+//
+//type IndexBar struct {
+//	Open      float64
+//	Close     float64
+//	High      float64
+//	Low       float64
+//	Vol       float64
+//	Amount    float64
+//	Year      int
+//	Month     int
+//	Day       int
+//	Hour      int
+//	Minute    int
+//	DateTime  string
+//	UpCount   uint16
+//	DownCount uint16
+//}
 
 func NewIndexBarsPackage() *IndexBarsPackage {
 	obj := new(IndexBarsPackage)
 	obj.reqHeader = new(StdRequestHeader)
 	obj.respHeader = new(StdResponseHeader)
-	obj.request = new(IndexBarsRequest)
-	obj.reply = new(IndexBarsReply)
+	obj.request = new(SecurityBarsRequest)
+	obj.reply = new(SecurityBarsReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -65,7 +67,7 @@ func NewIndexBarsPackage() *IndexBarsPackage {
 	obj.contentHex = "00000000000000000000"
 	return obj
 }
-func (obj *IndexBarsPackage) SetParams(req *IndexBarsRequest) {
+func (obj *IndexBarsPackage) SetParams(req *SecurityBarsRequest) {
 	obj.request = req
 	obj.request.I = 1
 }
@@ -98,7 +100,7 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 	pre_diff_base := 0
 	//lasttime := ""
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := IndexBar{}
+		ele := SecurityBar{}
 
 		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getdatetime(int(obj.request.Category), data, &pos)
 
@@ -116,18 +118,18 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 		price_low_diff := getprice(data, &pos)
 
 		var ivol uint32
-		binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
 		ele.Vol = getvolume(int(ivol))
 		pos += 4
 
 		var dbvol uint32
-		binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
 		ele.Amount = getvolume(int(dbvol))
 		pos += 4
 
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.UpCount)
+		//binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.UpCount)
 		pos += 2
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.DownCount)
+		//binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.DownCount)
 		pos += 2
 
 		ele.Open = float64(price_open_diff+pre_diff_base) / 1000.0
