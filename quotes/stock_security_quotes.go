@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
 )
 
@@ -161,7 +160,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 
 		ele.ReversedBytes0 = getprice(data, &pos)
 		if ele.ReversedBytes0 > 0 {
-			ele.ServerTime = time_from_str(fmt.Sprintf("%d", ele.ReversedBytes0))
+			//ele.ServerTime = time_from_str(fmt.Sprintf("%d", ele.ReversedBytes0))
 			ele.ServerTime = time_from_int(ele.ReversedBytes0)
 		} else {
 			ele.ServerTime = "0"
