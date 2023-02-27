@@ -281,3 +281,21 @@ func (this *StdApi) GetHistoryTransactionData(market proto.Market, code string, 
 	}
 	return reply.(*HistoryTransactionReply), err
 }
+
+// GetHistoryTransactionData 获取历史分时成交
+func (this *StdApi) GetXdxrInfo(market proto.Market, code string) ([]XdxrInfo, error) {
+	obj := NewXdxrInfoPackage()
+	_code := [6]byte{}
+	_market := market
+	copy(_code[:], code)
+	obj.SetParams(&XdxrInfoRequest{
+		Market: _market,
+		Code:   _code,
+		//Count:  1,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.([]XdxrInfo), err
+}

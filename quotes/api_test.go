@@ -37,7 +37,7 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", fi)
 
 	// 4. kline
-	kl, err := stdApi.GetKLine(proto.MarketShenZhen, "000002", proto.KLINE_TYPE_RI_K, 0, 1)
+	kl, err := stdApi.GetKLine(proto.MarketShenZhen, "002528", proto.KLINE_TYPE_RI_K, 2800, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -51,7 +51,6 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", sl)
 
 	// 6 index kline
-
 	ikl, err := stdApi.GetIndexBars(proto.MarketShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
@@ -96,4 +95,13 @@ func TestStdApi_ALL(t *testing.T) {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", htd)
+	// 13. 除权除息
+	xdxr, err := stdApi.GetXdxrInfo(proto.MarketShenZhen, "002528")
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", xdxr)
+	//df := pandas.LoadStructs(xdxr)
+	//fmt.Println(df)
+	//df.WriteCSV("1.csv")
 }

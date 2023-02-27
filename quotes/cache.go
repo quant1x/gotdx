@@ -2,8 +2,8 @@ package quotes
 
 import (
 	"encoding/json"
-	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/logger"
+	"github.com/mymmsc/gox/util/homedir"
 	"os"
 )
 
@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	_path, err := util.Expand(tdx_path)
+	_path, err := homedir.Expand(tdx_path)
 	if err == nil {
 		config_path = _path
 	}

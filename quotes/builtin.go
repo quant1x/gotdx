@@ -108,6 +108,22 @@ func getdatetime(category int, b []byte, pos *int) (year int, month int, day int
 	return
 }
 
+func getdatetimeFromUint32(category int, zipday uint32, tminutes uint16) (year int, month int, day int, hour int, minute int) {
+	hour = 15
+	if category < 4 || category == 7 || category == 8 {
+		year = int((zipday >> 11) + 2004)
+		month = int((zipday % 2048) / 100)
+		day = int((zipday % 2048) % 100)
+		hour = int(tminutes / 60)
+		minute = int(tminutes % 60)
+	} else {
+		year = int(zipday / 10000)
+		month = int((zipday % 10000) / 100)
+		day = int(zipday % 100)
+	}
+	return
+}
+
 func getdatetimenow(category int, lasttime string) (year int, month int, day int, hour int, minute int) {
 	utime, _ := time.Parse("2006-01-02 15:04:05", lasttime)
 	switch category {
