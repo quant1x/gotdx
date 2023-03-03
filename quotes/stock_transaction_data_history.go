@@ -12,7 +12,7 @@ type HistoryTransactionPackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader
 	request    *HistoryTransactionRequest
-	reply      *HistoryTransactionReply
+	reply      *TransactionReply
 
 	contentHex string
 }
@@ -25,25 +25,25 @@ type HistoryTransactionRequest struct {
 	Count  uint16
 }
 
-type HistoryTransactionReply struct {
-	Count uint16
-	List  []HistoryTransaction
-}
-
-type HistoryTransaction struct {
-	Time      string
-	Price     float64
-	Vol       int
-	Num       int
-	BuyOrSell int
-}
+//type HistoryTransactionReply struct {
+//	Count uint16
+//	List  []HistoryTransaction
+//}
+//
+//type HistoryTransaction struct {
+//	Time      string
+//	Price     float64
+//	Vol       int
+//	Num       int
+//	BuyOrSell int
+//}
 
 func NewHistoryTransactionPackage() *HistoryTransactionPackage {
 	obj := new(HistoryTransactionPackage)
 	obj.reqHeader = new(StdRequestHeader)
 	obj.respHeader = new(StdResponseHeader)
 	obj.request = new(HistoryTransactionRequest)
-	obj.reply = new(HistoryTransactionReply)
+	obj.reply = new(TransactionReply)
 
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
@@ -89,7 +89,7 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := HistoryTransaction{}
+		ele := TickTransaction{}
 		h, m := gettime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", h, m)
 		rawPrice := getprice(data, &pos)

@@ -263,7 +263,7 @@ func (this *StdApi) GetTransactionData(market proto.Market, code string, start u
 }
 
 // GetHistoryTransactionData 获取历史分时成交
-func (this *StdApi) GetHistoryTransactionData(market proto.Market, code string, date uint32, start uint16, count uint16) (*HistoryTransactionReply, error) {
+func (this *StdApi) GetHistoryTransactionData(market proto.Market, code string, date uint32, start uint16, count uint16) (*TransactionReply, error) {
 	obj := NewHistoryTransactionPackage()
 	_code := [6]byte{}
 	_market := uint16(market)
@@ -279,7 +279,7 @@ func (this *StdApi) GetHistoryTransactionData(market proto.Market, code string, 
 	if err != nil {
 		return nil, err
 	}
-	return reply.(*HistoryTransactionReply), err
+	return reply.(*TransactionReply), err
 }
 
 // GetHistoryTransactionData 获取历史分时成交
