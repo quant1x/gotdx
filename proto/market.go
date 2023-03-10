@@ -30,6 +30,8 @@ func GetMarket(symbol string) string {
 		market = "sz"
 	} else if util.StartsWith(symbol, []string{"5", "6", "9", "7"}) {
 		market = "sh"
+	} else if util.StartsWith(symbol, []string{"88"}) {
+		market = "sh"
 	} else if util.StartsWith(symbol, []string{"4", "8"}) {
 		market = "bj"
 	}
