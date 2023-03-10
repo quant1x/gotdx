@@ -3,6 +3,8 @@ package quotes
 import (
 	"errors"
 	"gitee.com/quant1x/gotdx/proto"
+	"github.com/mymmsc/gox/api"
+	"io"
 	"strconv"
 	"strings"
 )
@@ -282,7 +284,7 @@ func (this *StdApi) GetHistoryTransactionData(market proto.Market, code string, 
 	return reply.(*TransactionReply), err
 }
 
-// GetHistoryTransactionData 获取历史分时成交
+// GetXdxrInfo 获取除权除息信息
 func (this *StdApi) GetXdxrInfo(market proto.Market, code string) ([]XdxrInfo, error) {
 	obj := NewXdxrInfoPackage()
 	_code := [6]byte{}
@@ -298,4 +300,66 @@ func (this *StdApi) GetXdxrInfo(market proto.Market, code string) ([]XdxrInfo, e
 		return nil, err
 	}
 	return reply.([]XdxrInfo), err
+}
+
+func (this *StdApi) GetBlockMeta(block_file string) (*BlockMeta, error) {
+	obj := NewBlockMetaPackage()
+	_code := [40]byte{}
+	bf := api.String2Bytes(block_file)
+	copy(_code[:], bf)
+	obj.SetParams(&BlockMetaRequest{
+		BlockFile: _code,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*BlockMeta), err
+}
+
+func (this *StdApi) v1GetBlockInfo(block_file string) (*BlockInfoResponse, error) {
+	obj := NewBlockInfoPackage()
+	_code := [100]byte{}
+	bf := api.String2Bytes(block_file)
+	copy(_code[:], bf)
+	obj.SetParams(&BlockInfoRequest{
+		BlockFile: _code,
+		Start:     0,
+		Size:      BLOCK_CHUNKS_SIZE,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*BlockInfoResponse), err
+}
+
+func (this *StdApi) GetBlockInfo(block_file string) (*BlockInfoResponse, error) {
+	var resp BlockInfoResponse
+	_code := [100]byte{}
+	bf := api.String2Bytes(block_file)
+	copy(_code[:], bf)
+	start := uint32(0)
+	for {
+		obj := NewBlockInfoPackage()
+		obj.SetParams(&BlockInfoRequest{
+			BlockFile: _code,
+			Start:     start,
+			Size:      BLOCK_CHUNKS_SIZE,
+		})
+		reply, err := this.command(obj)
+		if err != nil {
+			return nil, err
+		}
+		tmp := reply.(*BlockInfoResponse)
+		resp.Size += tmp.Size
+		resp.Data = append(resp.Data, tmp.Data...)
+		if tmp.Size == 0 {
+			return nil, io.EOF
+		} else if tmp.Size < BLOCK_CHUNKS_SIZE {
+			break
+		}
+		start += tmp.Size
+	}
+	return &resp, nil
 }

@@ -127,9 +127,9 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 		ele.Amount = getvolume(int(dbvol))
 		pos += 4
 
-		//binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.UpCount)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.UpCount)
 		pos += 2
-		//binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.DownCount)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.DownCount)
 		pos += 2
 
 		ele.Open = float64(price_open_diff+pre_diff_base) / 1000.0

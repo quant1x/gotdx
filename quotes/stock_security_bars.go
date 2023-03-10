@@ -8,6 +8,10 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 )
 
+const (
+	TDX_SECURITY_BARS_MAX = uint16(800) // 单次最大获取800条K线数据
+)
+
 // SecurityBars K线
 type SecurityBarsPackage struct {
 	reqHeader  *StdRequestHeader
@@ -34,20 +38,20 @@ type SecurityBarsReply struct {
 
 // SecurityBar K线数据
 type SecurityBar struct {
-	Open     float64
-	Close    float64
-	High     float64
-	Low      float64
-	Vol      float64
-	Amount   float64
-	Year     int
-	Month    int
-	Day      int
-	Hour     int
-	Minute   int
-	DateTime string
-	//UpCount   uint16
-	//DownCount uint16
+	Open      float64
+	Close     float64
+	High      float64
+	Low       float64
+	Vol       float64
+	Amount    float64
+	Year      int
+	Month     int
+	Day       int
+	Hour      int
+	Minute    int
+	DateTime  string
+	UpCount   uint16 // 指数有效, 上涨家数
+	DownCount uint16 // 指数有效, 下跌家数
 }
 
 func NewSecurityBarsPackage() *SecurityBarsPackage {

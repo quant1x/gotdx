@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 type MinuteTimePackage struct {
@@ -45,8 +46,8 @@ func NewMinuteTimePackage() *MinuteTimePackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = 0x051d
-	//obj.reqHeader.Method = KMSG_MINUTETIMEDATA
+	//obj.reqHeader.Method = 0x051d
+	obj.reqHeader.Method = proto.KMSG_MINUTETIMEDATA
 	obj.contentHex = ""
 	return obj
 }

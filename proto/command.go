@@ -19,10 +19,11 @@ const (
 	KMSG_HISTORYTRANSACTIONDATA = 0x0fb5 // 历史分笔成交信息
 	KMSG_INDEXBARS              = 0x052d // 指数K线
 	KMSG_SECURITYBARS           = 0x052d // 股票K线
-	KMSG_MINUTETIMEDATA         = 0x0537 // 分时数据
-	KMSG_SECURITYLIST           = 0x0450 // 证券列表
-	KMSG_SECURITYQUOTES         = 0x053e // 行情信息
-	KMSG_TRANSACTIONDATA        = 0x0fc5 // 分笔成交信息
-	KMSG_XDXRINFO               = 0x000f // 除权除息信息
+	//KMSG_MINUTETIMEDATA         = 0x0537 // 分时数据
+	KMSG_MINUTETIMEDATA  = 0x051d // 分时数据
+	KMSG_SECURITYLIST    = 0x0450 // 证券列表
+	KMSG_SECURITYQUOTES  = 0x053e // 行情信息
+	KMSG_TRANSACTIONDATA = 0x0fc5 // 分笔成交信息
+	KMSG_XDXRINFO        = 0x000f // 除权除息信息
 
 )

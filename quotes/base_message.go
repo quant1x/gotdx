@@ -11,23 +11,23 @@ import (
 
 // StdRequestHeader 标准行情-请求-消息头
 type StdRequestHeader struct {
-	Zip        uint8  // ZipFlag
-	SeqID      uint32 // 请求编号
-	PacketType uint8
-	PkgLen1    uint16
-	PkgLen2    uint16
-	Method     uint16 // method 请求方法
+	Zip        uint8  `struc:"uint8,little"`  // ZipFlag
+	SeqID      uint32 `struc:"uint32,little"` // 请求编号
+	PacketType uint8  `struc:"uint8,little"`  // 包类型
+	PkgLen1    uint16 `struc:"uint16,little"`
+	PkgLen2    uint16 `struc:"uint16,little"`
+	Method     uint16 `struc:"uint16,little"` // method 请求方法
 }
 
 // StdResponseHeader 标准行情-响应-消息头
 type StdResponseHeader struct {
-	I1        uint32
-	I2        uint8
-	SeqID     uint32 // 请求编号
-	I3        uint8
-	Method    uint16 // method
-	ZipSize   uint16 // 长度
-	UnZipSize uint16 // 未压缩长度
+	I1        uint32 `struc:"uint32,little"`
+	I2        uint8  `struc:"uint8,little"`
+	SeqID     uint32 `struc:"uint32,little"` // 请求编号
+	I3        uint8  `struc:"uint8,little"`
+	Method    uint16 `struc:"uint16,little"` // method
+	ZipSize   uint16 `struc:"uint16,little"` // 长度
+	UnZipSize uint16 `struc:"uint16,little"` // 未压缩长度
 }
 
 // Message 消息接口

@@ -6,6 +6,10 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 )
 
+const (
+	TDX_SECURITY_LIST_MAX = uint16(1000) // 单次最大获取多少条股票数据
+)
+
 // SecurityListPackage 股票列表
 type SecurityListPackage struct {
 	reqHeader  *StdRequestHeader
@@ -29,9 +33,11 @@ type SecurityListReply struct {
 type Security struct {
 	Code         string
 	VolUnit      uint16
+	Reversed1    [4]byte
 	DecimalPoint int8
 	Name         string
 	PreClose     float64
+	Reversed2    [4]byte
 }
 
 func NewSecurityListPackage() *SecurityListPackage {
@@ -78,27 +84,29 @@ func (obj *SecurityListPackage) UnSerialize(header interface{}, data []byte) err
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := Security{}
 		var code [6]byte
-		binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
 		pos += 6
 		ele.Code = string(code[:])
 
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.VolUnit)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.VolUnit)
 		pos += 2
 
 		var name [8]byte
-		binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &name)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &name)
+		ele.Name = Utf8ToGbk(name[:])
 		pos += 8
 
-		ele.Code = Utf8ToGbk(name[:])
-
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed1)
 		pos += 4
-		binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.DecimalPoint)
+
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.DecimalPoint)
 		pos += 1
 		var precloseraw uint32
-		binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &precloseraw)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &precloseraw)
+		ele.PreClose = getvolume(int(precloseraw))
 		pos += 4
 
-		ele.PreClose = getvolume(int(precloseraw))
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed2)
 		pos += 4
 
 		obj.reply.List = append(obj.reply.List, ele)

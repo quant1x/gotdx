@@ -37,25 +37,25 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", fi)
 
 	// 4. kline
-	kl, err := stdApi.GetKLine(proto.MarketShenZhen, "002528", proto.KLINE_TYPE_RI_K, 2800, 800)
+	kl, err := stdApi.GetKLine(proto.MarketShenZhen, "002528", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
-	fmt.Printf("%+v\n", kl)
+	fmt.Printf("GetKLine: %+v\n", kl)
 
 	// 5. stock list
-	sl, err := stdApi.GetSecurityList(proto.MarketShenZhen, 1)
+	sl, err := stdApi.GetSecurityList(proto.MarketShangHai, 0)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
-	fmt.Printf("%+v\n", sl)
+	fmt.Printf("GetSecurityList: %+v\n", sl)
 
 	// 6 index kline
 	ikl, err := stdApi.GetIndexBars(proto.MarketShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
-	fmt.Printf("%+v\n", ikl)
+	fmt.Printf("GetIndexBars: %+v\n", ikl)
 
 	// 7. 获取指定市场内的证券数目
 	sc, err := stdApi.GetSecurityCount(proto.MarketShangHai)
@@ -101,7 +101,17 @@ func TestStdApi_ALL(t *testing.T) {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", xdxr)
-	//df := pandas.LoadStructs(xdxr)
-	//fmt.Println(df)
-	//df.WriteCSV("1.csv")
+	// 14. 板块meta信息
+	blkMeta, err := stdApi.GetBlockMeta(BLOCK_DEFAULT)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", blkMeta)
+
+	// 15. 板块信息
+	blkInfo, err := stdApi.GetBlockInfo(BLOCK_DEFAULT)
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", blkInfo)
 }

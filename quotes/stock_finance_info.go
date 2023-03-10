@@ -41,8 +41,8 @@ type RawFinanceInfo struct {
 	//Unknown1           [2]byte `struc:"[2]byte,little"`
 	Market             uint8   `struc:"uint8,little"`
 	Code               [6]byte `struc:"[6]byte,little"`
-	LiuTongGuBen       float32 `struc:"float32,little"`
-	Province           uint16  `struc:"uint16,little"`
+	LiuTongGuBen       float32 `struc:"float32,little"` // 流通股本
+	Province           uint16  `struc:"uint16,little"`  // 所属省份
 	Industry           uint16  `struc:"uint16,little"`
 	UpdatedDate        uint32  `struc:"uint32,little"`
 	IPODate            uint32  `struc:"uint32,little"`
@@ -50,8 +50,8 @@ type RawFinanceInfo struct {
 	GuoJiaGu           float32 `struc:"float32,little"`
 	FaQiRenFaRenGu     float32 `struc:"float32,little"`
 	FaRenGu            float32 `struc:"float32,little"`
-	BGu                float32 `struc:"float32,little"`
-	HGu                float32 `struc:"float32,little"`
+	BGu                float32 `struc:"float32,little"` // B股
+	HGu                float32 `struc:"float32,little"` // H股
 	ZhiGongGu          float32 `struc:"float32,little"`
 	ZongZiChan         float32 `struc:"float32,little"`
 	LiuDongZiChan      float32 `struc:"float32,little"`
