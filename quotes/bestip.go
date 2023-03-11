@@ -71,12 +71,6 @@ const (
 	GP_HOSTS = `[
 {"name":"默认财务数据线路", "host":"120.76.152.87", "port": 7709}
 ]`
-
-	CONFIG = `{
-"SERVER": {"HQ": HQ_HOSTS, "EX": EX_HOSTS, "GP": GP_HOSTS},
-"BESTIP": {"HQ": "", "EX": "", "GP": ""},
-"TDXDIR": "C:/new_tdx",
-}`
 )
 
 const (
@@ -157,7 +151,7 @@ func detect(srv *Server, test func(addr string)) int64 {
 
 // 标准服务器测试
 func testHQ(addr string) {
-	cli, err := std.NewClientForTest(addr)
+	cli, err := NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
 		data := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
@@ -171,7 +165,7 @@ func testHQ(addr string) {
 
 // 扩展服务器测试
 func testEX(addr string) {
-	cli, err := std.NewClientForTest(addr)
+	cli, err := NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
 		data := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {

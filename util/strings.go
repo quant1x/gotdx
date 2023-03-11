@@ -6,7 +6,6 @@ import (
 	"golang.org/x/text/encoding/traditionalchinese"
 	"golang.org/x/text/transform"
 	"io"
-	"strings"
 )
 
 // DecodeGBK convert GBK to UTF-8
@@ -51,30 +50,4 @@ func EncodeBig5(s []byte) ([]byte, error) {
 		return nil, e
 	}
 	return d, nil
-}
-
-// StartsWith 字符串前缀判断
-func StartsWith(str string, prefixs []string) bool {
-	if len(str) == 0 || len(prefixs) == 0 {
-		return false
-	}
-	for _, prefix := range prefixs {
-		if strings.HasPrefix(str, prefix) {
-			return true
-		}
-	}
-	return false
-}
-
-// EndsWith 字符串前缀判断
-func EndsWith(str string, suffixs []string) bool {
-	if len(str) == 0 || len(suffixs) == 0 {
-		return false
-	}
-	for _, prefix := range suffixs {
-		if strings.HasSuffix(str, prefix) {
-			return true
-		}
-	}
-	return false
 }

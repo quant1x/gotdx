@@ -1,7 +1,7 @@
 package proto
 
 import (
-	"gitee.com/quant1x/gotdx/util"
+	"github.com/mymmsc/gox/api"
 	"strings"
 )
 
@@ -22,17 +22,17 @@ const (
 //	['5', '6', '9'] 开头的为 sh， 其余为 sz
 func GetMarket(symbol string) string {
 	market := "sh"
-	if util.StartsWith(symbol, []string{"sh", "sz", "SH", "SZ"}) {
+	if api.StartsWith(symbol, []string{"sh", "sz", "SH", "SZ"}) {
 		market = strings.ToLower(symbol[0:2])
-	} else if util.StartsWith(symbol, []string{"50", "51", "60", "68", "90", "110", "113", "132", "204"}) {
+	} else if api.StartsWith(symbol, []string{"50", "51", "60", "68", "90", "110", "113", "132", "204"}) {
 		market = "sh"
-	} else if util.StartsWith(symbol, []string{"00", "12", "13", "18", "15", "16", "18", "20", "30", "39", "115", "1318"}) {
+	} else if api.StartsWith(symbol, []string{"00", "12", "13", "18", "15", "16", "18", "20", "30", "39", "115", "1318"}) {
 		market = "sz"
-	} else if util.StartsWith(symbol, []string{"5", "6", "9", "7"}) {
+	} else if api.StartsWith(symbol, []string{"5", "6", "9", "7"}) {
 		market = "sh"
-	} else if util.StartsWith(symbol, []string{"88"}) {
+	} else if api.StartsWith(symbol, []string{"88"}) {
 		market = "sh"
-	} else if util.StartsWith(symbol, []string{"4", "8"}) {
+	} else if api.StartsWith(symbol, []string{"4", "8"}) {
 		market = "bj"
 	}
 	return market

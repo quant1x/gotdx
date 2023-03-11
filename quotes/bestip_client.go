@@ -1,16 +1,15 @@
-package std
+package quotes
 
 import (
 	"errors"
+	"fmt"
+	"gitee.com/quant1x/gotdx/proto/std"
 	"gitee.com/quant1x/gotdx/util"
-	"log"
 	"net"
-	"strconv"
-	"strings"
 	"time"
 )
 
-type Client struct {
+type LabClient struct {
 	conn net.Conn
 	addr string
 	//Host          string
@@ -20,47 +19,13 @@ type Client struct {
 	RetryDuration time.Duration
 }
 
-// NewClient 创建BaseClient实例
-func NewClient(host string, port int) (*Client, error) {
-	addr := strings.Join([]string{host, strconv.Itoa(port)}, ":")
-
-	return NewClient2(addr)
-}
-
-func NewClient2(addr string) (*Client, error) {
-	conn, err := net.Dial("tcp", addr) // net.DialTimeout()
-
-	if err != nil {
-		//log.Println(err)
-		return nil, err
-	}
-	return &Client{
-		conn: conn,
-		addr: addr,
-		//Host:          host,
-		//Port:          port,
-		MaxRetryTimes: 5,
-		Timeout:       1 * time.Second,
-		RetryDuration: time.Millisecond * 200,
-	}, nil
-}
-
-func NewClientForTest(addr string) (*Client, error) {
-	//defer func() {
-	//	if info := recover(); info != nil {
-	//		fmt.Println("触发了宕机", info)
-	//	} else {
-	//		fmt.Println("程序正常退出")
-	//	}
-	//}()
+func NewClientForTest(addr string) (*LabClient, error) {
 	conn, err := net.DialTimeout("tcp", addr, 1*time.Second) // net.DialTimeout()
-
 	if err != nil {
-		//log.Fatalln(err)
-		log.Println(err)
+		fmt.Printf("connect %s, %+v\n", addr, err)
 		return nil, err
 	}
-	return &Client{
+	return &LabClient{
 		conn: conn,
 		addr: addr,
 		//Host:          host,
@@ -71,7 +36,7 @@ func NewClientForTest(addr string) (*Client, error) {
 	}, nil
 }
 
-func (cli *Client) Do(request Marshaler, response Unmarshaler) error {
+func (cli *LabClient) Do(request std.Marshaler, response std.Unmarshaler) error {
 	// 序列化请求
 	req, err := request.Marshal()
 	if err != nil {
@@ -85,7 +50,7 @@ SEND:
 	if n < len(req) {
 		retryTimes += 1
 		if retryTimes <= cli.MaxRetryTimes {
-			log.Printf("第%d次重试\n", retryTimes)
+			fmt.Printf("第%d次重试\n", retryTimes)
 			goto SEND
 		} else {
 			return errors.New("数据未完整发送")
@@ -95,7 +60,7 @@ SEND:
 		return err
 	}
 	// 解析响应包头
-	var header PacketHeader
+	var header std.PacketHeader
 	// 读取包头 大小为16个字节
 	// 单次获取的字列流
 	headerLength := 0x10
@@ -103,7 +68,6 @@ SEND:
 	// 调用socket获取字节流并保存到data中
 	headerBytes, err = cli.receive(headerLength)
 	if err != nil {
-		//log.Println(err)
 		return err
 	}
 	err = header.Unmarshal(headerBytes)
@@ -128,7 +92,7 @@ SEND:
 	return nil
 }
 
-func (cli *Client) receive(length int) (data []byte, err error) {
+func (cli *LabClient) receive(length int) (data []byte, err error) {
 	var (
 		receivedSize int
 	)
@@ -137,7 +101,7 @@ READ:
 	// 设置读timeout
 	err = cli.conn.SetReadDeadline(time.Now().Add(cli.Timeout))
 	if err != nil {
-		log.Println("setReadDeadline failed:", err)
+		fmt.Println("setReadDeadline failed:", err)
 	}
 	// 调用socket获取字节流并保存到data中
 	receivedSize, err = cli.conn.Read(tmp)
@@ -160,6 +124,6 @@ READ:
 	return
 }
 
-func (cli *Client) Close() error {
+func (cli *LabClient) Close() error {
 	return cli.conn.Close()
 }
