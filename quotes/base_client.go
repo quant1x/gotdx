@@ -63,7 +63,7 @@ func (client *TcpClient) Connect() error {
 	return nil
 }
 
-// Disconnect 断开服务器
+// Close 断开服务器
 func (client *TcpClient) Close() error {
 	return client.conn.Close()
 }
