@@ -7,6 +7,7 @@ import (
 	log "github.com/mymmsc/gox/logger"
 	"io"
 	"net"
+	"time"
 )
 
 // StdRequestHeader 标准行情-请求-消息头
@@ -71,6 +72,11 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	// 3. 读取响应
 	// 3.1 读取响应的消息头
 	headerBytes := make([]byte, MessageHeaderBytes)
+	// 设置读timeout
+	err = conn.SetReadDeadline(time.Now().Add(opt.Timeout))
+	if err != nil {
+		return err
+	}
 	_, err = io.ReadFull(conn, headerBytes)
 	if err != nil {
 		return err
@@ -89,6 +95,11 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	}
 	// 3.4 读取响应的消息体
 	msgData := make([]byte, header.ZipSize)
+	// 设置读timeout
+	err = conn.SetReadDeadline(time.Now().Add(opt.Timeout))
+	if err != nil {
+		return err
+	}
 	_, err = io.ReadFull(conn, msgData)
 	if err != nil {
 		return err
