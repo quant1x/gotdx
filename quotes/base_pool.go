@@ -11,8 +11,8 @@ const (
 	POOL_INITED = 1
 	// POOL_MAX 连接池最大 2
 	POOL_MAX = 2
-	// CONN_TIMEOUT 链接超时 30 s
-	CONN_TIMEOUT = 30
+	// CONN_TIMEOUT 链接超时 10 s
+	CONN_TIMEOUT = 10
 )
 
 // ConnPool 连接池
@@ -27,7 +27,7 @@ func NewConnPool(opt Opt, size int, factory func() (interface{}, error), close f
 		size = POOL_INITED
 	}
 
-	//创建一个连接池: 初始化5,最大连接30
+	// 创建一个连接池: 初始化5,最大连接30
 	poolConfig := &pool.Config{
 		InitialCap: POOL_INITED,
 		MaxCap:     POOL_MAX,
@@ -56,6 +56,10 @@ func (p *ConnPool) GetConn() interface{} {
 		return nil
 	}
 	return conn
+}
+
+func (p *ConnPool) CloseConn(conn interface{}) error {
+	return p.pool.Close(conn)
 }
 
 func (p *ConnPool) ReturnConn(conn interface{}) {
