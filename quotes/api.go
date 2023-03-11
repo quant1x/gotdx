@@ -54,9 +54,8 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		return client.Close()
 	}
 	_ping := func(v interface{}) error {
-		//client := v.(*TcpClient)
-		//return stdApi.tdx_ping(client)
-		return nil
+		client := v.(*TcpClient)
+		return stdApi.tdx_ping(client)
 	}
 	cp, err := NewConnPool(opt, size, _factory, _close, _ping)
 	if err != nil {
