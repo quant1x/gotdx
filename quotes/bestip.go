@@ -3,8 +3,8 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto/v1"
-	v2 "gitee.com/quant1x/gotdx/proto/v2"
+	"gitee.com/quant1x/gotdx/proto/ex"
+	"gitee.com/quant1x/gotdx/proto/std"
 	"github.com/mymmsc/gox/util/lambda"
 	"math"
 	"strconv"
@@ -157,11 +157,11 @@ func detect(srv *Server, test func(addr string)) int64 {
 
 // 标准服务器测试
 func testHQ(addr string) {
-	cli, err := v1.NewClientForTest(addr)
+	cli, err := std.NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
-		data := CommandWithConn(cli, func() (req v1.Marshaler, resp v1.Unmarshaler, err error) {
-			req, resp, err = v1.NewSetupCmd1()
+		data := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
+			req, resp, err = std.NewSetupCmd1()
 			return
 		})
 		fmt.Printf("%+v\n", data)
@@ -171,11 +171,11 @@ func testHQ(addr string) {
 
 // 扩展服务器测试
 func testEX(addr string) {
-	cli, err := v1.NewClientForTest(addr)
+	cli, err := std.NewClientForTest(addr)
 	if err == nil {
 		// CMD信令 1
-		data := CommandWithConn(cli, func() (req v1.Marshaler, resp v1.Unmarshaler, err error) {
-			req, resp, err = v2.NewExCmd1()
+		data := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
+			req, resp, err = ex.NewExCmd1()
 			return
 		})
 		fmt.Printf("%+v\n", data)
