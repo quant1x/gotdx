@@ -120,12 +120,12 @@ func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) err
 		price_low_diff := getprice(data, &pos)
 
 		var ivol uint32
-		binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
 		ele.Vol = getvolume(int(ivol))
 		pos += 4
 
 		var dbvol uint32
-		binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
 		ele.Amount = getvolume(int(dbvol))
 		pos += 4
 
