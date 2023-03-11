@@ -1,4 +1,4 @@
-package v1
+package std
 
 // 获取股票列表
 import (
@@ -70,13 +70,13 @@ type Stock struct {
 	PreClose     float64 `json:"pre_close"`
 }
 
-// 响应包结构
+// GetSecurityListResponse 响应包结构
 type GetSecurityListResponse struct {
 	Count  int     `struc:"uint16,little,sizeof=Stocks" json:"count"`
 	Stocks []Stock `struc:"[29]byte, little" json:"stocks"`
 }
 
-// 内部套用原始结构解析，外部为经过解析之后的响应信息
+// Unmarshal 内部套用原始结构解析，外部为经过解析之后的响应信息
 func (resp *GetSecurityListResponse) Unmarshal(data []byte) error {
 	var raw getSecurityListResponseRaw
 	err := raw.Unmarshal(data)

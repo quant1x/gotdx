@@ -1,7 +1,7 @@
-package v2
+package ex
 
 import (
-	v1 "gitee.com/quant1x/gotdx/proto/v1"
+	v1 "gitee.com/quant1x/gotdx/proto/std"
 	"gitee.com/quant1x/gotdx/util"
 )
 

@@ -1,20 +1,20 @@
-package v1
+package std
 
 import (
 	"gitee.com/quant1x/gotdx/util"
 )
 
-// 请求包结构
+// SetupCmd3Request 请求包结构
 type SetupCmd3Request struct {
 	Cmd []byte `struc:"[42]byte" json:"cmd"`
 }
 
-// 请求包序列化输出
+// Marshal 请求包序列化输出
 func (req *SetupCmd3Request) Marshal() ([]byte, error) {
 	return DefaultMarshal(req)
 }
 
-// 响应包结构
+// SetupCmd3Response 响应包结构
 type SetupCmd3Response struct {
 	Unknown []byte `json:"unknown"`
 }
@@ -24,7 +24,7 @@ func (resp *SetupCmd3Response) Unmarshal(data []byte) error {
 	return nil
 }
 
-// 创建SetupCmd3请求包
+// NewSetupCmd3Request 创建SetupCmd3请求包
 func NewSetupCmd3Request() (*SetupCmd3Request, error) {
 	request := &SetupCmd3Request{
 		Cmd: util.HexString2Bytes("0c 03 18 99 00 01 20 00 20 00 db 0f d5" +

@@ -1,4 +1,4 @@
-package v1
+package std
 
 import (
 	"errors"
@@ -96,7 +96,7 @@ SEND:
 	}
 	// 解析响应包头
 	var header PacketHeader
-	// 读取包头 大小为16字节
+	// 读取包头 大小为16个字节
 	// 单次获取的字列流
 	headerLength := 0x10
 	headerBytes := make([]byte, headerLength)

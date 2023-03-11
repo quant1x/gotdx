@@ -1,20 +1,20 @@
-package v1
+package std
 
 import (
 	"gitee.com/quant1x/gotdx/util"
 )
 
-// 请求包结构
+// SetupCmd1Request 请求包结构
 type SetupCmd1Request struct {
 	Cmd []byte `struc:"[13]byte" json:"cmd"`
 }
 
-// 请求包序列化输出
+// Marshal 请求包序列化输出
 func (req *SetupCmd1Request) Marshal() ([]byte, error) {
 	return DefaultMarshal(req)
 }
 
-// 响应包结构
+// SetupCmd1Response 响应包结构
 // serverInfo := Utf8ToGbk(data[68:])
 type SetupCmd1Response struct {
 	Unknown []byte `json:"unknown"`

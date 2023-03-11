@@ -1,4 +1,4 @@
-package v1
+package std
 
 // 获取股票列表
 import (
