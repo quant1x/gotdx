@@ -34,7 +34,7 @@ func NewSecurityCountPackage() *SecurityCountPackage {
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
-	obj.reqHeader.Method = proto.KMSG_SECURITYCOUNT
+	obj.reqHeader.Method = proto.STD_MSG_SECURITY_COUNT
 	obj.contentHex = "75c73301" // 未解
 	return obj
 }

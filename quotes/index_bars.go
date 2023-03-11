@@ -63,7 +63,7 @@ func NewIndexBarsPackage() *IndexBarsPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = proto.KMSG_INDEXBARS
+	obj.reqHeader.Method = proto.STD_MSG_INDEXBARS
 	obj.contentHex = "00000000000000000000"
 	return obj
 }

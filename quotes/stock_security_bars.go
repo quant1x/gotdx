@@ -66,7 +66,7 @@ func NewSecurityBarsPackage() *SecurityBarsPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = proto.KMSG_SECURITYBARS
+	obj.reqHeader.Method = proto.STD_MSG_SECURITY_BARS
 	obj.contentHex = "00000000000000000000"
 	return obj
 }

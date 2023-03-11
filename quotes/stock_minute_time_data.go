@@ -47,7 +47,7 @@ func NewMinuteTimePackage() *MinuteTimePackage {
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
 	//obj.reqHeader.Method = 0x051d
-	obj.reqHeader.Method = proto.KMSG_MINUTETIMEDATA
+	obj.reqHeader.Method = proto.STD_MSG_MINUTETIME_DATA
 	obj.contentHex = ""
 	return obj
 }

@@ -60,7 +60,7 @@ func NewBlockMetaPackage() *BlockMetaPackage {
 	//PkgLen2    uint16
 	pkg.reqHeader.PkgLen2 = 0x002a
 	//10 00
-	pkg.reqHeader.Method = proto.KMSG_BLOCKINFOMETA
+	pkg.reqHeader.Method = proto.STD_MSG_BLOCK_META
 	//pkg.contentHex = "0100" // 未解
 	return pkg
 }

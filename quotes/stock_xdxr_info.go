@@ -102,7 +102,7 @@ func NewXdxrInfoPackage() *XdxrInfoPackage {
 	//PkgLen2    uint16
 	pkg.reqHeader.PkgLen2 = 0x000b
 	//10 00
-	pkg.reqHeader.Method = proto.KMSG_XDXRINFO
+	pkg.reqHeader.Method = proto.STD_MSG_XDXR_INFO
 	pkg.contentHex = "0100" // 未解
 	return pkg
 }

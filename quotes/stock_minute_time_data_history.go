@@ -44,8 +44,7 @@ func NewHistoryMinuteTimePackage() *HistoryMinuteTimePackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = proto.KMSG_HISTORYMINUTETIMEDATE
-	//obj.reqHeader.Method = KMSG_MINUTETIMEDATA
+	obj.reqHeader.Method = proto.STD_MSG_HISTORY_MINUTETIME_DATA
 	obj.contentHex = ""
 	return obj
 }

@@ -62,7 +62,7 @@ func NewBlockInfoPackage() *BlockInfoPackage {
 	//PkgLen2    uint16
 	pkg.reqHeader.PkgLen2 = 0x006e
 	//10 00
-	pkg.reqHeader.Method = proto.KMSG_BLOCKINFO
+	pkg.reqHeader.Method = proto.STD_MSG_BLOCK_DATA
 	//pkg.contentHex = "0100" // 未解
 	return pkg
 }

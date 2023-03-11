@@ -54,8 +54,7 @@ func NewTransactionPackage() *TransactionPackage {
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
-	obj.reqHeader.Method = proto.KMSG_TRANSACTIONDATA
-	//obj.reqHeader.Method = KMSG_MINUTETIMEDATA
+	obj.reqHeader.Method = proto.STD_MSG_TRANSACTION_DATA
 	obj.contentHex = ""
 	return obj
 }
