@@ -6,7 +6,16 @@ import (
 	"golang.org/x/text/encoding/traditionalchinese"
 	"golang.org/x/text/transform"
 	"io"
+	"strings"
 )
+
+// Utf8ToGbk utf8 转gbk
+func Utf8ToGbk(text []byte) string {
+	r := bytes.NewReader(text)
+	decoder := transform.NewReader(r, simplifiedchinese.GBK.NewDecoder()) //GB18030
+	content, _ := io.ReadAll(decoder)
+	return strings.ReplaceAll(string(content), string([]byte{0x00}), "")
+}
 
 // DecodeGBK convert GBK to UTF-8
 func DecodeGBK(s []byte) ([]byte, error) {

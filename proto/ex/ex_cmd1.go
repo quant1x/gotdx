@@ -23,7 +23,7 @@ type ExCmd1Response struct {
 
 func (resp *ExCmd1Response) Unmarshal(data []byte) error {
 	//resp.Unknown = data
-	resp.Reply = std.Utf8ToGbk(data[3:53])
+	resp.Reply = util.Utf8ToGbk(data[3:53])
 	return nil
 }
 

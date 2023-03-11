@@ -23,7 +23,7 @@ type SetupCmd1Response struct {
 
 func (resp *SetupCmd1Response) Unmarshal(data []byte) error {
 	//resp.Unknown = data
-	resp.Reply = Utf8ToGbk(data[68:])
+	resp.Reply = util.Utf8ToGbk(data[68:])
 	return nil
 }
 
