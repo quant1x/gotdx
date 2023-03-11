@@ -1,7 +1,7 @@
 package ex
 
 import (
-	v1 "gitee.com/quant1x/gotdx/proto/std"
+	"gitee.com/quant1x/gotdx/proto/std"
 	"gitee.com/quant1x/gotdx/util"
 )
 
@@ -12,7 +12,7 @@ type ExCmd1Request struct {
 
 // Marshal 请求包序列化输出
 func (req *ExCmd1Request) Marshal() ([]byte, error) {
-	return v1.DefaultMarshal(req)
+	return std.DefaultMarshal(req)
 }
 
 // ExCmd1Response 响应包结构
@@ -23,7 +23,7 @@ type ExCmd1Response struct {
 
 func (resp *ExCmd1Response) Unmarshal(data []byte) error {
 	//resp.Unknown = data
-	resp.Reply = v1.Utf8ToGbk(data[3:53])
+	resp.Reply = std.Utf8ToGbk(data[3:53])
 	return nil
 }
 
