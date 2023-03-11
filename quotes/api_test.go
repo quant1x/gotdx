@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
 	"testing"
+	"time"
 )
 
 func TestStdApi_ALL(t *testing.T) {
@@ -56,7 +57,7 @@ func TestStdApi_ALL(t *testing.T) {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("GetIndexBars: %+v\n", ikl)
-
+	time.Sleep(time.Second * 20)
 	// 7. 获取指定市场内的证券数目
 	sc, err := stdApi.GetSecurityCount(proto.MarketShangHai)
 	if err != nil {

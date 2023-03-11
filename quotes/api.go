@@ -4,6 +4,7 @@ import (
 	"errors"
 	"gitee.com/quant1x/gotdx/proto"
 	"github.com/mymmsc/gox/api"
+	"github.com/mymmsc/gox/logger"
 	"io"
 	"strconv"
 	"strings"
@@ -37,9 +38,15 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	opt := Opt{
 		Servers: srvs,
 	}
+	stdApi := StdApi{}
 	_factory := func() (interface{}, error) {
 		client := NewClient(&opt)
 		err := client.Connect()
+		if err != nil {
+			return nil, err
+		}
+		_ = stdApi.tdx_hello1(client)
+		_ = stdApi.tdx_hello2(client)
 		return client, err
 	}
 	_close := func(v interface{}) error {
@@ -47,24 +54,77 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		return client.Close()
 	}
 	_ping := func(v interface{}) error {
-		return nil
+		client := v.(*TcpClient)
+		return stdApi.tdx_ping(client)
 	}
 	cp, err := NewConnPool(opt, size, _factory, _close, _ping)
 	if err != nil {
 		return nil, err
 	}
-	api := StdApi{
-		connPool: cp,
-	}
+	stdApi.connPool = cp
 	// TODO: 假定IP地址有效, IP地址的有效性依靠bestip模块
-	_, _ = api.Hello1()
-	_, _ = api.Hello2()
-	return &api, nil
+	//_, _ = stdApi.Hello1()
+	//_, _ = stdApi.Hello2()
+	return &stdApi, nil
 }
 
 // Close 关闭
 func (this *StdApi) Close() {
 	this.connPool.Close()
+}
+
+// 通过池关闭连接
+func (this *StdApi) poolClose(cli *TcpClient) error {
+	return this.connPool.CloseConn(cli)
+}
+
+func (this *StdApi) tdx_hello1(client *TcpClient) error {
+	opt := client.GetOpt()
+	conn := client.GetConn()
+	// 创建一个hello1消息
+	hello1 := NewHello1()
+	err := process(conn, hello1, opt)
+	if err != nil {
+		_ = this.poolClose(client)
+		return err
+	}
+	reply := hello1.Reply().(*Hello1Reply)
+	logger.Warnf(reply.Info)
+	return nil
+}
+
+func (this *StdApi) tdx_hello2(client *TcpClient) error {
+	opt := client.GetOpt()
+	conn := client.GetConn()
+	// 创建一个hello1消息
+	hello2 := NewHello2()
+	err := process(conn, hello2, opt)
+	if err != nil {
+		_ = this.poolClose(client)
+		return err
+	}
+	reply := hello2.Reply().(*Hello2Reply)
+	logger.Warnf(reply.Info)
+	return nil
+}
+
+func (this *StdApi) tdx_ping(client *TcpClient) error {
+	opt := client.GetOpt()
+	conn := client.GetConn()
+	msg := NewSecurityCountPackage()
+	msg.SetParams(&SecurityCountRequest{
+		Market: uint16(1),
+	})
+	err := process(conn, msg, opt)
+	if err != nil {
+		_ = this.poolClose(client)
+		return err
+	}
+	reply := msg.Reply().(*SecurityCountReply)
+	if reply.Count == 0 {
+		return io.EOF
+	}
+	return nil
 }
 
 func (this *StdApi) command(msg Message) (interface{}, error) {
@@ -75,7 +135,7 @@ func (this *StdApi) command(msg Message) (interface{}, error) {
 	conn := cli.GetConn()
 	err := process(conn, msg, opt)
 	if err != nil {
-		_ = cli.Close()
+		_ = this.poolClose(cli)
 		return nil, err
 	}
 
@@ -144,6 +204,19 @@ func (this *StdApi) GetKLine(market proto.Market, code string, category uint16, 
 	return reply.(*SecurityBarsReply), nil
 }
 
+// GetSecurityCount 获取指定市场内的证券数目
+func (this *StdApi) GetSecurityCount(market proto.Market) (*SecurityCountReply, error) {
+	obj := NewSecurityCountPackage()
+	obj.SetParams(&SecurityCountRequest{
+		Market: uint16(market),
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*SecurityCountReply), err
+}
+
 // GetSecurityList 股票列表
 func (this *StdApi) GetSecurityList(market proto.Market, start uint16) (*SecurityListReply, error) {
 	msg := NewSecurityListPackage()
@@ -175,19 +248,6 @@ func (this *StdApi) GetIndexBars(market proto.Market, code string, category uint
 		return nil, err
 	}
 	return reply.(*SecurityBarsReply), err
-}
-
-// GetSecurityCount 获取指定市场内的证券数目
-func (this *StdApi) GetSecurityCount(market proto.Market) (*SecurityCountReply, error) {
-	obj := NewSecurityCountPackage()
-	obj.SetParams(&SecurityCountRequest{
-		Market: uint16(market),
-	})
-	reply, err := this.command(obj)
-	if err != nil {
-		return nil, err
-	}
-	return reply.(*SecurityCountReply), err
 }
 
 // GetSecurityQuotes 获取盘口五档报价
