@@ -7,6 +7,10 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 )
 
+const (
+	TDX_SECURITY_QUOTES_MAX = uint16(80) // 单次最大获取80条实时数据
+)
+
 // SecurityQuotesPackage 盘口五档报价
 type SecurityQuotesPackage struct {
 	reqHeader  *StdRequestHeader
