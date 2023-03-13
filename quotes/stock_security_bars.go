@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	TDX_SECURITY_BARS_MAX = uint16(800) // 单次最大获取800条K线数据
+	TDX_SECURITY_BARS_MAX = 800 // 单次最大获取800条K线数据
 )
 
 // SecurityBars K线

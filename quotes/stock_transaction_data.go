@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	TDX_TRANSACTION_MAX = uint16(1800) // 单次最多获取多少条分笔成交记录
+	TDX_TRANSACTION_MAX = 1800 // 单次最多获取多少条分笔成交记录
 )
 
 // TransactionPackage 当日分笔成交信息
