@@ -89,7 +89,7 @@ type Level struct {
 	Vol   int
 }
 
-func NewGetSecurityQuotesPackage() *SecurityQuotesPackage {
+func NewSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj := new(SecurityQuotesPackage)
 	obj.reqHeader = new(StdRequestHeader)
 	obj.respHeader = new(StdResponseHeader)
