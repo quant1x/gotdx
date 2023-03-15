@@ -66,7 +66,8 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", sc)
 
 	// 8. 获取5档行情
-	sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
+	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
+	sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600030"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

@@ -99,10 +99,8 @@ func NewGetSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj.reqHeader.Zip = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
-	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES
-	//obj.contentHex = "0500000000000000" // 1.3.5以前的版本
-	//obj.contentHex = "0000000000000000" // 第一个字节0x05会取到的数据会有几分钟延迟
-	obj.contentHex = "0500000000000000" // 让出2个字节给请求消息体的股票数量
+	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_old
+	obj.contentHex = "0500000000000000" // 1.3.5以前的版本
 	return obj
 }
 
