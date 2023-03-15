@@ -112,6 +112,7 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 		// TODO: 这里可能存在bug
 		_, _ = io.Copy(&out, r)
 		err = msg.UnSerialize(&header, out.Bytes())
+		_ = r.Close()
 	} else {
 		err = msg.UnSerialize(&header, msgData)
 	}

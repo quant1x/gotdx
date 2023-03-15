@@ -3,6 +3,7 @@ package util
 import (
 	"bytes"
 	"compress/zlib"
+	"github.com/mymmsc/gox/api"
 	"io"
 )
 
@@ -29,6 +30,7 @@ func ZlibUnCompress(compressSrc []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer api.CloseQuietly(r)
 	_, err = io.Copy(&out, r)
 	if err != nil {
 		return nil, err
