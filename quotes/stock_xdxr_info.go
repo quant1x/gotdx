@@ -132,7 +132,7 @@ func (obj *XdxrInfoPackage) UnSerialize(header interface{}, data []byte) error {
 	}
 	var list = []XdxrInfo{}
 	for _, v := range reply.List {
-		year, month, day, hour, minute := getdatetimeFromUint32(9, v.Date, 0)
+		year, month, day, hour, minute := getDatetimeFromUint32(9, v.Date, 0)
 		xdxr := XdxrInfo{
 			//Date           string // 日期
 			Date: fmt.Sprintf("%04d-%02d-%02d", year, month, day),
@@ -211,5 +211,5 @@ func __get_v(v uint32) float64 {
 	if v == 0 {
 		return 0
 	}
-	return getvolume(int(v))
+	return get_volume(int(v))
 }

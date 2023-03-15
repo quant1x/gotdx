@@ -88,9 +88,9 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		priceraw := getprice(data, &pos)
-		_ = getprice(data, &pos)
-		vol := getprice(data, &pos)
+		priceraw := get_price(data, &pos)
+		_ = get_price(data, &pos)
+		vol := get_price(data, &pos)
 		lastprice += priceraw
 
 		var p float32

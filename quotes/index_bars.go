@@ -102,29 +102,29 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := SecurityBar{}
 
-		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getdatetime(int(obj.request.Category), data, &pos)
+		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = get_datetime(int(obj.request.Category), data, &pos)
 
 		//if index == 0 {
-		//	ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getdatetime(int(obj.request.Category), data, &pos)
+		//	ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = get_datetime(int(obj.request.Category), data, &pos)
 		//} else {
 		//	ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getdatetimenow(int(obj.request.Category), lasttime)
 		//}
 		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
 
-		price_open_diff := getprice(data, &pos)
-		price_close_diff := getprice(data, &pos)
+		price_open_diff := get_price(data, &pos)
+		price_close_diff := get_price(data, &pos)
 
-		price_high_diff := getprice(data, &pos)
-		price_low_diff := getprice(data, &pos)
+		price_high_diff := get_price(data, &pos)
+		price_low_diff := get_price(data, &pos)
 
 		var ivol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
-		ele.Vol = getvolume(int(ivol))
+		ele.Vol = get_volume(int(ivol))
 		pos += 4
 
 		var dbvol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
-		ele.Amount = getvolume(int(dbvol))
+		ele.Amount = get_volume(int(dbvol))
 		pos += 4
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.UpCount)

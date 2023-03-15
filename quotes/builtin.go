@@ -35,7 +35,7 @@ func Utf8ToGbk(text []byte) string {
 }
 
 // pytdx : 类似utf-8的编码方式保存有符号数字
-func getprice(b []byte, pos *int) int {
+func get_price(b []byte, pos *int) int {
 
 	//0x7f与常量做与运算实质是保留常量（转换为二进制形式）的后7位数，既取值区间为[0,127]
 	//0x3f与常量做与运算实质是保留常量（转换为二进制形式）的后6位数，既取值区间为[0,63]
@@ -74,7 +74,7 @@ func getprice(b []byte, pos *int) int {
 	return data
 }
 
-func gettime(b []byte, pos *int) (h uint16, m uint16) {
+func get_time(b []byte, pos *int) (h uint16, m uint16) {
 	var sec uint16
 	_ = binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &sec)
 	h = sec / 60
@@ -83,7 +83,7 @@ func gettime(b []byte, pos *int) (h uint16, m uint16) {
 	return
 }
 
-func getdatetime(category int, b []byte, pos *int) (year int, month int, day int, hour int, minute int) {
+func get_datetime(category int, b []byte, pos *int) (year int, month int, day int, hour int, minute int) {
 	hour = 15
 	if category < 4 || category == 7 || category == 8 {
 		var zipday, tminutes uint16
@@ -108,7 +108,7 @@ func getdatetime(category int, b []byte, pos *int) (year int, month int, day int
 	return
 }
 
-func getdatetimeFromUint32(category int, zipday uint32, tminutes uint16) (year int, month int, day int, hour int, minute int) {
+func getDatetimeFromUint32(category int, zipday uint32, tminutes uint16) (year int, month int, day int, hour int, minute int) {
 	hour = 15
 	if category < 4 || category == 7 || category == 8 {
 		year = int((zipday >> 11) + 2004)
@@ -179,7 +179,7 @@ func getdatetimenow(category int, lasttime string) (year int, month int, day int
 	return
 }
 
-func getvolume(ivol int) (volume float64) {
+func get_volume(ivol int) (volume float64) {
 	logpoint := ivol >> (8 * 3)
 	//hheax := ivol >> (8 * 3)          // [3]
 	hleax := (ivol >> (8 * 2)) & 0xff // [2]
@@ -237,6 +237,7 @@ func getvolume(ivol int) (volume float64) {
 	return
 }
 
+// 交易单位
 func baseUnit(code string) float64 {
 	c := code[:2]
 	switch c {

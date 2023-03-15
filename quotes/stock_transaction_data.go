@@ -90,15 +90,15 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
-		hour, minute := gettime(data, &pos)
+		hour, minute := get_time(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", hour, minute)
-		priceraw := getprice(data, &pos)
-		ele.Vol = getprice(data, &pos)
-		ele.Num = getprice(data, &pos)
-		ele.BuyOrSell = getprice(data, &pos)
+		priceraw := get_price(data, &pos)
+		ele.Vol = get_price(data, &pos)
+		ele.Num = get_price(data, &pos)
+		ele.BuyOrSell = get_price(data, &pos)
 		lastprice += priceraw
 		ele.Price = float64(lastprice) / baseUnit(string(obj.request.Code[:]))
-		_ = getprice(data, &pos)
+		_ = get_price(data, &pos)
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	return err

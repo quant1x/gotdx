@@ -151,14 +151,14 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
-		price := getprice(data, &pos)
+		price := get_price(data, &pos)
 		ele.Price = obj.getPrice(price, 0)
-		ele.LastClose = obj.getPrice(price, getprice(data, &pos))
-		ele.Open = obj.getPrice(price, getprice(data, &pos))
-		ele.High = obj.getPrice(price, getprice(data, &pos))
-		ele.Low = obj.getPrice(price, getprice(data, &pos))
+		ele.LastClose = obj.getPrice(price, get_price(data, &pos))
+		ele.Open = obj.getPrice(price, get_price(data, &pos))
+		ele.High = obj.getPrice(price, get_price(data, &pos))
+		ele.Low = obj.getPrice(price, get_price(data, &pos))
 
-		ele.ReversedBytes0 = getprice(data, &pos)
+		ele.ReversedBytes0 = get_price(data, &pos)
 		if ele.ReversedBytes0 > 0 {
 			//ele.ServerTime = time_from_str(fmt.Sprintf("%d", ele.ReversedBytes0))
 			ele.ServerTime = time_from_int(ele.ReversedBytes0)
@@ -168,21 +168,21 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 			ele.Code = proto.StockDelisting
 		}
 
-		ele.ReversedBytes1 = getprice(data, &pos)
+		ele.ReversedBytes1 = get_price(data, &pos)
 
-		ele.Vol = getprice(data, &pos)
-		ele.CurVol = getprice(data, &pos)
+		ele.Vol = get_price(data, &pos)
+		ele.CurVol = get_price(data, &pos)
 
 		var amountraw uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
 		pos += 4
-		ele.Amount = getvolume(int(amountraw))
+		ele.Amount = get_volume(int(amountraw))
 
-		ele.SVol = getprice(data, &pos)
-		ele.BVol = getprice(data, &pos)
+		ele.SVol = get_price(data, &pos)
+		ele.BVol = get_price(data, &pos)
 
-		ele.ReversedBytes2 = getprice(data, &pos)
-		ele.ReversedBytes3 = getprice(data, &pos)
+		ele.ReversedBytes2 = get_price(data, &pos)
+		ele.ReversedBytes3 = get_price(data, &pos)
 		//fmt.Printf("pos: %d\n", pos)
 		//fmt.Println(hex.EncodeToString(data[:pos]))
 
@@ -191,10 +191,10 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		//baNum := 5
 		baNum := 1
 		for i := 0; i < baNum; i++ {
-			bidele := V2Level{Price: obj.getPrice(getprice(data, &pos), price)}
-			offerele := V2Level{Price: obj.getPrice(getprice(data, &pos), price)}
-			bidele.Vol = getprice(data, &pos)
-			offerele.Vol = getprice(data, &pos)
+			bidele := V2Level{Price: obj.getPrice(get_price(data, &pos), price)}
+			offerele := V2Level{Price: obj.getPrice(get_price(data, &pos), price)}
+			bidele.Vol = get_price(data, &pos)
+			offerele.Vol = get_price(data, &pos)
 			bidLevels = append(bidLevels, bidele)
 			askLevels = append(askLevels, offerele)
 		}
@@ -225,10 +225,10 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
 		pos += 2
-		//ele.ReversedBytes5 = getprice(data, &pos)
-		//ele.ReversedBytes6 = getprice(data, &pos)
-		//ele.ReversedBytes7 = getprice(data, &pos)
-		//ele.ReversedBytes8 = getprice(data, &pos)
+		//ele.ReversedBytes5 = get_price(data, &pos)
+		//ele.ReversedBytes6 = get_price(data, &pos)
+		//ele.ReversedBytes7 = get_price(data, &pos)
+		//ele.ReversedBytes8 = get_price(data, &pos)
 
 		var reversedbytes9 int16
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)
