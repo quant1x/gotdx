@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-func GetVolume2[T uint16 | uint32 | float32](v T) float64 {
+func NumberToFloat64[T uint16 | uint32 | float32](v T) float64 {
 	return float64(v)
 }
 

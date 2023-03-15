@@ -331,3 +331,7 @@ func time_from_int(stamp int) string {
 	_ = t
 	return fmt.Sprintf("%02d:%02d:%06.3f", h, m, st)
 }
+
+func numberToFloat64[T uint16 | uint32 | float32](v T) float64 {
+	return float64(v)
+}
