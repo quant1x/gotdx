@@ -67,15 +67,18 @@ func TestStdApi_ALL(t *testing.T) {
 
 	// 8.1 获取5档行情
 	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
-	sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600030"})
+	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
+	sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"880082"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", sq1)
 
 	// 8.2 获取5档行情
-	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
-	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600030"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"880082"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
+	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600", "880082"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

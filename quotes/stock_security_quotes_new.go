@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
 )
 
@@ -59,22 +60,22 @@ type V2SecurityQuote struct {
 	Ask1           float64
 	BidVol1        int
 	AskVol1        int
-	Bid2           float64
-	Ask2           float64
-	BidVol2        int
-	AskVol2        int
-	Bid3           float64
-	Ask3           float64
-	BidVol3        int
-	AskVol3        int
-	Bid4           float64
-	Ask4           float64
-	BidVol4        int
-	AskVol4        int
-	Bid5           float64
-	Ask5           float64
-	BidVol5        int
-	AskVol5        int
+	//Bid2           float64
+	//Ask2           float64
+	//BidVol2        int
+	//AskVol2        int
+	//Bid3           float64
+	//Ask3           float64
+	//BidVol3        int
+	//AskVol3        int
+	//Bid4           float64
+	//Ask4           float64
+	//BidVol4        int
+	//AskVol4        int
+	//Bid5           float64
+	//Ask5           float64
+	//BidVol5        int
+	//AskVol5        int
 	ReversedBytes4 uint16  // 保留
 	ReversedBytes5 int     // 保留
 	ReversedBytes6 int     // 保留
@@ -132,7 +133,7 @@ func (obj *V2SecurityQuotesPackage) Serialize() ([]byte, error) {
 func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	//fmt.Println(hex.EncodeToString(data))
+	fmt.Println(hex.EncodeToString(data))
 	pos := 0
 
 	pos += 2 // 跳过两个字节
@@ -183,9 +184,14 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 
 		ele.ReversedBytes2 = getprice(data, &pos)
 		ele.ReversedBytes3 = getprice(data, &pos)
+		fmt.Printf("pos: %d\n", pos)
+		fmt.Println(hex.EncodeToString(data[:pos]))
+
 		var bidLevels []V2Level
 		var askLevels []V2Level
-		for i := 0; i < 5; i++ {
+		//baNum := 5
+		baNum := 1
+		for i := 0; i < baNum; i++ {
 			bidele := V2Level{Price: obj.getPrice(getprice(data, &pos), price)}
 			offerele := V2Level{Price: obj.getPrice(getprice(data, &pos), price)}
 			bidele.Vol = getprice(data, &pos)
@@ -194,39 +200,47 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 			askLevels = append(askLevels, offerele)
 		}
 		ele.Bid1 = bidLevels[0].Price
-		ele.Bid2 = bidLevels[1].Price
-		ele.Bid3 = bidLevels[2].Price
-		ele.Bid4 = bidLevels[3].Price
-		ele.Bid5 = bidLevels[4].Price
+		//ele.Bid2 = bidLevels[1].Price
+		//ele.Bid3 = bidLevels[2].Price
+		//ele.Bid4 = bidLevels[3].Price
+		//ele.Bid5 = bidLevels[4].Price
 		ele.Ask1 = askLevels[0].Price
-		ele.Ask2 = askLevels[1].Price
-		ele.Ask3 = askLevels[2].Price
-		ele.Ask4 = askLevels[3].Price
-		ele.Ask5 = askLevels[4].Price
+		//ele.Ask2 = askLevels[1].Price
+		//ele.Ask3 = askLevels[2].Price
+		//ele.Ask4 = askLevels[3].Price
+		//ele.Ask5 = askLevels[4].Price
 
 		ele.BidVol1 = bidLevels[0].Vol
-		ele.BidVol2 = bidLevels[1].Vol
-		ele.BidVol3 = bidLevels[2].Vol
-		ele.BidVol4 = bidLevels[3].Vol
-		ele.BidVol5 = bidLevels[4].Vol
+		//ele.BidVol2 = bidLevels[1].Vol
+		//ele.BidVol3 = bidLevels[2].Vol
+		//ele.BidVol4 = bidLevels[3].Vol
+		//ele.BidVol5 = bidLevels[4].Vol
 
 		ele.AskVol1 = askLevels[0].Vol
-		ele.AskVol2 = askLevels[1].Vol
-		ele.AskVol3 = askLevels[2].Vol
-		ele.AskVol4 = askLevels[3].Vol
-		ele.AskVol5 = askLevels[4].Vol
+		//ele.AskVol2 = askLevels[1].Vol
+		//ele.AskVol3 = askLevels[2].Vol
+		//ele.AskVol4 = askLevels[3].Vol
+		//ele.AskVol5 = askLevels[4].Vol
+		fmt.Printf("pos: %d\n", pos)
+		fmt.Println(hex.EncodeToString(data[:pos]))
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
 		pos += 2
-		ele.ReversedBytes5 = getprice(data, &pos)
-		ele.ReversedBytes6 = getprice(data, &pos)
-		ele.ReversedBytes7 = getprice(data, &pos)
-		ele.ReversedBytes8 = getprice(data, &pos)
+		//ele.ReversedBytes5 = getprice(data, &pos)
+		//ele.ReversedBytes6 = getprice(data, &pos)
+		//ele.ReversedBytes7 = getprice(data, &pos)
+		//ele.ReversedBytes8 = getprice(data, &pos)
 
 		var reversedbytes9 int16
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)
 		pos += 2
 		ele.Rate = float64(reversedbytes9) / 100.0
+
+		// 保留 2个字节
+		pos += 2
+		// 保留 12x4字节
+		pos += 12 * 4
+
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
 		pos += 2
 
