@@ -28,7 +28,7 @@ func NewClient(opt *Opt) *TcpClient {
 		opt.MaxRetryTimes = DefaultRetryTimes
 	}
 	if opt.Timeout <= 0 {
-		opt.Timeout = 1 * time.Second
+		opt.Timeout = RECV_TIMEOUT * time.Second
 	}
 
 	client.opt = opt
