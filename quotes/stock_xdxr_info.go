@@ -211,5 +211,5 @@ func __get_v(v uint32) float64 {
 	if v == 0 {
 		return 0
 	}
-	return get_volume(int(v))
+	return getVolume(int(v))
 }

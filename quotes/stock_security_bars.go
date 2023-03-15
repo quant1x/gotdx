@@ -109,24 +109,24 @@ func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) err
 
 	for index := uint16(0); index < obj.response.Count; index++ {
 		ele := SecurityBar{}
-		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = get_datetime(int(obj.request.Category), data, &pos)
+		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getDatetime(int(obj.request.Category), data, &pos)
 
 		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
 
-		price_open_diff := get_price(data, &pos)
-		price_close_diff := get_price(data, &pos)
+		price_open_diff := getPrice(data, &pos)
+		price_close_diff := getPrice(data, &pos)
 
-		price_high_diff := get_price(data, &pos)
-		price_low_diff := get_price(data, &pos)
+		price_high_diff := getPrice(data, &pos)
+		price_low_diff := getPrice(data, &pos)
 
 		var ivol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
-		ele.Vol = get_volume(int(ivol))
+		ele.Vol = getVolume(int(ivol))
 		pos += 4
 
 		var dbvol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
-		ele.Amount = get_volume(int(dbvol))
+		ele.Amount = getVolume(int(dbvol))
 		pos += 4
 
 		ele.Open = float64(price_open_diff+pre_diff_base) / 1000.0

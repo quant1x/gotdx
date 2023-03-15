@@ -35,7 +35,7 @@ func Utf8ToGbk(text []byte) string {
 }
 
 // pytdx : 类似utf-8的编码方式保存有符号数字
-func get_price(b []byte, pos *int) int {
+func getPrice(b []byte, pos *int) int {
 
 	//0x7f与常量做与运算实质是保留常量（转换为二进制形式）的后7位数，既取值区间为[0,127]
 	//0x3f与常量做与运算实质是保留常量（转换为二进制形式）的后6位数，既取值区间为[0,63]
@@ -74,7 +74,7 @@ func get_price(b []byte, pos *int) int {
 	return data
 }
 
-func get_time(b []byte, pos *int) (h uint16, m uint16) {
+func getTime(b []byte, pos *int) (h uint16, m uint16) {
 	var sec uint16
 	_ = binary.Read(bytes.NewBuffer(b[*pos:*pos+2]), binary.LittleEndian, &sec)
 	h = sec / 60
@@ -83,7 +83,7 @@ func get_time(b []byte, pos *int) (h uint16, m uint16) {
 	return
 }
 
-func get_datetime(category int, b []byte, pos *int) (year int, month int, day int, hour int, minute int) {
+func getDatetime(category int, b []byte, pos *int) (year int, month int, day int, hour int, minute int) {
 	hour = 15
 	if category < 4 || category == 7 || category == 8 {
 		var zipday, tminutes uint16
@@ -124,7 +124,7 @@ func getDatetimeFromUint32(category int, zipday uint32, tminutes uint16) (year i
 	return
 }
 
-func getdatetimenow(category int, lasttime string) (year int, month int, day int, hour int, minute int) {
+func getDatetimeNow(category int, lasttime string) (year int, month int, day int, hour int, minute int) {
 	utime, _ := time.Parse("2006-01-02 15:04:05", lasttime)
 	switch category {
 	case proto.KLINE_TYPE_5MIN:
@@ -179,7 +179,7 @@ func getdatetimenow(category int, lasttime string) (year int, month int, day int
 	return
 }
 
-func get_volume(ivol int) (volume float64) {
+func getVolume(ivol int) (volume float64) {
 	logpoint := ivol >> (8 * 3)
 	//hheax := ivol >> (8 * 3)          // [3]
 	hleax := (ivol >> (8 * 2)) & 0xff // [2]
@@ -271,7 +271,7 @@ func _format_time0(time_stamp string) string {
 	return tm
 }
 
-func time_from_str(time_stamp string) string {
+func timeFromStr(time_stamp string) string {
 	// format time from reversed_bytes0
 	// by using method from https://github.com/rainx/pytdx/issues/187
 	length := len(time_stamp)
@@ -300,7 +300,7 @@ const (
 	__tm_t_width = 1000
 )
 
-func time_from_int(stamp int) string {
+func timeFromInt(stamp int) string {
 	//123456789
 	h := stamp / __tm_h_width
 	tmp1 := stamp % __tm_h_width

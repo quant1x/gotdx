@@ -87,9 +87,9 @@ func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error
 
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		priceraw := get_price(data, &pos)
-		get_price(data, &pos)
-		vol := get_price(data, &pos)
+		priceraw := getPrice(data, &pos)
+		getPrice(data, &pos)
+		vol := getPrice(data, &pos)
 		lastprice = lastprice + priceraw
 		ele := MinuteTime{float32(lastprice) / 100.0, vol}
 		obj.reply.List = append(obj.reply.List, ele)

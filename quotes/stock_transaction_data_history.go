@@ -89,12 +89,12 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
-		h, m := get_time(data, &pos)
+		h, m := getTime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", h, m)
-		rawPrice := get_price(data, &pos)
-		ele.Vol = get_price(data, &pos)
-		ele.BuyOrSell = get_price(data, &pos)
-		get_price(data, &pos)
+		rawPrice := getPrice(data, &pos)
+		ele.Vol = getPrice(data, &pos)
+		ele.BuyOrSell = getPrice(data, &pos)
+		getPrice(data, &pos)
 
 		lastPrice = lastPrice + rawPrice
 		ele.Price = float64(lastPrice) / baseUnit(string(obj.request.Code[:]))

@@ -152,48 +152,48 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
-		price := get_price(data, &pos)
+		price := getPrice(data, &pos)
 		ele.Price = obj.getPrice(price, 0)
-		ele.LastClose = obj.getPrice(price, get_price(data, &pos))
-		ele.Open = obj.getPrice(price, get_price(data, &pos))
-		ele.High = obj.getPrice(price, get_price(data, &pos))
-		ele.Low = obj.getPrice(price, get_price(data, &pos))
+		ele.LastClose = obj.getPrice(price, getPrice(data, &pos))
+		ele.Open = obj.getPrice(price, getPrice(data, &pos))
+		ele.High = obj.getPrice(price, getPrice(data, &pos))
+		ele.Low = obj.getPrice(price, getPrice(data, &pos))
 
-		ele.ReversedBytes0 = get_price(data, &pos)
+		ele.ReversedBytes0 = getPrice(data, &pos)
 		if ele.ReversedBytes0 > 0 {
-			//ele.ServerTime = time_from_str(fmt.Sprintf("%d", ele.ReversedBytes0))
-			ele.ServerTime = time_from_int(ele.ReversedBytes0)
+			//ele.ServerTime = timeFromStr(fmt.Sprintf("%d", ele.ReversedBytes0))
+			ele.ServerTime = timeFromInt(ele.ReversedBytes0)
 		} else {
 			ele.ServerTime = "0"
 			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
 			ele.Code = proto.StockDelisting
 		}
 
-		ele.ReversedBytes1 = get_price(data, &pos)
+		ele.ReversedBytes1 = getPrice(data, &pos)
 
-		ele.Vol = get_price(data, &pos)
-		ele.CurVol = get_price(data, &pos)
+		ele.Vol = getPrice(data, &pos)
+		ele.CurVol = getPrice(data, &pos)
 
 		var amountraw uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
 		pos += 4
-		ele.Amount = get_volume(int(amountraw))
+		ele.Amount = getVolume(int(amountraw))
 
-		ele.SVol = get_price(data, &pos)
-		ele.BVol = get_price(data, &pos)
+		ele.SVol = getPrice(data, &pos)
+		ele.BVol = getPrice(data, &pos)
 
-		ele.ReversedBytes2 = get_price(data, &pos)
-		ele.ReversedBytes3 = get_price(data, &pos)
+		ele.ReversedBytes2 = getPrice(data, &pos)
+		ele.ReversedBytes3 = getPrice(data, &pos)
 		//fmt.Printf("pos: %d\n", pos)
 		//fmt.Println(hex.EncodeToString(data[:pos]))
 
 		var bidLevels []Level
 		var askLevels []Level
 		for i := 0; i < 5; i++ {
-			bidele := Level{Price: obj.getPrice(get_price(data, &pos), price)}
-			offerele := Level{Price: obj.getPrice(get_price(data, &pos), price)}
-			bidele.Vol = get_price(data, &pos)
-			offerele.Vol = get_price(data, &pos)
+			bidele := Level{Price: obj.getPrice(getPrice(data, &pos), price)}
+			offerele := Level{Price: obj.getPrice(getPrice(data, &pos), price)}
+			bidele.Vol = getPrice(data, &pos)
+			offerele.Vol = getPrice(data, &pos)
 			bidLevels = append(bidLevels, bidele)
 			askLevels = append(askLevels, offerele)
 		}
@@ -224,10 +224,10 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
 		pos += 2
-		ele.ReversedBytes5 = get_price(data, &pos)
-		ele.ReversedBytes6 = get_price(data, &pos)
-		ele.ReversedBytes7 = get_price(data, &pos)
-		ele.ReversedBytes8 = get_price(data, &pos)
+		ele.ReversedBytes5 = getPrice(data, &pos)
+		ele.ReversedBytes6 = getPrice(data, &pos)
+		ele.ReversedBytes7 = getPrice(data, &pos)
+		ele.ReversedBytes8 = getPrice(data, &pos)
 
 		var reversedbytes9 int16
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)
