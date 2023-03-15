@@ -65,13 +65,21 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", sc)
 
-	// 8. 获取5档行情
+	// 8.1 获取5档行情
 	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
-	sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600030"})
+	sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600030"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
-	fmt.Printf("%+v\n", sq)
+	fmt.Printf("%+v\n", sq1)
+
+	// 8.2 获取5档行情
+	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
+	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600030"})
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+	fmt.Printf("%+v\n", sq2)
 
 	// 9. 分时数据
 	mt, err := stdApi.GetMinuteTimeData(0, "159607")

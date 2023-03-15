@@ -255,7 +255,7 @@ func (this *StdApi) GetSecurityQuotes(markets []proto.Market, codes []string) (*
 	if len(markets) != len(codes) {
 		return nil, errors.New("market code count error")
 	}
-	obj := NewGetSecurityQuotesPackage()
+	obj := NewSecurityQuotesPackage()
 	var params []Stock
 	for i, market := range markets {
 		params = append(params, Stock{
@@ -269,6 +269,26 @@ func (this *StdApi) GetSecurityQuotes(markets []proto.Market, codes []string) (*
 		return nil, err
 	}
 	return reply.(*SecurityQuotesReply), err
+}
+
+func (this *StdApi) V2GetSecurityQuotes(markets []proto.Market, codes []string) (*V2SecurityQuotesReply, error) {
+	if len(markets) != len(codes) {
+		return nil, errors.New("market code count error")
+	}
+	obj := NewV2SecurityQuotesPackage()
+	var params []V2Stock
+	for i, market := range markets {
+		params = append(params, V2Stock{
+			Market: market,
+			Code:   codes[i],
+		})
+	}
+	obj.SetParams(&V2SecurityQuotesRequest{StockList: params})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*V2SecurityQuotesReply), err
 }
 
 // GetMinuteTimeData 获取分时图数据
