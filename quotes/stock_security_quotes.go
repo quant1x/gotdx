@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
-	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
 )
 
@@ -134,7 +133,7 @@ func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
 func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	fmt.Println(hex.EncodeToString(data))
+	//fmt.Println(hex.EncodeToString(data))
 	pos := 0
 
 	pos += 2 // 跳过两个字节
@@ -185,8 +184,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 
 		ele.ReversedBytes2 = getprice(data, &pos)
 		ele.ReversedBytes3 = getprice(data, &pos)
-		fmt.Printf("pos: %d\n", pos)
-		fmt.Println(hex.EncodeToString(data[:pos]))
+		//fmt.Printf("pos: %d\n", pos)
+		//fmt.Println(hex.EncodeToString(data[:pos]))
 
 		var bidLevels []Level
 		var askLevels []Level
@@ -220,8 +219,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.AskVol3 = askLevels[2].Vol
 		ele.AskVol4 = askLevels[3].Vol
 		ele.AskVol5 = askLevels[4].Vol
-		fmt.Printf("pos: %d\n", pos)
-		fmt.Println(hex.EncodeToString(data[:pos]))
+		//fmt.Printf("pos: %d\n", pos)
+		//fmt.Println(hex.EncodeToString(data[:pos]))
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
 		pos += 2
