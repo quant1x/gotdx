@@ -54,8 +54,6 @@ type SecurityQuote struct {
 	BVol           int     // 外盘
 	ReversedBytes2 int     // 保留
 	ReversedBytes3 int     // 保留
-	BidLevels      []Level
-	AskLevels      []Level
 	Bid1           float64
 	Ask1           float64
 	BidVol1        int
@@ -101,7 +99,8 @@ func NewGetSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES
-	obj.contentHex = "0500000000000000"
+	//obj.contentHex = "0500000000000000" // 1.3.5以前的版本
+	obj.contentHex = "0000000000000000"
 	return obj
 }
 
@@ -140,19 +139,19 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 	pos := 0
 
 	pos += 2 // 跳过两个字节
-	binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
+	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := SecurityQuote{}
-		binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.Market)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.Market)
 		pos += 1
 		var code [6]byte
-		binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
 		//enc := mahonia.NewDecoder("gbk")
 		//ele.Code = enc.ConvertString(string(code[:]))
 		ele.Code = Utf8ToGbk(code[:])
 		pos += 6
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
 		price := getprice(data, &pos)
@@ -178,7 +177,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.CurVol = getprice(data, &pos)
 
 		var amountraw uint32
-		binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
 		pos += 4
 		ele.Amount = getvolume(int(amountraw))
 
@@ -187,39 +186,40 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 
 		ele.ReversedBytes2 = getprice(data, &pos)
 		ele.ReversedBytes3 = getprice(data, &pos)
-
+		var bidLevels []Level
+		var askLevels []Level
 		for i := 0; i < 5; i++ {
 			bidele := Level{Price: obj.getPrice(getprice(data, &pos), price)}
 			offerele := Level{Price: obj.getPrice(getprice(data, &pos), price)}
 			bidele.Vol = getprice(data, &pos)
 			offerele.Vol = getprice(data, &pos)
-			ele.BidLevels = append(ele.BidLevels, bidele)
-			ele.AskLevels = append(ele.AskLevels, offerele)
+			bidLevels = append(bidLevels, bidele)
+			askLevels = append(askLevels, offerele)
 		}
-		ele.Bid1 = ele.BidLevels[0].Price
-		ele.Bid2 = ele.BidLevels[1].Price
-		ele.Bid3 = ele.BidLevels[2].Price
-		ele.Bid4 = ele.BidLevels[3].Price
-		ele.Bid5 = ele.BidLevels[4].Price
-		ele.Ask1 = ele.AskLevels[0].Price
-		ele.Ask2 = ele.AskLevels[1].Price
-		ele.Ask3 = ele.AskLevels[2].Price
-		ele.Ask4 = ele.AskLevels[3].Price
-		ele.Ask5 = ele.AskLevels[4].Price
+		ele.Bid1 = bidLevels[0].Price
+		ele.Bid2 = bidLevels[1].Price
+		ele.Bid3 = bidLevels[2].Price
+		ele.Bid4 = bidLevels[3].Price
+		ele.Bid5 = bidLevels[4].Price
+		ele.Ask1 = askLevels[0].Price
+		ele.Ask2 = askLevels[1].Price
+		ele.Ask3 = askLevels[2].Price
+		ele.Ask4 = askLevels[3].Price
+		ele.Ask5 = askLevels[4].Price
 
-		ele.BidVol1 = ele.BidLevels[0].Vol
-		ele.BidVol2 = ele.BidLevels[1].Vol
-		ele.BidVol3 = ele.BidLevels[2].Vol
-		ele.BidVol4 = ele.BidLevels[3].Vol
-		ele.BidVol5 = ele.BidLevels[4].Vol
+		ele.BidVol1 = bidLevels[0].Vol
+		ele.BidVol2 = bidLevels[1].Vol
+		ele.BidVol3 = bidLevels[2].Vol
+		ele.BidVol4 = bidLevels[3].Vol
+		ele.BidVol5 = bidLevels[4].Vol
 
-		ele.AskVol1 = ele.AskLevels[0].Vol
-		ele.AskVol2 = ele.AskLevels[1].Vol
-		ele.AskVol3 = ele.AskLevels[2].Vol
-		ele.AskVol4 = ele.AskLevels[3].Vol
-		ele.AskVol5 = ele.AskLevels[4].Vol
+		ele.AskVol1 = askLevels[0].Vol
+		ele.AskVol2 = askLevels[1].Vol
+		ele.AskVol3 = askLevels[2].Vol
+		ele.AskVol4 = askLevels[3].Vol
+		ele.AskVol5 = askLevels[4].Vol
 
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
 		pos += 2
 		ele.ReversedBytes5 = getprice(data, &pos)
 		ele.ReversedBytes6 = getprice(data, &pos)
@@ -227,10 +227,10 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.ReversedBytes8 = getprice(data, &pos)
 
 		var reversedbytes9 int16
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)
 		pos += 2
 		ele.Rate = float64(reversedbytes9) / 100.0
-		binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
 		pos += 2
 
 		obj.reply.List = append(obj.reply.List, ele)
