@@ -12,7 +12,7 @@ import (
 
 // StdRequestHeader 标准行情-请求-消息头
 type StdRequestHeader struct {
-	Zip        uint8  `struc:"uint8,little"`  // ZipFlag
+	ZipFlag    uint8  `struc:"uint8,little"`  // ZipFlag
 	SeqID      uint32 `struc:"uint32,little"` // 请求编号
 	PacketType uint8  `struc:"uint8,little"`  // 包类型
 	PkgLen1    uint16 `struc:"uint16,little"`

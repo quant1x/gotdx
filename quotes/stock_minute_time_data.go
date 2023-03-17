@@ -41,7 +41,7 @@ func NewMinuteTimePackage() *MinuteTimePackage {
 	obj.request = new(MinuteTimeRequest)
 	obj.reply = new(MinuteTimeReply)
 
-	obj.reqHeader.Zip = 0x0c
+	obj.reqHeader.ZipFlag = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =

@@ -49,7 +49,7 @@ func NewTransactionPackage() *TransactionPackage {
 	obj.request = new(TransactionRequest)
 	obj.reply = new(TransactionReply)
 
-	obj.reqHeader.Zip = 0x0c
+	obj.reqHeader.ZipFlag = 0x0c
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =

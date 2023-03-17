@@ -90,7 +90,7 @@ func NewXdxrInfoPackage() *XdxrInfoPackage {
 
 	//0c 1f 18 76 00 01 0b 00 0b 00 10 00 01 00
 	//0c
-	pkg.reqHeader.Zip = 0x0c
+	pkg.reqHeader.ZipFlag = 0x0c
 	//1f 18 76 00
 	pkg.reqHeader.SeqID = seqID()
 	//01
