@@ -29,6 +29,14 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", hello2)
 
+	// 2.1 heartbeat
+	heartBeat, err := stdApi.HeartBeat()
+	if err != nil {
+		fmt.Printf("%+v\n", err)
+	}
+
+	fmt.Printf("%+v\n", heartBeat)
+
 	// 3. finance_info
 	fi, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "600600", 1)
 	if err != nil {

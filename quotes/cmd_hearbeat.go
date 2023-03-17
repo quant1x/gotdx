@@ -8,7 +8,7 @@ import (
 )
 
 // 心跳包, command: 0004
-// 0c7600280002020002000400
+// 0c76002800 02 0200 0200 0400
 // b1cb74000c760028000004000a000a00 00000000000000000000
 
 type HeartBeatPackage struct {
@@ -36,9 +36,8 @@ func NewHeartBeat() *HeartBeatPackage {
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = seqID()
-	obj.reqHeader.PacketType = 0x01
+	obj.reqHeader.PacketType = 0x02
 	obj.reqHeader.Method = proto.STD_MSG_HEARTBEAT
-	obj.contentHex = "01"
 	return obj
 }
 
@@ -55,12 +54,9 @@ func (obj *HeartBeatPackage) Serialize() ([]byte, error) {
 	return buf.Bytes(), err
 }
 
-// 00e60708051 50 f0 00 d3 a02b2020c03840384038403840384033a02b2020c0384038403840384038403 00 5a8a3401 f94a0100 5a8a3401 fd4a0100ff00e 700000101013f
-//
-//	分  时    秒                                                                      日期
 func (obj *HeartBeatPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
-	serverInfo := Utf8ToGbk(data[68:])
+	serverInfo := Utf8ToGbk(data[:])
 	obj.reply.Info = serverInfo
 	return nil
 }

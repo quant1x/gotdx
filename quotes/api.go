@@ -164,6 +164,15 @@ func (this *StdApi) Hello2() (*Hello2Reply, error) {
 	return reply.(*Hello2Reply), nil
 }
 
+func (this *StdApi) HeartBeat() (*HeartBeatReply, error) {
+	heartBeat := NewHeartBeat()
+	reply, err := this.command(heartBeat)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*HeartBeatReply), nil
+}
+
 // GetFinanceInfo 基本面
 func (this *StdApi) GetFinanceInfo(market proto.Market, code string, num uint16) (*FinanceInfo, error) {
 	msg := NewFinanceInfoPackage()
