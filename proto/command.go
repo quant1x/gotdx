@@ -24,6 +24,11 @@ const (
 	STD_MSG_TRANSACTION_DATA         = 0x0fc5 // 分笔成交信息
 	STD_MSG_HISTORY_MINUTETIME_DATA  = 0x0fb4 // 历史分时信息
 	STD_MSG_HISTORY_TRANSACTION_DATA = 0x0fb5 // 历史分笔成交信息
+	//CMD_INFO_EX                      = 0x000f
+	//CMD_STOCK_LIST                   = 0x0524
+	//CMD_INSTANT_TRANS                = 0x0fc5
+	//CMD_HIS_TRANS                    = 0x0fb5
+	//CMD_HEART_BEAT                   = 0x0523
 )
 
 // K线种类

@@ -236,9 +236,25 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		ele.Rate = float64(reversedbytes9) / 100.0
 
 		// 保留 2个字节
-		pos += 2
+		//_r1 := data[pos : pos+2]
+		//_pos := 0
+		//_price := getPrice(_r1, &_pos)
+		//pos += 2
+
 		// 保留 12x4字节
-		pos += 12 * 4
+		_lenth := 12*4 + 2
+		//_r1 := data[pos : pos+_lenth]
+		//_pos := 0
+		////_p1 := obj.getPrice(getPrice(_r1, &_pos), _price)
+		//for {
+		//	_p1 := getPrice(_r1, &_pos)
+		//	fmt.Println(_p1)
+		//	if _pos >= _lenth {
+		//		break
+		//	}
+		//}
+		//_ = _price
+		pos += _lenth
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
 		pos += 2

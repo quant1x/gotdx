@@ -2,13 +2,16 @@ package quotes
 
 import (
 	"bytes"
+	"compress/zlib"
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	log "github.com/mymmsc/gox/logger"
+	"io"
 	"testing"
 )
 
-func parseResponse(data []byte) (*StdResponseHeader, []byte, error) {
+func parseResponseHeader(data []byte) (*StdResponseHeader, []byte, error) {
 	var header StdResponseHeader
 	//err := cstruct.Unpack(data, &header)
 	headerBuf := bytes.NewReader(data)
@@ -18,7 +21,23 @@ func parseResponse(data []byte) (*StdResponseHeader, []byte, error) {
 	}
 	fmt.Println(headerBuf.Len(), headerBuf.Size())
 	pos := int(headerBuf.Size()) - headerBuf.Len()
-	return &header, data[pos:], err
+	if header.ZipSize > MessageMaxBytes {
+		log.Debugf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
+		return &header, nil, ErrBadData
+	}
+	var out bytes.Buffer
+	var body []byte
+	if header.ZipSize != header.UnZipSize {
+		b := bytes.NewReader(data[pos:])
+		r, _ := zlib.NewReader(b)
+		// TODO: 这里可能存在bug
+		_, _ = io.Copy(&out, r)
+		body = out.Bytes()
+		_ = r.Close()
+	} else {
+		body = data[pos:]
+	}
+	return &header, body, err
 
 }
 
@@ -28,7 +47,7 @@ func TestProcess(t *testing.T) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	respHeader, respBody, err := parseResponse(data)
+	respHeader, respBody, err := parseResponseHeader(data)
 	if err != nil {
 		fmt.Println(err)
 	}
