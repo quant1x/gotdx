@@ -23,7 +23,7 @@ type StdRequestHeader struct {
 // StdResponseHeader 标准行情-响应-消息头
 type StdResponseHeader struct {
 	I1        uint32 `struc:"uint32,little"`
-	I2        uint8  `struc:"uint8,little"`
+	ZipFlag   uint8  `struc:"uint8,little"`  // ZipFlag
 	SeqID     uint32 `struc:"uint32,little"` // 请求编号
 	I3        uint8  `struc:"uint8,little"`
 	Method    uint16 `struc:"uint16,little"` // method
