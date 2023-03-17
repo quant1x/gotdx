@@ -39,7 +39,7 @@ func NewHistoryMinuteTimePackage() *HistoryMinuteTimePackage {
 	obj.request = new(HistoryMinuteTimeRequest)
 	obj.reply = new(HistoryMinuteTimeReply)
 
-	obj.reqHeader.ZipFlag = 0x0c
+	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =

@@ -31,7 +31,7 @@ func NewHello2() *Hello2Package {
 	obj.request = new(Hello2Request)
 	obj.reply = new(Hello2Reply)
 
-	obj.reqHeader.ZipFlag = 0x0c
+	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_LOGIN2

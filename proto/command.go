@@ -4,6 +4,7 @@ package proto
 
 // 标准行情-命令字
 const (
+	STD_MSG_HEARTBEAT                = 0x0004 // 心跳维持
 	STD_MSG_LOGIN1                   = 0x000d // 第一次登录
 	STD_MSG_LOGIN2                   = 0x0fdb // 第二次登录
 	STD_MSG_XDXR_INFO                = 0x000f // 除权除息信息
@@ -23,7 +24,6 @@ const (
 	STD_MSG_TRANSACTION_DATA         = 0x0fc5 // 分笔成交信息
 	STD_MSG_HISTORY_MINUTETIME_DATA  = 0x0fb4 // 历史分时信息
 	STD_MSG_HISTORY_TRANSACTION_DATA = 0x0fb5 // 历史分笔成交信息
-	STD_MSG_HEARTBEAT                = 0x0004 // 心跳维持
 )
 
 // K线种类
@@ -40,4 +40,10 @@ const (
 	KLINE_TYPE_RI_K      = 9  // 日 K线
 	KLINE_TYPE_3MONTH    = 10 // 季 K线
 	KLINE_TYPE_YEARLY    = 11 // 年 K线
+)
+
+const (
+	Compressed    = uint8(0x10)                       // 压缩标志
+	FlagNotZipped = uint8(0x0c)                       // zip未压缩
+	FlagZipped    = uint8(Compressed | FlagNotZipped) // zip已压缩 消息头标志 0x789C
 )

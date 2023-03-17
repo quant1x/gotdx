@@ -45,7 +45,7 @@ func NewHistoryTransactionPackage() *HistoryTransactionPackage {
 	obj.request = new(HistoryTransactionRequest)
 	obj.reply = new(TransactionReply)
 
-	obj.reqHeader.ZipFlag = 0x0c
+	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =

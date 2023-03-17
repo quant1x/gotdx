@@ -96,7 +96,7 @@ func NewV2SecurityQuotesPackage() *V2SecurityQuotesPackage {
 	obj.request = new(V2SecurityQuotesRequest)
 	obj.reply = new(V2SecurityQuotesReply)
 
-	obj.reqHeader.ZipFlag = 0x0c
+	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_new

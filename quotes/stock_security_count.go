@@ -31,7 +31,7 @@ func NewSecurityCountPackage() *SecurityCountPackage {
 	obj.request = new(SecurityCountRequest)
 	obj.reply = new(SecurityCountReply)
 
-	obj.reqHeader.ZipFlag = 0x0c
+	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = seqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_COUNT
