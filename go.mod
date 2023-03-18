@@ -3,7 +3,7 @@ module gitee.com/quant1x/gotdx
 go 1.20
 
 require (
-	github.com/mymmsc/gox v1.3.13
+	github.com/mymmsc/gox v1.3.15
 	github.com/stretchr/testify v1.8.2
 	golang.org/x/text v0.8.0
 )
