@@ -8,7 +8,7 @@ import (
 )
 
 func TestStdApi_ALL(t *testing.T) {
-	logger.SetLevel(logger.INFO)
+	logger.SetLevel(logger.DEBUG)
 	//quotesSrv := Server{Host: "119.147.212.81", Port: 7709}
 	//stdApi := NewStdApi(quotesSrv)
 	stdApi, err := NewStdApi()

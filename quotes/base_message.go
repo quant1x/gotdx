@@ -87,7 +87,7 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 		return err
 	}
 	if log.IsDebug() {
-		log.Debug("response header:", hex.EncodeToString(headerBytes))
+		log.Debug("response header: ", hex.EncodeToString(headerBytes))
 	}
 
 	// 3.2 响应的消息头, 反序列化
@@ -97,7 +97,7 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 		return err
 	}
 	if log.IsDebug() {
-		log.Debugf("response header:%+v", header)
+		log.Debugf("response header: %+v", header)
 	}
 	// 3.3 处理超长信息的异常
 	if header.ZipSize > MessageMaxBytes {
@@ -117,15 +117,23 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	}
 	// 3.5 反序列化响应的消息体
 	var out bytes.Buffer
+	if log.IsDebug() {
+		log.Debugf("response body: %+v", hex.EncodeToString(msgData))
+	}
+	var respBody []byte
 	if header.ZipSize != header.UnZipSize {
 		b := bytes.NewReader(msgData)
 		r, _ := zlib.NewReader(b)
 		defer api.CloseQuietly(r)
 		_, _ = io.Copy(&out, r)
-		err = msg.UnSerialize(&header, out.Bytes())
+		respBody = out.Bytes()
 	} else {
-		err = msg.UnSerialize(&header, msgData)
+		respBody = msgData
 	}
+	if log.IsDebug() {
+		log.Debugf("response body: %+v", hex.EncodeToString(respBody))
+	}
+	err = msg.UnSerialize(&header, respBody)
 	// 4. 返回
 	return err
 }
