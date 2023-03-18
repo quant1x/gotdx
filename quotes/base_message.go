@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"compress/zlib"
 	"encoding/binary"
+	"encoding/hex"
+	"gitee.com/quant1x/gotdx/util"
+	"github.com/mymmsc/gox/api"
 	log "github.com/mymmsc/gox/logger"
 	"io"
 	"net"
@@ -51,13 +54,15 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 
 	// 2. 发送指令
 	retryTimes := 0
-	//fmt.Println(util.Bytes2HexString(sendData))
+	if log.IsDebug() {
+		log.Debug(util.Bytes2HexString(sendData))
+	}
 	for {
 		n, err := conn.Write(sendData)
 		if n < len(sendData) {
 			retryTimes++
 			if retryTimes <= opt.MaxRetryTimes {
-				log.Debugf("第%d次重试\n", retryTimes)
+				log.Warnf("第%d次重试\n", retryTimes)
 			} else {
 				return err
 			}
@@ -81,6 +86,9 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	if err != nil {
 		return err
 	}
+	if log.IsDebug() {
+		log.Debug("response header:", hex.EncodeToString(headerBytes))
+	}
 
 	// 3.2 响应的消息头, 反序列化
 	headerBuf := bytes.NewReader(headerBytes)
@@ -88,9 +96,12 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	if err := binary.Read(headerBuf, binary.LittleEndian, &header); err != nil {
 		return err
 	}
+	if log.IsDebug() {
+		log.Debugf("response header:%+v", header)
+	}
 	// 3.3 处理超长信息的异常
 	if header.ZipSize > MessageMaxBytes {
-		log.Debugf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
+		log.Warnf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
 		return ErrBadData
 	}
 	// 3.4 读取响应的消息体
@@ -109,10 +120,9 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	if header.ZipSize != header.UnZipSize {
 		b := bytes.NewReader(msgData)
 		r, _ := zlib.NewReader(b)
-		// TODO: 这里可能存在bug
+		defer api.CloseQuietly(r)
 		_, _ = io.Copy(&out, r)
 		err = msg.UnSerialize(&header, out.Bytes())
-		_ = r.Close()
 	} else {
 		err = msg.UnSerialize(&header, msgData)
 	}

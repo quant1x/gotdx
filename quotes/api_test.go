@@ -3,10 +3,12 @@ package quotes
 import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
+	"github.com/mymmsc/gox/logger"
 	"testing"
 )
 
 func TestStdApi_ALL(t *testing.T) {
+	logger.SetLevel(logger.INFO)
 	//quotesSrv := Server{Host: "119.147.212.81", Port: 7709}
 	//stdApi := NewStdApi(quotesSrv)
 	stdApi, err := NewStdApi()
@@ -85,8 +87,8 @@ func TestStdApi_ALL(t *testing.T) {
 	// 8.2 获取5档行情
 	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
 	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"880082"})
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
-	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600", "880082"})
+	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShenZhen}, []string{"002423"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600", "880082"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

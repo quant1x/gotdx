@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	log "github.com/mymmsc/gox/logger"
 )
 
 const (
@@ -132,7 +133,9 @@ func (obj *V2SecurityQuotesPackage) Serialize() ([]byte, error) {
 func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	//fmt.Println(hex.EncodeToString(data))
+	if log.IsDebug() {
+		log.Debugf(hex.EncodeToString(data))
+	}
 	pos := 0
 
 	pos += 2 // 跳过两个字节
@@ -238,21 +241,24 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		// 保留 2个字节
 		//_r1 := data[pos : pos+2]
 		//_pos := 0
-		//_price := getPrice(_r1, &_pos)
-		//pos += 2
+		//_price1 := getPrice(_r1, &_pos)
+		pos += 2
+		//pos += _pos
 
 		// 保留 12x4字节
-		_lenth := 12*4 + 2
-		//_r1 := data[pos : pos+_lenth]
-		//_pos := 0
-		////_p1 := obj.getPrice(getPrice(_r1, &_pos), _price)
-		//for {
-		//	_p1 := getPrice(_r1, &_pos)
-		//	fmt.Println(_p1)
-		//	if _pos >= _lenth {
-		//		break
-		//	}
-		//}
+		_lenth := 12 * 4
+		_r2 := data[pos : pos+_lenth]
+		_pos2 := 0
+		for {
+			_p2 := obj.getPrice(getPrice(_r2, &_pos2), price)
+			//_p2 := getPrice(_r2, &_pos2)
+			if log.IsDebug() {
+				log.Debug(_p2)
+			}
+			if _pos2 >= _lenth {
+				break
+			}
+		}
 		//_ = _price
 		pos += _lenth
 
