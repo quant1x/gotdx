@@ -33,11 +33,11 @@ type SecurityListReply struct {
 type Security struct {
 	Code         string
 	VolUnit      uint16
-	Reversed1    [4]byte
+	Reversed1    [4]byte `dataframe:"-"`
 	DecimalPoint int8
 	Name         string
 	PreClose     float64
-	Reversed2    [4]byte
+	Reversed2    [4]byte `dataframe:"-"`
 }
 
 func NewSecurityListPackage() *SecurityListPackage {
