@@ -30,7 +30,6 @@ func parseResponseHeader(data []byte) (*StdResponseHeader, []byte, error) {
 	if header.ZipSize != header.UnZipSize {
 		b := bytes.NewReader(data[pos:])
 		r, _ := zlib.NewReader(b)
-		// TODO: 这里可能存在bug
 		_, _ = io.Copy(&out, r)
 		body = out.Bytes()
 		_ = r.Close()
