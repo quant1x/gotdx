@@ -18,8 +18,8 @@ type StdRequestHeader struct {
 	ZipFlag    uint8  `struc:"uint8,little"`  // ZipFlag
 	SeqID      uint32 `struc:"uint32,little"` // 请求编号
 	PacketType uint8  `struc:"uint8,little"`  // 包类型
-	PkgLen1    uint16 `struc:"uint16,little"`
-	PkgLen2    uint16 `struc:"uint16,little"`
+	PkgLen1    uint16 `struc:"uint16,little"` // 消息体长度1
+	PkgLen2    uint16 `struc:"uint16,little"` // 消息体长度2
 	Method     uint16 `struc:"uint16,little"` // method 请求方法
 }
 
