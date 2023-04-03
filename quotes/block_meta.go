@@ -34,9 +34,9 @@ type BlockMetaRequest struct {
 // BlockMeta 响应包结构
 type BlockMeta struct {
 	Size      uint32   `struc:"uint32,little"`   // 尺寸
-	C1        byte     `struc:"byte,little"`     //  C1
-	HashValue [32]byte `struc:"[32]byte,little"` // [29]byte和title中间必须要有一个空格
-	C2        byte     `struc:"byte,little"`     //  C2
+	C1        byte     `struc:"byte,little"`     // C1
+	HashValue [32]byte `struc:"[32]byte,little"` // hash值
+	C2        byte     `struc:"byte,little"`     // C2
 }
 
 func NewBlockMetaPackage() *BlockMetaPackage {
