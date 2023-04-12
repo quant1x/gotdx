@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.5] - 2023-04-12
+### Changed
+- 优化代码.
+
 ## [1.5.4] - 2023-04-12
 ### Changed
 - Add CHANGELOG.md.
@@ -281,7 +285,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.5...HEAD
+[1.5.5]: https://gitee.com/quant1x/gotdx/compare/v1.5.4...v1.5.5
 [1.5.4]: https://gitee.com/quant1x/gotdx/compare/v1.5.3...v1.5.4
 [1.5.3]: https://gitee.com/quant1x/gotdx/compare/v1.5.2...v1.5.3
 [1.5.2]: https://gitee.com/quant1x/gotdx/compare/v1.5.1...v1.5.2
