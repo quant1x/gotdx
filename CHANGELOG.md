@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.7] - 2023-04-20
+### Changed
+- 统一指令入口.
+
 ## [1.5.6] - 2023-04-20
 ### Changed
 - 增加心跳机制.
@@ -291,7 +295,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.7...HEAD
+[1.5.7]: https://gitee.com/quant1x/gotdx/compare/v1.5.6...v1.5.7
 [1.5.6]: https://gitee.com/quant1x/gotdx/compare/v1.5.5...v1.5.6
 [1.5.5]: https://gitee.com/quant1x/gotdx/compare/v1.5.4...v1.5.5
 [1.5.4]: https://gitee.com/quant1x/gotdx/compare/v1.5.3...v1.5.4
