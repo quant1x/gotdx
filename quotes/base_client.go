@@ -4,6 +4,7 @@ import (
 	"net"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
@@ -12,6 +13,7 @@ type TcpClient struct {
 	opt      *Opt
 	complete chan bool
 	sending  chan bool
+	sync.Mutex
 }
 
 type Opt struct {
@@ -40,6 +42,12 @@ func NewClient(opt *Opt) *TcpClient {
 
 // Connect 连接服务器
 func (client *TcpClient) Connect() error {
+	//defer func() {
+	//	<-client.sending
+	//}()
+	//client.sending <- true
+	defer client.Unlock()
+	client.Lock()
 	opt := client.opt
 	total := len(opt.Servers)
 	for i := opt.index; i < total; i++ {
@@ -65,6 +73,8 @@ func (client *TcpClient) Connect() error {
 
 // Close 断开服务器
 func (client *TcpClient) Close() error {
+	close(client.sending)
+	close(client.complete)
 	return client.conn.Close()
 }
 

@@ -131,7 +131,7 @@ func cleanServers(str string, test func(addr string)) (src, dst []Server) {
 		return a.CrossTime < b.CrossTime
 	})
 	dst2 := dst1.Filter(func(e Server) bool { return e.CrossTime < 100 })
-	dst = dst2.Take(0, 2).Pointer().([]Server)
+	dst = dst2.Take(0, POOL_MAX).Pointer().([]Server)
 	fmt.Println(dst)
 	return
 }
