@@ -76,11 +76,12 @@ func (this *StdApi) poolClose(cli *TcpClient) error {
 }
 
 func (this *StdApi) tdx_hello1(client *TcpClient) error {
-	opt := client.GetOpt()
-	conn := client.GetConn()
+	//opt := client.GetOpt()
+	//conn := client.GetConn()
 	// 创建一个hello1消息
 	hello1 := NewHello1()
-	err := process(conn, hello1, opt)
+	//err := process(conn, hello1, opt)
+	err := client.Command(hello1)
 	if err != nil {
 		_ = this.poolClose(client)
 		return err
@@ -91,11 +92,12 @@ func (this *StdApi) tdx_hello1(client *TcpClient) error {
 }
 
 func (this *StdApi) tdx_hello2(client *TcpClient) error {
-	opt := client.GetOpt()
-	conn := client.GetConn()
+	//opt := client.GetOpt()
+	//conn := client.GetConn()
 	// 创建一个hello1消息
 	hello2 := NewHello2()
-	err := process(conn, hello2, opt)
+	//err := process(conn, hello2, opt)
+	err := client.Command(hello2)
 	if err != nil {
 		_ = this.poolClose(client)
 		return err
@@ -106,13 +108,14 @@ func (this *StdApi) tdx_hello2(client *TcpClient) error {
 }
 
 func (this *StdApi) tdx_ping(client *TcpClient) error {
-	opt := client.GetOpt()
-	conn := client.GetConn()
+	//opt := client.GetOpt()
+	//conn := client.GetConn()
 	msg := NewSecurityCountPackage()
 	msg.SetParams(&SecurityCountRequest{
 		Market: uint16(1),
 	})
-	err := process(conn, msg, opt)
+	//err := process(conn, msg, opt)
+	err := client.Command(msg)
 	if err != nil {
 		_ = this.poolClose(client)
 		return err
@@ -124,13 +127,27 @@ func (this *StdApi) tdx_ping(client *TcpClient) error {
 	return nil
 }
 
-func (this *StdApi) command(msg Message) (interface{}, error) {
+func (this *StdApi) v1command(msg Message) (interface{}, error) {
 	// 2.1 获取TCP连接
 	_conn := this.connPool.GetConn()
 	cli := _conn.(*TcpClient)
 	opt := cli.GetOpt()
 	conn := cli.GetConn()
 	err := process(conn, msg, opt)
+	if err != nil {
+		_ = this.poolClose(cli)
+		return nil, err
+	}
+
+	this.connPool.ReturnConn(_conn)
+	return msg.Reply(), nil
+}
+
+func (this *StdApi) command(msg Message) (interface{}, error) {
+	// 2.1 获取TCP连接
+	_conn := this.connPool.GetConn()
+	cli := _conn.(*TcpClient)
+	err := cli.Command(msg)
 	if err != nil {
 		_ = this.poolClose(cli)
 		return nil, err

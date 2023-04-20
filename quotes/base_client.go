@@ -1,7 +1,6 @@
 package quotes
 
 import (
-	"fmt"
 	"io"
 	"net"
 	"strconv"
@@ -33,7 +32,7 @@ func NewClient(opt *Opt) *TcpClient {
 		opt.MaxRetryTimes = DefaultRetryTimes
 	}
 	if opt.Timeout <= 0 {
-		opt.Timeout = RECV_TIMEOUT * time.Second
+		opt.Timeout = CONN_TIMEOUT * time.Second
 	}
 
 	client.opt = opt
@@ -45,6 +44,8 @@ func NewClient(opt *Opt) *TcpClient {
 
 // Command 执行通达信指令
 func (client *TcpClient) Command(msg Message) error {
+	defer client.Unlock()
+	client.Lock()
 	opt := client.GetOpt()
 	conn := client.GetConn()
 	if conn == nil {
@@ -68,7 +69,7 @@ func (client *TcpClient) heartbeat() {
 					Market: uint16(1),
 				})
 				_ = client.Command(msg)
-				fmt.Println(msg)
+				//fmt.Println(msg)
 			}
 			client.timer.Reset(client.opt.Timeout) // 每次使用完后需要人为重置下
 		}
