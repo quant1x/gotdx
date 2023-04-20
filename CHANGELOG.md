@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.6] - 2023-04-20
+### Changed
+- 增加心跳机制.
+- 优化从ip池获取一个连接, 增加锁机制.
+- 增加超时机制的测试代码.
+
 ## [1.5.5] - 2023-04-12
 ### Changed
 - 优化代码.
@@ -285,7 +291,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.6...HEAD
+[1.5.6]: https://gitee.com/quant1x/gotdx/compare/v1.5.5...v1.5.6
 [1.5.5]: https://gitee.com/quant1x/gotdx/compare/v1.5.4...v1.5.5
 [1.5.4]: https://gitee.com/quant1x/gotdx/compare/v1.5.3...v1.5.4
 [1.5.3]: https://gitee.com/quant1x/gotdx/compare/v1.5.2...v1.5.3
