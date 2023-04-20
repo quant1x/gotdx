@@ -5,6 +5,7 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 	"github.com/mymmsc/gox/logger"
 	"testing"
+	"time"
 )
 
 func TestStdApi_ALL(t *testing.T) {
@@ -75,6 +76,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", sc)
 
+	time.Sleep(time.Second * 15)
 	// 8.1 获取5档行情
 	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})

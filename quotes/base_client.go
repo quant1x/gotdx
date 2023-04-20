@@ -1,6 +1,8 @@
 package quotes
 
 import (
+	"fmt"
+	"io"
 	"net"
 	"strconv"
 	"strings"
@@ -9,11 +11,12 @@ import (
 )
 
 type TcpClient struct {
+	sync.Mutex
 	conn     net.Conn
 	opt      *Opt
 	complete chan bool
 	sending  chan bool
-	sync.Mutex
+	timer    *time.Timer
 }
 
 type Opt struct {
@@ -36,8 +39,40 @@ func NewClient(opt *Opt) *TcpClient {
 	client.opt = opt
 	client.sending = make(chan bool, 1)
 	client.complete = make(chan bool, 1)
-
+	client.timer = time.NewTimer(opt.Timeout)
 	return client
+}
+
+// Command 执行通达信指令
+func (client *TcpClient) Command(msg Message) error {
+	opt := client.GetOpt()
+	conn := client.GetConn()
+	if conn == nil {
+		return io.EOF
+	}
+	err := process(conn, msg, opt)
+	if err != nil {
+		//_ = this.poolClose(client)
+		return err
+	}
+	return nil
+}
+
+func (client *TcpClient) heartbeat() {
+	for {
+		select {
+		case <-client.timer.C:
+			{
+				msg := NewSecurityCountPackage()
+				msg.SetParams(&SecurityCountRequest{
+					Market: uint16(1),
+				})
+				_ = client.Command(msg)
+				fmt.Println(msg)
+			}
+			client.timer.Reset(client.opt.Timeout) // 每次使用完后需要人为重置下
+		}
+	}
 }
 
 // Connect 连接服务器
@@ -67,12 +102,13 @@ func (client *TcpClient) Connect() error {
 			opt.index += 1
 		}
 	}
-
+	go client.heartbeat()
 	return nil
 }
 
 // Close 断开服务器
 func (client *TcpClient) Close() error {
+	client.timer.Stop()
 	close(client.sending)
 	close(client.complete)
 	return client.conn.Close()
