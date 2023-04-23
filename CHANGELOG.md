@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.9] - 2023-04-23
+### Changed
+- 可用的服务器数量作为连接池最大数.
+
 ## [1.5.8] - 2023-04-23
 ### Changed
 - 优化连接池IP地址循环使用.
@@ -299,7 +303,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.9...HEAD
+[1.5.9]: https://gitee.com/quant1x/gotdx/compare/v1.5.8...v1.5.9
 [1.5.8]: https://gitee.com/quant1x/gotdx/compare/v1.5.7...v1.5.8
 [1.5.7]: https://gitee.com/quant1x/gotdx/compare/v1.5.6...v1.5.7
 [1.5.6]: https://gitee.com/quant1x/gotdx/compare/v1.5.5...v1.5.6
