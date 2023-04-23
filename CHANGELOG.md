@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.8] - 2023-04-23
+### Changed
+- 优化连接池IP地址循环使用.
+
 ## [1.5.7] - 2023-04-20
 ### Changed
 - 统一指令入口.
@@ -295,7 +299,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.8...HEAD
+[1.5.8]: https://gitee.com/quant1x/gotdx/compare/v1.5.7...v1.5.8
 [1.5.7]: https://gitee.com/quant1x/gotdx/compare/v1.5.6...v1.5.7
 [1.5.6]: https://gitee.com/quant1x/gotdx/compare/v1.5.5...v1.5.6
 [1.5.5]: https://gitee.com/quant1x/gotdx/compare/v1.5.4...v1.5.5
