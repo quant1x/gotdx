@@ -95,6 +95,7 @@ func (client *TcpClient) Connect() error {
 		conn, err := net.DialTimeout("tcp", addr, client.opt.Timeout) // net.DialTimeout()
 		if err == nil {
 			client.conn = conn
+			opt.index += 1
 			break
 		} else if i+1 >= total {
 			opt.index = 0

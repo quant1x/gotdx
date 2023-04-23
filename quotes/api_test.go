@@ -5,7 +5,6 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 	"github.com/mymmsc/gox/logger"
 	"testing"
-	"time"
 )
 
 func TestStdApi_ALL(t *testing.T) {
@@ -76,7 +75,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", sc)
 
-	time.Sleep(time.Second * 15)
+	//time.Sleep(time.Second * 15)
 	// 8.1 获取5档行情
 	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
@@ -115,7 +114,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", td)
 	// 12. 历史分笔成交
-	htd, err := stdApi.GetHistoryTransactionData(proto.MarketShangHai, "600600", 20230210, 0, 10)
+	htd, err := stdApi.GetHistoryTransactionData(proto.MarketShangHai, "600105", 20230421, 0, 1800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

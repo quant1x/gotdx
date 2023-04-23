@@ -83,8 +83,13 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
+	pos += 2
+	//var a uint16
+	//var b uint32
+	//binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &a)
+	//binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &b)
 	// 跳过4个字节
-	pos += 6
+	pos += 4
 
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {

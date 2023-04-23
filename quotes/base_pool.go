@@ -10,7 +10,7 @@ const (
 	// POOL_INITED 连接池初始化
 	POOL_INITED = 1
 	// POOL_MAX 连接池最大 2
-	POOL_MAX = 2
+	POOL_MAX = 5
 	// CONN_TIMEOUT 链接超时 10 s
 	CONN_TIMEOUT = 10
 	// RECV_TIMEOUT 接收数据超时
