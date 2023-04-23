@@ -28,11 +28,18 @@ func NewConnPool(opt Opt, size int, factory func() (interface{}, error), close f
 	if size < POOL_INITED {
 		size = POOL_INITED
 	}
-
+	poolMax := POOL_MAX
+	bestIpCount := len(opt.Servers)
+	if bestIpCount == 0 {
+		panic("No available hosts")
+	}
+	if bestIpCount < poolMax {
+		poolMax = bestIpCount
+	}
 	// 创建一个连接池: 初始化5,最大连接30
 	poolConfig := &pool.Config{
 		InitialCap: POOL_INITED,
-		MaxCap:     POOL_MAX,
+		MaxCap:     poolMax,
 		MaxIdle:    size,
 		Factory:    factory,
 		Close:      close,
