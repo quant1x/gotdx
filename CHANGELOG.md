@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.11] - 2023-04-24
+### Changed
+- Update gox.
+
 ## [1.5.10] - 2023-04-23
 ### Changed
 - 更新gox工具版本.
@@ -307,7 +311,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.10...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.11...HEAD
+[1.5.11]: https://gitee.com/quant1x/gotdx/compare/v1.5.10...v1.5.11
 [1.5.10]: https://gitee.com/quant1x/gotdx/compare/v1.5.9...v1.5.10
 [1.5.9]: https://gitee.com/quant1x/gotdx/compare/v1.5.8...v1.5.9
 [1.5.8]: https://gitee.com/quant1x/gotdx/compare/v1.5.7...v1.5.8
