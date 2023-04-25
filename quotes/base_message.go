@@ -58,6 +58,11 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 		log.Debug(util.Bytes2HexString(sendData))
 	}
 	for {
+		// 设置写timeout
+		err = conn.SetWriteDeadline(time.Now().Add(opt.WriteTimeout))
+		if err != nil {
+			return err
+		}
 		n, err := conn.Write(sendData)
 		if n < len(sendData) {
 			retryTimes++
@@ -78,7 +83,7 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	// 3.1 读取响应的消息头
 	headerBytes := make([]byte, MessageHeaderBytes)
 	// 设置读timeout
-	err = conn.SetReadDeadline(time.Now().Add(opt.Timeout))
+	err = conn.SetReadDeadline(time.Now().Add(opt.ReadTimeout))
 	if err != nil {
 		return err
 	}
@@ -107,7 +112,7 @@ func process(conn net.Conn, msg Message, opt Opt) error {
 	// 3.4 读取响应的消息体
 	msgData := make([]byte, header.ZipSize)
 	// 设置读timeout
-	err = conn.SetReadDeadline(time.Now().Add(opt.Timeout))
+	err = conn.SetReadDeadline(time.Now().Add(opt.ReadTimeout))
 	if err != nil {
 		return err
 	}

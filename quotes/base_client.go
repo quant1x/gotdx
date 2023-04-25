@@ -1,6 +1,8 @@
 package quotes
 
 import (
+	"github.com/mymmsc/gox/api"
+	"github.com/mymmsc/gox/logger"
 	"io"
 	"net"
 	"strconv"
@@ -12,36 +14,42 @@ import (
 type TcpClient struct {
 	sync.Mutex
 	conn          net.Conn
-	opt           *Opt
+	opt           Opt
 	complete      chan bool
 	sending       chan bool
-	timer         *time.Timer
+	done          chan bool
 	completedTime time.Time // 时间戳
 }
 
 type Opt struct {
-	Servers       []Server      // 服务器组
-	index         int           // 索引
-	Timeout       time.Duration // 超时
-	MaxRetryTimes int           // 最大重试次数
-	RetryDuration time.Duration // 重试时间
+	Servers           []Server      // 服务器组
+	index             int           // 索引
+	ConnectionTimeout time.Duration // 连接超时
+	ReadTimeout       time.Duration // 读超时
+	WriteTimeout      time.Duration // 写超时
+	MaxRetryTimes     int           // 最大重试次数
+	RetryDuration     time.Duration // 重试时间
 }
 
-func NewClient(opt *Opt) *TcpClient {
+func NewClient(opt Opt) *TcpClient {
 	client := &TcpClient{}
 	if opt.MaxRetryTimes <= 0 {
 		opt.MaxRetryTimes = DefaultRetryTimes
 	}
-	if opt.Timeout <= 0 {
-		opt.Timeout = CONN_TIMEOUT * time.Second
+	if opt.ConnectionTimeout <= 0 {
+		opt.ConnectionTimeout = CONN_TIMEOUT * time.Second
+	}
+	if opt.ReadTimeout <= 0 {
+		opt.ReadTimeout = RECV_TIMEOUT * time.Second
+	}
+	if opt.WriteTimeout <= 0 {
+		opt.WriteTimeout = RECV_TIMEOUT * time.Second
 	}
 
 	client.opt = opt
 	client.sending = make(chan bool, 1)
 	client.complete = make(chan bool, 1)
 	client.updateCompletedTimestamp()
-	client.timer = time.NewTimer(opt.Timeout)
-	go client.heartbeat()
 	return client
 }
 
@@ -59,8 +67,7 @@ func (client *TcpClient) crossTime() (elapsedTime int) {
 // 是否超时
 func (client *TcpClient) hasTimedOut() bool {
 	elapsedTime := client.crossTime()
-	timeout := int(client.opt.Timeout / time.Second)
-	//fmt.Println("=====>", elapsedTime, "==", timeout)
+	timeout := int(client.opt.ConnectionTimeout / time.Second)
 	return elapsedTime >= timeout
 }
 
@@ -68,14 +75,11 @@ func (client *TcpClient) hasTimedOut() bool {
 func (client *TcpClient) Command(msg Message) error {
 	defer client.Unlock()
 	client.Lock()
-	opt := client.GetOpt()
-	conn := client.GetConn()
-	if conn == nil {
+	if client.conn == nil {
 		return io.EOF
 	}
-	err := process(conn, msg, opt)
+	err := process(client.conn, msg, client.opt)
 	if err != nil {
-		//_ = this.poolClose(client)
 		return err
 	}
 	client.updateCompletedTimestamp()
@@ -83,27 +87,31 @@ func (client *TcpClient) Command(msg Message) error {
 }
 
 func (client *TcpClient) heartbeat() {
+	defer func() {
+		// 解析失败以后输出日志, 以备检查
+		if err := recover(); err != nil {
+			logger.Errorf("heartbeat.done error=%+v\n", err)
+		}
+	}()
 	for {
 		select {
-		case <-client.timer.C:
+		case <-time.After(time.Second):
 			if client.hasTimedOut() {
 				msg := NewSecurityCountPackage()
 				msg.SetParams(&SecurityCountRequest{
 					Market: uint16(1),
 				})
-				_ = client.Command(msg)
+				err := client.Command(msg)
+				_ = err
 			}
-			client.timer.Reset(client.opt.Timeout) // 每次使用完后需要人为重置下
+		case <-client.done:
+			return
 		}
 	}
 }
 
 // Connect 连接服务器
 func (client *TcpClient) Connect() error {
-	//defer func() {
-	//	<-client.sending
-	//}()
-	//client.sending <- true
 	defer client.Unlock()
 	client.Lock()
 	opt := client.opt
@@ -114,11 +122,12 @@ func (client *TcpClient) Connect() error {
 		//	serv.Host = "127.0.0.1"
 		//}
 		addr := strings.Join([]string{serv.Host, strconv.Itoa(serv.Port)}, ":")
-		conn, err := net.DialTimeout("tcp", addr, client.opt.Timeout) // net.DialTimeout()
+		conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
 		if err == nil {
 			client.conn = conn
 			client.updateCompletedTimestamp()
 			opt.index += 1
+			go client.heartbeat()
 			break
 		} else if i+1 >= total {
 			opt.index = 0
@@ -132,16 +141,8 @@ func (client *TcpClient) Connect() error {
 
 // Close 断开服务器
 func (client *TcpClient) Close() error {
-	client.timer.Stop()
 	close(client.sending)
 	close(client.complete)
-	return client.conn.Close()
-}
-
-func (client *TcpClient) GetConn() net.Conn {
-	return client.conn
-}
-
-func (client *TcpClient) GetOpt() Opt {
-	return *client.opt
+	api.CloseQuietly(client.conn)
+	return nil
 }

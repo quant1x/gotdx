@@ -8,6 +8,7 @@ import (
 	"io"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Server 主机信息
@@ -36,11 +37,12 @@ func NewStdApi() (*StdApi, error) {
 func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	size := 1
 	opt := Opt{
-		Servers: srvs,
+		Servers:           srvs,
+		ConnectionTimeout: CONN_TIMEOUT * time.Second,
 	}
 	stdApi := StdApi{}
 	_factory := func() (interface{}, error) {
-		client := NewClient(&opt)
+		client := NewClient(opt)
 		err := client.Connect()
 		if err != nil {
 			return nil, err
@@ -138,22 +140,6 @@ func (this *StdApi) v1_tdx_ping(client *TcpClient) error {
 		return io.EOF
 	}
 	return nil
-}
-
-func (this *StdApi) v1command(msg Message) (interface{}, error) {
-	// 2.1 获取TCP连接
-	_conn := this.connPool.GetConn()
-	cli := _conn.(*TcpClient)
-	opt := cli.GetOpt()
-	conn := cli.GetConn()
-	err := process(conn, msg, opt)
-	if err != nil {
-		_ = this.poolClose(cli)
-		return nil, err
-	}
-
-	this.connPool.ReturnConn(_conn)
-	return msg.Reply(), nil
 }
 
 func (this *StdApi) command(msg Message) (interface{}, error) {
