@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.16] - 2023-04-26
+### Changed
+- 调整time.Duration计算方法.
+
 ## [1.5.15] - 2023-04-26
 ### Changed
 - 调整心跳处理方式.
@@ -328,7 +332,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.15...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.16...HEAD
+[1.5.16]: https://gitee.com/quant1x/gotdx/compare/v1.5.15...v1.5.16
 [1.5.15]: https://gitee.com/quant1x/gotdx/compare/v1.5.14...v1.5.15
 [1.5.14]: https://gitee.com/quant1x/gotdx/compare/v1.5.13...v1.5.14
 [1.5.13]: https://gitee.com/quant1x/gotdx/compare/v1.5.12...v1.5.13
