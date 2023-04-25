@@ -60,15 +60,15 @@ func (client *TcpClient) updateCompletedTimestamp() {
 }
 
 // 过去了多少秒
-func (client *TcpClient) crossTime() (elapsedTime int) {
-	seconds := time.Since(client.completedTime) / time.Second
-	return int(seconds)
+func (client *TcpClient) crossTime() (elapsedTime float64) {
+	seconds := time.Since(client.completedTime).Seconds()
+	return seconds
 }
 
 // 是否超时
 func (client *TcpClient) hasTimedOut() bool {
 	elapsedTime := client.crossTime()
-	timeout := int(client.opt.ConnectionTimeout / time.Second)
+	timeout := client.opt.ConnectionTimeout.Seconds()
 	return elapsedTime >= timeout
 }
 
