@@ -14,10 +14,11 @@ import (
 type TcpClient struct {
 	sync.Mutex
 	conn          net.Conn
-	opt           Opt
-	complete      chan bool
-	sending       chan bool
-	done          chan bool
+	Addr          string    // 当前连接成功的服务器地址
+	opt           Opt       // 参数
+	complete      chan bool // 完成状态
+	sending       chan bool // 正在发送状态
+	done          chan bool // connection done
 	completedTime time.Time // 时间戳
 }
 
@@ -103,6 +104,7 @@ func (client *TcpClient) heartbeat() {
 				})
 				err := client.Command(msg)
 				_ = err
+				logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
 			}
 		case <-client.done:
 			return
@@ -125,6 +127,7 @@ func (client *TcpClient) Connect() error {
 		conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
 		if err == nil {
 			client.conn = conn
+			client.Addr = addr
 			client.updateCompletedTimestamp()
 			opt.index += 1
 			go client.heartbeat()
