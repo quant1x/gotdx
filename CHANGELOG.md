@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.13] - 2023-04-25
+### Changed
+- 去掉业务握手阶段的关闭连接池的操作.
+- 去掉业务握手阶段的关闭连接池的操作.
+
 ## [1.5.12] - 2023-04-25
 ### Changed
 - !4 #I6YKA4 调整快照数据 * 优化即时行情快照数据字段 * 优化即时行情快照数据字段 * 优化心跳处理机制 * 优化心跳处理机制.
@@ -315,7 +320,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.12...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.13...HEAD
+[1.5.13]: https://gitee.com/quant1x/gotdx/compare/v1.5.12...v1.5.13
 [1.5.12]: https://gitee.com/quant1x/gotdx/compare/v1.5.11...v1.5.12
 [1.5.11]: https://gitee.com/quant1x/gotdx/compare/v1.5.10...v1.5.11
 [1.5.10]: https://gitee.com/quant1x/gotdx/compare/v1.5.9...v1.5.10
