@@ -111,7 +111,7 @@ func (this *StdApi) tdx_ping(client *TcpClient) error {
 	message := NewHeartBeat()
 	err := client.Command(message)
 	if err != nil {
-		_ = this.poolClose(client)
+		//_ = this.poolClose(client)
 		return err
 	}
 	reply := message.Reply().(*HeartBeatReply)
