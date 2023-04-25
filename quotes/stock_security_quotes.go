@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"math"
 )
 
 const (
@@ -37,51 +38,52 @@ type SecurityQuotesReply struct {
 }
 
 type SecurityQuote struct {
-	Market         uint8   // 市场
-	Code           string  // 代码
-	Active1        uint16  // 活跃度
-	Price          float64 // 现价
-	LastClose      float64 // 昨收
-	Open           float64 // 开盘
-	High           float64 // 最高
-	Low            float64 // 最低
-	ServerTime     string  // 时间
-	ReversedBytes0 int     // 保留(时间 ServerTime)
-	ReversedBytes1 int     // 保留
-	Vol            int     // 总量
-	CurVol         int     // 现量
-	Amount         float64 // 总金额
-	SVol           int     // 内盘
-	BVol           int     // 外盘
-	ReversedBytes2 int     // 保留
-	ReversedBytes3 int     // 保留
-	Bid1           float64
-	Ask1           float64
-	BidVol1        int
-	AskVol1        int
-	Bid2           float64
-	Ask2           float64
-	BidVol2        int
-	AskVol2        int
-	Bid3           float64
-	Ask3           float64
-	BidVol3        int
-	AskVol3        int
-	Bid4           float64
-	Ask4           float64
-	BidVol4        int
-	AskVol4        int
-	Bid5           float64
-	Ask5           float64
-	BidVol5        int
-	AskVol5        int
-	ReversedBytes4 uint16  // 保留
-	ReversedBytes5 int     // 保留
-	ReversedBytes6 int     // 保留
-	ReversedBytes7 int     // 保留
-	ReversedBytes8 int     // 保留
-	Rate           float64 // 涨速
-	Active2        uint16  // 活跃度
+	Market          uint8   // 市场
+	Code            string  // 代码
+	Active1         uint16  // 活跃度
+	Price           float64 // 现价
+	LastClose       float64 // 昨收
+	Open            float64 // 开盘
+	High            float64 // 最高
+	Low             float64 // 最低
+	ServerTime      string  // 时间
+	ReversedBytes0  int     // 保留(时间 ServerTime)
+	ReversedBytes1  int     // 保留
+	Vol             int     // 总量
+	CurVol          int     // 现量
+	Amount          float64 // 总金额
+	SVol            int     // 内盘
+	BVol            int     // 外盘
+	IndexOpenAmount int     // 指数-集合竞价成交金额=开盘成交金额
+	StockOpenAmount int     // 个股-集合竞价成交金额=开盘成交金额
+	OpenVolume      int     // 集合竞价-开盘量, 单位是股
+	Bid1            float64
+	Ask1            float64
+	BidVol1         int
+	AskVol1         int
+	Bid2            float64
+	Ask2            float64
+	BidVol2         int
+	AskVol2         int
+	Bid3            float64
+	Ask3            float64
+	BidVol3         int
+	AskVol3         int
+	Bid4            float64
+	Ask4            float64
+	BidVol4         int
+	AskVol4         int
+	Bid5            float64
+	Ask5            float64
+	BidVol5         int
+	AskVol5         int
+	ReversedBytes4  uint16  // 保留
+	ReversedBytes5  int     // 保留
+	ReversedBytes6  int     // 保留
+	ReversedBytes7  int     // 保留
+	ReversedBytes8  int     // 保留
+	Rate            float64 // 涨速
+	Active2         uint16  // 活跃度
 }
 
 type Level struct {
@@ -135,7 +137,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 
 	//fmt.Println(hex.EncodeToString(data))
 	pos := 0
-
+	var _tmp uint16
+	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &_tmp)
 	pos += 2 // 跳过两个字节
 	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
@@ -182,10 +185,17 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.SVol = getPrice(data, &pos)
 		ele.BVol = getPrice(data, &pos)
 
-		ele.ReversedBytes2 = getPrice(data, &pos)
-		ele.ReversedBytes3 = getPrice(data, &pos)
-		//fmt.Printf("pos: %d\n", pos)
-		//fmt.Println(hex.EncodeToString(data[:pos]))
+		// 开盘金额需要 * 100
+		ele.IndexOpenAmount = getPrice(data, &pos) * 100
+		ele.StockOpenAmount = getPrice(data, &pos) * 100
+
+		if ele.IndexOpenAmount > ele.StockOpenAmount {
+			// 指数或者板块, 单位是"股"
+			ele.OpenVolume = int(math.Round(float64(ele.IndexOpenAmount) / ele.Open))
+		} else {
+			// 个股, 单位是"股"
+			ele.OpenVolume = int(math.Round(float64(ele.StockOpenAmount) / ele.Open))
+		}
 
 		var bidLevels []Level
 		var askLevels []Level

@@ -11,11 +11,12 @@ import (
 
 type TcpClient struct {
 	sync.Mutex
-	conn     net.Conn
-	opt      *Opt
-	complete chan bool
-	sending  chan bool
-	timer    *time.Timer
+	conn          net.Conn
+	opt           *Opt
+	complete      chan bool
+	sending       chan bool
+	timer         *time.Timer
+	completedTime time.Time // 时间戳
 }
 
 type Opt struct {
@@ -38,8 +39,29 @@ func NewClient(opt *Opt) *TcpClient {
 	client.opt = opt
 	client.sending = make(chan bool, 1)
 	client.complete = make(chan bool, 1)
+	client.updateCompletedTimestamp()
 	client.timer = time.NewTimer(opt.Timeout)
+	go client.heartbeat()
 	return client
+}
+
+// 更新最后一次成功send/recv的时间戳
+func (client *TcpClient) updateCompletedTimestamp() {
+	client.completedTime = time.Now()
+}
+
+// 过去了多少秒
+func (client *TcpClient) crossTime() (elapsedTime int) {
+	seconds := time.Since(client.completedTime) / time.Second
+	return int(seconds)
+}
+
+// 是否超时
+func (client *TcpClient) hasTimedOut() bool {
+	elapsedTime := client.crossTime()
+	timeout := int(client.opt.Timeout / time.Second)
+	//fmt.Println("=====>", elapsedTime, "==", timeout)
+	return elapsedTime >= timeout
 }
 
 // Command 执行通达信指令
@@ -56,6 +78,7 @@ func (client *TcpClient) Command(msg Message) error {
 		//_ = this.poolClose(client)
 		return err
 	}
+	client.updateCompletedTimestamp()
 	return nil
 }
 
@@ -63,13 +86,12 @@ func (client *TcpClient) heartbeat() {
 	for {
 		select {
 		case <-client.timer.C:
-			{
+			if client.hasTimedOut() {
 				msg := NewSecurityCountPackage()
 				msg.SetParams(&SecurityCountRequest{
 					Market: uint16(1),
 				})
 				_ = client.Command(msg)
-				//fmt.Println(msg)
 			}
 			client.timer.Reset(client.opt.Timeout) // 每次使用完后需要人为重置下
 		}
@@ -95,6 +117,7 @@ func (client *TcpClient) Connect() error {
 		conn, err := net.DialTimeout("tcp", addr, client.opt.Timeout) // net.DialTimeout()
 		if err == nil {
 			client.conn = conn
+			client.updateCompletedTimestamp()
 			opt.index += 1
 			break
 		} else if i+1 >= total {
@@ -104,7 +127,6 @@ func (client *TcpClient) Connect() error {
 			opt.index += 1
 		}
 	}
-	go client.heartbeat()
 	return nil
 }
 

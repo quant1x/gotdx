@@ -108,13 +108,26 @@ func (this *StdApi) tdx_hello2(client *TcpClient) error {
 }
 
 func (this *StdApi) tdx_ping(client *TcpClient) error {
+	message := NewHeartBeat()
+	err := client.Command(message)
+	if err != nil {
+		_ = this.poolClose(client)
+		return err
+	}
+	reply := message.Reply().(*HeartBeatReply)
+	if reply == nil {
+		return io.EOF
+	}
+	return nil
+}
+
+func (this *StdApi) v1_tdx_ping(client *TcpClient) error {
 	//opt := client.GetOpt()
 	//conn := client.GetConn()
 	msg := NewSecurityCountPackage()
 	msg.SetParams(&SecurityCountRequest{
 		Market: uint16(1),
 	})
-	//err := process(conn, msg, opt)
 	err := client.Command(msg)
 	if err != nil {
 		_ = this.poolClose(client)
