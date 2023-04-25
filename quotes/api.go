@@ -83,7 +83,7 @@ func (this *StdApi) tdx_hello1(client *TcpClient) error {
 	//err := process(conn, hello1, opt)
 	err := client.Command(hello1)
 	if err != nil {
-		_ = this.poolClose(client)
+		//_ = this.poolClose(client)
 		return err
 	}
 	reply := hello1.Reply().(*Hello1Reply)
@@ -99,7 +99,7 @@ func (this *StdApi) tdx_hello2(client *TcpClient) error {
 	//err := process(conn, hello2, opt)
 	err := client.Command(hello2)
 	if err != nil {
-		_ = this.poolClose(client)
+		//_ = this.poolClose(client)
 		return err
 	}
 	reply := hello2.Reply().(*Hello2Reply)
