@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto/ex"
 	"gitee.com/quant1x/gotdx/proto/std"
-	"github.com/mymmsc/gox/util/lambda"
+	"github.com/mymmsc/gox/api"
+	"golang.org/x/exp/slices"
 	"math"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -127,11 +129,19 @@ func cleanServers(str string, test func(addr string)) (src, dst []Server) {
 		_ = detect(v, test)
 		fmt.Printf("%d: %+v\n", i, v)
 	}
-	dst1 := lambda.LambdaArray(src).Sort(func(a Server, b Server) bool {
-		return a.CrossTime < b.CrossTime
+
+	dst = slices.Clone(src)
+	sort.Slice(dst, func(i, j int) bool {
+		return dst[i].CrossTime < dst[j].CrossTime
 	})
-	dst2 := dst1.Filter(func(e Server) bool { return e.CrossTime < 100 })
-	dst = dst2.Take(0, POOL_MAX).Pointer().([]Server)
+	dst = api.Filter(dst, func(e Server) bool {
+		return e.CrossTime < 100
+	})
+	num := len(dst)
+	if num > POOL_MAX {
+		num = POOL_MAX
+	}
+	dst = dst[0:num]
 	fmt.Println(dst)
 	return
 }
