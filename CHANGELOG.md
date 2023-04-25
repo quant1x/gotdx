@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.14] - 2023-04-26
+### Changed
+- 调整心跳处理方式.
+
 ## [1.5.13] - 2023-04-25
 ### Changed
 - 去掉业务握手阶段的关闭连接池的操作.
@@ -320,7 +324,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.13...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.14...HEAD
+[1.5.14]: https://gitee.com/quant1x/gotdx/compare/v1.5.13...v1.5.14
 [1.5.13]: https://gitee.com/quant1x/gotdx/compare/v1.5.12...v1.5.13
 [1.5.12]: https://gitee.com/quant1x/gotdx/compare/v1.5.11...v1.5.12
 [1.5.11]: https://gitee.com/quant1x/gotdx/compare/v1.5.10...v1.5.11
