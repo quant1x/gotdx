@@ -20,6 +20,7 @@ type TcpClient struct {
 	sending       chan bool // 正在发送状态
 	done          chan bool // connection done
 	completedTime time.Time // 时间戳
+	timeMutex     sync.Mutex
 }
 
 type Opt struct {
@@ -56,11 +57,15 @@ func NewClient(opt Opt) *TcpClient {
 
 // 更新最后一次成功send/recv的时间戳
 func (client *TcpClient) updateCompletedTimestamp() {
+	defer client.timeMutex.Unlock()
+	client.timeMutex.Lock()
 	client.completedTime = time.Now()
 }
 
 // 过去了多少秒
 func (client *TcpClient) crossTime() (elapsedTime float64) {
+	defer client.timeMutex.Unlock()
+	client.timeMutex.Lock()
 	seconds := time.Since(client.completedTime).Seconds()
 	return seconds
 }
