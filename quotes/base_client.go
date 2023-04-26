@@ -114,6 +114,7 @@ func (client *TcpClient) heartbeat() {
 				logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
 			}
 		case <-client.done:
+			logger.Warnf("client -> server[%s]: shutdown", client.Addr)
 			return
 		}
 	}
