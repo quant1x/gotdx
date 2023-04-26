@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.0] - 2023-04-26
+### Changed
+- 调整服务器列表的轮询问题.
+
 ## [1.5.21] - 2023-04-26
 ### Changed
 - 网络处理完成即更新时间戳.
@@ -355,7 +359,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.21...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.0...HEAD
+[1.6.0]: https://gitee.com/quant1x/gotdx/compare/v1.5.21...v1.6.0
 [1.5.21]: https://gitee.com/quant1x/gotdx/compare/v1.5.20...v1.5.21
 [1.5.20]: https://gitee.com/quant1x/gotdx/compare/v1.5.19...v1.5.20
 [1.5.19]: https://gitee.com/quant1x/gotdx/compare/v1.5.18...v1.5.19
