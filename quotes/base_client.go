@@ -57,8 +57,6 @@ func NewClient(opt Opt) *TcpClient {
 
 // 更新最后一次成功send/recv的时间戳
 func (client *TcpClient) updateCompletedTimestamp() {
-	defer client.timeMutex.Unlock()
-	client.timeMutex.Lock()
 	client.completedTime = time.Now()
 }
 
@@ -111,6 +109,7 @@ func (client *TcpClient) heartbeat() {
 				})
 				err := client.Command(msg)
 				_ = err
+				client.updateCompletedTimestamp()
 				logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
 			}
 		case <-client.done:
