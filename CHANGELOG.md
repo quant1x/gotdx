@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.21] - 2023-04-26
+### Changed
+- 网络处理完成即更新时间戳.
+- 调整定时检测的锁方式.
+
 ## [1.5.20] - 2023-04-26
 ### Changed
 - 调整定时检测的锁方式.
@@ -350,7 +355,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.20...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.21...HEAD
+[1.5.21]: https://gitee.com/quant1x/gotdx/compare/v1.5.20...v1.5.21
 [1.5.20]: https://gitee.com/quant1x/gotdx/compare/v1.5.19...v1.5.20
 [1.5.19]: https://gitee.com/quant1x/gotdx/compare/v1.5.18...v1.5.19
 [1.5.18]: https://gitee.com/quant1x/gotdx/compare/v1.5.17...v1.5.18
