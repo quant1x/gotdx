@@ -64,8 +64,6 @@ func (client *TcpClient) updateCompletedTimestamp() {
 
 // 过去了多少秒
 func (client *TcpClient) crossTime() (elapsedTime float64) {
-	defer client.timeMutex.Unlock()
-	client.timeMutex.Lock()
 	seconds := time.Since(client.completedTime).Seconds()
 	return seconds
 }
@@ -102,7 +100,11 @@ func (client *TcpClient) heartbeat() {
 	for {
 		select {
 		case <-time.After(time.Second):
-			if client.hasTimedOut() {
+			client.timeMutex.Lock()
+			timeouted := client.hasTimedOut()
+			client.timeMutex.Unlock()
+
+			if timeouted {
 				msg := NewSecurityCountPackage()
 				msg.SetParams(&SecurityCountRequest{
 					Market: uint16(1),
