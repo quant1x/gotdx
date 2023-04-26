@@ -42,7 +42,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	}
 	stdApi := StdApi{}
 	_factory := func() (interface{}, error) {
-		client := NewClient(opt)
+		client := NewClient(&opt)
 		err := client.Connect()
 		if err != nil {
 			return nil, err

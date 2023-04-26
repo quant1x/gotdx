@@ -15,7 +15,7 @@ type TcpClient struct {
 	sync.Mutex
 	conn          net.Conn
 	Addr          string    // 当前连接成功的服务器地址
-	opt           Opt       // 参数
+	opt           *Opt      // 参数
 	complete      chan bool // 完成状态
 	sending       chan bool // 正在发送状态
 	done          chan bool // connection done
@@ -33,7 +33,7 @@ type Opt struct {
 	RetryDuration     time.Duration // 重试时间
 }
 
-func NewClient(opt Opt) *TcpClient {
+func NewClient(opt *Opt) *TcpClient {
 	client := &TcpClient{}
 	if opt.MaxRetryTimes <= 0 {
 		opt.MaxRetryTimes = DefaultRetryTimes
