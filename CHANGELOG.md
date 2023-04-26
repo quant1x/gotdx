@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.18] - 2023-04-26
+### Changed
+- 心跳时间戳加锁.
+
 ## [1.5.17] - 2023-04-26
 ### Changed
 - 优化best ip数据处理过程.
@@ -337,7 +341,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.17...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.18...HEAD
+[1.5.18]: https://gitee.com/quant1x/gotdx/compare/v1.5.17...v1.5.18
 [1.5.17]: https://gitee.com/quant1x/gotdx/compare/v1.5.16...v1.5.17
 [1.5.16]: https://gitee.com/quant1x/gotdx/compare/v1.5.15...v1.5.16
 [1.5.15]: https://gitee.com/quant1x/gotdx/compare/v1.5.14...v1.5.15
