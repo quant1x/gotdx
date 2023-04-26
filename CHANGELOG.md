@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.5.20] - 2023-04-26
+### Changed
+- 调整定时检测的锁方式.
+
 ## [1.5.19] - 2023-04-26
 ### Changed
 - 定时任务退出时输出日志.
@@ -346,7 +350,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.19...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.5.20...HEAD
+[1.5.20]: https://gitee.com/quant1x/gotdx/compare/v1.5.19...v1.5.20
 [1.5.19]: https://gitee.com/quant1x/gotdx/compare/v1.5.18...v1.5.19
 [1.5.18]: https://gitee.com/quant1x/gotdx/compare/v1.5.17...v1.5.18
 [1.5.17]: https://gitee.com/quant1x/gotdx/compare/v1.5.16...v1.5.17
