@@ -9,7 +9,6 @@ import (
 	"github.com/mymmsc/gox/api"
 	log "github.com/mymmsc/gox/logger"
 	"io"
-	"net"
 	"time"
 )
 
@@ -45,7 +44,10 @@ type Message interface {
 }
 
 // 消息处理
-func process(conn net.Conn, msg Message, opt Opt) error {
+func process(client *TcpClient, msg Message) error {
+	defer client.updateCompletedTimestamp()
+	conn := client.conn
+	opt := client.opt
 	// 1. 序列化
 	sendData, err := msg.Serialize()
 	if err != nil {

@@ -80,7 +80,7 @@ func (client *TcpClient) Command(msg Message) error {
 	if client.conn == nil {
 		return io.EOF
 	}
-	err := process(client.conn, msg, client.opt)
+	err := process(client, msg)
 	if err != nil {
 		return err
 	}
