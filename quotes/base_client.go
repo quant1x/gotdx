@@ -51,6 +51,7 @@ func NewClient(opt *Opt) *TcpClient {
 	client.opt = opt
 	client.sending = make(chan bool, 1)
 	client.complete = make(chan bool, 1)
+	client.done = make(chan bool, 1)
 	client.updateCompletedTimestamp()
 	return client
 }
@@ -101,7 +102,6 @@ func (client *TcpClient) heartbeat() {
 			client.timeMutex.Lock()
 			timeouted := client.hasTimedOut()
 			client.timeMutex.Unlock()
-
 			if timeouted {
 				msg := NewSecurityCountPackage()
 				msg.SetParams(&SecurityCountRequest{
@@ -151,6 +151,7 @@ func (client *TcpClient) Connect() error {
 
 // Close 断开服务器
 func (client *TcpClient) Close() error {
+	client.done <- true
 	close(client.sending)
 	close(client.complete)
 	api.CloseQuietly(client.conn)
