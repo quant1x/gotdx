@@ -8,6 +8,14 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 )
 
+type TradeType = int32
+
+const (
+	TDX_TICK_BUY     TradeType = iota // 买入
+	TDX_TICK_SELL    TradeType = 1    // 卖出
+	TDX_TICK_NEUTRAL TradeType = 2    // 中性盘
+)
+
 const (
 	TDX_TRANSACTION_MAX = 1800 // 单次最多获取多少条分笔成交记录
 )
