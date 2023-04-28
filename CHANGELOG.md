@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.2] - 2023-04-28
+### Changed
+- 分笔成交数据增加常量.
+
 ## [1.6.1] - 2023-04-27
 ### Changed
 - 调整关闭心跳协程的方式.
@@ -363,7 +367,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.2...HEAD
+[1.6.2]: https://gitee.com/quant1x/gotdx/compare/v1.6.1...v1.6.2
 [1.6.1]: https://gitee.com/quant1x/gotdx/compare/v1.6.0...v1.6.1
 [1.6.0]: https://gitee.com/quant1x/gotdx/compare/v1.5.21...v1.6.0
 [1.5.21]: https://gitee.com/quant1x/gotdx/compare/v1.5.20...v1.5.21
