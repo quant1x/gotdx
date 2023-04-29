@@ -8,18 +8,17 @@ import (
 	"testing"
 )
 
-func TestSecurityListPackage(t *testing.T) {
+func TestNewTransactionPackage(t *testing.T) {
 	stdApi, err := NewStdApi()
 	if err != nil {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetSecurityList(proto.MarketShangHai, TDX_SECURITY_LIST_MAX*19)
+	reply, err := stdApi.GetTransactionData(proto.MarketShangHai, "588400", 0, TDX_TRANSACTION_MAX)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", reply)
-	fmt.Println("==========")
 	data, _ := json.Marshal(reply)
 	text := api.Bytes2String(data)
 	fmt.Println(text)

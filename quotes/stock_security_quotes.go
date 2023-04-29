@@ -12,12 +12,27 @@ const (
 	TDX_SECURITY_QUOTES_MAX = 80 // 单次最大获取80条实时数据
 )
 
+type TradeState uint8
+
+const (
+	TDX_SECURITY_TRADE_STATE_DELISTING TradeState = iota // 终止上市
+	TDX_SECURITY_TRADE_STATE_NORMAL                      // 正常交易
+	TDX_SECURITY_TRADE_STATE_SUSPEND                     // 停牌
+)
+
+const (
+	Q_A TradeState = iota
+	Q_B
+	Q_C
+)
+
 // SecurityQuotesPackage 盘口五档报价
 type SecurityQuotesPackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader
 	request    *SecurityQuotesRequest
 	reply      *SecurityQuotesReply
+	mapCode    map[string]Stock // 序号和代码临时映射关系
 
 	contentHex string
 }
@@ -38,25 +53,26 @@ type SecurityQuotesReply struct {
 }
 
 type SecurityQuote struct {
-	Market          uint8   // 市场
-	Code            string  // 代码
-	Active1         uint16  // 活跃度
-	Price           float64 // 现价
-	LastClose       float64 // 昨收
-	Open            float64 // 开盘
-	High            float64 // 最高
-	Low             float64 // 最低
-	ServerTime      string  // 时间
-	ReversedBytes0  int     // 保留(时间 ServerTime)
-	ReversedBytes1  int     // 保留
-	Vol             int     // 总量
-	CurVol          int     // 现量
-	Amount          float64 // 总金额
-	SVol            int     // 内盘
-	BVol            int     // 外盘
-	IndexOpenAmount int     // 指数-集合竞价成交金额=开盘成交金额
-	StockOpenAmount int     // 个股-集合竞价成交金额=开盘成交金额
-	OpenVolume      int     // 集合竞价-开盘量, 单位是股
+	State           TradeState // 交易状态
+	Market          uint8      // 市场
+	Code            string     // 代码
+	Active1         uint16     // 活跃度
+	Price           float64    // 现价
+	LastClose       float64    // 昨收
+	Open            float64    // 开盘
+	High            float64    // 最高
+	Low             float64    // 最低
+	ServerTime      string     // 时间
+	ReversedBytes0  int        // 保留(时间 ServerTime)
+	ReversedBytes1  int        // 保留
+	Vol             int        // 总量
+	CurVol          int        // 现量
+	Amount          float64    // 总金额
+	SVol            int        // 内盘
+	BVol            int        // 外盘
+	IndexOpenAmount int        // 指数-集合竞价成交金额=开盘成交金额
+	StockOpenAmount int        // 个股-集合竞价成交金额=开盘成交金额
+	OpenVolume      int        // 集合竞价-开盘量, 单位是股
 	Bid1            float64
 	Ask1            float64
 	BidVol1         int
@@ -83,7 +99,7 @@ type SecurityQuote struct {
 	ReversedBytes7  int     // 保留
 	ReversedBytes8  int     // 保留
 	Rate            float64 // 涨速
-	Active2         uint16  // 活跃度
+	Active2         uint16  // 活跃度, 如果是指数则为0, 个股同Active1
 }
 
 type Level struct {
@@ -103,12 +119,18 @@ func NewSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_old
 	obj.contentHex = "0500000000000000" // 1.3.5以前的版本
+	obj.mapCode = make(map[string]Stock)
 	return obj
 }
 
 func (obj *SecurityQuotesPackage) SetParams(req *SecurityQuotesRequest) {
 	req.Count = uint16(len(req.StockList))
 	obj.request = req
+	for i := 0; i < len(req.StockList); i++ {
+		v := req.StockList[i]
+		securityCode := proto.GetMarketFlag(v.Market) + v.Code
+		obj.mapCode[securityCode] = v
+	}
 }
 
 func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
@@ -169,9 +191,9 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		} else {
 			ele.ServerTime = "0"
 			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
-			ele.Code = proto.StockDelisting
+			//ele.Code = proto.StockDelisting
+			// 证券代码可能部证券, 上海交易所的退市代码有机会填写成600839
 		}
-
 		ele.ReversedBytes1 = getPrice(data, &pos)
 
 		ele.Vol = getPrice(data, &pos)
@@ -189,7 +211,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.IndexOpenAmount = getPrice(data, &pos) * 100
 		ele.StockOpenAmount = getPrice(data, &pos) * 100
 
-		if ele.IndexOpenAmount > ele.StockOpenAmount {
+		//if ele.IndexOpenAmount > ele.StockOpenAmount {
+		if proto.AssertIndexByMarketAndCode(ele.Market, ele.Code) {
 			// 指数或者板块, 单位是"股"
 			ele.OpenVolume = int(math.Round(float64(ele.IndexOpenAmount) / ele.Open))
 		} else {
@@ -246,7 +269,44 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
 		pos += 2
 
+		// 交易状态判断
+		if ele.LastClose == float64(0) && ele.Open == float64(0) {
+			// 设置为退市状态
+			ele.State = TDX_SECURITY_TRADE_STATE_DELISTING
+		} else {
+			// 如果不是退市状态, 从临时映射中删除
+			securityCode := proto.GetMarketFlag(ele.Market) + ele.Code
+			delete(obj.mapCode, securityCode)
+			// 如果开盘价非0, 交易状态正常
+			if ele.Open != float64(0) {
+				ele.State = TDX_SECURITY_TRADE_STATE_NORMAL
+			} else {
+				// 开盘价等于0, 停牌
+				ele.State = TDX_SECURITY_TRADE_STATE_SUSPEND
+			}
+		}
+
 		obj.reply.List = append(obj.reply.List, ele)
+	}
+	// 修正停牌的证券代码
+	for i := 0; len(obj.mapCode) > 0 && i < len(obj.reply.List); i++ {
+		v := &(obj.reply.List[i])
+		if v.State == TDX_SECURITY_TRADE_STATE_DELISTING {
+			securityCode := proto.GetMarketFlag(v.Market) + v.Code
+			if _, ok := obj.mapCode[securityCode]; ok {
+				// 代码正常
+				delete(obj.mapCode, securityCode)
+			} else {
+				for key, value := range obj.mapCode {
+					if value.Market == v.Market {
+						securityCode = key
+						v.Code = value.Code
+						break
+					}
+				}
+				delete(obj.mapCode, securityCode)
+			}
+		}
 	}
 	return nil
 }

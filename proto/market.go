@@ -11,8 +11,18 @@ const (
 	MarketShenZhen Market = iota // 深圳
 	MarketShangHai Market = 1    // 上海
 	MarketBeiJing  Market = 2    // 北京
+	MarketHongKong Market = 21   // 香港
+	MarketUSA      Market = 22   // 美国
 
-	StockDelisting = "DELISTING"
+	StockDelisting = "DELISTING" // 退市
+)
+
+const (
+	MARKET_SH string = "sh" // 上海
+	MARKET_SZ string = "sz" // 深圳
+	MARKET_BJ string = "bj" // 北京
+	MARKET_HK string = "hk" // 香港
+	MARKET_US string = "us" // 美国
 )
 
 // GetMarket 判断股票ID对应的证券市场匹配规则
@@ -50,4 +60,29 @@ func GetMarketId(symbol string) uint8 {
 		marketId = MarketBeiJing
 	}
 	return marketId
+}
+
+func GetMarketFlag(marketId Market) string {
+	switch marketId {
+	case MarketShenZhen:
+		return MARKET_SZ
+	case MarketBeiJing:
+		return MARKET_BJ
+	case MarketHongKong:
+		return MARKET_HK
+	case MarketUSA:
+		return MARKET_US
+	default:
+		return MARKET_SH
+	}
+}
+
+// AssertIndexByMarketAndCode 通过市场id和短码判断是否指数
+func AssertIndexByMarketAndCode(marketId Market, code string) (isIndex bool) {
+	if marketId == MarketShangHai && api.StartsWith(code, []string{"000", "880", "881"}) {
+		return true
+	} else if marketId == MarketShenZhen && api.StartsWith(code, []string{"399"}) {
+		return true
+	}
+	return false
 }

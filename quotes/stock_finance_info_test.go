@@ -14,7 +14,7 @@ func TestNewFinanceInfoPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	sq1, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "605577", 1)
+	sq1, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "600455", 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

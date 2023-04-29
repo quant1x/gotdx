@@ -35,11 +35,13 @@ type Security struct {
 	VolUnit   uint16
 	Reversed1 [4]byte `dataframe:"-"`
 	//R1           uint32
+	//P1           float64
 	DecimalPoint int8
 	Name         string
 	PreClose     float64
 	Reversed2    [4]byte `dataframe:"-"`
 	//R2           uint32
+	//P2           float64
 }
 
 func NewSecurityListPackage() *SecurityListPackage {
@@ -99,6 +101,7 @@ func (obj *SecurityListPackage) UnSerialize(header interface{}, data []byte) err
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed1)
 		//_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.R1)
+		//ele.P1 = getVolume(int(ele.R1))
 		pos += 4
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.DecimalPoint)
@@ -110,6 +113,7 @@ func (obj *SecurityListPackage) UnSerialize(header interface{}, data []byte) err
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed2)
 		//_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.R2)
+		//ele.P2 = getVolume(int(ele.R2))
 		pos += 4
 
 		obj.reply.List = append(obj.reply.List, ele)
