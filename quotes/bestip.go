@@ -90,7 +90,7 @@ type ServerGroup struct {
 
 // AllServers 全部主机
 type AllServers struct {
-	Server ServerGroup `json:"Server"`
+	//Server ServerGroup `json:"Server"`
 	BestIP ServerGroup `json:"BestIP"`
 }
 
@@ -100,24 +100,25 @@ func BestIP() {
 
 	// HQ-servers
 	src, dst := cleanServers(HQ_HOSTS, testHQ)
-	as.Server.HQ = src
+	//as.Server.HQ = src
 	as.BestIP.HQ = dst
 	// EX-server, reply提示版本不一致, 扩展服务暂不可用
 	src, dst = cleanServers(EX_HOSTS, testEX)
-	as.Server.EX = src
+	//as.Server.EX = src
 	as.BestIP.EX = dst
 
 	// SP-servers
 	src, dst = cleanServers(GP_HOSTS, testEX)
-	as.Server.GP = src
+	//as.Server.GP = src
 	as.BestIP.GP = dst
 
 	str, _ := json.Marshal(as)
 	fmt.Println(string(str))
 	_ = CacheServers(as)
+	_ = src
 }
 
-func cleanServers(str string, test func(addr string)) (src, dst []Server) {
+func cleanServers(str string, test func(addr string) error) (src, dst []Server) {
 	err := json.Unmarshal([]byte(str), &src)
 	if err != nil {
 		return src, dst
@@ -147,11 +148,15 @@ func cleanServers(str string, test func(addr string)) (src, dst []Server) {
 }
 
 // 检测, 返回毫秒
-func detect(srv *Server, test func(addr string)) int64 {
+func detect(srv *Server, test func(addr string) error) int64 {
 	var crossTime int64 = math.MaxInt64
 	addr := strings.Join([]string{srv.Host, strconv.Itoa(srv.Port)}, ":")
 	start := time.Now()
-	test(addr)
+	err := test(addr)
+	if err != nil {
+		srv.CrossTime = crossTime
+		return crossTime
+	}
 	// 计算耗时, 纳秒
 	crossTime = int64(time.Since(start))
 	// 转成毫秒
@@ -160,29 +165,33 @@ func detect(srv *Server, test func(addr string)) int64 {
 }
 
 // 标准服务器测试
-func testHQ(addr string) {
+func testHQ(addr string) error {
 	cli, err := NewClientForTest(addr)
-	if err == nil {
-		// CMD信令 1
-		data := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
-			req, resp, err = std.NewSetupCmd1()
-			return
-		})
-		fmt.Printf("%+v\n", data)
-		_ = cli.Close()
+	if err != nil {
+		return err
 	}
+	// CMD信令 1
+	data, err := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
+		req, resp, err = std.NewSetupCmd1()
+		return
+	})
+	fmt.Printf("%+v\n", data)
+	_ = cli.Close()
+	return err
 }
 
 // 扩展服务器测试
-func testEX(addr string) {
+func testEX(addr string) error {
 	cli, err := NewClientForTest(addr)
-	if err == nil {
-		// CMD信令 1
-		data := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
-			req, resp, err = ex.NewExCmd1()
-			return
-		})
-		fmt.Printf("%+v\n", data)
-		_ = cli.Close()
+	if err != nil {
+		return err
 	}
+	// CMD信令 1
+	data, err := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
+		req, resp, err = ex.NewExCmd1()
+		return
+	})
+	fmt.Printf("%+v\n", data)
+	_ = cli.Close()
+	return err
 }

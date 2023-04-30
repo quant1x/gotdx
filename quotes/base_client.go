@@ -132,6 +132,11 @@ func (client *TcpClient) Connect() error {
 		//}
 		addr := strings.Join([]string{serv.Host, strconv.Itoa(serv.Port)}, ":")
 		conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
+		state := "connected"
+		if err != nil {
+			state = err.Error()
+		}
+		logger.Warnf("client -> server[%s]: %s", client.Addr, state)
 		if err == nil {
 			client.conn = conn
 			client.Addr = addr

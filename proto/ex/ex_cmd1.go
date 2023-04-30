@@ -29,8 +29,10 @@ func (resp *ExCmd1Response) Unmarshal(data []byte) error {
 
 // NewExCmd1Request 创建ExCmd1请求包
 func NewExCmd1Request() (*ExCmd1Request, error) {
+	hexString := "01 01 48 65 00 01 52 00 52 00 54 24 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 cc e1 6d ff d5 ba 3f b8 cb c5 7a 05 4f 77 48 ea"
+	//hexString := "01 01 48 65 00 01 02 00 02 00 55 24"
 	request := &ExCmd1Request{
-		Cmd: util.HexString2Bytes("01 01 48 65 00 01 52 00 52 00 54 24 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 1f 32 c6 e5 d5 3d fb 41 cc e1 6d ff d5 ba 3f b8 cb c5 7a 05 4f 77 48 ea"),
+		Cmd: util.HexString2Bytes(hexString),
 	}
 	return request, nil
 }
