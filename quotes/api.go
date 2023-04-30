@@ -78,11 +78,8 @@ func (this *StdApi) poolClose(cli *TcpClient) error {
 }
 
 func (this *StdApi) tdx_hello1(client *TcpClient) error {
-	//opt := client.GetOpt()
-	//conn := client.GetConn()
 	// 创建一个hello1消息
 	hello1 := NewHello1()
-	//err := process(conn, hello1, opt)
 	err := client.Command(hello1)
 	if err != nil {
 		//_ = this.poolClose(client)
@@ -94,11 +91,8 @@ func (this *StdApi) tdx_hello1(client *TcpClient) error {
 }
 
 func (this *StdApi) tdx_hello2(client *TcpClient) error {
-	//opt := client.GetOpt()
-	//conn := client.GetConn()
 	// 创建一个hello1消息
 	hello2 := NewHello2()
-	//err := process(conn, hello2, opt)
 	err := client.Command(hello2)
 	if err != nil {
 		//_ = this.poolClose(client)
@@ -124,8 +118,6 @@ func (this *StdApi) tdx_ping(client *TcpClient) error {
 }
 
 func (this *StdApi) v1_tdx_ping(client *TcpClient) error {
-	//opt := client.GetOpt()
-	//conn := client.GetConn()
 	msg := NewSecurityCountPackage()
 	msg.SetParams(&SecurityCountRequest{
 		Market: uint16(1),
