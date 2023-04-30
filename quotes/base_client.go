@@ -136,7 +136,7 @@ func (client *TcpClient) Connect() error {
 		if err != nil {
 			state = err.Error()
 		}
-		logger.Warnf("client -> server[%s]: %s", client.Addr, state)
+		logger.Warnf("client -> server[%s]: %s", addr, state)
 		if err == nil {
 			client.conn = conn
 			client.Addr = addr
