@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.4] - 2023-04-30
+### Changed
+- 优化IP池的检测.
+- 调整测试代码.
+- 修订分笔成交价格的计算方法.
+
 ## [1.6.3] - 2023-04-29
 ### Changed
 - 对齐退市状态.
@@ -373,7 +379,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.4...HEAD
+[1.6.4]: https://gitee.com/quant1x/gotdx/compare/v1.6.3...v1.6.4
 [1.6.3]: https://gitee.com/quant1x/gotdx/compare/v1.6.2...v1.6.3
 [1.6.2]: https://gitee.com/quant1x/gotdx/compare/v1.6.1...v1.6.2
 [1.6.1]: https://gitee.com/quant1x/gotdx/compare/v1.6.0...v1.6.1
