@@ -241,11 +241,12 @@ func getVolume(ivol int) (volume float64) {
 func baseUnit(code string) float64 {
 	c := code[:2]
 	switch c {
-	case "60", "30", "68", "00":
+	case "60", "68", "00", "30", "39":
 		return 100.0
 
 	}
-	return 1000.0
+	//return 1000.0
+	return 100.00
 }
 
 func _format_time0(time_stamp string) string {
