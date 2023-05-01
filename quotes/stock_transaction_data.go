@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
+	"github.com/mymmsc/gox/api"
 )
 
 type TradeType = int32
@@ -91,6 +92,9 @@ func (obj *TransactionPackage) Serialize() ([]byte, error) {
 
 func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
+	marketId := proto.MarketType(obj.request.Market)
+	symbol := api.Bytes2String(obj.request.Code[:])
+	isIndex := proto.AssertIndexByMarketAndCode(marketId, symbol)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
@@ -107,6 +111,12 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 		ele.BuyOrSell = getPrice(data, &pos)
 		lastprice += priceraw
 		ele.Price = float64(lastprice) / baseUnit(string(obj.request.Code[:]))
+		if isIndex {
+			amount := ele.Vol * 100
+			ele.Vol = int(float64(amount) / ele.Price)
+		} else {
+			ele.Vol *= 100
+		}
 		tmp := getPrice(data, &pos)
 		_ = tmp
 		obj.reply.List = append(obj.reply.List, ele)

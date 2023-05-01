@@ -14,7 +14,7 @@ func TestNewTransactionPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetTransactionData(proto.MarketIdShangHai, "600105", 0, TDX_TRANSACTION_MAX)
+	reply, err := stdApi.GetTransactionData(proto.MarketIdShangHai, "600010", 0, 2)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
