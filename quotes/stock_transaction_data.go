@@ -107,7 +107,8 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 		ele.BuyOrSell = getPrice(data, &pos)
 		lastprice += priceraw
 		ele.Price = float64(lastprice) / baseUnit(string(obj.request.Code[:]))
-		_ = getPrice(data, &pos)
+		tmp := getPrice(data, &pos)
+		_ = tmp
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	return err
