@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.8] - 2023-05-01
+### Changed
+- 调整分笔成交数据的部分代码.
+- 分笔成交数据增加类型3, 暂时不清楚其含义.
+- 调整服务器IP池.
+- 增加判断个股的函数.
+
 ## [1.6.7] - 2023-05-01
 ### Changed
 - 规范市场类型.
@@ -392,7 +399,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.8...HEAD
+[1.6.8]: https://gitee.com/quant1x/gotdx/compare/v1.6.7...v1.6.8
 [1.6.7]: https://gitee.com/quant1x/gotdx/compare/v1.6.6...v1.6.7
 [1.6.6]: https://gitee.com/quant1x/gotdx/compare/v1.6.5...v1.6.6
 [1.6.5]: https://gitee.com/quant1x/gotdx/compare/v1.6.4...v1.6.5
