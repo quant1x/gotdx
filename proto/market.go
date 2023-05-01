@@ -192,6 +192,22 @@ func AssertIndexBySecurityCode(securityCode string) (isIndex bool) {
 	return AssertIndexByMarketAndCode(marketId, code)
 }
 
+// AssertStockByMarketAndCode 通过市场id和代码判断是否个股
+func AssertStockByMarketAndCode(marketId MarketType, symbol string) (isStock bool) {
+	if marketId == MarketIdShangHai && api.StartsWith(symbol, []string{"60", "688"}) {
+		return true
+	} else if marketId == MarketIdShenZhen && api.StartsWith(symbol, []string{"00", "30"}) {
+		return true
+	}
+	return false
+}
+
+// AssertStockBySecurityCode 通过证券代码判断是否个股
+func AssertStockBySecurityCode(securityCode string) (isStock bool) {
+	marketId, _, code := DetectMarket(securityCode)
+	return AssertStockByMarketAndCode(marketId, code)
+}
+
 // MarketLimit 涨跌停板限制
 func MarketLimit(securityCode string) float64 {
 	_, _, shortCode := DetectMarket(securityCode)
