@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.7] - 2023-05-01
+### Changed
+- 规范市场类型.
+- 调整代码.
+
 ## [1.6.6] - 2023-04-30
 ### Changed
 - 优化部分代码.
@@ -387,7 +392,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.7...HEAD
+[1.6.7]: https://gitee.com/quant1x/gotdx/compare/v1.6.6...v1.6.7
 [1.6.6]: https://gitee.com/quant1x/gotdx/compare/v1.6.5...v1.6.6
 [1.6.5]: https://gitee.com/quant1x/gotdx/compare/v1.6.4...v1.6.5
 [1.6.4]: https://gitee.com/quant1x/gotdx/compare/v1.6.3...v1.6.4
