@@ -14,6 +14,7 @@ const (
 	TDX_TICK_BUY     TradeType = iota // 买入
 	TDX_TICK_SELL    TradeType = 1    // 卖出
 	TDX_TICK_NEUTRAL TradeType = 2    // 中性盘
+	TDX_TICK_UNKNOWN TradeType = 3    // 未知类型, 出现在09:27分的历史数据中, 暂时确定为中性盘
 )
 
 const (
