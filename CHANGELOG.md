@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.9] - 2023-05-01
+### Changed
+- Update changelog.
+- !5 #I6ZU9B 统一分笔成交数据中的vol的单位, 调整为股 * 分笔成交数据的vol单位统一调整为股.
+
 ## [1.6.8] - 2023-05-01
 ### Changed
 - 调整分笔成交数据的部分代码.
