@@ -14,7 +14,7 @@ func TestSecurityListPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetSecurityList(proto.MarketShangHai, TDX_SECURITY_LIST_MAX*19)
+	reply, err := stdApi.GetSecurityList(proto.MarketIdShangHai, TDX_SECURITY_LIST_MAX*19)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

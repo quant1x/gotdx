@@ -21,7 +21,7 @@ type IndexBarsPackage struct {
 }
 
 //type IndexBarsRequest struct {
-//	Market   uint16
+//	MarketType   uint16
 //	Code     [6]byte
 //	Category uint16 // 种类 5分钟  10分钟
 //	I        uint16 // 未知 填充
@@ -98,7 +98,6 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 	pos += 2
 
 	pre_diff_base := 0
-	//lasttime := ""
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := SecurityBar{}
 
@@ -140,7 +139,6 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 		ele.Low = float64(price_open_diff+price_low_diff) / 1000.0
 
 		pre_diff_base = price_open_diff + price_close_diff
-		//lasttime = ele.DateTime
 
 		obj.reply.List = append(obj.reply.List, ele)
 	}

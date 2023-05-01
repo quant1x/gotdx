@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/encoding/binary/cstruct"
 )
 
@@ -26,7 +27,7 @@ type FinanceInfoRequest struct {
 // FinanceInfoReply 响应包结构
 type FinanceInfoReply struct {
 	Count uint16 //  总数
-	//Market uint8   `struc:"uint8,little"`
+	//MarketType uint8   `struc:"uint8,little"`
 	//Code   [6]byte `struc:"[6]byte,little"`
 	First RawFinanceInfo
 	//List  [2]RawFinanceInfo
@@ -80,7 +81,7 @@ type RawFinanceInfo struct {
 
 type RawFinanceInfo1 struct {
 	//Unknown1           [2]byte `struc:"[2]byte,little"`
-	//Market             uint8   `struc:"uint8,little"`
+	//MarketType             uint8   `struc:"uint8,little"`
 	//Code               [6]byte `struc:"[6]byte,little"`
 	LiuTongGuBen       float32 `struc:"float32,little"`
 	Province           uint16  `struc:"uint16,little"`
@@ -121,6 +122,7 @@ type RawFinanceInfo1 struct {
 }
 
 type FinanceInfo struct {
+	Code               string  `json:"code"`
 	LiuTongGuBen       float64 `struc:"float32,little" json:"liu_tong_gu_ben"`
 	Province           uint16  `struc:"uint16,little" json:"province"`
 	Industry           uint16  `struc:"uint16,little" json:"industry"`
@@ -210,6 +212,7 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 	}
 	var resp FinanceInfo
 	raw := reply.First
+	resp.Code = proto.GetSecurityCode(raw.Market, api.Bytes2String(raw.Code[:]))
 	resp.LiuTongGuBen = numberToFloat64(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry

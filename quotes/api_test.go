@@ -40,34 +40,34 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", heartBeat)
 
 	// 3. finance_info
-	fi, err := stdApi.GetFinanceInfo(proto.MarketShangHai, "600600", 1)
+	fi, err := stdApi.GetFinanceInfo(proto.MarketIdShangHai, "600600", 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", fi)
 
 	// 4. kline
-	kl, err := stdApi.GetKLine(proto.MarketShenZhen, "002528", proto.KLINE_TYPE_RI_K, 0, 800)
+	kl, err := stdApi.GetKLine(proto.MarketIdShenZhen, "002528", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("GetKLine: %+v\n", kl)
 
 	// 5. stock list
-	sl, err := stdApi.GetSecurityList(proto.MarketShangHai, 0)
+	sl, err := stdApi.GetSecurityList(proto.MarketIdShangHai, 0)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("GetSecurityList: %+v\n", sl)
 
 	// 6 index kline
-	ikl, err := stdApi.GetIndexBars(proto.MarketShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 800)
+	ikl, err := stdApi.GetIndexBars(proto.MarketIdShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("GetIndexBars: %+v\n", ikl)
 	// 7. 获取指定市场内的证券数目
-	sc, err := stdApi.GetSecurityCount(proto.MarketShangHai)
+	sc, err := stdApi.GetSecurityCount(proto.MarketIdShangHai)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -75,19 +75,19 @@ func TestStdApi_ALL(t *testing.T) {
 
 	//time.Sleep(time.Second * 15)
 	// 8.1 获取5档行情
-	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600"})
-	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
-	sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"688981"})
+	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai}, []string{"600030", "600600"})
+	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"600600"})
+	sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"688981"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", sq1)
 
 	// 8.2 获取5档行情
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"600600"})
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai}, []string{"880082"})
-	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShenZhen}, []string{"002423"})
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketShangHai, proto.MarketShangHai, proto.MarketShangHai}, []string{"600030", "600600", "880082"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"600600"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"880082"})
+	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShenZhen}, []string{"002423"})
+	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai}, []string{"600030", "600600", "880082"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -100,7 +100,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", mt)
 	// 10. 历史分时
-	hmt, err := stdApi.GetHistoryMinuteTimeData(proto.MarketShangHai, "600600", 20230113)
+	hmt, err := stdApi.GetHistoryMinuteTimeData(proto.MarketIdShangHai, "600600", 20230113)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -112,13 +112,13 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", td)
 	// 12. 历史分笔成交
-	htd, err := stdApi.GetHistoryTransactionData(proto.MarketShangHai, "600105", 20230421, 0, 1800)
+	htd, err := stdApi.GetHistoryTransactionData(proto.MarketIdShangHai, "600105", 20230421, 0, 1800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", htd)
 	// 13. 除权除息
-	xdxr, err := stdApi.GetXdxrInfo(proto.MarketShenZhen, "002528")
+	xdxr, err := stdApi.GetXdxrInfo(proto.MarketIdShenZhen, "002528")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
