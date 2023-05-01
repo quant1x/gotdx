@@ -92,6 +92,7 @@ func (obj *TransactionPackage) Serialize() ([]byte, error) {
 
 func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
+
 	marketId := proto.MarketType(obj.request.Market)
 	symbol := api.Bytes2String(obj.request.Code[:])
 	isIndex := proto.AssertIndexByMarketAndCode(marketId, symbol)

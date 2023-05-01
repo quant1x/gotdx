@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
+	"github.com/mymmsc/gox/api"
 )
 
 type HistoryTransactionPackage struct {
@@ -81,6 +82,10 @@ func (obj *HistoryTransactionPackage) Serialize() ([]byte, error) {
 func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
+	marketId := proto.MarketType(obj.request.Market)
+	symbol := api.Bytes2String(obj.request.Code[:])
+	isIndex := proto.AssertIndexByMarketAndCode(marketId, symbol)
+
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
@@ -103,6 +108,14 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 
 		lastPrice = lastPrice + rawPrice
 		ele.Price = float64(lastPrice) / baseUnit(string(obj.request.Code[:]))
+
+		if isIndex {
+			amount := ele.Vol * 100
+			ele.Vol = int(float64(amount) / ele.Price)
+		} else {
+			ele.Vol *= 100
+		}
+
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	return err
