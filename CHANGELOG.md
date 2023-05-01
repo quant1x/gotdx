@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.10] - 2023-05-01
+### Changed
+- 分笔成交数据的vol单位统一调整为股.
+- Update changelog.
+
 ## [1.6.9] - 2023-05-01
 ### Changed
 - Update changelog.
@@ -404,7 +409,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.10...HEAD
+[1.6.10]: https://gitee.com/quant1x/gotdx/compare/v1.6.9...v1.6.10
 [1.6.9]: https://gitee.com/quant1x/gotdx/compare/v1.6.8...v1.6.9
 [1.6.8]: https://gitee.com/quant1x/gotdx/compare/v1.6.7...v1.6.8
 [1.6.7]: https://gitee.com/quant1x/gotdx/compare/v1.6.6...v1.6.7
