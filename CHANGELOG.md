@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.11] - 2023-05-02
+### Changed
+- 财务数据判断是否退市.
+
 ## [1.6.10] - 2023-05-01
 ### Changed
 - 分笔成交数据的vol单位统一调整为股.
@@ -409,7 +413,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.10...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.11...HEAD
+[1.6.11]: https://gitee.com/quant1x/gotdx/compare/v1.6.10...v1.6.11
 [1.6.10]: https://gitee.com/quant1x/gotdx/compare/v1.6.9...v1.6.10
 [1.6.9]: https://gitee.com/quant1x/gotdx/compare/v1.6.8...v1.6.9
 [1.6.8]: https://gitee.com/quant1x/gotdx/compare/v1.6.7...v1.6.8
