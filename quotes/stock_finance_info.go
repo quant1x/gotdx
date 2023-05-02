@@ -160,6 +160,11 @@ type FinanceInfo struct {
 	BaoLiu2            float64 `struc:"float32,little" json:"bao_liu_2"`
 }
 
+// IsDelisting 是否退市
+func (info FinanceInfo) IsDelisting() bool {
+	return info.IPODate == 0 && info.ZongGuBen == 0 && info.LiuTongGuBen == 0
+}
+
 func NewFinanceInfoPackage() *FinanceInfoPackage {
 	pkg := new(FinanceInfoPackage)
 	pkg.reqHeader = new(StdRequestHeader)
@@ -212,7 +217,7 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 	}
 	var resp FinanceInfo
 	raw := reply.First
-	resp.Code = proto.GetSecurityCode(raw.Market, api.Bytes2String(raw.Code[:]))
+	resp.Code = proto.GetSecurityCode(obj.request.Market, api.Bytes2String(obj.request.Code[:]))
 	resp.LiuTongGuBen = numberToFloat64(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry
