@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 type Hello2Package struct {
@@ -57,7 +58,7 @@ func (obj *Hello2Package) Serialize() ([]byte, error) {
 func (obj *Hello2Package) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	serverInfo := Utf8ToGbk(data[58:])
+	serverInfo := util.Utf8ToGbk(data[58:])
 	//fmt.Println(hex.EncodeToString(data))
 	obj.reply.Info = serverInfo
 	return nil

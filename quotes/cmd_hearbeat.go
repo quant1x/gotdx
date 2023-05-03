@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 // 心跳包, command: 0004
@@ -56,7 +57,7 @@ func (obj *HeartBeatPackage) Serialize() ([]byte, error) {
 
 func (obj *HeartBeatPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
-	serverInfo := Utf8ToGbk(data[:])
+	serverInfo := util.Utf8ToGbk(data[:])
 	obj.reply.Info = serverInfo
 	return nil
 }

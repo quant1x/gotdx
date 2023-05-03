@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 	log "github.com/mymmsc/gox/logger"
 )
 
@@ -149,7 +150,7 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
 		//enc := mahonia.NewDecoder("gbk")
 		//ele.Code = enc.ConvertString(string(code[:]))
-		ele.Code = Utf8ToGbk(code[:])
+		ele.Code = util.Utf8ToGbk(code[:])
 		pos += 6
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2

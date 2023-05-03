@@ -457,3 +457,63 @@ func (this *StdApi) GetBlockInfo(block_file string) (*BlockInfoResponse, error) 
 	}
 	return &resp, nil
 }
+
+func (this *StdApi) GetCompanyInfoCategory(marketType proto.MarketType, symbol string) ([]CompanyInfoCategory, error) {
+	obj := NewCompanyInfoCategoryPackage()
+	_code := [6]byte{}
+	_market := uint16(marketType)
+	copy(_code[:], symbol)
+	obj.SetParams(&CompanyInfoCategoryRequest{
+		Market: _market,
+		Code:   _code,
+	})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.([]CompanyInfoCategory), err
+}
+
+//var (
+//	companyCategory = make(map[string]CompanyInfoCategory)
+//)
+
+func (this *StdApi) GetCompanyInfoContent(marketType proto.MarketType, symbol string, name string) (*CompanyInfoContent, error) {
+	categories, err := this.GetCompanyInfoCategory(marketType, symbol)
+	if err != nil {
+		return nil, err
+	}
+	var category *CompanyInfoCategory
+	for _, v := range categories {
+		if v.Name == name {
+			category = &v
+			break
+		}
+	}
+
+	if category == nil {
+		return nil, errors.New("not found")
+	}
+	obj := NewCompanyInfoContentPackage()
+	//_code := [6]byte{}
+	//_market := uint16(marketType)
+	//copy(_code[:], symbol)
+	reqest := CompanyInfoContentRequest{
+		Market: uint16(marketType),
+		Offset: category.Offset,
+		Length: category.Length,
+	}
+	copy(reqest.Code[:], symbol)
+	//tmp, err := util.EncodeGBK(api.String2Bytes(name))
+	//if err != nil {
+	//	return nil, nil
+	//}
+	copy(reqest.Filename[:], category.Filename)
+
+	obj.SetParams(&reqest)
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*CompanyInfoContent), err
+}

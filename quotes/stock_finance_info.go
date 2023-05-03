@@ -9,7 +9,7 @@ import (
 	"github.com/mymmsc/gox/encoding/binary/cstruct"
 )
 
-// FinanceInfoPackage 基本信息
+// FinanceInfoPackage 财务数据
 type FinanceInfoPackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader

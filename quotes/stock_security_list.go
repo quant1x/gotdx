@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 const (
@@ -96,7 +97,7 @@ func (obj *SecurityListPackage) UnSerialize(header interface{}, data []byte) err
 
 		var name [8]byte
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+8]), binary.LittleEndian, &name)
-		ele.Name = Utf8ToGbk(name[:])
+		ele.Name = util.Utf8ToGbk(name[:])
 		pos += 8
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed1)

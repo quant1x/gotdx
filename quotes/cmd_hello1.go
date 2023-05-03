@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 type Hello1Package struct {
@@ -57,7 +58,7 @@ func (obj *Hello1Package) Serialize() ([]byte, error) {
 //	分  时    秒                                                                      日期
 func (obj *Hello1Package) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
-	serverInfo := Utf8ToGbk(data[68:])
+	serverInfo := util.Utf8ToGbk(data[68:])
 	obj.reply.Info = serverInfo
 	return nil
 }

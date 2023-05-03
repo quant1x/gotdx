@@ -9,8 +9,19 @@ import (
 	"strings"
 )
 
-// Utf8ToGbk utf8 转gbk
 func Utf8ToGbk(text []byte) string {
+	pos := bytes.IndexByte(text, 0x00)
+	if pos >= 0 {
+		text = text[:pos]
+	}
+	r := bytes.NewReader(text)
+	decoder := transform.NewReader(r, simplifiedchinese.GBK.NewDecoder()) //GB18030
+	content, _ := io.ReadAll(decoder)
+	return strings.ReplaceAll(string(content), string([]byte{0x00}), "")
+}
+
+// Utf8ToGbk utf8 转gbk
+func v1Utf8ToGbk(text []byte) string {
 	r := bytes.NewReader(text)
 	decoder := transform.NewReader(r, simplifiedchinese.GBK.NewDecoder()) //GB18030
 	content, _ := io.ReadAll(decoder)
@@ -20,10 +31,10 @@ func Utf8ToGbk(text []byte) string {
 // DecodeGBK convert GBK to UTF-8
 func DecodeGBK(s []byte) ([]byte, error) {
 	I := bytes.NewReader(s)
-	O := transform.NewReader(I, simplifiedchinese.GBK.NewDecoder())
-	d, e := io.ReadAll(O)
-	if e != nil {
-		return nil, e
+	decoder := transform.NewReader(I, simplifiedchinese.GBK.NewDecoder())
+	d, err := io.ReadAll(decoder)
+	if err != nil {
+		return nil, err
 	}
 	return d, nil
 }
@@ -31,10 +42,10 @@ func DecodeGBK(s []byte) ([]byte, error) {
 // EncodeGBK convert UTF-8 to GBK
 func EncodeGBK(s []byte) ([]byte, error) {
 	I := bytes.NewReader(s)
-	O := transform.NewReader(I, simplifiedchinese.GBK.NewEncoder())
-	d, e := io.ReadAll(O)
-	if e != nil {
-		return nil, e
+	encoder := transform.NewReader(I, simplifiedchinese.GBK.NewEncoder())
+	d, err := io.ReadAll(encoder)
+	if err != nil {
+		return nil, err
 	}
 	return d, nil
 }

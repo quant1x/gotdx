@@ -27,7 +27,11 @@ func seqID() uint32 {
 	return _seqId
 }
 
-func Utf8ToGbk(text []byte) string {
+func v2Utf8ToGbk(text []byte) string {
+	pos := bytes.IndexByte(text, 0x00)
+	if pos >= 0 {
+		text = text[:pos]
+	}
 	r := bytes.NewReader(text)
 	decoder := transform.NewReader(r, simplifiedchinese.GBK.NewDecoder()) //GB18030
 	content, _ := io.ReadAll(decoder)
