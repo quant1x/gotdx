@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.13] - 2023-05-04
+### Changed
+- 收敛功能性函数.
+
 ## [1.6.12] - 2023-05-03
 ### Changed
 - !6 #I6ZWPX 新增F10企业基础信息接口 * 新增F10函数 * 调整财务数据的结构注释.
@@ -417,7 +421,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.12...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.13...HEAD
+[1.6.13]: https://gitee.com/quant1x/gotdx/compare/v1.6.12...v1.6.13
 [1.6.12]: https://gitee.com/quant1x/gotdx/compare/v1.6.11...v1.6.12
 [1.6.11]: https://gitee.com/quant1x/gotdx/compare/v1.6.10...v1.6.11
 [1.6.10]: https://gitee.com/quant1x/gotdx/compare/v1.6.9...v1.6.10
