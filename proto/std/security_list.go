@@ -53,7 +53,7 @@ func (resp *getSecurityListResponseRaw) Stocks() ([]Stock, error) {
 			VolUnit:      resp.StocksRaw[idx].VolUnit,
 			DecimalPoint: resp.StocksRaw[idx].DecimalPoint,
 			Name:         string(name),
-			PreClose:     util.GetVolume(resp.StocksRaw[idx].PreCloseRaw),
+			PreClose:     util.IntToFloat64(resp.StocksRaw[idx].PreCloseRaw),
 		})
 	}
 	return stocks, nil

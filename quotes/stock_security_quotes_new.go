@@ -99,7 +99,7 @@ func NewV2SecurityQuotesPackage() *V2SecurityQuotesPackage {
 	obj.reply = new(V2SecurityQuotesReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.SeqID = util.SeqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_new
 	obj.contentHex = "0500000000000000" // 1.3.5以前的版本
@@ -155,38 +155,38 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
-		price := getPrice(data, &pos)
+		price := util.DecodeVarint(data, &pos)
 		ele.Price = obj.getPrice(price, 0)
-		ele.LastClose = obj.getPrice(price, getPrice(data, &pos))
-		ele.Open = obj.getPrice(price, getPrice(data, &pos))
-		ele.High = obj.getPrice(price, getPrice(data, &pos))
-		ele.Low = obj.getPrice(price, getPrice(data, &pos))
+		ele.LastClose = obj.getPrice(price, util.DecodeVarint(data, &pos))
+		ele.Open = obj.getPrice(price, util.DecodeVarint(data, &pos))
+		ele.High = obj.getPrice(price, util.DecodeVarint(data, &pos))
+		ele.Low = obj.getPrice(price, util.DecodeVarint(data, &pos))
 
-		ele.ReversedBytes0 = getPrice(data, &pos)
+		ele.ReversedBytes0 = util.DecodeVarint(data, &pos)
 		if ele.ReversedBytes0 > 0 {
 			//ele.ServerTime = timeFromStr(fmt.Sprintf("%d", ele.ReversedBytes0))
-			ele.ServerTime = timeFromInt(ele.ReversedBytes0)
+			ele.ServerTime = util.TimeFromInt(ele.ReversedBytes0)
 		} else {
 			ele.ServerTime = "0"
 			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
 			ele.Code = proto.StockDelisting
 		}
 
-		ele.ReversedBytes1 = getPrice(data, &pos)
+		ele.ReversedBytes1 = util.DecodeVarint(data, &pos)
 
-		ele.Vol = getPrice(data, &pos)
-		ele.CurVol = getPrice(data, &pos)
+		ele.Vol = util.DecodeVarint(data, &pos)
+		ele.CurVol = util.DecodeVarint(data, &pos)
 
 		var amountraw uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
 		pos += 4
-		ele.Amount = getVolume(int(amountraw))
+		ele.Amount = util.IntToFloat64(int(amountraw))
 
-		ele.SVol = getPrice(data, &pos)
-		ele.BVol = getPrice(data, &pos)
+		ele.SVol = util.DecodeVarint(data, &pos)
+		ele.BVol = util.DecodeVarint(data, &pos)
 
-		ele.ReversedBytes2 = getPrice(data, &pos)
-		ele.ReversedBytes3 = getPrice(data, &pos)
+		ele.ReversedBytes2 = util.DecodeVarint(data, &pos)
+		ele.ReversedBytes3 = util.DecodeVarint(data, &pos)
 		//fmt.Printf("pos: %d\n", pos)
 		//fmt.Println(hex.EncodeToString(data[:pos]))
 
@@ -195,10 +195,10 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		//baNum := 5
 		baNum := 1
 		for i := 0; i < baNum; i++ {
-			bidele := V2Level{Price: obj.getPrice(getPrice(data, &pos), price)}
-			offerele := V2Level{Price: obj.getPrice(getPrice(data, &pos), price)}
-			bidele.Vol = getPrice(data, &pos)
-			offerele.Vol = getPrice(data, &pos)
+			bidele := V2Level{Price: obj.getPrice(util.DecodeVarint(data, &pos), price)}
+			offerele := V2Level{Price: obj.getPrice(util.DecodeVarint(data, &pos), price)}
+			bidele.Vol = util.DecodeVarint(data, &pos)
+			offerele.Vol = util.DecodeVarint(data, &pos)
 			bidLevels = append(bidLevels, bidele)
 			askLevels = append(askLevels, offerele)
 		}
@@ -251,7 +251,7 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		_r2 := data[pos : pos+_lenth]
 		_pos2 := 0
 		for {
-			_p2 := obj.getPrice(getPrice(_r2, &_pos2), price)
+			_p2 := obj.getPrice(util.DecodeVarint(_r2, &_pos2), price)
 			//_p2 := getPrice(_r2, &_pos2)
 			if log.IsDebug() {
 				log.Debug(_p2)

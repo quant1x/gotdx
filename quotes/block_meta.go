@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/encoding/binary/struc"
 )
 
@@ -50,7 +51,7 @@ func NewBlockMetaPackage() *BlockMetaPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = 0x0c
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = seqID()
+	pkg.reqHeader.SeqID = util.SeqID()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00

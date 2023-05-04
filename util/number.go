@@ -8,7 +8,7 @@ func NumberToFloat64[T uint16 | uint32 | float32](v T) float64 {
 	return float64(v)
 }
 
-func GetVolume(ivol int) float64 {
+func IntToFloat64(ivol int) float64 {
 	logPoint := ivol >> (8 * 3)
 	//hheax := ivol >> (8*3)  // [4]
 	hleax := (ivol >> (8 * 2)) & 0xff // [2]

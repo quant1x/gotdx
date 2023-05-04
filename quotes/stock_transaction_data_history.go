@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/api"
 )
 
@@ -47,7 +48,7 @@ func NewHistoryTransactionPackage() *HistoryTransactionPackage {
 	obj.reply = new(TransactionReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.SeqID = util.SeqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -99,15 +100,15 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
-		h, m := getTime(data, &pos)
+		h, m := util.GetTime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", h, m)
-		rawPrice := getPrice(data, &pos)
-		ele.Vol = getPrice(data, &pos)
-		ele.BuyOrSell = getPrice(data, &pos)
-		getPrice(data, &pos)
+		rawPrice := util.DecodeVarint(data, &pos)
+		ele.Vol = util.DecodeVarint(data, &pos)
+		ele.BuyOrSell = util.DecodeVarint(data, &pos)
+		util.DecodeVarint(data, &pos)
 
 		lastPrice = lastPrice + rawPrice
-		ele.Price = float64(lastPrice) / baseUnit(string(obj.request.Code[:]))
+		ele.Price = float64(lastPrice) / util.BaseUnit(string(obj.request.Code[:]))
 
 		if isIndex {
 			amount := ele.Vol * 100

@@ -113,7 +113,7 @@ func NewCompanyInfoContentPackage() *CompanyInfoContentPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = proto.FlagNotZipped
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = seqID()
+	pkg.reqHeader.SeqID = util.SeqID()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00

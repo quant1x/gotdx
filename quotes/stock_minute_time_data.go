@@ -7,6 +7,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 )
 
 type MinuteTimePackage struct {
@@ -42,7 +43,7 @@ func NewMinuteTimePackage() *MinuteTimePackage {
 	obj.reply = new(MinuteTimeReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.SeqID = util.SeqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -83,9 +84,9 @@ func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error
 
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		priceraw := getPrice(data, &pos)
-		getPrice(data, &pos)
-		vol := getPrice(data, &pos)
+		priceraw := util.DecodeVarint(data, &pos)
+		util.DecodeVarint(data, &pos)
+		vol := util.DecodeVarint(data, &pos)
 		lastprice = lastprice + priceraw
 		ele := MinuteTime{float32(lastprice) / 100.0, vol}
 		obj.reply.List = append(obj.reply.List, ele)

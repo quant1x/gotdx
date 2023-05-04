@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/api"
 	"github.com/mymmsc/gox/encoding/binary/cstruct"
 )
@@ -176,7 +177,7 @@ func NewFinanceInfoPackage() *FinanceInfoPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = proto.FlagNotZipped
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = seqID()
+	pkg.reqHeader.SeqID = util.SeqID()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00
@@ -218,41 +219,41 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 	var resp FinanceInfo
 	raw := reply.First
 	resp.Code = proto.GetSecurityCode(obj.request.Market, api.Bytes2String(obj.request.Code[:]))
-	resp.LiuTongGuBen = numberToFloat64(raw.LiuTongGuBen) * 10000
+	resp.LiuTongGuBen = util.NumberToFloat64(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry
 	resp.UpdatedDate = raw.UpdatedDate
 	resp.IPODate = raw.IPODate
-	resp.ZongGuBen = numberToFloat64(raw.ZongGuBen) * 10000
-	resp.GuoJiaGu = numberToFloat64(raw.GuoJiaGu) * 10000
-	resp.FaQiRenFaRenGu = numberToFloat64(raw.FaQiRenFaRenGu) * 10000
-	resp.FaRenGu = numberToFloat64(raw.FaRenGu) * 10000
-	resp.BGu = numberToFloat64(raw.BGu) * 10000
-	resp.HGu = numberToFloat64(raw.HGu) * 10000
-	resp.ZhiGongGu = numberToFloat64(raw.ZhiGongGu) * 10000
-	resp.ZongZiChan = numberToFloat64(raw.ZongZiChan) * 10000
-	resp.LiuDongZiChan = numberToFloat64(raw.LiuDongZiChan) * 10000
-	resp.GuDingZiChan = numberToFloat64(raw.GuDingZiChan) * 10000
-	resp.WuXingZiChan = numberToFloat64(raw.WuXingZiChan) * 10000
-	resp.GuDongRenShu = numberToFloat64(raw.GuDongRenShu)
-	resp.LiuDongFuZhai = numberToFloat64(raw.LiuDongFuZhai) * 10000
-	resp.ChangQiFuZhai = numberToFloat64(raw.ChangQiFuZhai) * 10000
-	resp.ZiBenGongJiJin = numberToFloat64(raw.ZiBenGongJiJin) * 10000
-	resp.JingZiChan = numberToFloat64(raw.JingZiChan) * 10000
-	resp.ZhuYingShouRu = numberToFloat64(raw.ZhuYingShouRu) * 10000
-	resp.ZhuYingLiRun = numberToFloat64(raw.ZhuYingLiRun) * 10000
-	resp.YingShouZhangKuan = numberToFloat64(raw.Yingshouzhangkuan) * 10000
-	resp.YingyeLiRun = numberToFloat64(raw.YingyeLiRun) * 10000
-	resp.TouZiShouYu = numberToFloat64(raw.TouZiShouYu) * 10000
-	resp.JingYingxianJinLiu = numberToFloat64(raw.JingYingxianJinLiu) * 10000
-	resp.ZongXianJinLiu = numberToFloat64(raw.ZongXianJinLiu) * 10000
-	resp.CunHuo = numberToFloat64(raw.CunHuo) * 10000
-	resp.LiRunZongHe = numberToFloat64(raw.LiRunZongHe) * 10000
-	resp.ShuiHouLiRun = numberToFloat64(raw.ShuiHouLiRun) * 10000
-	resp.JingLiRun = numberToFloat64(raw.JingLiRun) * 10000
-	resp.WeiFenLiRun = numberToFloat64(raw.WeiFenLiRun) * 10000
-	resp.MeiGuJingZiChan = numberToFloat64(raw.BaoLiu1) * 10000
-	resp.BaoLiu2 = numberToFloat64(raw.BaoLiu2)
+	resp.ZongGuBen = util.NumberToFloat64(raw.ZongGuBen) * 10000
+	resp.GuoJiaGu = util.NumberToFloat64(raw.GuoJiaGu) * 10000
+	resp.FaQiRenFaRenGu = util.NumberToFloat64(raw.FaQiRenFaRenGu) * 10000
+	resp.FaRenGu = util.NumberToFloat64(raw.FaRenGu) * 10000
+	resp.BGu = util.NumberToFloat64(raw.BGu) * 10000
+	resp.HGu = util.NumberToFloat64(raw.HGu) * 10000
+	resp.ZhiGongGu = util.NumberToFloat64(raw.ZhiGongGu) * 10000
+	resp.ZongZiChan = util.NumberToFloat64(raw.ZongZiChan) * 10000
+	resp.LiuDongZiChan = util.NumberToFloat64(raw.LiuDongZiChan) * 10000
+	resp.GuDingZiChan = util.NumberToFloat64(raw.GuDingZiChan) * 10000
+	resp.WuXingZiChan = util.NumberToFloat64(raw.WuXingZiChan) * 10000
+	resp.GuDongRenShu = util.NumberToFloat64(raw.GuDongRenShu)
+	resp.LiuDongFuZhai = util.NumberToFloat64(raw.LiuDongFuZhai) * 10000
+	resp.ChangQiFuZhai = util.NumberToFloat64(raw.ChangQiFuZhai) * 10000
+	resp.ZiBenGongJiJin = util.NumberToFloat64(raw.ZiBenGongJiJin) * 10000
+	resp.JingZiChan = util.NumberToFloat64(raw.JingZiChan) * 10000
+	resp.ZhuYingShouRu = util.NumberToFloat64(raw.ZhuYingShouRu) * 10000
+	resp.ZhuYingLiRun = util.NumberToFloat64(raw.ZhuYingLiRun) * 10000
+	resp.YingShouZhangKuan = util.NumberToFloat64(raw.Yingshouzhangkuan) * 10000
+	resp.YingyeLiRun = util.NumberToFloat64(raw.YingyeLiRun) * 10000
+	resp.TouZiShouYu = util.NumberToFloat64(raw.TouZiShouYu) * 10000
+	resp.JingYingxianJinLiu = util.NumberToFloat64(raw.JingYingxianJinLiu) * 10000
+	resp.ZongXianJinLiu = util.NumberToFloat64(raw.ZongXianJinLiu) * 10000
+	resp.CunHuo = util.NumberToFloat64(raw.CunHuo) * 10000
+	resp.LiRunZongHe = util.NumberToFloat64(raw.LiRunZongHe) * 10000
+	resp.ShuiHouLiRun = util.NumberToFloat64(raw.ShuiHouLiRun) * 10000
+	resp.JingLiRun = util.NumberToFloat64(raw.JingLiRun) * 10000
+	resp.WeiFenLiRun = util.NumberToFloat64(raw.WeiFenLiRun) * 10000
+	resp.MeiGuJingZiChan = util.NumberToFloat64(raw.BaoLiu1) * 10000
+	resp.BaoLiu2 = util.NumberToFloat64(raw.BaoLiu2)
 	obj.reply = &resp
 	return nil
 }

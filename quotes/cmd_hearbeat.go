@@ -36,7 +36,7 @@ func NewHeartBeat() *HeartBeatPackage {
 	obj.reply = new(HeartBeatReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.SeqID = util.SeqID()
 	obj.reqHeader.PacketType = 0x02
 	obj.reqHeader.Method = proto.STD_MSG_HEARTBEAT
 	return obj

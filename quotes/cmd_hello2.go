@@ -33,7 +33,7 @@ func NewHello2() *Hello2Package {
 	obj.reply = new(Hello2Reply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = seqID()
+	obj.reqHeader.SeqID = util.SeqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_LOGIN2
 	obj.contentHex = "d5d0c9ccd6a4a8af0000008fc22540130000d500c9ccbdf0d7ea00000002"
