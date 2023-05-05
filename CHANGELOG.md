@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.16] - 2023-05-05
+### Changed
+- 修复int转float64的bug.
+- 增加测试代码.
+
 ## [1.6.15] - 2023-05-05
 ### Changed
 - 增加板块的涨跌情况统计数据.
@@ -429,7 +434,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.15...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.16...HEAD
+[1.6.16]: https://gitee.com/quant1x/gotdx/compare/v1.6.15...v1.6.16
 [1.6.15]: https://gitee.com/quant1x/gotdx/compare/v1.6.14...v1.6.15
 [1.6.14]: https://gitee.com/quant1x/gotdx/compare/v1.6.13...v1.6.14
 [1.6.13]: https://gitee.com/quant1x/gotdx/compare/v1.6.12...v1.6.13
