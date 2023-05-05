@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.14] - 2023-05-05
+### Changed
+- 调整部分代码.
+
 ## [1.6.13] - 2023-05-04
 ### Changed
 - 收敛功能性函数.
@@ -421,7 +425,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.13...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.14...HEAD
+[1.6.14]: https://gitee.com/quant1x/gotdx/compare/v1.6.13...v1.6.14
 [1.6.13]: https://gitee.com/quant1x/gotdx/compare/v1.6.12...v1.6.13
 [1.6.12]: https://gitee.com/quant1x/gotdx/compare/v1.6.11...v1.6.12
 [1.6.11]: https://gitee.com/quant1x/gotdx/compare/v1.6.10...v1.6.11
