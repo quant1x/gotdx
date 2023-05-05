@@ -17,7 +17,7 @@ func TestSecurityQuotesPackage_ResponseFields(t *testing.T) {
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen}, []string{"600275", "600455", "600086", "300742"})
 	sq1, err := stdApi.GetSecurityQuotes(
 		[]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen},
-		[]string{"880749", "600105", "000001", "300011"})
+		[]string{"880749", "600105", "880656", "300011"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

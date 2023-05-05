@@ -21,12 +21,6 @@ const (
 	TDX_SECURITY_TRADE_STATE_SUSPEND                     // 停牌
 )
 
-const (
-	Q_A TradeState = iota
-	Q_B
-	Q_C
-)
-
 // SecurityQuotesPackage 盘口五档报价
 type SecurityQuotesPackage struct {
 	reqHeader  *StdRequestHeader
