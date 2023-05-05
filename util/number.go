@@ -4,6 +4,11 @@ import (
 	"math"
 )
 
+// Float64IsNaN 判断float64是否NaN
+func Float64IsNaN(f float64) bool {
+	return math.IsNaN(f) || math.IsInf(f, 0)
+}
+
 func NumberToFloat64[T uint16 | uint32 | float32](v T) float64 {
 	return float64(v)
 }

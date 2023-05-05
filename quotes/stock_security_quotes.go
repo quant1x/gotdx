@@ -63,38 +63,43 @@ type SecurityQuote struct {
 	Vol             int        // 总量
 	CurVol          int        // 现量
 	Amount          float64    // 总金额
-	SVol            int        // 内盘
-	BVol            int        // 外盘
-	IndexOpenAmount int        // 指数-集合竞价成交金额=开盘成交金额
-	StockOpenAmount int        // 个股-集合竞价成交金额=开盘成交金额
+	SVol            int        // 个股有效-内盘
+	BVol            int        // 个股有效-外盘
+	IndexOpenAmount int        // 指数有效-集合竞价成交金额=开盘成交金额
+	StockOpenAmount int        // 个股有效-集合竞价成交金额=开盘成交金额
 	OpenVolume      int        // 集合竞价-开盘量, 单位是股
-	Bid1            float64
-	Ask1            float64
-	BidVol1         int
-	AskVol1         int
-	Bid2            float64
-	Ask2            float64
-	BidVol2         int
-	AskVol2         int
-	Bid3            float64
-	Ask3            float64
-	BidVol3         int
-	AskVol3         int
-	Bid4            float64
-	Ask4            float64
-	BidVol4         int
-	AskVol4         int
-	Bid5            float64
-	Ask5            float64
-	BidVol5         int
-	AskVol5         int
-	ReversedBytes4  uint16  // 保留
-	ReversedBytes5  int     // 保留
-	ReversedBytes6  int     // 保留
-	ReversedBytes7  int     // 保留
-	ReversedBytes8  int     // 保留
-	Rate            float64 // 涨速
-	Active2         uint16  // 活跃度, 如果是指数则为0, 个股同Active1
+	CloseVolume     int        // 集合竞价-收盘量, 单位是股
+	IndexUp         int        // 指数有效-上涨数
+	IndexUpLimit    int        // 指数有效-涨停数
+	IndexDown       int        // 指数有效-下跌数
+	IndexDownLimit  int        // 指数有效-跌停数
+	Bid1            float64    // 个股-委买价1
+	Ask1            float64    // 个股-委卖价1
+	BidVol1         int        // 个股-委买量1 板块-上涨数
+	AskVol1         int        // 个股-委卖量1 板块-下跌数
+	Bid2            float64    // 个股-委买价2
+	Ask2            float64    // 个股-委卖价2
+	BidVol2         int        // 个股-委买量2 板块-涨停数
+	AskVol2         int        // 个股-委卖量2 板块-跌停数
+	Bid3            float64    // 个股-委买价3
+	Ask3            float64    // 个股-委卖价3
+	BidVol3         int        // 个股-委买量3
+	AskVol3         int        // 个股-委卖量3
+	Bid4            float64    // 个股-委买价4
+	Ask4            float64    // 个股-委卖价4
+	BidVol4         int        // 个股-委买量4
+	AskVol4         int        // 个股-委卖量4
+	Bid5            float64    // 个股-委买价5
+	Ask5            float64    // 个股-委卖价5
+	BidVol5         int        // 个股-委买量5
+	AskVol5         int        // 个股-委卖量5
+	ReversedBytes4  uint16     // 保留
+	ReversedBytes5  int        // 保留
+	ReversedBytes6  int        // 保留
+	ReversedBytes7  int        // 保留
+	ReversedBytes8  int        // 保留
+	Rate            float64    // 涨速
+	Active2         uint16     // 活跃度, 如果是指数则为0, 个股同Active1
 }
 
 type Level struct {
@@ -152,7 +157,6 @@ func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
 func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	//fmt.Println(hex.EncodeToString(data))
 	pos := 0
 	var _tmp uint16
 	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &_tmp)
@@ -206,15 +210,20 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.IndexOpenAmount = util.DecodeVarint(data, &pos) * 100
 		ele.StockOpenAmount = util.DecodeVarint(data, &pos) * 100
 
+		tmpOpenVolume := float64(0)
+		isIndexOrBlock := proto.AssertIndexByMarketAndCode(ele.Market, ele.Code)
 		//if ele.IndexOpenAmount > ele.StockOpenAmount {
-		if proto.AssertIndexByMarketAndCode(ele.Market, ele.Code) {
+		if isIndexOrBlock {
 			// 指数或者板块, 单位是"股"
-			ele.OpenVolume = int(math.Round(float64(ele.IndexOpenAmount) / ele.Open))
+			tmpOpenVolume = math.Round(float64(ele.IndexOpenAmount) / ele.Open)
 		} else {
 			// 个股, 单位是"股"
-			ele.OpenVolume = int(math.Round(float64(ele.StockOpenAmount) / ele.Open))
+			tmpOpenVolume = math.Round(float64(ele.StockOpenAmount) / ele.Open)
 		}
-
+		if util.Float64IsNaN(tmpOpenVolume) {
+			tmpOpenVolume = 0.00
+		}
+		ele.OpenVolume = int(tmpOpenVolume)
 		var bidLevels []Level
 		var askLevels []Level
 		for i := 0; i < 5; i++ {
@@ -279,6 +288,13 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 				// 开盘价等于0, 停牌
 				ele.State = TDX_SECURITY_TRADE_STATE_SUSPEND
 			}
+		}
+
+		if isIndexOrBlock {
+			ele.IndexUp = ele.BidVol1
+			ele.IndexDown = ele.AskVol1
+			ele.IndexUpLimit = ele.BidVol2
+			ele.IndexUpLimit = ele.AskVol2
 		}
 
 		obj.reply.List = append(obj.reply.List, ele)
