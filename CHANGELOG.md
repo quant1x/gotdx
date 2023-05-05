@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.15] - 2023-05-05
+### Changed
+- 增加板块的涨跌情况统计数据.
+
 ## [1.6.14] - 2023-05-05
 ### Changed
 - 调整部分代码.
@@ -425,7 +429,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.14...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.15...HEAD
+[1.6.15]: https://gitee.com/quant1x/gotdx/compare/v1.6.14...v1.6.15
 [1.6.14]: https://gitee.com/quant1x/gotdx/compare/v1.6.13...v1.6.14
 [1.6.13]: https://gitee.com/quant1x/gotdx/compare/v1.6.12...v1.6.13
 [1.6.12]: https://gitee.com/quant1x/gotdx/compare/v1.6.11...v1.6.12
