@@ -118,7 +118,7 @@ func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) err
 
 		var ivol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
-		ele.Vol = util.IntToFloat64(int(ivol))
+		ele.Vol = util.IntToFloat64(ivol)
 		pos += 4
 
 		var dbvol uint32

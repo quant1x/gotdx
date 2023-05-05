@@ -13,7 +13,9 @@ func NumberToFloat64[T uint16 | uint32 | float32](v T) float64 {
 	return float64(v)
 }
 
-func IntToFloat64(ivol int) float64 {
+// IntToFloat64 整型转float64
+func IntToFloat64[T ~uint32 | ~int | ~int64](integer T) float64 {
+	ivol := int(integer)
 	logPoint := ivol >> (8 * 3)
 	//hheax := ivol >> (8*3)  // [4]
 	hleax := (ivol >> (8 * 2)) & 0xff // [2]
@@ -56,8 +58,8 @@ func IntToFloat64(ivol int) float64 {
 			dblXmm0 = math.Pow(2.0, float64(dwEdx)) * float64(hleax)
 		} else {
 			dblXmm0 = (1 / math.Pow(2.0, float64(dwEdx))) * float64(hleax)
-			dblXmm4 = dblXmm0
 		}
+		dblXmm4 = dblXmm0
 	}
 	dblXmm3 := math.Pow(2.0, float64(dwEsi)) * float64(lheax)
 	dblXmm1 := math.Pow(2.0, float64(dwEax)) * float64(lleax)
