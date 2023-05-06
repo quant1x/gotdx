@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.17] - 2023-05-07
+### Changed
+- 调整目录结构.
+
 ## [1.6.16] - 2023-05-05
 ### Changed
 - 修复int转float64的bug.
@@ -434,7 +438,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.16...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.17...HEAD
+[1.6.17]: https://gitee.com/quant1x/gotdx/compare/v1.6.16...v1.6.17
 [1.6.16]: https://gitee.com/quant1x/gotdx/compare/v1.6.15...v1.6.16
 [1.6.15]: https://gitee.com/quant1x/gotdx/compare/v1.6.14...v1.6.15
 [1.6.14]: https://gitee.com/quant1x/gotdx/compare/v1.6.13...v1.6.14
