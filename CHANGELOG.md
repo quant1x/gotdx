@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.18] - 2023-05-07
+### Changed
+- 调整部分代码.
+
 ## [1.6.17] - 2023-05-07
 ### Changed
 - 调整目录结构.
@@ -438,7 +442,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.17...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.18...HEAD
+[1.6.18]: https://gitee.com/quant1x/gotdx/compare/v1.6.17...v1.6.18
 [1.6.17]: https://gitee.com/quant1x/gotdx/compare/v1.6.16...v1.6.17
 [1.6.16]: https://gitee.com/quant1x/gotdx/compare/v1.6.15...v1.6.16
 [1.6.15]: https://gitee.com/quant1x/gotdx/compare/v1.6.14...v1.6.15
