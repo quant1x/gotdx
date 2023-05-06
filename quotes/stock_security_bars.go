@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 )
 
 const (
@@ -63,7 +63,7 @@ func NewSecurityBarsPackage() *SecurityBarsPackage {
 	obj.response = new(SecurityBarsReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = util.SeqID()
+	obj.reqHeader.SeqID = internal.SeqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -106,24 +106,24 @@ func (obj *SecurityBarsPackage) UnSerialize(header interface{}, data []byte) err
 
 	for index := uint16(0); index < obj.response.Count; index++ {
 		ele := SecurityBar{}
-		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = util.GetDatetime(int(obj.request.Category), data, &pos)
+		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = internal.GetDatetime(int(obj.request.Category), data, &pos)
 
 		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
 
-		price_open_diff := util.DecodeVarint(data, &pos)
-		price_close_diff := util.DecodeVarint(data, &pos)
+		price_open_diff := internal.DecodeVarint(data, &pos)
+		price_close_diff := internal.DecodeVarint(data, &pos)
 
-		price_high_diff := util.DecodeVarint(data, &pos)
-		price_low_diff := util.DecodeVarint(data, &pos)
+		price_high_diff := internal.DecodeVarint(data, &pos)
+		price_low_diff := internal.DecodeVarint(data, &pos)
 
 		var ivol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
-		ele.Vol = util.IntToFloat64(ivol)
+		ele.Vol = internal.IntToFloat64(ivol)
 		pos += 4
 
 		var dbvol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
-		ele.Amount = util.IntToFloat64(int(dbvol))
+		ele.Amount = internal.IntToFloat64(int(dbvol))
 		pos += 4
 
 		ele.Open = float64(price_open_diff+pre_diff_base) / 1000.0

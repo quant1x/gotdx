@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/encoding/binary/struc"
 )
 
@@ -53,7 +53,7 @@ func NewBlockInfoPackage() *BlockInfoPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = 0x0c
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = util.SeqID()
+	pkg.reqHeader.SeqID = internal.SeqID()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00

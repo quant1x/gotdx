@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 	"math"
 )
 
@@ -115,7 +115,7 @@ func NewSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj.reply = new(SecurityQuotesReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = util.SeqID()
+	obj.reqHeader.SeqID = internal.SeqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_old
 	obj.contentHex = "0500000000000000" // 1.3.5以前的版本
@@ -171,44 +171,44 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
 		//enc := mahonia.NewDecoder("gbk")
 		//ele.Code = enc.ConvertString(string(code[:]))
-		ele.Code = util.Utf8ToGbk(code[:])
+		ele.Code = internal.Utf8ToGbk(code[:])
 		pos += 6
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
-		price := util.DecodeVarint(data, &pos)
+		price := internal.DecodeVarint(data, &pos)
 		ele.Price = obj.getPrice(price, 0)
-		ele.LastClose = obj.getPrice(price, util.DecodeVarint(data, &pos))
-		ele.Open = obj.getPrice(price, util.DecodeVarint(data, &pos))
-		ele.High = obj.getPrice(price, util.DecodeVarint(data, &pos))
-		ele.Low = obj.getPrice(price, util.DecodeVarint(data, &pos))
+		ele.LastClose = obj.getPrice(price, internal.DecodeVarint(data, &pos))
+		ele.Open = obj.getPrice(price, internal.DecodeVarint(data, &pos))
+		ele.High = obj.getPrice(price, internal.DecodeVarint(data, &pos))
+		ele.Low = obj.getPrice(price, internal.DecodeVarint(data, &pos))
 
-		ele.ReversedBytes0 = util.DecodeVarint(data, &pos)
+		ele.ReversedBytes0 = internal.DecodeVarint(data, &pos)
 		if ele.ReversedBytes0 > 0 {
 			//ele.ServerTime = timeFromStr(fmt.Sprintf("%d", ele.ReversedBytes0))
-			ele.ServerTime = util.TimeFromInt(ele.ReversedBytes0)
+			ele.ServerTime = internal.TimeFromInt(ele.ReversedBytes0)
 		} else {
 			ele.ServerTime = "0"
 			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
 			//ele.Code = proto.StockDelisting
 			// 证券代码可能部证券, 上海交易所的退市代码有机会填写成600839
 		}
-		ele.ReversedBytes1 = util.DecodeVarint(data, &pos)
+		ele.ReversedBytes1 = internal.DecodeVarint(data, &pos)
 
-		ele.Vol = util.DecodeVarint(data, &pos)
-		ele.CurVol = util.DecodeVarint(data, &pos)
+		ele.Vol = internal.DecodeVarint(data, &pos)
+		ele.CurVol = internal.DecodeVarint(data, &pos)
 
 		var amountraw uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
 		pos += 4
-		ele.Amount = util.IntToFloat64(int(amountraw))
+		ele.Amount = internal.IntToFloat64(int(amountraw))
 
-		ele.SVol = util.DecodeVarint(data, &pos)
-		ele.BVol = util.DecodeVarint(data, &pos)
+		ele.SVol = internal.DecodeVarint(data, &pos)
+		ele.BVol = internal.DecodeVarint(data, &pos)
 
 		// 开盘金额需要 * 100
-		ele.IndexOpenAmount = util.DecodeVarint(data, &pos) * 100
-		ele.StockOpenAmount = util.DecodeVarint(data, &pos) * 100
+		ele.IndexOpenAmount = internal.DecodeVarint(data, &pos) * 100
+		ele.StockOpenAmount = internal.DecodeVarint(data, &pos) * 100
 
 		tmpOpenVolume := float64(0)
 		isIndexOrBlock := proto.AssertIndexByMarketAndCode(ele.Market, ele.Code)
@@ -220,17 +220,17 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			// 个股, 单位是"股"
 			tmpOpenVolume = math.Round(float64(ele.StockOpenAmount) / ele.Open)
 		}
-		if util.Float64IsNaN(tmpOpenVolume) {
+		if internal.Float64IsNaN(tmpOpenVolume) {
 			tmpOpenVolume = 0.00
 		}
 		ele.OpenVolume = int(tmpOpenVolume)
 		var bidLevels []Level
 		var askLevels []Level
 		for i := 0; i < 5; i++ {
-			bidele := Level{Price: obj.getPrice(util.DecodeVarint(data, &pos), price)}
-			offerele := Level{Price: obj.getPrice(util.DecodeVarint(data, &pos), price)}
-			bidele.Vol = util.DecodeVarint(data, &pos)
-			offerele.Vol = util.DecodeVarint(data, &pos)
+			bidele := Level{Price: obj.getPrice(internal.DecodeVarint(data, &pos), price)}
+			offerele := Level{Price: obj.getPrice(internal.DecodeVarint(data, &pos), price)}
+			bidele.Vol = internal.DecodeVarint(data, &pos)
+			offerele.Vol = internal.DecodeVarint(data, &pos)
 			bidLevels = append(bidLevels, bidele)
 			askLevels = append(askLevels, offerele)
 		}
@@ -261,10 +261,10 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.ReversedBytes4)
 		pos += 2
-		ele.ReversedBytes5 = util.DecodeVarint(data, &pos)
-		ele.ReversedBytes6 = util.DecodeVarint(data, &pos)
-		ele.ReversedBytes7 = util.DecodeVarint(data, &pos)
-		ele.ReversedBytes8 = util.DecodeVarint(data, &pos)
+		ele.ReversedBytes5 = internal.DecodeVarint(data, &pos)
+		ele.ReversedBytes6 = internal.DecodeVarint(data, &pos)
+		ele.ReversedBytes7 = internal.DecodeVarint(data, &pos)
+		ele.ReversedBytes8 = internal.DecodeVarint(data, &pos)
 
 		var reversedbytes9 int16
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)

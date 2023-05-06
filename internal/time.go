@@ -1,4 +1,4 @@
-package util
+package internal
 
 import (
 	"bytes"
@@ -79,7 +79,7 @@ func TimeFromInt(stamp int) string {
 		t /= 10
 		st = float64(tmp3) / __tm_m_width
 	} else {
-		tmp3 := tmp1 * 60
+		tmp3 := tmp1
 		m = tmp3 / __tm_h_width
 		tmp4 := (tmp3 % __tm_h_width) * 60
 		s = tmp4 / __tm_h_width
@@ -87,7 +87,6 @@ func TimeFromInt(stamp int) string {
 		t /= 1000
 		st = float64(tmp4) / __tm_h_width
 	}
-	//return fmt.Sprintf("%02d:%02d:%02d.%03d", h, m, s, t)
 	_ = s
 	_ = t
 	return fmt.Sprintf("%02d:%02d:%06.3f", h, m, st)

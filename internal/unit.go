@@ -1,4 +1,4 @@
-package util
+package internal
 
 // 交易单位
 func BaseUnit(code string) float64 {

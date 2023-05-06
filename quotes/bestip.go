@@ -3,7 +3,7 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto/ex"
+	"gitee.com/quant1x/gotdx/proto/ext"
 	"gitee.com/quant1x/gotdx/proto/std"
 	"github.com/mymmsc/gox/api"
 	"golang.org/x/exp/slices"
@@ -127,7 +127,7 @@ func testEX(addr string) error {
 	}
 	// CMD信令 1
 	data, err := CommandWithConn(cli, func() (req std.Marshaler, resp std.Unmarshaler, err error) {
-		req, resp, err = ex.NewExCmd1()
+		req, resp, err = ext.NewExCmd1()
 		return
 	})
 	fmt.Printf("%+v\n", data)

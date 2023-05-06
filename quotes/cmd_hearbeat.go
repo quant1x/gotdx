@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 )
 
 // 心跳包, command: 0004
@@ -36,7 +36,7 @@ func NewHeartBeat() *HeartBeatPackage {
 	obj.reply = new(HeartBeatReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = util.SeqID()
+	obj.reqHeader.SeqID = internal.SeqID()
 	obj.reqHeader.PacketType = 0x02
 	obj.reqHeader.Method = proto.STD_MSG_HEARTBEAT
 	return obj
@@ -57,7 +57,7 @@ func (obj *HeartBeatPackage) Serialize() ([]byte, error) {
 
 func (obj *HeartBeatPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
-	serverInfo := util.Utf8ToGbk(data[:])
+	serverInfo := internal.Utf8ToGbk(data[:])
 	obj.reply.Info = serverInfo
 	return nil
 }

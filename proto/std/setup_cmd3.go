@@ -1,7 +1,7 @@
 package std
 
 import (
-	"gitee.com/quant1x/gotdx/util"
+	"gitee.com/quant1x/gotdx/internal"
 )
 
 // SetupCmd3Request 请求包结构
@@ -27,7 +27,7 @@ func (resp *SetupCmd3Response) Unmarshal(data []byte) error {
 // NewSetupCmd3Request 创建SetupCmd3请求包
 func NewSetupCmd3Request() (*SetupCmd3Request, error) {
 	request := &SetupCmd3Request{
-		Cmd: util.HexString2Bytes("0c 03 18 99 00 01 20 00 20 00 db 0f d5" +
+		Cmd: internal.HexString2Bytes("0c 03 18 99 00 01 20 00 20 00 db 0f d5" +
 			"d0 c9 cc d6 a4 a8 af 00 00 00 8f c2 25" +
 			"40 13 00 00 d5 00 c9 cc bd f0 d7 ea 00" +
 			"00 00 02"),

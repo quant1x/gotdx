@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 )
 
 // IndexBarsPackage 指数K线
@@ -60,7 +60,7 @@ func NewIndexBarsPackage() *IndexBarsPackage {
 	obj.reply = new(SecurityBarsReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = util.SeqID()
+	obj.reqHeader.SeqID = internal.SeqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -102,7 +102,7 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := SecurityBar{}
 
-		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = util.GetDatetime(int(obj.request.Category), data, &pos)
+		ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = internal.GetDatetime(int(obj.request.Category), data, &pos)
 
 		//if index == 0 {
 		//	ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute = getDatetime(int(obj.request.Category), data, &pos)
@@ -111,20 +111,20 @@ func (obj *IndexBarsPackage) UnSerialize(header interface{}, data []byte) error 
 		//}
 		ele.DateTime = fmt.Sprintf("%d-%02d-%02d %02d:%02d:00", ele.Year, ele.Month, ele.Day, ele.Hour, ele.Minute)
 
-		price_open_diff := util.DecodeVarint(data, &pos)
-		price_close_diff := util.DecodeVarint(data, &pos)
+		price_open_diff := internal.DecodeVarint(data, &pos)
+		price_close_diff := internal.DecodeVarint(data, &pos)
 
-		price_high_diff := util.DecodeVarint(data, &pos)
-		price_low_diff := util.DecodeVarint(data, &pos)
+		price_high_diff := internal.DecodeVarint(data, &pos)
+		price_low_diff := internal.DecodeVarint(data, &pos)
 
 		var ivol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ivol)
-		ele.Vol = util.IntToFloat64(int(ivol))
+		ele.Vol = internal.IntToFloat64(int(ivol))
 		pos += 4
 
 		var dbvol uint32
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &dbvol)
-		ele.Amount = util.IntToFloat64(int(dbvol))
+		ele.Amount = internal.IntToFloat64(int(dbvol))
 		pos += 4
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.UpCount)

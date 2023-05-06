@@ -5,7 +5,7 @@ import (
 	"compress/zlib"
 	"encoding/binary"
 	"encoding/hex"
-	"gitee.com/quant1x/gotdx/util"
+	"gitee.com/quant1x/gotdx/internal"
 	"github.com/mymmsc/gox/api"
 	log "github.com/mymmsc/gox/logger"
 	"io"
@@ -57,7 +57,7 @@ func process(client *TcpClient, msg Message) error {
 	// 2. 发送指令
 	retryTimes := 0
 	if log.IsDebug() {
-		log.Debug(util.Bytes2HexString(sendData))
+		log.Debug(internal.Bytes2HexString(sendData))
 	}
 	for {
 		// 设置写timeout

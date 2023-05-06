@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/api"
 )
 
@@ -61,7 +61,7 @@ func NewTransactionPackage() *TransactionPackage {
 	obj.reply = new(TransactionReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = util.SeqID()
+	obj.reqHeader.SeqID = internal.SeqID()
 	obj.reqHeader.PacketType = 0x00
 	//obj.reqHeader.PkgLen1  =
 	//obj.reqHeader.PkgLen2  =
@@ -105,21 +105,21 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 	lastprice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
-		hour, minute := util.GetTime(data, &pos)
+		hour, minute := internal.GetTime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", hour, minute)
-		priceraw := util.DecodeVarint(data, &pos)
-		ele.Vol = util.DecodeVarint(data, &pos)
-		ele.Num = util.DecodeVarint(data, &pos)
-		ele.BuyOrSell = util.DecodeVarint(data, &pos)
+		priceraw := internal.DecodeVarint(data, &pos)
+		ele.Vol = internal.DecodeVarint(data, &pos)
+		ele.Num = internal.DecodeVarint(data, &pos)
+		ele.BuyOrSell = internal.DecodeVarint(data, &pos)
 		lastprice += priceraw
-		ele.Price = float64(lastprice) / util.BaseUnit(string(obj.request.Code[:]))
+		ele.Price = float64(lastprice) / internal.BaseUnit(string(obj.request.Code[:]))
 		if isIndex {
 			amount := ele.Vol * 100
 			ele.Vol = int(float64(amount) / ele.Price)
 		} else {
 			ele.Vol *= 100
 		}
-		tmp := util.DecodeVarint(data, &pos)
+		tmp := internal.DecodeVarint(data, &pos)
 		_ = tmp
 		obj.reply.List = append(obj.reply.List, ele)
 	}

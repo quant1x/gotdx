@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 )
 
 // SecurityCountPackage 市场股票数量
@@ -33,7 +33,7 @@ func NewSecurityCountPackage() *SecurityCountPackage {
 	obj.reply = new(SecurityCountReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = util.SeqID()
+	obj.reqHeader.SeqID = internal.SeqID()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_COUNT
 	obj.contentHex = "75c73301" // 未解

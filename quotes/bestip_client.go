@@ -3,8 +3,8 @@ package quotes
 import (
 	"errors"
 	"fmt"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto/std"
-	"gitee.com/quant1x/gotdx/util"
 	"net"
 	"time"
 )
@@ -82,7 +82,7 @@ SEND:
 	}
 	// zlib解压缩
 	if header.Compressed() {
-		bodyBytes, err = util.ZlibUnCompress(bodyBytes)
+		bodyBytes, err = internal.ZlibUnCompress(bodyBytes)
 	}
 	// 反序列化为响应体结构
 	err = response.Unmarshal(bodyBytes)

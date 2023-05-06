@@ -2,8 +2,8 @@ package std
 
 // 获取股票列表
 import (
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 )
 
 // 请求包结构
@@ -43,7 +43,7 @@ func (resp *getSecurityListResponseRaw) Stocks() ([]Stock, error) {
 	)
 	// 后续处理
 	for idx := range resp.StocksRaw {
-		name, err := util.DecodeGBK(resp.StocksRaw[idx].Name) // .rstrip("\x00")
+		name, err := internal.DecodeGBK(resp.StocksRaw[idx].Name) // .rstrip("\x00")
 		if err != nil {
 			return nil, err
 		}
@@ -53,7 +53,7 @@ func (resp *getSecurityListResponseRaw) Stocks() ([]Stock, error) {
 			VolUnit:      resp.StocksRaw[idx].VolUnit,
 			DecimalPoint: resp.StocksRaw[idx].DecimalPoint,
 			Name:         string(name),
-			PreClose:     util.IntToFloat64(resp.StocksRaw[idx].PreCloseRaw),
+			PreClose:     internal.IntToFloat64(resp.StocksRaw[idx].PreCloseRaw),
 		})
 	}
 	return stocks, nil
@@ -94,7 +94,7 @@ func (resp *GetSecurityListResponse) Unmarshal(data []byte) error {
 // todo: 检测market是否为合法值
 func NewGetSecurityListRequest(market proto.MarketType, start int) (*GetSecurityListRequest, error) {
 	request := &GetSecurityListRequest{
-		Unknown1: util.HexString2Bytes("0c 01 18 64 01 01 06 00 06 00 50 04"),
+		Unknown1: internal.HexString2Bytes("0c 01 18 64 01 01 06 00 06 00 50 04"),
 		Market:   market,
 		Start:    start,
 	}

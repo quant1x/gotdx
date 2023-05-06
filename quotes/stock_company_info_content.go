@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/util"
 	"github.com/mymmsc/gox/encoding/binary/struc"
 	"github.com/mymmsc/gox/util/linkedhashmap"
 	"strings"
@@ -113,7 +113,7 @@ func NewCompanyInfoContentPackage() *CompanyInfoContentPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = proto.FlagNotZipped
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = util.SeqID()
+	pkg.reqHeader.SeqID = internal.SeqID()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00
@@ -154,7 +154,7 @@ func (obj *CompanyInfoContentPackage) UnSerialize(header interface{}, data []byt
 		Market:  proto.MarketType(reply.Market),
 		Code:    reply.Code,
 		Length:  uint32(reply.Length),
-		Content: util.Utf8ToGbk(reply.Data),
+		Content: internal.Utf8ToGbk(reply.Data),
 	}
 	obj.reply = &response
 	return nil
