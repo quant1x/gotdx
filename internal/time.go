@@ -79,6 +79,7 @@ func TimeFromInt(stamp int) string {
 		t /= 10
 		st = float64(tmp3) / __tm_m_width
 	} else {
+		h += 1
 		tmp3 := tmp1
 		m = tmp3 / __tm_h_width
 		tmp4 := (tmp3 % __tm_h_width) * 60
