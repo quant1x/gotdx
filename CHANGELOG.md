@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.25] - 2023-05-11
+### Changed
+- 增加读写超时时间到5秒.
+
 ## [1.6.24] - 2023-05-11
 ### Changed
 - 加强异常检测.
@@ -466,7 +470,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.24...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.25...HEAD
+[1.6.25]: https://gitee.com/quant1x/gotdx/compare/v1.6.24...v1.6.25
 [1.6.24]: https://gitee.com/quant1x/gotdx/compare/v1.6.23...v1.6.24
 [1.6.23]: https://gitee.com/quant1x/gotdx/compare/v1.6.22...v1.6.23
 [1.6.22]: https://gitee.com/quant1x/gotdx/compare/v1.6.21...v1.6.22
