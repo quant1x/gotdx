@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.23] - 2023-05-11
+### Changed
+- 加强异常检测.
+
 ## [1.6.22] - 2023-05-11
 ### Changed
 - 获取tcp连接异常输出日志.
@@ -458,7 +462,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.22...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.23...HEAD
+[1.6.23]: https://gitee.com/quant1x/gotdx/compare/v1.6.22...v1.6.23
 [1.6.22]: https://gitee.com/quant1x/gotdx/compare/v1.6.21...v1.6.22
 [1.6.21]: https://gitee.com/quant1x/gotdx/compare/v1.6.20...v1.6.21
 [1.6.20]: https://gitee.com/quant1x/gotdx/compare/v1.6.19...v1.6.20
