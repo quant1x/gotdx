@@ -2,6 +2,7 @@ package quotes
 
 import (
 	"github.com/mymmsc/gox/api"
+	"github.com/mymmsc/gox/exception"
 	"github.com/mymmsc/gox/logger"
 	"io"
 	"net"
@@ -127,6 +128,9 @@ func (client *TcpClient) Connect() error {
 	client.Lock()
 	opt := client.opt
 	total := len(opt.Servers)
+	if opt.index >= total {
+		opt.index = 0
+	}
 	for i := opt.index; i < total; i++ {
 		serv := opt.Servers[i]
 		//if i < total {
@@ -152,6 +156,9 @@ func (client *TcpClient) Connect() error {
 		} else {
 			opt.index += 1
 		}
+	}
+	if client.conn == nil || opt.index >= total {
+		return exception.New(1, "connect timeout")
 	}
 	return nil
 }

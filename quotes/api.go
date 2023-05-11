@@ -47,8 +47,16 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		if err != nil {
 			return nil, err
 		}
-		_ = stdApi.tdx_hello1(client)
-		_ = stdApi.tdx_hello2(client)
+		err = stdApi.tdx_hello1(client)
+		if err != nil {
+			_ = client.Close()
+			return nil, err
+		}
+		err = stdApi.tdx_hello2(client)
+		if err != nil {
+			_ = client.Close()
+			client = nil
+		}
 		return client, err
 	}
 	_close := func(v interface{}) error {
