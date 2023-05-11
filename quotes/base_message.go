@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"github.com/mymmsc/gox/api"
-	log "github.com/mymmsc/gox/logger"
+	"github.com/mymmsc/gox/logger"
 	"io"
 	"time"
 )
@@ -51,13 +51,14 @@ func process(client *TcpClient, msg Message) error {
 	// 1. 序列化
 	sendData, err := msg.Serialize()
 	if err != nil {
+		logger.Errorf("数据包编码失败", err)
 		return err
 	}
 
 	// 2. 发送指令
 	retryTimes := 0
-	if log.IsDebug() {
-		log.Debug(internal.Bytes2HexString(sendData))
+	if logger.IsDebug() {
+		logger.Debug(internal.Bytes2HexString(sendData))
 	}
 	for {
 		// 设置写timeout
@@ -69,12 +70,14 @@ func process(client *TcpClient, msg Message) error {
 		if n < len(sendData) {
 			retryTimes++
 			if retryTimes <= opt.MaxRetryTimes {
-				log.Warnf("第%d次重试\n", retryTimes)
+				logger.Warnf("第%d次重试\n", retryTimes)
 			} else {
+				logger.Errorf("发送指令失败-1", err)
 				return err
 			}
 		} else {
 			if err != nil {
+				logger.Errorf("发送指令失败-2", err)
 				return err
 			}
 			break
@@ -91,24 +94,26 @@ func process(client *TcpClient, msg Message) error {
 	}
 	_, err = io.ReadFull(conn, headerBytes)
 	if err != nil {
+		logger.Errorf("读取数据指令失败-1", err)
 		return err
 	}
-	if log.IsDebug() {
-		log.Debug("response header: ", hex.EncodeToString(headerBytes))
+	if logger.IsDebug() {
+		logger.Debug("response header: ", hex.EncodeToString(headerBytes))
 	}
 
 	// 3.2 响应的消息头, 反序列化
 	headerBuf := bytes.NewReader(headerBytes)
 	var header StdResponseHeader
 	if err := binary.Read(headerBuf, binary.LittleEndian, &header); err != nil {
+		logger.Errorf("读取数据指令失败-2", err)
 		return err
 	}
-	if log.IsDebug() {
-		log.Debugf("response header: %+v", header)
+	if logger.IsDebug() {
+		logger.Debugf("response header: %+v", header)
 	}
 	// 3.3 处理超长信息的异常
 	if header.ZipSize > MessageMaxBytes {
-		log.Warnf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
+		logger.Warnf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
 		return ErrBadData
 	}
 	// 3.4 读取响应的消息体
@@ -120,12 +125,13 @@ func process(client *TcpClient, msg Message) error {
 	}
 	_, err = io.ReadFull(conn, msgData)
 	if err != nil {
+		logger.Errorf("读取数据指令失败-3", err)
 		return err
 	}
 	// 3.5 反序列化响应的消息体
 	var out bytes.Buffer
-	if log.IsDebug() {
-		log.Debugf("response body: %+v", hex.EncodeToString(msgData))
+	if logger.IsDebug() {
+		logger.Debugf("response body: %+v", hex.EncodeToString(msgData))
 	}
 	var respBody []byte
 	if header.ZipSize != header.UnZipSize {
@@ -137,8 +143,8 @@ func process(client *TcpClient, msg Message) error {
 	} else {
 		respBody = msgData
 	}
-	if log.IsDebug() {
-		log.Debugf("response body: %+v", hex.EncodeToString(respBody))
+	if logger.IsDebug() {
+		logger.Debugf("response body: %+v", hex.EncodeToString(respBody))
 	}
 	err = msg.UnSerialize(&header, respBody)
 	// 4. 返回

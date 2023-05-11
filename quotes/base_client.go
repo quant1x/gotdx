@@ -79,10 +79,12 @@ func (client *TcpClient) Command(msg Message) error {
 	defer client.Unlock()
 	client.Lock()
 	if client.conn == nil {
+		logger.Errorf("tcp连接失效")
 		return io.EOF
 	}
 	err := process(client, msg)
 	if err != nil {
+		logger.Errorf("业务处理失败", err)
 		return err
 	}
 	client.updateCompletedTimestamp()
