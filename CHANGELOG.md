@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.26] - 2023-05-11
+### Changed
+- 修改心跳操作为获取市场品种个数.
+
 ## [1.6.25] - 2023-05-11
 ### Changed
 - 增加读写超时时间到5秒.
@@ -470,7 +474,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.25...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.26...HEAD
+[1.6.26]: https://gitee.com/quant1x/gotdx/compare/v1.6.25...v1.6.26
 [1.6.25]: https://gitee.com/quant1x/gotdx/compare/v1.6.24...v1.6.25
 [1.6.24]: https://gitee.com/quant1x/gotdx/compare/v1.6.23...v1.6.24
 [1.6.23]: https://gitee.com/quant1x/gotdx/compare/v1.6.22...v1.6.23
