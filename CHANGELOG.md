@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.20] - 2023-05-11
+### Changed
+- 增加异常日志.
+
 ## [1.6.19] - 2023-05-10
 ### Changed
 - 更新依赖库版本号.
@@ -446,7 +450,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.19...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.20...HEAD
+[1.6.20]: https://gitee.com/quant1x/gotdx/compare/v1.6.19...v1.6.20
 [1.6.19]: https://gitee.com/quant1x/gotdx/compare/v1.6.18...v1.6.19
 [1.6.18]: https://gitee.com/quant1x/gotdx/compare/v1.6.17...v1.6.18
 [1.6.17]: https://gitee.com/quant1x/gotdx/compare/v1.6.16...v1.6.17
