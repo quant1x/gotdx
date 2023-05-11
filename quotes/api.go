@@ -145,6 +145,9 @@ func (this *StdApi) v1_tdx_ping(client *TcpClient) error {
 func (this *StdApi) command(msg Message) (interface{}, error) {
 	// 2.1 获取TCP连接
 	_conn := this.connPool.GetConn()
+	if _conn == nil {
+		return nil, io.ErrClosedPipe
+	}
 	cli := _conn.(*TcpClient)
 	err := cli.Command(msg)
 	if err != nil {
