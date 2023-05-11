@@ -111,7 +111,7 @@ func (this *StdApi) tdx_hello2(client *TcpClient) error {
 	return nil
 }
 
-func (this *StdApi) tdx_ping(client *TcpClient) error {
+func (this *StdApi) v2Tdx_ping(client *TcpClient) error {
 	message := NewHeartBeat()
 	err := client.Command(message)
 	if err != nil {
@@ -125,7 +125,7 @@ func (this *StdApi) tdx_ping(client *TcpClient) error {
 	return nil
 }
 
-func (this *StdApi) v1_tdx_ping(client *TcpClient) error {
+func (this *StdApi) tdx_ping(client *TcpClient) error {
 	msg := NewSecurityCountPackage()
 	msg.SetParams(&SecurityCountRequest{
 		Market: uint16(1),
