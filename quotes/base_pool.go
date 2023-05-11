@@ -2,6 +2,7 @@ package quotes
 
 import (
 	"fmt"
+	"github.com/mymmsc/gox/logger"
 	"github.com/mymmsc/gox/pool"
 	"time"
 )
@@ -62,6 +63,7 @@ func NewConnPool(opt Opt, size int, factory func() (interface{}, error), close f
 func (p *ConnPool) GetConn() interface{} {
 	conn, err := p.pool.Get()
 	if err != nil {
+		logger.Errorf("获取连接失败", err)
 		return nil
 	}
 	return conn
