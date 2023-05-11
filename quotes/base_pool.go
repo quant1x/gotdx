@@ -15,7 +15,7 @@ const (
 	// CONN_TIMEOUT 链接超时 10 s
 	CONN_TIMEOUT = 10
 	// RECV_TIMEOUT 接收数据超时
-	RECV_TIMEOUT = 2
+	RECV_TIMEOUT = 5
 )
 
 // ConnPool 连接池
