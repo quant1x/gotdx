@@ -157,7 +157,7 @@ func (client *TcpClient) Connect() error {
 			opt.index += 1
 		}
 	}
-	if client.conn == nil || opt.index >= total {
+	if client.conn == nil {
 		return exception.New(1, "connect timeout")
 	}
 	return nil
