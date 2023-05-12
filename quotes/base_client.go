@@ -165,6 +165,12 @@ func (client *TcpClient) Connect() error {
 
 // Close 断开服务器
 func (client *TcpClient) Close() error {
+	defer func() {
+		// 解析失败以后输出日志, 以备检查
+		if err := recover(); err != nil {
+			logger.Errorf("TcpClient.Close error=%+v\n", err)
+		}
+	}()
 	client.done <- true
 	close(client.sending)
 	close(client.complete)
