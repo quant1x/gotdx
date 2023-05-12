@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.30] - 2023-05-12
+### Changed
+- !7 #I72I4X fixed: 屏蔽关闭连接时可能出现的panic * 关闭TcpClient对象时忽略异常.
+
 ## [1.6.29] - 2023-05-12
 ### Changed
 - 更新依赖库版本号.
@@ -486,7 +490,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.29...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.30...HEAD
+[1.6.30]: https://gitee.com/quant1x/gotdx/compare/v1.6.29...v1.6.30
 [1.6.29]: https://gitee.com/quant1x/gotdx/compare/v1.6.28...v1.6.29
 [1.6.28]: https://gitee.com/quant1x/gotdx/compare/v1.6.27...v1.6.28
 [1.6.27]: https://gitee.com/quant1x/gotdx/compare/v1.6.26...v1.6.27
