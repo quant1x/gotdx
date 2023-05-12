@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.28] - 2023-05-12
+### Changed
+- 更新依赖库版本号.
+
 ## [1.6.27] - 2023-05-11
 ### Changed
 - 修复连接池计算的bug.
@@ -478,7 +482,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.27...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.28...HEAD
+[1.6.28]: https://gitee.com/quant1x/gotdx/compare/v1.6.27...v1.6.28
 [1.6.27]: https://gitee.com/quant1x/gotdx/compare/v1.6.26...v1.6.27
 [1.6.26]: https://gitee.com/quant1x/gotdx/compare/v1.6.25...v1.6.26
 [1.6.25]: https://gitee.com/quant1x/gotdx/compare/v1.6.24...v1.6.25
