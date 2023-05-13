@@ -3,7 +3,7 @@ package quotes
 import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
-	"github.com/mymmsc/gox/util/linkedhashmap"
+	"gitee.com/quant1x/gox/util/linkedhashmap"
 	"strings"
 	"testing"
 )

@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	log "github.com/mymmsc/gox/logger"
+	"gitee.com/quant1x/gox/logger"
 )
 
 const (
@@ -134,8 +134,8 @@ func (obj *V2SecurityQuotesPackage) Serialize() ([]byte, error) {
 func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	if log.IsDebug() {
-		log.Debugf(hex.EncodeToString(data))
+	if logger.IsDebug() {
+		logger.Debugf(hex.EncodeToString(data))
 	}
 	pos := 0
 
@@ -253,8 +253,8 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		for {
 			_p2 := obj.getPrice(internal.DecodeVarint(_r2, &_pos2), price)
 			//_p2 := getPrice(_r2, &_pos2)
-			if log.IsDebug() {
-				log.Debug(_p2)
+			if logger.IsDebug() {
+				logger.Debug(_p2)
 			}
 			if _pos2 >= _lenth {
 				break

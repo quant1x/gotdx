@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto/ext"
 	"gitee.com/quant1x/gotdx/proto/std"
-	"github.com/mymmsc/gox/api"
+	"gitee.com/quant1x/gox/api"
 	"golang.org/x/exp/slices"
 	"math"
 	"sort"

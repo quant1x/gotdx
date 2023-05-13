@@ -6,8 +6,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
-	"github.com/mymmsc/gox/api"
-	"github.com/mymmsc/gox/logger"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/logger"
 	"io"
 	"time"
 )

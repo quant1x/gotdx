@@ -1,9 +1,9 @@
 package quotes
 
 import (
-	"github.com/mymmsc/gox/api"
-	"github.com/mymmsc/gox/exception"
-	"github.com/mymmsc/gox/logger"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/exception"
+	"gitee.com/quant1x/gox/logger"
 	"io"
 	"net"
 	"strconv"

@@ -2,7 +2,7 @@ package std
 
 import (
 	"bytes"
-	"github.com/mymmsc/gox/encoding/binary/struc"
+	"gitee.com/quant1x/gox/encoding/binary/struc"
 	"log"
 )
 

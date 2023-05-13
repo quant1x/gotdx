@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
-	"github.com/mymmsc/gox/api"
+	"gitee.com/quant1x/gox/api"
 	"testing"
 )
 

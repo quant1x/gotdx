@@ -6,7 +6,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"github.com/mymmsc/gox/encoding/binary/struc"
+	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
 // CompanyInfoCategoryPackage 企业基本信息

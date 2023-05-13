@@ -3,7 +3,7 @@ package internal
 import (
 	"bytes"
 	"compress/zlib"
-	"github.com/mymmsc/gox/api"
+	"gitee.com/quant1x/gox/api"
 	"io"
 )
 

@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"github.com/mymmsc/gox/api"
+	"gitee.com/quant1x/gox/api"
 )
 
 type TradeType = int32

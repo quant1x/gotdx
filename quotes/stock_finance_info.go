@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"github.com/mymmsc/gox/api"
-	"github.com/mymmsc/gox/encoding/binary/cstruct"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/encoding/binary/cstruct"
 )
 
 // FinanceInfoPackage 财务数据

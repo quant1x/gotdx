@@ -2,8 +2,8 @@ package quotes
 
 import (
 	"encoding/json"
-	"github.com/mymmsc/gox/logger"
-	"github.com/mymmsc/gox/util/homedir"
+	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/util/homedir"
 	"os"
 )
 

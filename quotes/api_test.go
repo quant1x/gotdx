@@ -3,7 +3,7 @@ package quotes
 import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
-	"github.com/mymmsc/gox/logger"
+	"gitee.com/quant1x/gox/logger"
 	"testing"
 )
 

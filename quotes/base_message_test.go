@@ -6,7 +6,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	log "github.com/mymmsc/gox/logger"
+	"gitee.com/quant1x/gox/logger"
 	"io"
 	"testing"
 )
@@ -22,7 +22,7 @@ func parseResponseHeader(data []byte) (*StdResponseHeader, []byte, error) {
 	fmt.Println(headerBuf.Len(), headerBuf.Size())
 	pos := int(headerBuf.Size()) - headerBuf.Len()
 	if header.ZipSize > MessageMaxBytes {
-		log.Debugf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
+		logger.Debugf("msgData has bytes(%d) beyond max %d\n", header.ZipSize, MessageMaxBytes)
 		return &header, nil, ErrBadData
 	}
 	var out bytes.Buffer

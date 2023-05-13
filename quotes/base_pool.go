@@ -2,8 +2,8 @@ package quotes
 
 import (
 	"fmt"
-	"github.com/mymmsc/gox/logger"
-	"github.com/mymmsc/gox/pool"
+	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/pool"
 	"time"
 )
 
