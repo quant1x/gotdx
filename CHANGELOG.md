@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.6.32] - 2023-05-13
+### Changed
+- 更新依赖库版本号.
+
 ## [1.6.31] - 2023-05-13
 ### Changed
 - 迁移gox工具库.
@@ -494,7 +498,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.31...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.32...HEAD
+[1.6.32]: https://gitee.com/quant1x/gotdx/compare/v1.6.31...v1.6.32
 [1.6.31]: https://gitee.com/quant1x/gotdx/compare/v1.6.30...v1.6.31
 [1.6.30]: https://gitee.com/quant1x/gotdx/compare/v1.6.29...v1.6.30
 [1.6.29]: https://gitee.com/quant1x/gotdx/compare/v1.6.28...v1.6.29
