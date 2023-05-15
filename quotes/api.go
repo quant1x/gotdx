@@ -485,10 +485,6 @@ func (this *StdApi) GetCompanyInfoCategory(marketType proto.MarketType, symbol s
 	return reply.([]CompanyInfoCategory), err
 }
 
-//var (
-//	companyCategory = make(map[string]CompanyInfoCategory)
-//)
-
 func (this *StdApi) GetCompanyInfoContent(marketType proto.MarketType, symbol string, name string) (*CompanyInfoContent, error) {
 	categories, err := this.GetCompanyInfoCategory(marketType, symbol)
 	if err != nil {
