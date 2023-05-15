@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.7.0] - 2023-05-15
+### Changed
+- 增加常量, 市场启动日期.
+- 调整测试代码.
+- 删除部分废弃的代码.
+- 优化部分企业信息的代码.
+
 ## [1.6.32] - 2023-05-13
 ### Changed
 - 更新依赖库版本号.
@@ -498,7 +505,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.6.32...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.7.0...HEAD
+[1.7.0]: https://gitee.com/quant1x/gotdx/compare/v1.6.32...v1.7.0
 [1.6.32]: https://gitee.com/quant1x/gotdx/compare/v1.6.31...v1.6.32
 [1.6.31]: https://gitee.com/quant1x/gotdx/compare/v1.6.30...v1.6.31
 [1.6.30]: https://gitee.com/quant1x/gotdx/compare/v1.6.29...v1.6.30
