@@ -25,6 +25,11 @@ const (
 	MarketUSA      string = "us" // 美国
 )
 
+const (
+	MARKET_CN_FIRST_DATE     = "19901219"   // 上证指数的第一个交易日
+	MARKET_CH_FIRST_LISTTIME = "1990-12-19" // 个股上市日期
+)
+
 var (
 	kMarketFlags = []string{"sh", "sz", "SH", "SZ", "bj", "BJ", "hk", "HK", "us", "US"}
 )
