@@ -14,7 +14,7 @@ func TestCompanyInfoContentPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetCompanyInfoContent(proto.MarketIdShangHai, "600977", "公司概况")
+	reply, err := stdApi.GetCompanyInfoContent(proto.MarketIdShangHai, "600977", "资金动向")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 		return
