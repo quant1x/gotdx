@@ -93,7 +93,7 @@ func (obj *CompanyInfoCategoryPackage) UnSerialize(header interface{}, data []by
 	if err != nil {
 		return err
 	}
-	category := make(map[string]CompanyInfoCategory)
+	//category := make(map[string]CompanyInfoCategory)
 	list := []CompanyInfoCategory{}
 	for _, v := range reply.Data {
 		info := CompanyInfoCategory{
@@ -102,7 +102,7 @@ func (obj *CompanyInfoCategoryPackage) UnSerialize(header interface{}, data []by
 			Offset:   v.Offset,
 			Length:   v.Length,
 		}
-		category[info.Name] = info
+		//category[info.Name] = info
 		list = append(list, info)
 	}
 	obj.reply = list

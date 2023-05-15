@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestSecurityQuotesPackage_ResponseFields(t *testing.T) {
+func TestSecurityQuotesPackage(t *testing.T) {
 	stdApi, err := NewStdApi()
 	if err != nil {
 		panic(err)
