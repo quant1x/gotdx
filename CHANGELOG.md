@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.8.0] - 2023-06-13
+### Changed
+- 增加一个独立的快照方法.
+
 ## [1.7.2] - 2023-06-08
 ### Changed
 - 修订创业板的代码段为68xxxx.
@@ -513,7 +517,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.7.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.0...HEAD
+[1.8.0]: https://gitee.com/quant1x/gotdx/compare/v1.7.2...v1.8.0
 [1.7.2]: https://gitee.com/quant1x/gotdx/compare/v1.7.1...v1.7.2
 [1.7.1]: https://gitee.com/quant1x/gotdx/compare/v1.7.0...v1.7.1
 [1.7.0]: https://gitee.com/quant1x/gotdx/compare/v1.6.32...v1.7.0
