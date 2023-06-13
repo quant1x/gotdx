@@ -1,6 +1,6 @@
 package internal
 
-// 交易单位
+// BaseUnit 交易单位
 func BaseUnit(code string) float64 {
 	c := code[:2]
 	switch c {
