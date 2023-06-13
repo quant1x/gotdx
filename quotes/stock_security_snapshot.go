@@ -2,6 +2,7 @@ package quotes
 
 // Snapshot L1 行情快照
 type Snapshot struct {
+	Date            string     // 交易日期
 	State           TradeState // 交易状态
 	Market          uint8      // 市场
 	Code            string     // 代码
