@@ -2,6 +2,7 @@ package proto
 
 import (
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/num"
 	"strings"
 )
 
@@ -220,4 +221,12 @@ func MarketLimit(securityCode string) float64 {
 		return 0.20
 	}
 	return 0.10
+}
+
+// LimtUp 返回涨停板价格
+func LimtUp(securityCode string, price float64) float64 {
+	zfLimit := MarketLimit(securityCode)
+	lastClose := num.Decimal(price)
+	zhangting := num.Decimal(lastClose * (1.0000 + zfLimit))
+	return zhangting
 }
