@@ -296,6 +296,46 @@ func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []stri
 	return reply.(*SecurityQuotesReply), err
 }
 
+// GetSnapshot 获取快照数据
+func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
+	marketIds := []proto.MarketType{}
+	symbols := []string{}
+	for _, code := range codes {
+		id, _, symbol := proto.DetectMarket(code)
+		if len(symbol) == 6 {
+			marketIds = append(marketIds, id)
+			symbols = append(symbols, symbol)
+		}
+	}
+	if len(symbols) == 0 {
+		err = errors.New("code count error")
+		return
+	}
+	obj := NewSecurityQuotesPackage()
+	var params []Stock
+	for i, market := range marketIds {
+		params = append(params, Stock{
+			Market: market,
+			Code:   symbols[i],
+		})
+	}
+	obj.SetParams(&SecurityQuotesRequest{StockList: params})
+	reply, err := this.command(obj)
+	if err != nil {
+		return list, err
+	}
+	quoteReply := reply.(*SecurityQuotesReply)
+	for _, v := range quoteReply.List {
+		var snapshot Snapshot
+		err := api.Copy(&snapshot, &v)
+		if err == nil {
+			snapshot.Active = v.Active1
+			list = append(list, snapshot)
+		}
+	}
+	return list, nil
+}
+
 func (this *StdApi) V2GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*V2SecurityQuotesReply, error) {
 	if len(markets) != len(symbols) {
 		return nil, errors.New("market code count error")
