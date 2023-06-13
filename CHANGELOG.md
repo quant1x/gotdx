@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.8.2] - 2023-06-13
+### Changed
+- 更新依赖库.
+
 ## [1.8.1] - 2023-06-13
 ### Changed
 - 快照增加日期字段.
@@ -521,7 +525,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.2...HEAD
+[1.8.2]: https://gitee.com/quant1x/gotdx/compare/v1.8.1...v1.8.2
 [1.8.1]: https://gitee.com/quant1x/gotdx/compare/v1.8.0...v1.8.1
 [1.8.0]: https://gitee.com/quant1x/gotdx/compare/v1.7.2...v1.8.0
 [1.7.2]: https://gitee.com/quant1x/gotdx/compare/v1.7.1...v1.7.2
