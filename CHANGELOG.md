@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.8.4] - 2023-06-14
+### Changed
+- 调整日历组件的依赖.
+- 新增日历工具包.
+- Update changelog.
+
 ## [1.8.3] - 2023-06-14
 ### Changed
 - 新增涨停板函数.
@@ -529,7 +535,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.4...HEAD
+[1.8.4]: https://gitee.com/quant1x/gotdx/compare/v1.8.3...v1.8.4
 [1.8.3]: https://gitee.com/quant1x/gotdx/compare/v1.8.2...v1.8.3
 [1.8.2]: https://gitee.com/quant1x/gotdx/compare/v1.8.1...v1.8.2
 [1.8.1]: https://gitee.com/quant1x/gotdx/compare/v1.8.0...v1.8.1
