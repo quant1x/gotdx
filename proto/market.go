@@ -32,7 +32,8 @@ const (
 )
 
 var (
-	kMarketFlags = []string{"sh", "sz", "SH", "SZ", "bj", "BJ", "hk", "HK", "us", "US"}
+	kMarketFlags       = []string{"sh", "sz", "SH", "SZ", "bj", "BJ", "hk", "HK", "us", "US"}
+	kMarketChinanFlags = []string{"sh", "sz", "SH", "SZ", "bj", "BJ"}
 )
 
 func GetSecurityCode(market MarketType, symbol string) (securityCode string) {
@@ -56,9 +57,14 @@ func GetSecurityCode(market MarketType, symbol string) (securityCode string) {
 //	['00', '12'，'13', '18', '15', '16', '18', '20', '30', '39', '115'] 为 sz
 //	['5', '6', '9'] 开头的为 sh， 其余为 sz
 func GetMarket(symbol string) string {
+	symbol = strings.TrimSpace(symbol)
 	market := "sh"
-	if api.StartsWith(symbol, []string{"sh", "sz", "SH", "SZ"}) {
+	if api.StartsWith(symbol, kMarketFlags) {
 		market = strings.ToLower(symbol[0:2])
+	} else if api.EndsWith(symbol, kMarketFlags) {
+		length := len(symbol)
+		// 后缀一个点号+2位字母, 代码在最前面
+		market = strings.ToLower(symbol[length-2:])
 	} else if api.StartsWith(symbol, []string{"50", "51", "60", "68", "90", "110", "113", "132", "204"}) {
 		market = "sh"
 	} else if api.StartsWith(symbol, []string{"00", "12", "13", "18", "15", "16", "18", "20", "30", "39", "115", "1318"}) {
@@ -229,4 +235,10 @@ func LimtUp(securityCode string, price float64) float64 {
 	lastClose := num.Decimal(price)
 	zhangting := num.Decimal(lastClose * (1.0000 + zfLimit))
 	return zhangting
+}
+
+// CorrectSecurityCode 修正证券代码
+func CorrectSecurityCode(securityCode string) string {
+	_, mFlag, mSymbol := DetectMarket(securityCode)
+	return mFlag + mSymbol
 }
