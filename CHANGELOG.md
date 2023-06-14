@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.8.6] - 2023-06-14
+### Changed
+- 简化接口入参证券代码.
+
 ## [1.8.5] - 2023-06-14
 ### Changed
 - 梳理上市公司资料的方法代码.
@@ -539,7 +543,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.6...HEAD
+[1.8.6]: https://gitee.com/quant1x/gotdx/compare/v1.8.5...v1.8.6
 [1.8.5]: https://gitee.com/quant1x/gotdx/compare/v1.8.4...v1.8.5
 [1.8.4]: https://gitee.com/quant1x/gotdx/compare/v1.8.3...v1.8.4
 [1.8.3]: https://gitee.com/quant1x/gotdx/compare/v1.8.2...v1.8.3
