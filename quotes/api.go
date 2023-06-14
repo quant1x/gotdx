@@ -542,19 +542,12 @@ func (this *StdApi) GetCompanyInfoContent(marketType proto.MarketType, symbol st
 		return nil, errors.New("not found")
 	}
 	obj := NewCompanyInfoContentPackage()
-	//_code := [6]byte{}
-	//_market := uint16(marketType)
-	//copy(_code[:], symbol)
 	reqest := CompanyInfoContentRequest{
 		Market: uint16(marketType),
 		Offset: category.Offset,
 		Length: category.Length,
 	}
 	copy(reqest.Code[:], symbol)
-	//tmp, err := util.EncodeGBK(api.String2Bytes(name))
-	//if err != nil {
-	//	return nil, nil
-	//}
 	copy(reqest.Filename[:], category.Filename)
 
 	obj.SetParams(&reqest)
