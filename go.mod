@@ -3,8 +3,7 @@ module gitee.com/quant1x/gotdx
 go 1.20
 
 require (
-	gitee.com/quant1x/gox v1.6.9
-	gitee.com/quant1x/pandas v1.0.1
+	gitee.com/quant1x/gox v1.7.0
 	github.com/dop251/goja v0.0.0-20230605162241-28ee0ee714f3
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20230522175609-2e198f4a06a1
@@ -21,6 +20,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/viterin/partial v1.0.0 // indirect
 	golang.org/x/sys v0.8.0 // indirect
-	gonum.org/v1/gonum v0.13.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

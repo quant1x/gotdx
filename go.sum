@@ -1,7 +1,5 @@
-gitee.com/quant1x/gox v1.6.9 h1:jqruy4tr5auMsUznpxWmqXvf/meBHA9s8XRqpLBkiMM=
-gitee.com/quant1x/gox v1.6.9/go.mod h1:R+I5AXXZ+/1viLGJLMeZD8ETvHLlpNhjrGoX6hRxcUI=
-gitee.com/quant1x/pandas v1.0.1 h1:NXaM67HHApmJmBZS8oxOhNAoTYzYGeSahMSSAxpnHI4=
-gitee.com/quant1x/pandas v1.0.1/go.mod h1:6m/EefummaFcnhrQpuDJgwQLeVnzQdjzu0Begl/tET0=
+gitee.com/quant1x/gox v1.7.0 h1:UHaS8g1Y3IoynZksG/LfUHtOLzw4wyMD6ob0H5sop2g=
+gitee.com/quant1x/gox v1.7.0/go.mod h1:R+I5AXXZ+/1viLGJLMeZD8ETvHLlpNhjrGoX6hRxcUI=
 github.com/chewxy/math32 v1.10.1 h1:LFpeY0SLJXeaiej/eIp2L40VYfscTvKh/FSEZ68uMkU=
 github.com/chewxy/math32 v1.10.1/go.mod h1:dOB2rcuFrCn6UHrze36WSLVPKtzPMRAQvBvUwkSsLqs=
 github.com/chzyer/logex v1.2.0/go.mod h1:9+9sk7u7pGNWYMkh0hdiL++6OeibzJccyQU4p4MedaY=
@@ -73,8 +71,6 @@ golang.org/x/tools v0.0.0-20180917221912-90fa682c2a6e/go.mod h1:n7NCudcB/nEzxVGm
 golang.org/x/tools v0.0.0-20191119224855-298f0cb1881e/go.mod h1:b+2E5dAYhXwXZwtnZ6UAqBI28+e2cm9otk0dWdXHAEo=
 golang.org/x/tools v0.1.12/go.mod h1:hNGJHUnrk76NpqgfD5Aqm5Crs+Hm0VOH/i9J2+nxYbc=
 golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7/go.mod h1:I/5z698sn9Ka8TeJc9MKroUUfqBBauWjQqLJ2OPfmY0=
-gonum.org/v1/gonum v0.13.0 h1:a0T3bh+7fhRyqeNbiC3qVHYmkiQgit3wnNan/2c0HMM=
-gonum.org/v1/gonum v0.13.0/go.mod h1:/WPYRckkfWrhWefxyYTfrTtQR0KH4iyHNuzxqXAKyAU=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=

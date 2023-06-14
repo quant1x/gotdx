@@ -3,7 +3,6 @@ package trading
 import (
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/pandas/stat"
 	"golang.org/x/exp/slices"
 	"sort"
 	"time"
@@ -67,7 +66,7 @@ func LastNDate(date string, n ...int) []string {
 	if len(n) > 0 {
 		__opt_end = n[0]
 	}
-	r := stat.RangeFinite(-__opt_end)
+	r := api.RangeFinite(-__opt_end)
 	date = FixTradeDate(date)
 	end := sort.SearchStrings(__global_trade_dates, date)
 	lastDay := __global_trade_dates[end]
