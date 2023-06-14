@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.8.5] - 2023-06-14
+### Changed
+- 梳理上市公司资料的方法代码.
+
 ## [1.8.4] - 2023-06-14
 ### Changed
 - 调整日历组件的依赖.
@@ -535,7 +539,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.5...HEAD
+[1.8.5]: https://gitee.com/quant1x/gotdx/compare/v1.8.4...v1.8.5
 [1.8.4]: https://gitee.com/quant1x/gotdx/compare/v1.8.3...v1.8.4
 [1.8.3]: https://gitee.com/quant1x/gotdx/compare/v1.8.2...v1.8.3
 [1.8.2]: https://gitee.com/quant1x/gotdx/compare/v1.8.1...v1.8.2
