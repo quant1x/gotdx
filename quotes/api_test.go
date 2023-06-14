@@ -40,14 +40,14 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", heartBeat)
 
 	// 3. finance_info
-	fi, err := stdApi.GetFinanceInfo(proto.MarketIdShangHai, "600600", 1)
+	fi, err := stdApi.GetFinanceInfo("sh600600", 1)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", fi)
 
 	// 4. kline
-	kl, err := stdApi.GetKLine(proto.MarketIdShenZhen, "002528", proto.KLINE_TYPE_RI_K, 0, 800)
+	kl, err := stdApi.GetKLine("sz002528", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -61,7 +61,7 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("GetSecurityList: %+v\n", sl)
 
 	// 6 index kline
-	ikl, err := stdApi.GetIndexBars(proto.MarketIdShangHai, "000001", proto.KLINE_TYPE_RI_K, 0, 800)
+	ikl, err := stdApi.GetIndexBars("sh000001", proto.KLINE_TYPE_RI_K, 0, 800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -94,31 +94,31 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", sq2)
 
 	// 9. 分时数据
-	mt, err := stdApi.GetMinuteTimeData(0, "159607")
+	mt, err := stdApi.GetMinuteTimeData("sz159607")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", mt)
 	// 10. 历史分时
-	hmt, err := stdApi.GetHistoryMinuteTimeData(proto.MarketIdShangHai, "600600", 20230113)
+	hmt, err := stdApi.GetHistoryMinuteTimeData("sh600600", 20230113)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", hmt)
 	// 11. 分笔成交
-	td, err := stdApi.GetTransactionData(0, "000629", 0, 3800)
+	td, err := stdApi.GetTransactionData("sz000629", 0, 3800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", td)
 	// 12. 历史分笔成交
-	htd, err := stdApi.GetHistoryTransactionData(proto.MarketIdShangHai, "600105", 20230421, 0, 1800)
+	htd, err := stdApi.GetHistoryTransactionData("sh600105", 20230421, 0, 1800)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", htd)
 	// 13. 除权除息
-	xdxr, err := stdApi.GetXdxrInfo(proto.MarketIdShenZhen, "002528")
+	xdxr, err := stdApi.GetXdxrInfo("sz002528")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

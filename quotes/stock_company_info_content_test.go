@@ -2,7 +2,6 @@ package quotes
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/util/linkedhashmap"
 	"strings"
 	"testing"
@@ -14,7 +13,7 @@ func TestCompanyInfoContentPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetCompanyInfoContent(proto.MarketIdShangHai, "600977", "资金动向")
+	reply, err := stdApi.GetCompanyInfoContent("sh600977", "资金动向")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 		return

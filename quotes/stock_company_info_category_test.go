@@ -3,7 +3,6 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 	"testing"
 )
@@ -14,7 +13,7 @@ func TestCompanyInfoCategoryPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetCompanyInfoCategory(proto.MarketIdShangHai, "600977")
+	reply, err := stdApi.GetCompanyInfoCategory("sh600977")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

@@ -3,7 +3,6 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 	"testing"
 )
@@ -14,7 +13,7 @@ func TestNewTransactionPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetTransactionData(proto.MarketIdShangHai, "600010", 0, 2)
+	reply, err := stdApi.GetTransactionData("sh600010", 0, 2)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

@@ -190,10 +190,11 @@ func (this *StdApi) HeartBeat() (*HeartBeatReply, error) {
 }
 
 // GetFinanceInfo 基本面
-func (this *StdApi) GetFinanceInfo(market proto.MarketType, symbol string, num uint16) (*FinanceInfo, error) {
+func (this *StdApi) GetFinanceInfo(code string, num uint16) (*FinanceInfo, error) {
 	msg := NewFinanceInfoPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := uint8(market)
+	_market := mId
 	copy(_code[:], symbol)
 	msg.SetParams(&FinanceInfoRequest{
 		Market: _market,
@@ -209,10 +210,11 @@ func (this *StdApi) GetFinanceInfo(market proto.MarketType, symbol string, num u
 }
 
 // GetKLine K线
-func (this *StdApi) GetKLine(market proto.MarketType, symbol string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
+func (this *StdApi) GetKLine(code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
 	msg := NewSecurityBarsPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := uint16(market)
+	_market := uint16(mId)
 	copy(_code[:], symbol)
 	msg.SetParams(&SecurityBarsRequest{
 		Market:   _market,
@@ -227,6 +229,27 @@ func (this *StdApi) GetKLine(market proto.MarketType, symbol string, category ui
 	}
 
 	return reply.(*SecurityBarsReply), nil
+}
+
+// GetIndexBars 指数K线
+func (this *StdApi) GetIndexBars(code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
+	msg := NewIndexBarsPackage()
+	mId, _, symbol := proto.DetectMarket(code)
+	_code := [6]byte{}
+	_market := uint16(mId)
+	copy(_code[:], symbol)
+	msg.SetParams(&SecurityBarsRequest{
+		Market:   _market,
+		Code:     _code,
+		Category: category,
+		Start:    start,
+		Count:    count,
+	})
+	reply, err := this.command(msg)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*SecurityBarsReply), err
 }
 
 // GetSecurityCount 获取指定市场内的证券数目
@@ -255,27 +278,9 @@ func (this *StdApi) GetSecurityList(market proto.MarketType, start uint16) (*Sec
 	return reply.(*SecurityListReply), nil
 }
 
-// GetIndexBars 指数K线
-func (this *StdApi) GetIndexBars(market proto.MarketType, symbol string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
-	msg := NewIndexBarsPackage()
-	_code := [6]byte{}
-	_market := uint16(market)
-	copy(_code[:], symbol)
-	msg.SetParams(&SecurityBarsRequest{
-		Market:   _market,
-		Code:     _code,
-		Category: category,
-		Start:    start,
-		Count:    count,
-	})
-	reply, err := this.command(msg)
-	if err != nil {
-		return nil, err
-	}
-	return reply.(*SecurityBarsReply), err
-}
-
 // GetSecurityQuotes 获取盘口五档报价
+//
+//	deprecated: 不推荐
 func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*SecurityQuotesReply, error) {
 	if len(markets) != len(symbols) {
 		return nil, errors.New("market code count error")
@@ -296,6 +301,29 @@ func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []stri
 	return reply.(*SecurityQuotesReply), err
 }
 
+// V2GetSecurityQuotes 测试版本快照
+//
+//	deprecated: 不推荐
+func (this *StdApi) V2GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*V2SecurityQuotesReply, error) {
+	if len(markets) != len(symbols) {
+		return nil, errors.New("market code count error")
+	}
+	obj := NewV2SecurityQuotesPackage()
+	var params []V2Stock
+	for i, market := range markets {
+		params = append(params, V2Stock{
+			Market: market,
+			Code:   symbols[i],
+		})
+	}
+	obj.SetParams(&V2SecurityQuotesRequest{StockList: params})
+	reply, err := this.command(obj)
+	if err != nil {
+		return nil, err
+	}
+	return reply.(*V2SecurityQuotesReply), err
+}
+
 // GetSnapshot 获取快照数据
 func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 	marketIds := []proto.MarketType{}
@@ -308,6 +336,10 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 		}
 	}
 	if len(symbols) == 0 {
+		err = errors.New("code count error")
+		return
+	}
+	if len(symbols) > TDX_SECURITY_QUOTES_MAX {
 		err = errors.New("code count error")
 		return
 	}
@@ -336,34 +368,14 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 	return list, nil
 }
 
-func (this *StdApi) V2GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*V2SecurityQuotesReply, error) {
-	if len(markets) != len(symbols) {
-		return nil, errors.New("market code count error")
-	}
-	obj := NewV2SecurityQuotesPackage()
-	var params []V2Stock
-	for i, market := range markets {
-		params = append(params, V2Stock{
-			Market: market,
-			Code:   symbols[i],
-		})
-	}
-	obj.SetParams(&V2SecurityQuotesRequest{StockList: params})
-	reply, err := this.command(obj)
-	if err != nil {
-		return nil, err
-	}
-	return reply.(*V2SecurityQuotesReply), err
-}
-
 // GetMinuteTimeData 获取分时图数据
-func (this *StdApi) GetMinuteTimeData(market proto.MarketType, symbol string) (*MinuteTimeReply, error) {
+func (this *StdApi) GetMinuteTimeData(code string) (*MinuteTimeReply, error) {
 	obj := NewMinuteTimePackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := uint16(market)
 	copy(_code[:], symbol)
 	obj.SetParams(&MinuteTimeRequest{
-		Market: _market,
+		Market: uint16(mId),
 		Code:   _code,
 	})
 	reply, err := this.command(obj)
@@ -374,13 +386,14 @@ func (this *StdApi) GetMinuteTimeData(market proto.MarketType, symbol string) (*
 }
 
 // GetHistoryMinuteTimeData 获取历史分时图数据
-func (this *StdApi) GetHistoryMinuteTimeData(market proto.MarketType, symbol string, date uint32) (*HistoryMinuteTimeReply, error) {
+func (this *StdApi) GetHistoryMinuteTimeData(code string, date uint32) (*HistoryMinuteTimeReply, error) {
 	obj := NewHistoryMinuteTimePackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
 	copy(_code[:], symbol)
 	obj.SetParams(&HistoryMinuteTimeRequest{
 		Date:   date,
-		Market: market,
+		Market: mId,
 		Code:   _code,
 	})
 	reply, err := this.command(obj)
@@ -391,13 +404,13 @@ func (this *StdApi) GetHistoryMinuteTimeData(market proto.MarketType, symbol str
 }
 
 // GetTransactionData 获取分时成交
-func (this *StdApi) GetTransactionData(market proto.MarketType, symbol string, start uint16, count uint16) (*TransactionReply, error) {
+func (this *StdApi) GetTransactionData(code string, start uint16, count uint16) (*TransactionReply, error) {
 	obj := NewTransactionPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := uint16(market)
 	copy(_code[:], symbol)
 	obj.SetParams(&TransactionRequest{
-		Market: _market,
+		Market: uint16(mId),
 		Code:   _code,
 		Start:  start,
 		Count:  count,
@@ -410,14 +423,14 @@ func (this *StdApi) GetTransactionData(market proto.MarketType, symbol string, s
 }
 
 // GetHistoryTransactionData 获取历史分时成交
-func (this *StdApi) GetHistoryTransactionData(market proto.MarketType, symbol string, date uint32, start uint16, count uint16) (*TransactionReply, error) {
+func (this *StdApi) GetHistoryTransactionData(code string, date uint32, start uint16, count uint16) (*TransactionReply, error) {
 	obj := NewHistoryTransactionPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := uint16(market)
 	copy(_code[:], symbol)
 	obj.SetParams(&HistoryTransactionRequest{
 		Date:   date,
-		Market: _market,
+		Market: uint16(mId),
 		Code:   _code,
 		Start:  start,
 		Count:  count,
@@ -430,15 +443,14 @@ func (this *StdApi) GetHistoryTransactionData(market proto.MarketType, symbol st
 }
 
 // GetXdxrInfo 获取除权除息信息
-func (this *StdApi) GetXdxrInfo(market proto.MarketType, symbol string) ([]XdxrInfo, error) {
+func (this *StdApi) GetXdxrInfo(code string) ([]XdxrInfo, error) {
 	obj := NewXdxrInfoPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := market
 	copy(_code[:], symbol)
 	obj.SetParams(&XdxrInfoRequest{
-		Market: _market,
+		Market: mId,
 		Code:   _code,
-		//Count:  1,
 	})
 	reply, err := this.command(obj)
 	if err != nil {
@@ -447,10 +459,10 @@ func (this *StdApi) GetXdxrInfo(market proto.MarketType, symbol string) ([]XdxrI
 	return reply.([]XdxrInfo), err
 }
 
-func (this *StdApi) GetBlockMeta(block_file string) (*BlockMeta, error) {
+func (this *StdApi) GetBlockMeta(blockFile string) (*BlockMeta, error) {
 	obj := NewBlockMetaPackage()
 	_code := [40]byte{}
-	bf := api.String2Bytes(block_file)
+	bf := api.String2Bytes(blockFile)
 	copy(_code[:], bf)
 	obj.SetParams(&BlockMetaRequest{
 		BlockFile: _code,
@@ -462,27 +474,10 @@ func (this *StdApi) GetBlockMeta(block_file string) (*BlockMeta, error) {
 	return reply.(*BlockMeta), err
 }
 
-func (this *StdApi) v1GetBlockInfo(block_file string) (*BlockInfoResponse, error) {
-	obj := NewBlockInfoPackage()
-	_code := [100]byte{}
-	bf := api.String2Bytes(block_file)
-	copy(_code[:], bf)
-	obj.SetParams(&BlockInfoRequest{
-		BlockFile: _code,
-		Start:     0,
-		Size:      BLOCK_CHUNKS_SIZE,
-	})
-	reply, err := this.command(obj)
-	if err != nil {
-		return nil, err
-	}
-	return reply.(*BlockInfoResponse), err
-}
-
-func (this *StdApi) GetBlockInfo(block_file string) (*BlockInfoResponse, error) {
+func (this *StdApi) GetBlockInfo(blockFile string) (*BlockInfoResponse, error) {
 	var resp BlockInfoResponse
 	_code := [100]byte{}
-	bf := api.String2Bytes(block_file)
+	bf := api.String2Bytes(blockFile)
 	copy(_code[:], bf)
 	start := uint32(0)
 	for {
@@ -509,10 +504,11 @@ func (this *StdApi) GetBlockInfo(block_file string) (*BlockInfoResponse, error) 
 	return &resp, nil
 }
 
-func (this *StdApi) GetCompanyInfoCategory(marketType proto.MarketType, symbol string) ([]CompanyInfoCategory, error) {
+func (this *StdApi) GetCompanyInfoCategory(code string) ([]CompanyInfoCategory, error) {
 	obj := NewCompanyInfoCategoryPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
-	_market := uint16(marketType)
+	_market := uint16(mId)
 	copy(_code[:], symbol)
 	obj.SetParams(&CompanyInfoCategoryRequest{
 		Market: _market,
@@ -525,8 +521,8 @@ func (this *StdApi) GetCompanyInfoCategory(marketType proto.MarketType, symbol s
 	return reply.([]CompanyInfoCategory), err
 }
 
-func (this *StdApi) GetCompanyInfoContent(marketType proto.MarketType, symbol string, name string) (*CompanyInfoContent, error) {
-	categories, err := this.GetCompanyInfoCategory(marketType, symbol)
+func (this *StdApi) GetCompanyInfoContent(code string, name string) (*CompanyInfoContent, error) {
+	categories, err := this.GetCompanyInfoCategory(code)
 	if err != nil {
 		return nil, err
 	}
@@ -542,8 +538,9 @@ func (this *StdApi) GetCompanyInfoContent(marketType proto.MarketType, symbol st
 		return nil, errors.New("not found")
 	}
 	obj := NewCompanyInfoContentPackage()
+	mId, _, symbol := proto.DetectMarket(code)
 	reqest := CompanyInfoContentRequest{
-		Market: uint16(marketType),
+		Market: uint16(mId),
 		Offset: category.Offset,
 		Length: category.Length,
 	}
