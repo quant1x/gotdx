@@ -214,7 +214,6 @@ func getShangHaiTradeDates() (dates []string) {
 	if err != nil {
 		return
 	}
-	marketId, _, code := proto.DetectMarket(securityCode)
 	history := make([]quotes.SecurityBar, 0)
 	step := uint16(quotes.TDX_SECURITY_BARS_MAX)
 	start := uint16(0)
@@ -223,7 +222,7 @@ func getShangHaiTradeDates() (dates []string) {
 		count := step
 		var data *quotes.SecurityBarsReply
 		var err error
-		data, err = tdxApi.GetIndexBars(marketId, code, proto.KLINE_TYPE_RI_K, start, count)
+		data, err = tdxApi.GetIndexBars(securityCode, proto.KLINE_TYPE_RI_K, start, count)
 		if err != nil {
 			return
 		}
