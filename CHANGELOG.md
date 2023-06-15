@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.8.9] - 2023-06-16
+### Changed
+- 调整GetFinanceInfo函数的入参, 去掉num参数；FixTradeDate支持传入其它格式.
+
 ## [1.8.8] - 2023-06-14
 ### Changed
 - 修复交易日历功能里面的证券代码函数.
@@ -551,7 +555,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.9...HEAD
+[1.8.9]: https://gitee.com/quant1x/gotdx/compare/v1.8.8...v1.8.9
 [1.8.8]: https://gitee.com/quant1x/gotdx/compare/v1.8.7...v1.8.8
 [1.8.7]: https://gitee.com/quant1x/gotdx/compare/v1.8.6...v1.8.7
 [1.8.6]: https://gitee.com/quant1x/gotdx/compare/v1.8.5...v1.8.6
