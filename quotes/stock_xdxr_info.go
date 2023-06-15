@@ -82,6 +82,22 @@ type XdxrInfo struct {
 	XingGuanJia    float64 // 行权价
 }
 
+// Adjust 返回复权回调函数 factor
+func (x *XdxrInfo) Adjust() func(p float64) float64 {
+	songZhuangu := x.SongZhuanGu
+	peiGu := x.PeiGu
+	suoGu := x.SuoGu
+	xdxrGuShu := (songZhuangu + peiGu - suoGu) / 10
+	fenHong := x.FenHong
+	peiGuJia := x.PeiGuJia
+	xdxrFenHong := (peiGuJia*peiGu - fenHong) / 10
+
+	factor := func(p float64) float64 {
+		return (p + xdxrFenHong) / (1 + xdxrGuShu)
+	}
+	return factor
+}
+
 func NewXdxrInfoPackage() *XdxrInfoPackage {
 	pkg := new(XdxrInfoPackage)
 	pkg.reqHeader = new(StdRequestHeader)
