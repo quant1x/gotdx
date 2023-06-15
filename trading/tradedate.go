@@ -13,13 +13,19 @@ const (
 	TimeOnly   = time.TimeOnly // 时分秒的格式
 )
 
-// FixTradeDate 强制修正交易日字符串, 统一格式YYYY-MM-DD
-func FixTradeDate(date string) string {
-	dt, err := api.ParseTime(date)
+// FixTradeDate 强制修正交易日字符串
+//
+//	默认格式 YYYY-MM-DD, 支持其它格式
+func FixTradeDate(datetime string, format ...string) string {
+	dt, err := api.ParseTime(datetime)
 	if err != nil {
 		panic(err)
 	}
-	return dt.Format(kCalendarFormat)
+	defaultDateFormat := kCalendarFormat
+	if len(format) > 0 {
+		defaultDateFormat = format[0]
+	}
+	return dt.Format(defaultDateFormat)
 }
 
 // Today 当日, 区别于IndexToday, IndexToday可能存在调整

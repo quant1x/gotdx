@@ -40,7 +40,7 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", heartBeat)
 
 	// 3. finance_info
-	fi, err := stdApi.GetFinanceInfo("sh600600", 1)
+	fi, err := stdApi.GetFinanceInfo("sh600600")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

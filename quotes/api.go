@@ -190,7 +190,7 @@ func (this *StdApi) HeartBeat() (*HeartBeatReply, error) {
 }
 
 // GetFinanceInfo 基本面
-func (this *StdApi) GetFinanceInfo(code string, num uint16) (*FinanceInfo, error) {
+func (this *StdApi) GetFinanceInfo(code string) (*FinanceInfo, error) {
 	msg := NewFinanceInfoPackage()
 	mId, _, symbol := proto.DetectMarket(code)
 	_code := [6]byte{}
@@ -199,7 +199,7 @@ func (this *StdApi) GetFinanceInfo(code string, num uint16) (*FinanceInfo, error
 	msg.SetParams(&FinanceInfoRequest{
 		Market: _market,
 		Code:   _code,
-		Count:  num,
+		Count:  1,
 	})
 	reply, err := this.command(msg)
 	if err != nil {
