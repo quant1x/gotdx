@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.9.4] - 2023-06-16
+### Changed
+- 调整除权除息接口返回的浮点精度.
+
 ## [1.9.3] - 2023-06-16
 ### Changed
 - 更新依赖库.
@@ -575,7 +579,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.4...HEAD
+[1.9.4]: https://gitee.com/quant1x/gotdx/compare/v1.9.3...v1.9.4
 [1.9.3]: https://gitee.com/quant1x/gotdx/compare/v1.9.2...v1.9.3
 [1.9.2]: https://gitee.com/quant1x/gotdx/compare/v1.9.1...v1.9.2
 [1.9.1]: https://gitee.com/quant1x/gotdx/compare/v1.9.0...v1.9.1
