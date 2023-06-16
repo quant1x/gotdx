@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.9.2] - 2023-06-16
+### Changed
+- 快照数据增加日期.
+- 修订东方财富接口中时间戳的用法.
+- 增加东方财富获取K线的函数.
+
 ## [1.9.1] - 2023-06-16
 ### Changed
 - 修订交易日、交易时间的约束.
@@ -565,7 +571,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.2...HEAD
+[1.9.2]: https://gitee.com/quant1x/gotdx/compare/v1.9.1...v1.9.2
 [1.9.1]: https://gitee.com/quant1x/gotdx/compare/v1.9.0...v1.9.1
 [1.9.0]: https://gitee.com/quant1x/gotdx/compare/v1.8.9...v1.9.0
 [1.8.9]: https://gitee.com/quant1x/gotdx/compare/v1.8.8...v1.8.9
