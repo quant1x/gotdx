@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
+	"gitee.com/quant1x/gox/num"
 )
 
 var (
@@ -93,7 +94,8 @@ func (x *XdxrInfo) Adjust() func(p float64) float64 {
 	xdxrFenHong := (peiGuJia*peiGu - fenHong) / 10
 
 	factor := func(p float64) float64 {
-		return (p + xdxrFenHong) / (1 + xdxrGuShu)
+		v := (p + xdxrFenHong) / (1 + xdxrGuShu)
+		return num.Decimal(v)
 	}
 	return factor
 }
