@@ -60,10 +60,6 @@ type RawXdxrInfo struct {
 	Date     uint32 `struc:"uint32,little"`  // 日期
 	Category int    `struc:"uint8,little"`   // 类型
 	Data     []byte `struc:"[16]byte,little"`
-	//A1       uint32 `struc:"uint32,little"`
-	//A2       uint32 `struc:"uint32,little"`
-	//A3       uint32 `struc:"uint32,little"`
-	//A4       uint32 `struc:"uint32,little"`
 }
 
 type XdxrInfo struct {
