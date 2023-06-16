@@ -3,7 +3,6 @@ package quotes
 import (
 	"errors"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 	"io"
@@ -358,7 +357,7 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 		return list, err
 	}
 	quoteReply := reply.(*SecurityQuotesReply)
-	currentTransctionDate := trading.GetCurrentlyDay()
+	currentTransctionDate := proto.GetTradingDay()
 	for _, v := range quoteReply.List {
 		var snapshot Snapshot
 		err := api.Copy(&snapshot, &v)

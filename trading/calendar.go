@@ -58,6 +58,8 @@ func init() {
 			updateCalendar(noDates...)
 		}
 	}
+	tradingDay := GetCurrentlyDay()
+	proto.CorrectTradingDay(tradingDay)
 }
 
 type Calendar struct {
