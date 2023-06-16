@@ -21,7 +21,7 @@ func FixTradeDate(datetime string, format ...string) string {
 	if err != nil {
 		panic(err)
 	}
-	defaultDateFormat := kCalendarFormat
+	defaultDateFormat := TradingDayDateFormat
 	if len(format) > 0 {
 		defaultDateFormat = format[0]
 	}
@@ -31,7 +31,7 @@ func FixTradeDate(datetime string, format ...string) string {
 // Today 当日, 区别于IndexToday, IndexToday可能存在调整
 func Today() string {
 	now := time.Now()
-	return now.Format(kCalendarFormat)
+	return now.Format(TradingDayDateFormat)
 }
 
 // IndexToday 当天
@@ -122,7 +122,7 @@ func DateIsTradingDay(date ...string) bool {
 // GetLastDayForUpdate 获取可以更新数据的最后一个交易日
 func GetLastDayForUpdate() string {
 	now := time.Now()
-	today := now.Format(kCalendarFormat)
+	today := now.Format(TradingDayDateFormat)
 	if CanUpdate(now) {
 		return today
 	}
@@ -140,7 +140,7 @@ func GetCurrentlyDay() (currentlyDay string) {
 	if today == currentlyDay {
 		now := time.Now()
 		nowTime := now.Format(CN_SERVERTIME_FORMAT)
-		if nowTime < CN_StartTime {
+		if nowTime < CN_TradingStartTime {
 			currentlyDay = dates[days-2]
 		}
 	}

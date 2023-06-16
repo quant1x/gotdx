@@ -8,31 +8,46 @@ import (
 )
 
 const (
-	kAMBegin                   = "09:30"
-	kAMEnd                     = "11:30"
-	kPMBegin                   = "13:00"
-	kPMEnd                     = "15:00"
 	kTimeMinute                = "15:04"        // 分笔成交时间格式
-	CN_InitTime                = "09:00:00.000" // A股数据初始化时间
 	CN_SERVERTIME_FORMAT       = "15:04:05.000" // 服务器时间格式
-	CN_StartTime               = "09:15:00.000" // A股数据初始化时间
-	CN_StopTime                = "15:00:00.000" // A股数据结束时间
-	BEGIN_A_AM_HOUR            = 9              // A股开市-时
-	BEGIN_A_AM_MINUTE          = 30             // A股开市-分
-	END_A_AM_HOUR              = 11             // A股休市-时
-	END_A_AM_MINUTE            = 30             // A股休市-分
-	BEGIN_A_PM_HOUR            = 13             // A股开市-时
-	BEGIN_A_PM_MINUTE          = 0              // A股开市-分
-	END_A_PM_HOUR              = 15             // A股休市-时
-	END_A_PM_MINUTE            = 0              // A股休市-分
-	BEGIN_A_AUCTION            = "09:15:00"     // A股上午集合竞价开始时间
-	END_A_AUCTION              = "09:25:00"     // A股上午集合竞价结束时间
-	END_A_AUCTION_SPE          = "09:26:00"     // A股上午集合竞价结束时间过一分钟
-	BEGIN_P_AUCTION            = "14:57:00"     // A股下午集合竞价开始时间
-	END_P_AUCTION              = "15:01:00"     // A股下午集合竞价结束时间
-	END_P_AUCTION_SPE          = "15:02:00"     // A股下午集合竞价结束时间过一分钟
 	CN_SERVERTIME_SHORT_FORMAT = "15:04:05"     // 服务器时间格式
-	CN_DEFAULT_TOTALFZNUM      = 240            // A股默认全天交易240分钟
+)
+
+const (
+// kAMBegin = "09:30"
+// kAMEnd   = "11:30"
+// kPMBegin = "13:00"
+// kPMEnd   = "15:00"
+)
+
+// 交易日时间相关常量
+const (
+	CN_MarketInitTime   = "09:00:00.000" // A股数据初始化时间
+	CN_TradingStartTime = "09:15:00.000" // A股数据开始时间
+	CN_TradingStopTime  = "15:00:59.999" // A股数据结束时间
+)
+
+// 集合竞价时间相关常量
+const (
+	BEGIN_A_AUCTION   = "09:15:00" // A股上午集合竞价开始时间
+	END_A_AUCTION     = "09:25:00" // A股上午集合竞价结束时间
+	END_A_AUCTION_SPE = "09:26:00" // A股上午集合竞价结束时间过一分钟
+	BEGIN_P_AUCTION   = "14:57:00" // A股下午集合竞价开始时间
+	END_P_AUCTION     = "15:01:00" // A股下午集合竞价结束时间
+	END_P_AUCTION_SPE = "15:02:00" // A股下午集合竞价结束时间过一分钟
+)
+
+// 分时数据相关常量
+const (
+	CN_DEFAULT_TOTALFZNUM = 240 // A股默认全天交易240分钟
+	BEGIN_A_AM_HOUR       = 9   // A股开市-时
+	BEGIN_A_AM_MINUTE     = 30  // A股开市-分
+	END_A_AM_HOUR         = 11  // A股休市-时
+	END_A_AM_MINUTE       = 30  // A股休市-分
+	BEGIN_A_PM_HOUR       = 13  // A股开市-时
+	BEGIN_A_PM_MINUTE     = 0   // A股开市-分
+	END_A_PM_HOUR         = 15  // A股休市-时
+	END_A_PM_MINUTE       = 0   // A股休市-分
 )
 
 type TimeRange struct {
@@ -152,7 +167,7 @@ func CurrentlyTrading(date ...string) bool {
 	if DateIsTradingDay(date...) {
 		now := time.Now()
 		nowTime := now.Format(CN_SERVERTIME_FORMAT)
-		return nowTime >= CN_StartTime
+		return nowTime >= CN_TradingStartTime
 	}
 	return false
 }
@@ -216,42 +231,53 @@ func GetTodayTimeByString(timeStr string) (time.Time, error) {
 	return today, nil
 }
 
+//type TimeStatus = int
+//
+//const (
+//	BeforeLastTradingDay TimeStatus = 1 << iota // 缓存非交易日, 可以更新
+//
+//)
+
 // 检查时间
-func checkTradingTimestamp(lastModified time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime bool) {
+func checkTradingTimestamp(lastModified time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, trading bool) {
 	lastDay := LastTradeDate()
-	// 0. 缓存时间无效
-	modDate := lastModified.Format(kCalendarFormat)
-	// 1. 非交易日, 缓存在最后一个交易日前, 可更新
+	// 1. 缓存时间无效
+	modDate := lastModified.Format(TradingDayDateFormat)
+	// 1.1 非交易日, 缓存在最后一个交易日前, 可更新
 	if modDate < lastDay {
 		beforeLastTradeDay = true
 		return
 	}
-	// 1.1 缓存日期和最后一个交易日相同
+	// 2 缓存日期和最后一个交易日相同
 	now := time.Now()
-	today := now.Format(kCalendarFormat)
-	// 1.2 当前日期非最后一个交易日, 也就是节假日了
+	today := now.Format(TradingDayDateFormat)
+	// 2.1 当前日期非最后一个交易日, 也就是节假日了
 	if today != lastDay {
 		// 节假日
 		isHoliday = true
 		return
 	}
-	// 2. 交易日, 非交易时间
+	// 3. 交易日, A股市场初始化前
 	currentTimestamp := now.Format(CN_SERVERTIME_FORMAT)
-	if currentTimestamp < CN_InitTime {
+	if currentTimestamp < CN_MarketInitTime {
 		beforeInitTime = true
 		return
 	}
-	// 3. 交易日, 交易时间
+	// 4. 交易日, A股市场初始化后
 	modTimestamp := lastModified.Format(CN_SERVERTIME_FORMAT)
-	if modTimestamp >= CN_InitTime {
+	if modTimestamp >= CN_MarketInitTime {
 		cacheAfterInitTime = true
+	}
+	// 5. 交易日, A股市场实时数据后
+	if currentTimestamp >= CN_TradingStartTime && currentTimestamp <= CN_TradingStopTime {
+		trading = true
 	}
 	return
 }
 
 // CanUpdate 数据是否可以更新
 func CanUpdate(lastModified time.Time) (updated bool) {
-	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime := checkTradingTimestamp(lastModified)
+	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified)
 	if beforeLastTradeDay {
 		return true
 	}
@@ -266,7 +292,7 @@ func CanUpdate(lastModified time.Time) (updated bool) {
 
 // CanInitialize 数据是否初始化(One-time update)
 func CanInitialize(lastModified time.Time) (toInit bool) {
-	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime := checkTradingTimestamp(lastModified)
+	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified)
 	if beforeLastTradeDay {
 		return true
 	}
@@ -277,4 +303,10 @@ func CanInitialize(lastModified time.Time) (toInit bool) {
 		return false
 	}
 	return !cacheAfterInitTime
+}
+
+// CanUpdateInRealtime 能否实时更新
+func CanUpdateInRealtime(lastModified time.Time) (updateInRealTime bool) {
+	_, _, _, _, updateInRealTime = checkTradingTimestamp(lastModified)
+	return
 }

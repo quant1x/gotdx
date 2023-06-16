@@ -16,10 +16,10 @@ import (
 )
 
 const (
-	url_sina_klc_td_sh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
-	kCalendarFormat    = "2006-01-02" // 交易日历日期格式
-	kTradeDateFilename = ".calendar"
-	kIgnoreDate        = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
+	url_sina_klc_td_sh   = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
+	TradingDayDateFormat = "2006-01-02" // 交易日历日期格式
+	kTradeDateFilename   = ".calendar"
+	calendarMissingDate  = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
 
 var (
@@ -111,14 +111,14 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 		//fileCreateTime = cache.GetCreateTime(finfo)
 	}
 	now := time.Now()
-	today := now.Format(kCalendarFormat)
+	today := now.Format(TradingDayDateFormat)
 	toTm := now.Format(CN_SERVERTIME_FORMAT)
-	fileDate := fileModTime.Format(kCalendarFormat)
+	fileDate := fileModTime.Format(TradingDayDateFormat)
 	fileTm := fileModTime.Format(CN_SERVERTIME_FORMAT)
 	if !bUpdate && DateIsTradingDay(today) {
-		if fileDate < today && toTm >= CN_InitTime {
+		if fileDate < today && toTm >= CN_MarketInitTime {
 			bUpdate = true
-		} else if fileDate >= today && toTm >= CN_InitTime && fileTm < CN_InitTime {
+		} else if fileDate >= today && toTm >= CN_MarketInitTime && fileTm < CN_MarketInitTime {
 			bUpdate = true
 		}
 	}
@@ -151,7 +151,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	dates := []Calendar{}
 	for _, v := range ret.([]any) {
 		ts := v.(time.Time)
-		date := ts.Format(kCalendarFormat)
+		date := ts.Format(TradingDayDateFormat)
 		e := Calendar{
 			Date:   date,
 			Source: "sina",
@@ -160,7 +160,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	}
 	for _, v := range noDates {
 		ts, _ := api.ParseTime(v)
-		date := ts.Format(kCalendarFormat)
+		date := ts.Format(TradingDayDateFormat)
 		e := Calendar{
 			Date:   date,
 			Source: "tdx",
@@ -242,7 +242,7 @@ func getShangHaiTradeDates() (dates []string) {
 	for _, v := range history {
 		date1 := v.DateTime
 		dt, _ := api.ParseTime(date1)
-		date1 = dt.Format(kCalendarFormat)
+		date1 = dt.Format(TradingDayDateFormat)
 		dates = append(dates, date1)
 	}
 
