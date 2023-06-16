@@ -9,6 +9,7 @@ import (
 	"gitee.com/quant1x/gox/logger"
 	urlpkg "net/url"
 	"strings"
+	"time"
 )
 
 const (
@@ -47,6 +48,7 @@ func stock_hist(marketId int, symbol string, args ...string) ([]byte, error) {
 		adjust = args[2]
 	}
 
+	timestamp := time.Now().UnixMilli()
 	params := urlpkg.Values{
 		"fields1": {"f1,f2,f3,f4,f5,f6"},
 		"fields2": {"f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f116"},
@@ -56,7 +58,7 @@ func stock_hist(marketId int, symbol string, args ...string) ([]byte, error) {
 		"secid":   {fmt.Sprintf("%d.%s", marketId, symbol)},
 		"beg":     {start_date},
 		"end":     {end_date},
-		"_":       {"1623766962675"},
+		"_":       {fmt.Sprint(timestamp)},
 	}
 	url := kUrlEastMonryZhKLine + "?" + params.Encode()
 	data, err := http.HttpGet(url)
