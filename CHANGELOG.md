@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.9.0] - 2023-06-16
+### Changed
+- 修订交易日、交易时间的约束.
+- 快照数据补充当前交易日期.
+- 除权除息对象增加除权因子方法.
+
 ## [1.8.9] - 2023-06-16
 ### Changed
 - 调整GetFinanceInfo函数的入参, 去掉num参数；FixTradeDate支持传入其它格式.
@@ -555,7 +561,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.8.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.0...HEAD
+[1.9.0]: https://gitee.com/quant1x/gotdx/compare/v1.8.9...v1.9.0
 [1.8.9]: https://gitee.com/quant1x/gotdx/compare/v1.8.8...v1.8.9
 [1.8.8]: https://gitee.com/quant1x/gotdx/compare/v1.8.7...v1.8.8
 [1.8.7]: https://gitee.com/quant1x/gotdx/compare/v1.8.6...v1.8.7
