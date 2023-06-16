@@ -1,9 +1,9 @@
 package trading
 
 import (
+	"gitee.com/quant1x/gotdx/internal/dfcf"
 	"gitee.com/quant1x/gotdx/internal/js"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
@@ -18,7 +18,7 @@ import (
 const (
 	url_sina_klc_td_sh   = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
 	TradingDayDateFormat = "2006-01-02" // 交易日历日期格式
-	kTradeDateFilename   = ".calendar"
+	TradeDateFilename    = ".calendar"
 	calendarMissingDate  = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
 
@@ -35,7 +35,7 @@ func getRootPath() string {
 }
 
 func getCalendarFilename() string {
-	return getRootPath() + "/" + kTradeDateFilename
+	return getRootPath() + "/" + TradeDateFilename
 }
 
 // 初始化缓存路径
@@ -209,44 +209,57 @@ func checkCalendar() (noDates []string, err error) {
 	return noDates, nil
 }
 
+//// 获取上证指数的交易日期, 目的是校验日期
+//func getShangHaiTradeDates() (dates []string) {
+//	securityCode := "sh000001"
+//	tdxApi, err := quotes.NewStdApi()
+//	if err != nil {
+//		return
+//	}
+//	history := make([]quotes.SecurityBar, 0)
+//	step := uint16(quotes.TDX_SECURITY_BARS_MAX)
+//	start := uint16(0)
+//	hs := make([]quotes.SecurityBarsReply, 0)
+//	for {
+//		count := step
+//		var data *quotes.SecurityBarsReply
+//		var err error
+//		data, err = tdxApi.GetIndexBars(securityCode, proto.KLINE_TYPE_RI_K, start, count)
+//		if err != nil {
+//			return
+//		}
+//		hs = append(hs, *data)
+//		if data.Count < count {
+//			// 已经是最早的记录
+//			// 需要排序
+//			break
+//		}
+//		start += count
+//	}
+//	hs = api.Reverse(hs)
+//	for _, v := range hs {
+//		history = append(history, v.List...)
+//	}
+//	dates = []string{}
+//	for _, v := range history {
+//		date1 := v.DateTime
+//		dt, _ := api.ParseTime(date1)
+//		date1 = dt.Format(TradingDayDateFormat)
+//		dates = append(dates, date1)
+//	}
+//
+//	return dates
+//}
+
 // 获取上证指数的交易日期, 目的是校验日期
 func getShangHaiTradeDates() (dates []string) {
 	securityCode := "sh000001"
-	tdxApi, err := quotes.NewStdApi()
+	klines, err := dfcf.A(securityCode)
 	if err != nil {
 		return
 	}
-	history := make([]quotes.SecurityBar, 0)
-	step := uint16(quotes.TDX_SECURITY_BARS_MAX)
-	start := uint16(0)
-	hs := make([]quotes.SecurityBarsReply, 0)
-	for {
-		count := step
-		var data *quotes.SecurityBarsReply
-		var err error
-		data, err = tdxApi.GetIndexBars(securityCode, proto.KLINE_TYPE_RI_K, start, count)
-		if err != nil {
-			return
-		}
-		hs = append(hs, *data)
-		if data.Count < count {
-			// 已经是最早的记录
-			// 需要排序
-			break
-		}
-		start += count
+	for _, v := range klines {
+		dates = append(dates, v.Date)
 	}
-	hs = api.Reverse(hs)
-	for _, v := range hs {
-		history = append(history, v.List...)
-	}
-	dates = []string{}
-	for _, v := range history {
-		date1 := v.DateTime
-		dt, _ := api.ParseTime(date1)
-		date1 = dt.Format(TradingDayDateFormat)
-		dates = append(dates, date1)
-	}
-
-	return dates
+	return
 }
