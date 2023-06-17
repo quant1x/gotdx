@@ -18,7 +18,7 @@ import (
 const (
 	url_sina_klc_td_sh   = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
 	TradingDayDateFormat = "2006-01-02" // 交易日历日期格式
-	TradeDateFilename    = ".calendar"
+	TradeDateFilename    = "calendar"
 	calendarMissingDate  = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
 
