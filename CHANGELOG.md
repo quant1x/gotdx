@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.9.6] - 2023-06-17
+### Changed
+- 添加一个简易的客户端调用.
+- Update changelog.
+
 ## [1.9.5] - 2023-06-16
 ### Changed
 - 删除废弃的字段.
@@ -583,7 +588,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.6...HEAD
+[1.9.6]: https://gitee.com/quant1x/gotdx/compare/v1.9.5...v1.9.6
 [1.9.5]: https://gitee.com/quant1x/gotdx/compare/v1.9.4...v1.9.5
 [1.9.4]: https://gitee.com/quant1x/gotdx/compare/v1.9.3...v1.9.4
 [1.9.3]: https://gitee.com/quant1x/gotdx/compare/v1.9.2...v1.9.3
