@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.9.8] - 2023-06-19
+### Changed
+- 调整CanUpdate这类函数支持默认参数, 即当前时间检查.
+
 ## [1.9.7] - 2023-06-17
 ### Changed
 - 更新依赖库版本.
@@ -593,7 +597,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.8...HEAD
+[1.9.8]: https://gitee.com/quant1x/gotdx/compare/v1.9.7...v1.9.8
 [1.9.7]: https://gitee.com/quant1x/gotdx/compare/v1.9.6...v1.9.7
 [1.9.6]: https://gitee.com/quant1x/gotdx/compare/v1.9.5...v1.9.6
 [1.9.5]: https://gitee.com/quant1x/gotdx/compare/v1.9.4...v1.9.5
