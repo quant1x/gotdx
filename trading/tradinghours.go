@@ -239,10 +239,16 @@ func GetTodayTimeByString(timeStr string) (time.Time, error) {
 //)
 
 // 检查时间
-func checkTradingTimestamp(lastModified time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, trading bool) {
+//
+//	默认检查当前时间是否可以...
+func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, trading bool) {
 	lastDay := LastTradeDate()
+	timestamp := time.Now()
+	if len(lastModified) > 0 {
+		timestamp = lastModified[0]
+	}
 	// 1. 缓存时间无效
-	modDate := lastModified.Format(TradingDayDateFormat)
+	modDate := timestamp.Format(TradingDayDateFormat)
 	// 1.1 非交易日, 缓存在最后一个交易日前, 可更新
 	if modDate < lastDay {
 		beforeLastTradeDay = true
@@ -264,7 +270,7 @@ func checkTradingTimestamp(lastModified time.Time) (beforeLastTradeDay, isHolida
 		return
 	}
 	// 4. 交易日, A股市场初始化后
-	modTimestamp := lastModified.Format(CN_SERVERTIME_FORMAT)
+	modTimestamp := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if modTimestamp >= CN_MarketInitTime {
 		cacheAfterInitTime = true
 	}
@@ -276,8 +282,8 @@ func checkTradingTimestamp(lastModified time.Time) (beforeLastTradeDay, isHolida
 }
 
 // CanUpdate 数据是否可以更新
-func CanUpdate(lastModified time.Time) (updated bool) {
-	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified)
+func CanUpdate(lastModified ...time.Time) (updated bool) {
+	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified...)
 	if beforeLastTradeDay {
 		return true
 	}
@@ -291,8 +297,8 @@ func CanUpdate(lastModified time.Time) (updated bool) {
 }
 
 // CanInitialize 数据是否初始化(One-time update)
-func CanInitialize(lastModified time.Time) (toInit bool) {
-	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified)
+func CanInitialize(lastModified ...time.Time) (toInit bool) {
+	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified...)
 	if beforeLastTradeDay {
 		return true
 	}
@@ -306,7 +312,7 @@ func CanInitialize(lastModified time.Time) (toInit bool) {
 }
 
 // CanUpdateInRealtime 能否实时更新
-func CanUpdateInRealtime(lastModified time.Time) (updateInRealTime bool) {
-	_, _, _, _, updateInRealTime = checkTradingTimestamp(lastModified)
+func CanUpdateInRealtime(lastModified ...time.Time) (updateInRealTime bool) {
+	_, _, _, _, updateInRealTime = checkTradingTimestamp(lastModified...)
 	return
 }
