@@ -22,9 +22,11 @@ const (
 
 // 交易日时间相关常量
 const (
-	CN_MarketInitTime   = "09:00:00.000" // A股数据初始化时间
-	CN_TradingStartTime = "09:15:00.000" // A股数据开始时间
-	CN_TradingStopTime  = "15:00:59.999" // A股数据结束时间
+	CN_MarketInitTime          = "09:00:00.000" // A股数据初始化时间
+	CN_TradingStartTime        = "09:15:00.000" // A股数据开始时间
+	CN_TradingSuspendBeginTime = "11:30:00.000" // A股午间休市开始时间
+	CN_TradingSuspendEndTime   = "12:59:59.999" // A股午间休市结束时间
+	CN_TradingStopTime         = "15:00:59.999" // A股数据结束时间
 )
 
 // 集合竞价时间相关常量
@@ -231,22 +233,27 @@ func GetTodayTimeByString(timeStr string) (time.Time, error) {
 	return today, nil
 }
 
-//type TimeStatus = int
-//
-//const (
-//	BeforeLastTradingDay TimeStatus = 1 << iota // 缓存非交易日, 可以更新
-//
-//)
+type TimeStatus = int
+
+const (
+	//BeforeLastTradingDay TimeStatus = 1 << iota // 缓存非交易日, 可以更新
+
+	ExchangeClosing   TimeStatus = -2 // 收盘收, 交易停止
+	ExchangePreMarket TimeStatus = -1 // 盘前
+	ExchangeSuspend   TimeStatus = 0  // 休市中, 交易暂停
+	ExchangeTrading   TimeStatus = 1  // 交易中
+)
 
 // 检查时间
 //
 //	默认检查当前时间是否可以...
-func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, trading bool) {
+func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, trading bool, status TimeStatus) {
 	lastDay := LastTradeDate()
 	timestamp := time.Now()
 	if len(lastModified) > 0 {
 		timestamp = lastModified[0]
 	}
+	status = ExchangeClosing
 	// 1. 缓存时间无效
 	modDate := timestamp.Format(TradingDayDateFormat)
 	// 1.1 非交易日, 缓存在最后一个交易日前, 可更新
@@ -269,6 +276,7 @@ func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHol
 		beforeInitTime = true
 		return
 	}
+	status = ExchangePreMarket
 	// 4. 交易日, A股市场初始化后
 	modTimestamp := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if modTimestamp >= CN_MarketInitTime {
@@ -276,14 +284,18 @@ func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHol
 	}
 	// 5. 交易日, A股市场实时数据后
 	if currentTimestamp >= CN_TradingStartTime && currentTimestamp <= CN_TradingStopTime {
+		status = ExchangeTrading
 		trading = true
+		if currentTimestamp >= CN_TradingSuspendBeginTime && currentTimestamp <= CN_TradingSuspendEndTime {
+			status = ExchangeSuspend
+		}
 	}
 	return
 }
 
 // CanUpdate 数据是否可以更新
 func CanUpdate(lastModified ...time.Time) (updated bool) {
-	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified...)
+	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _, _ := checkTradingTimestamp(lastModified...)
 	if beforeLastTradeDay {
 		return true
 	}
@@ -298,7 +310,7 @@ func CanUpdate(lastModified ...time.Time) (updated bool) {
 
 // CanInitialize 数据是否初始化(One-time update)
 func CanInitialize(lastModified ...time.Time) (toInit bool) {
-	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _ := checkTradingTimestamp(lastModified...)
+	beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, _, _ := checkTradingTimestamp(lastModified...)
 	if beforeLastTradeDay {
 		return true
 	}
@@ -312,7 +324,7 @@ func CanInitialize(lastModified ...time.Time) (toInit bool) {
 }
 
 // CanUpdateInRealtime 能否实时更新
-func CanUpdateInRealtime(lastModified ...time.Time) (updateInRealTime bool) {
-	_, _, _, _, updateInRealTime = checkTradingTimestamp(lastModified...)
+func CanUpdateInRealtime(lastModified ...time.Time) (updateInRealTime bool, status int) {
+	_, _, _, _, updateInRealTime, status = checkTradingTimestamp(lastModified...)
 	return
 }
