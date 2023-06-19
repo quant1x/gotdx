@@ -13,13 +13,6 @@ const (
 	CN_SERVERTIME_SHORT_FORMAT = "15:04:05"     // 服务器时间格式
 )
 
-const (
-// kAMBegin = "09:30"
-// kAMEnd   = "11:30"
-// kPMBegin = "13:00"
-// kPMEnd   = "15:00"
-)
-
 // 交易日时间相关常量
 const (
 	CN_MarketInitTime          = "09:00:00.000" // A股数据初始化时间
@@ -27,6 +20,10 @@ const (
 	CN_TradingSuspendBeginTime = "11:30:00.000" // A股午间休市开始时间
 	CN_TradingSuspendEndTime   = "12:59:59.999" // A股午间休市结束时间
 	CN_TradingStopTime         = "15:00:59.999" // A股数据结束时间
+	CallAuctionAmBegin         = "09:15:00.000" // 早盘集合竞价开始时间
+	CallAuctionAmEnd           = "09:27:59.999" // 早盘集合竞价结束时间
+	CallAuctionPmBegin         = "14:57:00.000" // 尾盘集合竞价开始时间
+	CallAuctionPmEnd           = "15:01:59.999" // 尾盘集合竞价结束时间
 )
 
 // 集合竞价时间相关常量
@@ -327,4 +324,16 @@ func CanInitialize(lastModified ...time.Time) (toInit bool) {
 func CanUpdateInRealtime(lastModified ...time.Time) (updateInRealTime bool, status int) {
 	_, _, _, _, updateInRealTime, status = checkTradingTimestamp(lastModified...)
 	return
+}
+
+// 检查当前时间是否集合竞价阶段
+func CheckCallAuctionTime(timestamp time.Time) (canUpdate bool) {
+	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
+	if tm >= CallAuctionAmBegin && tm < CallAuctionAmEnd {
+		return true
+	}
+	if tm >= CallAuctionPmBegin && tm < CallAuctionPmEnd {
+		return true
+	}
+	return false
 }
