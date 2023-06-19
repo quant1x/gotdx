@@ -3,12 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-## [2.0.1] - 2023-06-19
+## [1.10.0] - 2023-06-19
 ### Changed
+- 修订package路径.
+- Update changelog.
 - 调整上证指数代码和sz000001区分.
-
-## [2.0.0] - 2023-06-19
-### Changed
+- 升级主版本到2.x.x.
+- Update changelog.
 - 快照数据增加交易状态、证券代码和收盘量计算.
 
 ## [1.9.9] - 2023-06-19
@@ -609,9 +610,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v2.0.1...HEAD
-[2.0.1]: https://gitee.com/quant1x/gotdx/compare/v2.0.0...v2.0.1
-[2.0.0]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...v2.0.0
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.0...HEAD
+[1.10.0]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...v1.10.0
 [1.9.9]: https://gitee.com/quant1x/gotdx/compare/v1.9.8...v1.9.9
 [1.9.8]: https://gitee.com/quant1x/gotdx/compare/v1.9.7...v1.9.8
 [1.9.7]: https://gitee.com/quant1x/gotdx/compare/v1.9.6...v1.9.7
