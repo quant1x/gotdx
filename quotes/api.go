@@ -6,6 +6,7 @@ import (
 	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/num"
 	"io"
 	"strconv"
 	"strings"
@@ -357,14 +358,37 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 	if err != nil {
 		return list, err
 	}
+	upDateInRealTime, status := trading.CanUpdateInRealtime()
 	quoteReply := reply.(*SecurityQuotesReply)
-	currentTransctionDate := trading.GetCurrentlyDay()
+	currentTransactionDate := trading.GetCurrentlyDay()
 	for _, v := range quoteReply.List {
 		var snapshot Snapshot
 		err := api.Copy(&snapshot, &v)
 		if err == nil {
-			snapshot.Date = currentTransctionDate
+			snapshot.Date = currentTransactionDate
+			snapshot.SecurityCode = proto.GetSecurityCode(v.Market, v.Code)
 			snapshot.Active = v.Active1
+			snapshot.ExchangeState = TDX_EXCHANGE_STATE_CLOSING
+			if snapshot.State == TDX_SECURITY_TRADE_STATE_DELISTING {
+				// 终止上市
+				snapshot.ExchangeState = TDX_EXCHANGE_STATE_DELISTING
+			}
+			if upDateInRealTime {
+				// 交易时段
+				snapshot.ExchangeState = TDX_EXCHANGE_STATE_NORMAL
+			}
+			if status == trading.ExchangeSuspend {
+				// 交易暂停
+				snapshot.ExchangeState = TDX_EXCHANGE_STATE_PAUSE
+			}
+			if snapshot.ExchangeState == TDX_EXCHANGE_STATE_CLOSING {
+				// 收盘
+				snapshot.CloseVolume = v.CurVol * 100
+			}
+			amount := num.Decimal(snapshot.Amount, 4)
+			if amount <= float64(0.0000) {
+				snapshot.Amount = 0.00
+			}
 			list = append(list, snapshot)
 		}
 	}

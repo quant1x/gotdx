@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/trading"
 	"math"
 )
 
@@ -13,7 +14,7 @@ const (
 	TDX_SECURITY_QUOTES_MAX = 80 // 单次最大获取80条实时数据
 )
 
-type TradeState uint8
+type TradeState int8
 
 const (
 	TDX_SECURITY_TRADE_STATE_DELISTING TradeState = iota // 终止上市
@@ -296,7 +297,11 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			ele.IndexUpLimit = ele.BidVol2
 			ele.IndexUpLimit = ele.AskVol2
 		}
-
+		upDateInRealTime, status := trading.CanUpdateInRealtime()
+		if !upDateInRealTime && status == trading.ExchangeClosing {
+			// 收盘
+			ele.CloseVolume = ele.CurVol * 100
+		}
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	// 修正停牌的证券代码
