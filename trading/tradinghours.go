@@ -326,12 +326,23 @@ func CanUpdateInRealtime(lastModified ...time.Time) (updateInRealTime bool, stat
 	return
 }
 
-// 检查当前时间是否集合竞价阶段
+// CheckCallAuctionTime 检查当前时间是否集合竞价阶段
 func CheckCallAuctionTime(timestamp time.Time) (canUpdate bool) {
+	return CheckCallAuctionOpen(timestamp) || CheckCallAuctionClose(timestamp)
+}
+
+// CheckCallAuctionOpen 检查当前时间是否集合竞价阶段
+func CheckCallAuctionOpen(timestamp time.Time) (canUpdate bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if tm >= CallAuctionAmBegin && tm < CallAuctionAmEnd {
 		return true
 	}
+	return false
+}
+
+// CheckCallAuctionClose 检查当前时间是否集合竞价阶段
+func CheckCallAuctionClose(timestamp time.Time) (canUpdate bool) {
+	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if tm >= CallAuctionPmBegin && tm < CallAuctionPmEnd {
 		return true
 	}
