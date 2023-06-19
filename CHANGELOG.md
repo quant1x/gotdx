@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.10.1] - 2023-06-19
+### Changed
+- 新增检查集合竞价时段的函数.
+
 ## [1.10.0] - 2023-06-19
 ### Changed
 - 修订package路径.
@@ -610,7 +614,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.1...HEAD
+[1.10.1]: https://gitee.com/quant1x/gotdx/compare/v1.10.0...v1.10.1
 [1.10.0]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...v1.10.0
 [1.9.9]: https://gitee.com/quant1x/gotdx/compare/v1.9.8...v1.9.9
 [1.9.8]: https://gitee.com/quant1x/gotdx/compare/v1.9.7...v1.9.8
