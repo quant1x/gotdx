@@ -1,4 +1,4 @@
-module gitee.com/quant1x/gotdx
+module gitee.com/quant1x/gotdx/v2
 
 go 1.20
 
