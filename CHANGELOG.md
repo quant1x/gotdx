@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [2.0.0] - 2023-06-19
+### Changed
+- 快照数据增加交易状态、证券代码和收盘量计算.
+
 ## [1.9.9] - 2023-06-19
 ### Changed
 - 增加交易日午间休市的判断.
@@ -601,7 +605,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v2.0.0...HEAD
+[2.0.0]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...v2.0.0
 [1.9.9]: https://gitee.com/quant1x/gotdx/compare/v1.9.8...v1.9.9
 [1.9.8]: https://gitee.com/quant1x/gotdx/compare/v1.9.7...v1.9.8
 [1.9.7]: https://gitee.com/quant1x/gotdx/compare/v1.9.6...v1.9.7
