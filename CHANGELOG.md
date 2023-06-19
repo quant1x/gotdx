@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.10.2] - 2023-06-19
+### Changed
+- 拆分开盘和收盘集合竞价函数.
+
 ## [1.10.1] - 2023-06-19
 ### Changed
 - 新增检查集合竞价时段的函数.
@@ -614,7 +618,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.2...HEAD
+[1.10.2]: https://gitee.com/quant1x/gotdx/compare/v1.10.1...v1.10.2
 [1.10.1]: https://gitee.com/quant1x/gotdx/compare/v1.10.0...v1.10.1
 [1.10.0]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...v1.10.0
 [1.9.9]: https://gitee.com/quant1x/gotdx/compare/v1.9.8...v1.9.9
