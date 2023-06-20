@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.10.3] - 2023-06-20
+### Changed
+- 修订收盘量中指数板块与个股的不同.
+
 ## [1.10.2] - 2023-06-19
 ### Changed
 - 拆分开盘和收盘集合竞价函数.
@@ -618,7 +622,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.3...HEAD
+[1.10.3]: https://gitee.com/quant1x/gotdx/compare/v1.10.2...v1.10.3
 [1.10.2]: https://gitee.com/quant1x/gotdx/compare/v1.10.1...v1.10.2
 [1.10.1]: https://gitee.com/quant1x/gotdx/compare/v1.10.0...v1.10.1
 [1.10.0]: https://gitee.com/quant1x/gotdx/compare/v1.9.9...v1.10.0
