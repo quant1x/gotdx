@@ -62,7 +62,7 @@ type SecurityQuote struct {
 	ReversedBytes0  int        // 保留(时间 ServerTime)
 	ReversedBytes1  int        // 保留
 	Vol             int        // 总量
-	CurVol          int        // 现量
+	CurVol          int        // 个股-现成交量,板块指数-现成交额
 	Amount          float64    // 总金额
 	SVol            int        // 个股有效-内盘
 	BVol            int        // 个股有效-外盘
@@ -210,10 +210,9 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		// 开盘金额需要 * 100
 		ele.IndexOpenAmount = internal.DecodeVarint(data, &pos) * 100
 		ele.StockOpenAmount = internal.DecodeVarint(data, &pos) * 100
-
-		tmpOpenVolume := float64(0)
+		// 确定当前数据是指数或者板块
 		isIndexOrBlock := proto.AssertIndexByMarketAndCode(ele.Market, ele.Code)
-		//if ele.IndexOpenAmount > ele.StockOpenAmount {
+		tmpOpenVolume := float64(0)
 		if isIndexOrBlock {
 			// 指数或者板块, 单位是"股"
 			tmpOpenVolume = math.Round(float64(ele.IndexOpenAmount) / ele.Open)
@@ -300,7 +299,11 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		upDateInRealTime, status := trading.CanUpdateInRealtime()
 		if !upDateInRealTime && status == trading.ExchangeClosing {
 			// 收盘
-			ele.CloseVolume = ele.CurVol * 100
+			if isIndexOrBlock {
+				ele.CloseVolume = int(float64(ele.CurVol) / ele.Price)
+			} else {
+				ele.CloseVolume = ele.CurVol * 100
+			}
 		}
 		obj.reply.List = append(obj.reply.List, ele)
 	}

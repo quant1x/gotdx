@@ -27,7 +27,7 @@ type Snapshot struct {
 	ReversedBytes0  int           // 保留(时间 ServerTime)
 	ReversedBytes1  int           // 保留
 	Vol             int           // 总量
-	CurVol          int           // 现量
+	CurVol          int           // 个股-现成交量,板块指数-现成交额
 	Amount          float64       // 总金额
 	SVol            int           // 个股有效-内盘
 	BVol            int           // 个股有效-外盘

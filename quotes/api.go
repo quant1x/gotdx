@@ -381,10 +381,10 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 				// 交易暂停
 				snapshot.ExchangeState = TDX_EXCHANGE_STATE_PAUSE
 			}
-			if snapshot.ExchangeState == TDX_EXCHANGE_STATE_CLOSING {
-				// 收盘
-				snapshot.CloseVolume = v.CurVol * 100
-			}
+			//if snapshot.ExchangeState == TDX_EXCHANGE_STATE_CLOSING {
+			//	// 收盘
+			//	snapshot.CloseVolume = v.CurVol * 100
+			//}
 			amount := num.Decimal(snapshot.Amount, 4)
 			if amount <= float64(0.0000) {
 				snapshot.Amount = 0.00
