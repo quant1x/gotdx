@@ -300,7 +300,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		if !upDateInRealTime && status == trading.ExchangeClosing {
 			// 收盘
 			if isIndexOrBlock {
-				ele.CloseVolume = int(float64(ele.CurVol) / ele.Price)
+				ele.CloseVolume = int(float64(ele.CurVol*100) / ele.Price)
 			} else {
 				ele.CloseVolume = ele.CurVol * 100
 			}
