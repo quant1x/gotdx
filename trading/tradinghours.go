@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	kTimeMinute                = "15:04"        // 分笔成交时间格式
+	CN_TransactionTimeFormat   = "15:04"        // 分笔成交时间格式
 	CN_SERVERTIME_FORMAT       = "15:04:05.000" // 服务器时间格式
 	CN_SERVERTIME_SHORT_FORMAT = "15:04:05"     // 服务器时间格式
 )
