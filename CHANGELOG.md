@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.10.9] - 2023-06-22
+### Changed
+- 增加板块类型.
+- 增加板块类型.
+
 ## [1.10.8] - 2023-06-22
 ### Changed
 - 调整package.
@@ -643,7 +648,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.9...HEAD
+[1.10.9]: https://gitee.com/quant1x/gotdx/compare/v1.10.8...v1.10.9
 [1.10.8]: https://gitee.com/quant1x/gotdx/compare/v1.10.7...v1.10.8
 [1.10.7]: https://gitee.com/quant1x/gotdx/compare/v1.10.6...v1.10.7
 [1.10.6]: https://gitee.com/quant1x/gotdx/compare/v1.10.5...v1.10.6
