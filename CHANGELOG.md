@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.10.8] - 2023-06-22
+### Changed
+- 调整package.
+
 ## [1.10.7] - 2023-06-22
 ### Changed
 - 优化export函数, 零拷贝.
@@ -639,7 +643,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.8...HEAD
+[1.10.8]: https://gitee.com/quant1x/gotdx/compare/v1.10.7...v1.10.8
 [1.10.7]: https://gitee.com/quant1x/gotdx/compare/v1.10.6...v1.10.7
 [1.10.6]: https://gitee.com/quant1x/gotdx/compare/v1.10.5...v1.10.6
 [1.10.5]: https://gitee.com/quant1x/gotdx/compare/v1.10.4...v1.10.5
