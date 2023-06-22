@@ -204,6 +204,20 @@ func AssertIndexBySecurityCode(securityCode string) (isIndex bool) {
 	return AssertIndexByMarketAndCode(marketId, code)
 }
 
+// AssertBlockBySecurityCode 断言证券代码是否板块
+func AssertBlockBySecurityCode(securityCode *string) (isBlock bool) {
+	marketId, flag, code := DetectMarket(*securityCode)
+	if marketId != MarketIdShangHai {
+		// 板块指数的数据在上海
+		return false
+	}
+	if !api.StartsWith(code, []string{"880", "881"}) {
+		return false
+	}
+	*securityCode = flag + code
+	return true
+}
+
 // AssertStockByMarketAndCode 通过市场id和代码判断是否个股
 func AssertStockByMarketAndCode(marketId MarketType, symbol string) (isStock bool) {
 	if marketId == MarketIdShangHai && api.StartsWith(symbol, []string{"60", "68"}) {

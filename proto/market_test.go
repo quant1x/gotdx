@@ -18,4 +18,8 @@ func TestGetMarket(t *testing.T) {
 	fmt.Println(GetMarket(code))
 	code = "600600.sh"
 	fmt.Println(GetMarket(code))
+
+	code = "880818"
+	v := AssertBlockBySecurityCode(&code)
+	fmt.Println(v)
 }

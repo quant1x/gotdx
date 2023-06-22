@@ -1,5 +1,5 @@
-gitee.com/quant1x/gox v1.7.3 h1:kH61EUh/i7CKdBkTbRJpMojb/P9MU4gCz1VGeWuvGPI=
-gitee.com/quant1x/gox v1.7.3/go.mod h1:TzI2NbXeyPCHEbPAm9iOEh+NU+D7naGM41/OdQdwwjs=
+gitee.com/quant1x/gox v1.7.5 h1:YsIMM1aFS4oPr+Emb1pijmmT9kyBnvGMWR4JdwgcvVU=
+gitee.com/quant1x/gox v1.7.5/go.mod h1:TzI2NbXeyPCHEbPAm9iOEh+NU+D7naGM41/OdQdwwjs=
 github.com/chewxy/math32 v1.10.1 h1:LFpeY0SLJXeaiej/eIp2L40VYfscTvKh/FSEZ68uMkU=
 github.com/chewxy/math32 v1.10.1/go.mod h1:dOB2rcuFrCn6UHrze36WSLVPKtzPMRAQvBvUwkSsLqs=
 github.com/chzyer/logex v1.2.0/go.mod h1:9+9sk7u7pGNWYMkh0hdiL++6OeibzJccyQU4p4MedaY=
@@ -12,8 +12,8 @@ github.com/dlclark/regexp2 v1.4.1-0.20201116162257-a2a8dda75c91/go.mod h1:2pZnwu
 github.com/dlclark/regexp2 v1.7.0 h1:7lJfhqlPssTb1WQx4yvTHN0uElPEv52sbaECrAQxjAo=
 github.com/dlclark/regexp2 v1.7.0/go.mod h1:DHkYz0B9wPfa6wondMfaivmHpzrQ3v9q8cnmRbL6yW8=
 github.com/dop251/goja v0.0.0-20211022113120-dc8c55024d06/go.mod h1:R9ET47fwRVRPZnOGvHxxhuZcbrMCuiqOz3Rlrh4KSnk=
-github.com/dop251/goja v0.0.0-20230605162241-28ee0ee714f3 h1:+3HCtB74++ClLy8GgjUQYeC8R4ILzVcIe8+5edAJJnE=
-github.com/dop251/goja v0.0.0-20230605162241-28ee0ee714f3/go.mod h1:QMWlm50DNe14hD7t24KEqZuUdC9sOTy8W6XbCU1mlw4=
+github.com/dop251/goja v0.0.0-20230621100801-7749907a8a20 h1:gcmFd1xefhuBETzu0XcDETw72GQ7rL7GA41Tfi1JiqY=
+github.com/dop251/goja v0.0.0-20230621100801-7749907a8a20/go.mod h1:QMWlm50DNe14hD7t24KEqZuUdC9sOTy8W6XbCU1mlw4=
 github.com/dop251/goja_nodejs v0.0.0-20210225215109-d91c329300e7/go.mod h1:hn7BA7c8pLvoGndExHudxTDKZ84Pyvv+90pbBjbTz0Y=
 github.com/dop251/goja_nodejs v0.0.0-20211022123610-8dd9abb0616d/go.mod h1:DngW8aVqWbuLRMHItjPUyqdj+HWPvnQe8V8y1nDpIbM=
 github.com/go-sourcemap/sourcemap v2.1.3+incompatible h1:W1iEw64niKVGogNgBN3ePyLFfuisuzeidWPMPWmECqU=

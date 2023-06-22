@@ -1,13 +1,13 @@
 package trading
 
 import (
+	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gotdx/internal/dfcf"
 	"gitee.com/quant1x/gotdx/internal/js"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
-	"gitee.com/quant1x/gox/util/homedir"
 	"golang.org/x/exp/slices"
 	"os"
 	"sort"
@@ -16,45 +16,31 @@ import (
 )
 
 const (
-	url_sina_klc_td_sh   = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
-	TradingDayDateFormat = "2006-01-02" // 交易日历日期格式
-	TradeDateFilename    = "calendar"
-	calendarMissingDate  = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
+	urlSinaRealstockCompanyKlcTdSh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
+	TradingDayDateFormat           = "2006-01-02" // 交易日历日期格式
+	TradeDateFilename              = "calendar"
+	calendarMissingDate            = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
 
 var (
 	//dataOnce         sync.Once
-	__global_trade_dates       []string       // 交易日列表
-	quant1x_default_cache_path = "~/.quant1x" // quant1x 数据根路径
-	__calendarFilename         = ""           // 日历文件路径
+	__global_trade_dates []string // 交易日列表
+	//__calendarFilename   = ""     // 日历文件路径
 
 )
 
-func getRootPath() string {
-	return quant1x_default_cache_path
-}
-
 func getCalendarFilename() string {
-	return getRootPath() + "/" + TradeDateFilename
-}
-
-// 初始化缓存路径
-func initCachePath() {
-	rootPath, err := homedir.Expand(quant1x_default_cache_path)
-	if err != nil {
-		panic(err)
-	}
-	quant1x_default_cache_path = rootPath
-	__calendarFilename = getCalendarFilename()
+	return cache.DefaultCachePath() + "/" + TradeDateFilename
 }
 
 func init() {
-	initCachePath()
+	//initCachePath()
 	bUpdate := updateCalendar()
 	if bUpdate {
 		noDates, err := checkCalendar()
 		if err == nil && len(noDates) > 0 {
-			_ = os.Remove(__calendarFilename)
+			calendarFilename := getCalendarFilename()
+			_ = os.Remove(calendarFilename)
 			updateCalendar(noDates...)
 		}
 	}
@@ -70,7 +56,8 @@ type Calendar struct {
 // 加载交易日历
 func loadCalendar() {
 	list := []Calendar{}
-	err := api.CsvToSlices(__calendarFilename, &list)
+	calendarFilename := getCalendarFilename()
+	err := api.CsvToSlices(calendarFilename, &list)
 	if err != nil && len(list) == 0 {
 		return
 	}
@@ -96,16 +83,17 @@ func IsHoliday(date string) bool {
 // 尝试更新日历
 func updateCalendar(noDates ...string) (bUpdate bool) {
 	bUpdate = false
-	if !api.FileExist(__calendarFilename) {
-		err := api.CheckFilepath(__calendarFilename, true)
+	calendarFilename := getCalendarFilename()
+	if !api.FileExist(calendarFilename) {
+		err := api.CheckFilepath(calendarFilename, true)
 		if err != nil {
-			panic("文件路径创建失败: " + __calendarFilename)
+			panic("文件路径创建失败: " + calendarFilename)
 		}
 		bUpdate = true
 	} else {
 		loadCalendar()
 	}
-	finfo, err := os.Stat(__calendarFilename)
+	finfo, err := os.Stat(calendarFilename)
 	var fileModTime time.Time
 	//var fileCreateTime time.Time
 	if err == nil {
@@ -134,13 +122,13 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	header := map[string]any{
 		http.IfModifiedSince: fileModTime,
 	}
-	data, lastModified, err := http.Request(url_sina_klc_td_sh, "get", header)
+	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, "get", header)
 	if err != nil {
-		panic("获取交易日历失败: " + url_sina_klc_td_sh)
+		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}
 	if len(data) == 0 {
 		loadCalendar()
-		err = os.Chtimes(__calendarFilename, now, now)
+		err = os.Chtimes(calendarFilename, now, now)
 		if err != nil {
 			logger.Error(err)
 		}
@@ -148,7 +136,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	}
 	ret, err := js.SinaJsDecode(api.Bytes2String(data))
 	if err != nil {
-		panic("js解码失败: " + url_sina_klc_td_sh)
+		panic("js解码失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}
 	dates := []Calendar{}
 	for _, v := range ret.([]any) {
@@ -174,12 +162,12 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 		return a.Date < b.Date
 	})
 
-	err = api.SlicesToCsv(__calendarFilename, dates)
+	err = api.SlicesToCsv(calendarFilename, dates)
 	if err != nil {
 		return
 	}
 	now = time.Now()
-	err = os.Chtimes(__calendarFilename, lastModified, now)
+	err = os.Chtimes(calendarFilename, lastModified, now)
 	if err != nil {
 		logger.Error(err)
 	}
@@ -238,7 +226,7 @@ func checkCalendar() (noDates []string, err error) {
 //	}
 //	hs = api.Reverse(hs)
 //	for _, v := range hs {
-//		history = append(history, v.List...)
+//		history = append(history, v.ConstituentStocks...)
 //	}
 //	dates = []string{}
 //	for _, v := range history {

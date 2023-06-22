@@ -2,38 +2,24 @@ package quotes
 
 import (
 	"encoding/json"
+	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gox/logger"
-	"gitee.com/quant1x/gox/util/homedir"
 	"os"
 )
 
-const (
-	tdx_path = "~/.quant1x/tdx.json"
-)
-
 var (
-	config_path     string = "/opt/ctp/tdx.json"
-	DefaultHQServer Server
-	DefaultEXServer Server
-)
-
-func init() {
-	_path, err := homedir.Expand(tdx_path)
-	if err == nil {
-		config_path = _path
-	}
-
-	DefaultHQServer = Server{
+	bestIpConfigPath = cache.DefaultCachePath() + "/tdx.json"
+	DefaultHQServer  = Server{
 		Name:      "临时主机",
 		Host:      "119.147.212.81",
 		Port:      7709,
 		CrossTime: 0,
 	}
 	DefaultEXServer = DefaultHQServer
-}
+)
 
 func OpenConfig() *AllServers {
-	f, err := os.Open(config_path)
+	f, err := os.Open(bestIpConfigPath)
 	if err != nil {
 		return nil
 	}
@@ -51,7 +37,7 @@ func CacheServers(as AllServers) error {
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(config_path, data, 0644)
+	err = os.WriteFile(bestIpConfigPath, data, 0644)
 	return err
 }
 
