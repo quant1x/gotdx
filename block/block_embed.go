@@ -30,24 +30,33 @@ func OpenEmbed(name string) (fs.File, error) {
 // 导出内嵌资源文件
 func export(dest, source string) error {
 	src, err := OpenEmbed(source)
+	if err != nil {
+		return err
+	}
 	output, err := os.Create(dest)
-
-	const (
-		BUFFERSIZE = 8192
-	)
-	buf := make([]byte, BUFFERSIZE)
-	for {
-		n, err := src.Read(buf)
-		if err != nil && err != io.EOF {
-			return err
-		}
-		if n == 0 {
-			break
-		}
-
-		if _, err := output.Write(buf[:n]); err != nil {
-			return err
-		}
+	if err != nil {
+		return err
+	}
+	//const (
+	//	BUFFERSIZE = 8192
+	//)
+	//buf := make([]byte, BUFFERSIZE)
+	//for {
+	//	n, err := src.Read(buf)
+	//	if err != nil && err != io.EOF {
+	//		return err
+	//	}
+	//	if n == 0 {
+	//		break
+	//	}
+	//
+	//	if _, err := output.Write(buf[:n]); err != nil {
+	//		return err
+	//	}
+	//}
+	_, err = io.Copy(output, src)
+	if err != nil {
+		return err
 	}
 	mtime := time.Now()
 	err = os.Chtimes(dest, mtime, mtime)
