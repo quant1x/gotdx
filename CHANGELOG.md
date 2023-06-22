@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.10.6] - 2023-06-22
+### Changed
+- 增加板块数据缓存.
+
 ## [1.10.5] - 2023-06-20
 ### Changed
 - 修订A股常量前缀为CN.
@@ -631,7 +635,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.10.6...HEAD
+[1.10.6]: https://gitee.com/quant1x/gotdx/compare/v1.10.5...v1.10.6
 [1.10.5]: https://gitee.com/quant1x/gotdx/compare/v1.10.4...v1.10.5
 [1.10.4]: https://gitee.com/quant1x/gotdx/compare/v1.10.3...v1.10.4
 [1.10.3]: https://gitee.com/quant1x/gotdx/compare/v1.10.2...v1.10.3
