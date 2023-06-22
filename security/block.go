@@ -1,4 +1,4 @@
-package block
+package security
 
 import (
 	"gitee.com/quant1x/gotdx/internal/cache"
@@ -37,7 +37,20 @@ func loadCacheBlockInfos() {
 		return
 	}
 	if len(list) > 0 {
-		__global_block_list = list
+		for _, v := range list {
+			// 对齐板块代码
+			blockCode := proto.CorrectSecurityCode(v.Code)
+			v.Code = blockCode
+			for i := 0; i < len(v.ConstituentStocks); i++ {
+				// 对齐个股代码
+				stockCode := proto.CorrectSecurityCode(v.ConstituentStocks[i])
+				v.ConstituentStocks[i] = stockCode
+			}
+			// 缓存列表
+			__global_block_list = append(__global_block_list, v)
+			// 缓存板块映射关系
+			__mapBlock[v.Code] = v
+		}
 		for _, v := range __global_block_list {
 			securityCode := proto.CorrectSecurityCode(v.Code)
 			__mapBlock[securityCode] = v
