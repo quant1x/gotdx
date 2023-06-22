@@ -19,7 +19,7 @@ const (
 	CN_TradingStartTime        = "09:15:00.000" // A股数据开始时间
 	CN_TradingSuspendBeginTime = "11:30:00.000" // A股午间休市开始时间
 	CN_TradingSuspendEndTime   = "12:59:59.999" // A股午间休市结束时间
-	CN_TradingStopTime         = "15:00:59.999" // A股数据结束时间
+	CN_TradingStopTime         = "15:00:00.000" // A股数据结束时间
 	CN_CallAuctionAmBegin      = "09:15:00.000" // 早盘集合竞价开始时间
 	CN_CallAuctionAmEnd        = "09:27:59.999" // 早盘集合竞价结束时间
 	CN_CallAuctionPmBegin      = "14:57:00.000" // 尾盘集合竞价开始时间
@@ -235,16 +235,18 @@ type TimeStatus = int
 const (
 	//BeforeLastTradingDay TimeStatus = 1 << iota // 缓存非交易日, 可以更新
 
-	ExchangeClosing   TimeStatus = -2 // 收盘收, 交易停止
-	ExchangePreMarket TimeStatus = -1 // 盘前
-	ExchangeSuspend   TimeStatus = 0  // 休市中, 交易暂停
-	ExchangeTrading   TimeStatus = 1  // 交易中
+	//ExchangeLastClosing TimeStatus = -2 // 隔日收盘收, 交易停止
+	ExchangePreMarket   TimeStatus = -1 // 盘前
+	ExchangeSuspend     TimeStatus = 0  // 休市中, 交易暂停
+	ExchangeTrading     TimeStatus = 1  // 交易中
+	ExchangeCallAuction TimeStatus = 2  // 交易中, 集合竞价
+	ExchangeClosing     TimeStatus = 3  // 当日收盘, 交易停止
 )
 
 // 检查时间
 //
 //	默认检查当前时间是否可以...
-func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, trading bool, status TimeStatus) {
+func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, updateInRealTime bool, status TimeStatus) {
 	lastDay := LastTradeDate()
 	timestamp := time.Now()
 	if len(lastModified) > 0 {
@@ -279,13 +281,40 @@ func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHol
 	if modTimestamp >= CN_MarketInitTime {
 		cacheAfterInitTime = true
 	}
-	// 5. 交易日, A股市场实时数据后
-	if currentTimestamp >= CN_TradingStartTime && currentTimestamp <= CN_TradingStopTime {
+	// 5. 交易日, A股市场实时数据前
+	if currentTimestamp < CN_TradingStartTime {
+		return
+	}
+	// 从现在开始都可以实时更新
+	updateInRealTime = true
+	// 6. 交易日, A股市场实时数据后
+	if currentTimestamp < CN_CallAuctionAmEnd {
+		// 早盘集合竞价开盘
+		status = ExchangeCallAuction
+		return
+	}
+	if currentTimestamp < CN_TradingSuspendBeginTime {
+		// 上午交易时段
 		status = ExchangeTrading
-		trading = true
-		if currentTimestamp >= CN_TradingSuspendBeginTime && currentTimestamp <= CN_TradingSuspendEndTime {
-			status = ExchangeSuspend
-		}
+		return
+	}
+	if currentTimestamp <= CN_TradingSuspendEndTime {
+		// 午间休市时段
+		//updateInRealTime = false
+		status = ExchangeSuspend
+		return
+	}
+	if currentTimestamp < CN_CallAuctionPmBegin {
+		// 下午交易时段
+		status = ExchangeCallAuction
+		return
+	}
+	if currentTimestamp <= CN_TradingStopTime {
+		// 下午集合竞价收盘时段
+		status = ExchangeTrading
+	} else {
+		// 当天收盘
+		status = ExchangeClosing
 	}
 	return
 }

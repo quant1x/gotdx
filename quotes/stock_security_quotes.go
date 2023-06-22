@@ -296,8 +296,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			ele.IndexUpLimit = ele.BidVol2
 			ele.IndexUpLimit = ele.AskVol2
 		}
-		upDateInRealTime, status := trading.CanUpdateInRealtime()
-		if !upDateInRealTime && status == trading.ExchangeClosing {
+		_, status := trading.CanUpdateInRealtime()
+		if status == trading.ExchangeClosing {
 			// 收盘
 			if isIndexOrBlock {
 				ele.CloseVolume = int(float64(ele.CurVol*100) / ele.Price)
