@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	kMapBlock = map[BlockType]string{
+	mapBlockType = map[BlockType]string{
 		BK_HANGYE:  BKN_HANGYE,
 		BK_DIQU:    BKN_DIQU,
 		BK_GAINIAN: BKN_GAINIAN,
@@ -38,6 +38,6 @@ func BlockTypeNameByCode(blockCode int) (name string, ok bool) {
 
 // BlockTypeNameByTypeCode 通过板块类型代码获取板块类型名称
 func BlockTypeNameByTypeCode(blockType BlockType) (string, bool) {
-	bkName, found := kMapBlock[blockType]
+	bkName, found := mapBlockType[blockType]
 	return bkName, found
 }
