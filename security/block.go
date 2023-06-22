@@ -47,10 +47,6 @@ func loadCacheBlockInfos() {
 			// 缓存板块映射关系
 			__mapBlock[v.Code] = v
 		}
-		for _, v := range __global_block_list {
-			securityCode := proto.CorrectSecurityCode(v.Code)
-			__mapBlock[securityCode] = v
-		}
 	}
 }
 
