@@ -24,10 +24,6 @@ type BlockInfo struct {
 	ConstituentStocks []string `dataframe:"ConstituentStocks"` // 板块成份股
 }
 
-type ConstituentStock struct {
-	Code string // 股票代码
-}
-
 func loadCacheBlockInfos() {
 	syncBlockFiles()
 	bkFilename := cache.BlockFilename()
