@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.11.2] - 2023-06-23
+### Changed
+- 修复除权除息信息流通股本字段的bug.
+
 ## [1.11.1] - 2023-06-22
 ### Changed
 - 调整交易时段状态.
@@ -656,7 +660,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.2...HEAD
+[1.11.2]: https://gitee.com/quant1x/gotdx/compare/v1.11.1...v1.11.2
 [1.11.1]: https://gitee.com/quant1x/gotdx/compare/v1.11.0...v1.11.1
 [1.11.0]: https://gitee.com/quant1x/gotdx/compare/v1.10.9...v1.11.0
 [1.10.9]: https://gitee.com/quant1x/gotdx/compare/v1.10.8...v1.10.9
