@@ -63,20 +63,20 @@ type RawXdxrInfo struct {
 }
 
 type XdxrInfo struct {
-	Date           string  // 日期
-	Category       int     // 类型
-	Name           string  // 类型名称
-	FenHong        float64 // 分红
-	PeiGuJia       float64 // 配股价
-	SongZhuanGu    float64 // 送转股
-	PeiGu          float64 // 配股
-	SuoGu          float64 // 缩股
-	PanQianLiuTong float64 // 盘前流通
-	PanHouLiuTong  float64 // 盘后流通
-	QianZongGuBen  float64 // 前总股本
-	HouZongGuBen   float64 // 后总股本
-	FenShu         float64 // 份数
-	XingGuanJia    float64 // 行权价
+	Date          string  // 日期
+	Category      int     // 类型
+	Name          string  // 类型名称
+	FenHong       float64 // 分红
+	PeiGuJia      float64 // 配股价
+	SongZhuanGu   float64 // 送转股
+	PeiGu         float64 // 配股
+	SuoGu         float64 // 缩股
+	QianLiuTong   float64 // 前流通
+	HouLiuTong    float64 // 后流通
+	QianZongGuBen float64 // 前总股本
+	HouZongGuBen  float64 // 后总股本
+	FenShu        float64 // 份数
+	XingGuanJia   float64 // 行权价
 }
 
 // Adjust 返回复权回调函数 factor
@@ -160,8 +160,8 @@ func (obj *XdxrInfoPackage) UnSerialize(header interface{}, data []byte) error {
 			//SongZhuanGu    int    // 送转股
 			//PeiGu          int    // 配股
 			//SuoGu          int    // 锁骨
-			//PanQianLiuTong int    // 盘前流通
-			//PanHouLiuTong  int    // 盘后流通
+			//QianLiuTong int    // 盘前流通
+			//HouLiuTong  int    // 盘后流通
 			//QianZongGuBen  int    // 前总股本
 			//HouZongGuBen   int    // 后总股本
 			//FenShu         int    // 份数
@@ -199,13 +199,13 @@ func (obj *XdxrInfoPackage) UnSerialize(header interface{}, data []byte) error {
 			var i uint32
 			pos := 0
 			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &i)
-			xdxr.PanQianLiuTong = __get_v(i)
-			pos += 4
-			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &i)
-			xdxr.PanHouLiuTong = __get_v(i)
+			xdxr.QianLiuTong = __get_v(i)
 			pos += 4
 			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &i)
 			xdxr.QianZongGuBen = __get_v(i)
+			pos += 4
+			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &i)
+			xdxr.HouLiuTong = __get_v(i)
 			pos += 4
 			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &i)
 			xdxr.HouZongGuBen = __get_v(i)

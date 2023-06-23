@@ -7,13 +7,14 @@ import (
 	"testing"
 )
 
-func TestNewFinanceInfoPackage(t *testing.T) {
+func TestXdxrInfoPackage(t *testing.T) {
 	stdApi, err := NewStdApi()
 	if err != nil {
 		panic(err)
 	}
 	defer stdApi.Close()
-	sq1, err := stdApi.GetFinanceInfo("sh600115")
+	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen}, []string{"600275", "600455", "600086", "300742"})
+	sq1, err := stdApi.GetXdxrInfo("sh600115")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
