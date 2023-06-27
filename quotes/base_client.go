@@ -84,6 +84,10 @@ func (client *TcpClient) Command(msg Message) error {
 		return io.EOF
 	}
 	err := process(client, msg)
+	//errors.Is(err, net.OpError)
+	//if _,ok:=err.( *net.OpError) ;ok{
+	//	return nil,err
+	//}
 	if err != nil {
 		logger.Errorf("业务处理失败", err)
 		return err

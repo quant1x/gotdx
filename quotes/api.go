@@ -79,7 +79,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 
 // Close 关闭
 func (this *StdApi) Close() {
-	this.connPool.Close()
+	this.connPool.CloseAll()
 }
 
 // 通过池关闭连接

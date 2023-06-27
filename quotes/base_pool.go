@@ -77,6 +77,10 @@ func (p *ConnPool) ReturnConn(conn interface{}) {
 	_ = p.pool.Put(conn)
 }
 
+func (p *ConnPool) CloseAll() {
+	p.pool.CloseAll()
+}
+
 func (p *ConnPool) Close() {
 	p.pool.Release()
 }

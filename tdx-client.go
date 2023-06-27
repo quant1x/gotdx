@@ -32,6 +32,5 @@ func ReOpen() {
 	defer tdxMutex.Unlock()
 	if stdApi != nil {
 		stdApi.Close()
-		stdApi = nil
 	}
 }
