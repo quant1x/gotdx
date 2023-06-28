@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.11.4] - 2023-06-29
+### Changed
+- 删除北京双线主站7节点.
+
 ## [1.11.3] - 2023-06-27
 ### Changed
 - 修复连接池重启的bug.
@@ -664,7 +668,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.4...HEAD
+[1.11.4]: https://gitee.com/quant1x/gotdx/compare/v1.11.3...v1.11.4
 [1.11.3]: https://gitee.com/quant1x/gotdx/compare/v1.11.2...v1.11.3
 [1.11.2]: https://gitee.com/quant1x/gotdx/compare/v1.11.1...v1.11.2
 [1.11.1]: https://gitee.com/quant1x/gotdx/compare/v1.11.0...v1.11.1
