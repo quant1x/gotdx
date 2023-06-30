@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.11.9] - 2023-06-30
+### Changed
+- 清理部分服务器节点.
+
 ## [1.11.8] - 2023-06-30
 ### Changed
 - 修复死锁的bug.
@@ -685,7 +689,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.9...HEAD
+[1.11.9]: https://gitee.com/quant1x/gotdx/compare/v1.11.8...v1.11.9
 [1.11.8]: https://gitee.com/quant1x/gotdx/compare/v1.11.7...v1.11.8
 [1.11.7]: https://gitee.com/quant1x/gotdx/compare/v1.11.6...v1.11.7
 [1.11.6]: https://gitee.com/quant1x/gotdx/compare/v1.11.5...v1.11.6
