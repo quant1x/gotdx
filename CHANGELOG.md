@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.11.8] - 2023-06-30
+### Changed
+- 修复死锁的bug.
+
 ## [1.11.7] - 2023-06-30
 ### Changed
 - 调整切换日期的数据重置逻辑.
@@ -681,7 +685,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.8...HEAD
+[1.11.8]: https://gitee.com/quant1x/gotdx/compare/v1.11.7...v1.11.8
 [1.11.7]: https://gitee.com/quant1x/gotdx/compare/v1.11.6...v1.11.7
 [1.11.6]: https://gitee.com/quant1x/gotdx/compare/v1.11.5...v1.11.6
 [1.11.5]: https://gitee.com/quant1x/gotdx/compare/v1.11.4...v1.11.5
