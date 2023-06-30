@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.11.7] - 2023-06-30
+### Changed
+- 调整切换日期的数据重置逻辑.
+
 ## [1.11.6] - 2023-06-29
 ### Changed
 - 调整服务器节点.
@@ -677,7 +681,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.7...HEAD
+[1.11.7]: https://gitee.com/quant1x/gotdx/compare/v1.11.6...v1.11.7
 [1.11.6]: https://gitee.com/quant1x/gotdx/compare/v1.11.5...v1.11.6
 [1.11.5]: https://gitee.com/quant1x/gotdx/compare/v1.11.4...v1.11.5
 [1.11.4]: https://gitee.com/quant1x/gotdx/compare/v1.11.3...v1.11.4
