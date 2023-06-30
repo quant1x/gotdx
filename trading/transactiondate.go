@@ -131,7 +131,7 @@ func GetLastDayForUpdate() string {
 	return array[0]
 }
 
-// GetCurrentlyDay 获取数据有效的最后一个交易日, 以9点整划分
+// GetCurrentlyDay 获取数据有效的最后一个交易日, 以9点15分划分
 func GetCurrentlyDay() (currentlyDay string) {
 	today := IndexToday()
 	dates := TradeRange(proto.MARKET_CN_FIRST_DATE, today)
@@ -145,4 +145,20 @@ func GetCurrentlyDay() (currentlyDay string) {
 		}
 	}
 	return currentlyDay
+}
+
+// GetCurrentDate 获取数据有效的最后一个交易日, 以9点整划分
+func GetCurrentDate() (currentDate string) {
+	today := IndexToday()
+	dates := TradeRange(proto.MARKET_CN_FIRST_DATE, today)
+	days := len(dates)
+	currentDate = dates[days-1]
+	if today == currentDate {
+		now := time.Now()
+		nowTime := now.Format(CN_SERVERTIME_FORMAT)
+		if nowTime < CN_MarketInitTime {
+			currentDate = dates[days-2]
+		}
+	}
+	return currentDate
 }

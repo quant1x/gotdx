@@ -23,18 +23,22 @@ const (
 )
 
 var (
-	//dataOnce         sync.Once
+	//datesOnce            util.MultiOnce
 	__global_trade_dates []string // 交易日列表
 	//__calendarFilename   = ""     // 日历文件路径
 
 )
 
+func init() {
+	resetCalendar()
+}
+
 func getCalendarFilename() string {
 	return cache.DefaultCachePath() + "/" + TradeDateFilename
 }
 
-func init() {
-	//initCachePath()
+// resetCalendar 重置日历
+func resetCalendar() {
 	bUpdate := updateCalendar()
 	if bUpdate {
 		noDates, err := checkCalendar()

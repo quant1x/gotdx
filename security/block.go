@@ -4,12 +4,12 @@ import (
 	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/util"
 	"golang.org/x/exp/slices"
-	"sync"
 )
 
 var (
-	__onceBlockFiles    sync.Once
+	__onceBlockFiles    util.MultiOnce
 	__global_block_list = []BlockInfo{}
 	__mapBlock          = map[string]BlockInfo{}
 )

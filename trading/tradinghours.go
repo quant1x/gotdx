@@ -3,6 +3,7 @@ package trading
 import (
 	"fmt"
 	"gitee.com/quant1x/gox/errors"
+	"gitee.com/quant1x/gox/util"
 	"golang.org/x/exp/slices"
 	"time"
 )
@@ -55,6 +56,7 @@ type TimeRange struct {
 }
 
 var (
+	onceTimeRange util.MultiOnce
 	cnTimeRange   []TimeRange // 交易时间范围
 	trAMBegin     time.Time   // 上午开盘时间
 	trAMEnd       time.Time
@@ -67,7 +69,7 @@ var (
 	ErrNoUpdateRequired = errors.New("No update required")
 )
 
-func init() {
+func resetTimeRange() {
 	now := time.Now()
 	trAMBegin = time.Date(now.Year(), now.Month(), now.Day(), BEGIN_A_AM_HOUR, BEGIN_A_AM_MINUTE, 0, 0, time.Local)
 	trAMEnd = time.Date(now.Year(), now.Month(), now.Day(), END_A_AM_HOUR, END_A_AM_MINUTE, 0, 0, time.Local)
@@ -91,12 +93,18 @@ func init() {
 	CN_TOTALFZNUM = _minutes
 }
 
+func getTimeRanges() []TimeRange {
+	onceTimeRange.Do(resetTimeRange)
+	return slices.Clone(cnTimeRange)
+}
+
 func fixMinute(m time.Time) time.Time {
 	return time.Date(m.Year(), m.Month(), m.Day(), m.Hour(), m.Minute(), 0, 0, time.Local)
 }
 
 // Minutes 分钟数
 func Minutes(date ...string) int {
+	timeRanges := getTimeRanges()
 	// 最后1个交易日
 	lastDay := LastTradeDate()
 	// 默认是当天
@@ -122,9 +130,8 @@ func Minutes(date ...string) int {
 	//tm, _ = utils.ParseTime("2023-04-11 14:59:00")
 	//tm, _ = utils.ParseTime("2023-04-11 15:01:00")
 	tm = fixMinute(tm)
-	tr := slices.Clone(cnTimeRange)
 	var last time.Time
-	for _, v := range tr {
+	for _, v := range timeRanges {
 		if tm.Before(v.Begin) {
 			last = v.Begin
 			break
@@ -133,14 +140,6 @@ func Minutes(date ...string) int {
 			last = v.End
 			continue
 		}
-		//if !tm.After(v.Begin) {
-		//	last = v.Begin
-		//	break
-		//}
-		//if !tm.Before(v.End) {
-		//	last = v.End
-		//	continue
-		//}
 		last = tm
 		break
 	}
