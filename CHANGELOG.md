@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.0] - 2023-07-02
+### Changed
+- 更新依赖库版本.
+
 ## [1.11.9] - 2023-06-30
 ### Changed
 - 清理部分服务器节点.
@@ -689,7 +693,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.11.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.0...HEAD
+[1.12.0]: https://gitee.com/quant1x/gotdx/compare/v1.11.9...v1.12.0
 [1.11.9]: https://gitee.com/quant1x/gotdx/compare/v1.11.8...v1.11.9
 [1.11.8]: https://gitee.com/quant1x/gotdx/compare/v1.11.7...v1.11.8
 [1.11.7]: https://gitee.com/quant1x/gotdx/compare/v1.11.6...v1.11.7
