@@ -33,6 +33,7 @@ func loadCacheBlockInfos() {
 		return
 	}
 	if len(list) > 0 {
+		__global_block_list = []BlockInfo{}
 		for _, v := range list {
 			// 对齐板块代码
 			blockCode := proto.CorrectSecurityCode(v.Code)

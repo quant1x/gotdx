@@ -56,10 +56,8 @@ func updateCacheBlockFile() {
 	createOrUpdate := false
 	if !api.FileExist(blockFile) {
 		createOrUpdate = true
-	}
-	if !createOrUpdate {
-		blockData := cache.GetBlockPath() + "/" + quotes.BLOCK_DEFAULT
-		dataStat, err := os.Stat(blockData)
+	} else {
+		dataStat, err := os.Stat(blockFile)
 		if err == nil || os.IsExist(err) {
 			dataModifyTime := dataStat.ModTime()
 			toInit := trading.CanInitialize(dataModifyTime)
