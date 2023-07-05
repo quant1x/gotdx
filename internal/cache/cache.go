@@ -20,7 +20,12 @@ func DefaultCachePath() string {
 	return default_cache_path
 }
 
+// GetMetaPath 元数据缓存路径
+func GetMetaPath() string {
+	return DefaultCachePath() + "/meta"
+}
+
 // GetBlockPath 板块路径
 func GetBlockPath() string {
-	return DefaultCachePath() + "/block"
+	return GetMetaPath()
 }
