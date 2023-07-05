@@ -220,7 +220,7 @@ func AssertBlockBySecurityCode(securityCode *string) (isBlock bool) {
 
 // AssertStockByMarketAndCode 通过市场id和代码判断是否个股
 func AssertStockByMarketAndCode(marketId MarketType, symbol string) (isStock bool) {
-	if marketId == MarketIdShangHai && api.StartsWith(symbol, []string{"60", "68"}) {
+	if marketId == MarketIdShangHai && api.StartsWith(symbol, []string{"60", "68", "510"}) {
 		return true
 	} else if marketId == MarketIdShenZhen && api.StartsWith(symbol, []string{"00", "30"}) {
 		return true
