@@ -34,7 +34,7 @@ func init() {
 }
 
 func getCalendarFilename() string {
-	return cache.DefaultCachePath() + "/" + TradeDateFilename
+	return cache.GetMetaPath() + "/" + TradeDateFilename
 }
 
 // resetCalendar 重置日历
