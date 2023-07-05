@@ -7,6 +7,10 @@ func BaseUnit(code string) float64 {
 	case "60", "68", "00", "30", "39":
 		return 100.0
 	}
-	//return 1000.0
+	c = code[:3]
+	switch c {
+	case "510":
+		return 1000.0
+	}
 	return 100.00
 }
