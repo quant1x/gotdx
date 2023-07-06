@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.6] - 2023-07-07
+### Changed
+- 修复返回值存在超出日期范围的bug.
+
 ## [1.12.5] - 2023-07-06
 ### Changed
 - 删除独立的元数据包.
@@ -722,7 +726,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.6...HEAD
+[1.12.6]: https://gitee.com/quant1x/gotdx/compare/v1.12.5...v1.12.6
 [1.12.5]: https://gitee.com/quant1x/gotdx/compare/v1.12.4...v1.12.5
 [1.12.4]: https://gitee.com/quant1x/gotdx/compare/v1.12.3...v1.12.4
 [1.12.3]: https://gitee.com/quant1x/gotdx/compare/v1.12.2...v1.12.3
