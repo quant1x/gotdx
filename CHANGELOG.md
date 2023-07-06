@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.2] - 2023-07-06
+### Changed
+- 测试周线前复权, 很遗憾, 接口上并没有发现这个参数, 只能自己实现了.
+- 收敛日历文件的文件名函数.
+- 新增证券列表.
+- 收敛日历文件的文件名函数.
+- 增加基础的证券信息结构体.
+- 增加510开头的ETF股价基数, 除以1000.
+- 上海代码新增510开头的ETF视为个股.
+- 交易日历归于元数据.
+- 板块数据归于元数据.
+
 ## [1.12.1] - 2023-07-04
 ### Changed
 - 修正板块数据不更新的bug.
@@ -697,7 +709,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.2...HEAD
+[1.12.2]: https://gitee.com/quant1x/gotdx/compare/v1.12.1...v1.12.2
 [1.12.1]: https://gitee.com/quant1x/gotdx/compare/v1.12.0...v1.12.1
 [1.12.0]: https://gitee.com/quant1x/gotdx/compare/v1.11.9...v1.12.0
 [1.11.9]: https://gitee.com/quant1x/gotdx/compare/v1.11.8...v1.11.9
