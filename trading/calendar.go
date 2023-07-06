@@ -18,7 +18,6 @@ import (
 const (
 	urlSinaRealstockCompanyKlcTdSh = "https://finance.sina.com.cn/realstock/company/klc_td_sh.txt"
 	TradingDayDateFormat           = "2006-01-02" // 交易日历日期格式
-	TradeDateFilename              = "calendar"
 	calendarMissingDate            = "1992-05-04" // TODO:已知缺失的交易日期, 现在已经能自动甄别缺失的交易日期
 )
 
@@ -33,17 +32,13 @@ func init() {
 	resetCalendar()
 }
 
-func getCalendarFilename() string {
-	return cache.GetMetaPath() + "/" + TradeDateFilename
-}
-
 // resetCalendar 重置日历
 func resetCalendar() {
 	bUpdate := updateCalendar()
 	if bUpdate {
 		noDates, err := checkCalendar()
 		if err == nil && len(noDates) > 0 {
-			calendarFilename := getCalendarFilename()
+			calendarFilename := cache.CalendarFilename()
 			_ = os.Remove(calendarFilename)
 			updateCalendar(noDates...)
 		}
@@ -60,7 +55,7 @@ type Calendar struct {
 // 加载交易日历
 func loadCalendar() {
 	list := []Calendar{}
-	calendarFilename := getCalendarFilename()
+	calendarFilename := cache.CalendarFilename()
 	err := api.CsvToSlices(calendarFilename, &list)
 	if err != nil && len(list) == 0 {
 		return
@@ -87,7 +82,7 @@ func IsHoliday(date string) bool {
 // 尝试更新日历
 func updateCalendar(noDates ...string) (bUpdate bool) {
 	bUpdate = false
-	calendarFilename := getCalendarFilename()
+	calendarFilename := cache.CalendarFilename()
 	if !api.FileExist(calendarFilename) {
 		err := api.CheckFilepath(calendarFilename, true)
 		if err != nil {
@@ -161,9 +156,14 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 		}
 		dates = append(dates, e)
 	}
-	api.SliceUnique(&dates, func(i, j int) bool {
-		var a, b = dates[i], dates[j]
-		return a.Date < b.Date
+	dates = api.SliceUnique(dates, func(a, b Calendar) int {
+		if a.Date == b.Date {
+			return 0
+		}
+		if a.Date < b.Date {
+			return -1
+		}
+		return 1
 	})
 
 	err = api.SlicesToCsv(calendarFilename, dates)
