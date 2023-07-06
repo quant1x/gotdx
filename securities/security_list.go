@@ -7,10 +7,10 @@ import (
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/util"
 	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"os"
-	"sync"
 )
 
 var (
@@ -19,7 +19,7 @@ var (
 
 var (
 	__mapStockList  = map[string]quotes.Security{} // 股票列表缓存
-	__onceStockList sync.Once
+	__onceStockList util.MultiOnce
 	__stock_list    = []string{}
 )
 
