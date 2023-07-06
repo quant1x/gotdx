@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.5] - 2023-07-06
+### Changed
+- 删除独立的元数据包.
+- Update changelog.
+
 ## [1.12.4] - 2023-07-06
 ### Changed
 - 调整证券信息的同步工具为MultiOne.
@@ -717,7 +722,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.5...HEAD
+[1.12.5]: https://gitee.com/quant1x/gotdx/compare/v1.12.4...v1.12.5
 [1.12.4]: https://gitee.com/quant1x/gotdx/compare/v1.12.3...v1.12.4
 [1.12.3]: https://gitee.com/quant1x/gotdx/compare/v1.12.2...v1.12.3
 [1.12.2]: https://gitee.com/quant1x/gotdx/compare/v1.12.1...v1.12.2
