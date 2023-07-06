@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.3] - 2023-07-06
+### Changed
+- 调整证券类数据的package.
+
 ## [1.12.2] - 2023-07-06
 ### Changed
 - 测试周线前复权, 很遗憾, 接口上并没有发现这个参数, 只能自己实现了.
@@ -709,7 +713,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.3...HEAD
+[1.12.3]: https://gitee.com/quant1x/gotdx/compare/v1.12.2...v1.12.3
 [1.12.2]: https://gitee.com/quant1x/gotdx/compare/v1.12.1...v1.12.2
 [1.12.1]: https://gitee.com/quant1x/gotdx/compare/v1.12.0...v1.12.1
 [1.12.0]: https://gitee.com/quant1x/gotdx/compare/v1.11.9...v1.12.0
