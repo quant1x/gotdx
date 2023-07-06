@@ -16,8 +16,8 @@ func TestNextTradeDate(t *testing.T) {
 }
 
 func TestTradeRange(t *testing.T) {
-	start := "2023-04-12"
-	end := "2023-04-13"
+	start := "2014-08-18"
+	end := "2014-08-24"
 	dates := TradeRange(start, end)
 	fmt.Println(len(dates))
 	fmt.Println(dates)

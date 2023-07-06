@@ -45,11 +45,17 @@ func TradeRange(start, end string) []string {
 	start = FixTradeDate(start)
 	end = FixTradeDate(end)
 
+	//is := slices.Index(__global_trade_dates, start)
+	//ie := slices.Index(__global_trade_dates, end)
+	//if is < 0 || ie < 0 {
+	//	return nil
+	//}
 	is := sort.SearchStrings(__global_trade_dates, start)
 	ie := sort.SearchStrings(__global_trade_dates, end)
+
 	today := IndexToday()
 	lastDay := __global_trade_dates[ie]
-	if lastDay > today {
+	if lastDay > today || lastDay > end {
 		ie = ie - 1
 	}
 	return slices.Clone(__global_trade_dates[is : ie+1])
