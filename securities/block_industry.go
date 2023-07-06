@@ -1,4 +1,4 @@
-package security
+package securities
 
 import (
 	"bufio"
@@ -14,8 +14,8 @@ import (
 // IndustryInfo 行业板块对应
 type IndustryInfo struct {
 	Code   string // 股票代码
-	Block  string // 通达信板块代码
-	Block5 string // 通达信板块代码
+	Block  string // 行业板块代码
+	Block5 string // 二级行业板块代码
 }
 
 // 获取行业板块

@@ -1,4 +1,4 @@
-package security
+package securities
 
 import (
 	"gitee.com/quant1x/gotdx/internal/cache"
