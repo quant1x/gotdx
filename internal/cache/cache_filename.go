@@ -11,7 +11,7 @@ func CalendarFilename() string {
 // BlockFilename 板块缓存路径
 func BlockFilename(ns ...string) string {
 	// 默认取板块列表
-	name := "all"
+	name := "blocks"
 	if len(ns) > 0 {
 		name = ns[0]
 	}
