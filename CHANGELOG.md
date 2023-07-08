@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.12.9] - 2023-07-08
+### Changed
+- 调整全部板块的缓存文件名.
+
 ## [1.12.8] - 2023-07-08
 ### Changed
 - 更新依赖库版本.
@@ -734,7 +738,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.12.9...HEAD
+[1.12.9]: https://gitee.com/quant1x/gotdx/compare/v1.12.8...v1.12.9
 [1.12.8]: https://gitee.com/quant1x/gotdx/compare/v1.12.7...v1.12.8
 [1.12.7]: https://gitee.com/quant1x/gotdx/compare/v1.12.6...v1.12.7
 [1.12.6]: https://gitee.com/quant1x/gotdx/compare/v1.12.5...v1.12.6
