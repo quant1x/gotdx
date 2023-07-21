@@ -21,10 +21,12 @@ const (
 	CN_TradingSuspendBeginTime = "11:30:00.000" // A股午间休市开始时间
 	CN_TradingSuspendEndTime   = "12:59:59.999" // A股午间休市结束时间
 	CN_TradingStopTime         = "15:00:00.000" // A股数据结束时间
-	CN_CallAuctionAmBegin      = "09:15:00.000" // 早盘集合竞价开始时间
-	CN_CallAuctionAmEnd        = "09:27:59.999" // 早盘集合竞价结束时间
-	CN_CallAuctionPmBegin      = "14:57:00.000" // 尾盘集合竞价开始时间
-	CN_CallAuctionPmEnd        = "15:01:59.999" // 尾盘集合竞价结束时间
+	CN_CallAuctionAmBegin      = "09:15:00.000" // 集合竞价-早盘-开始时间
+	CN_CallAuctionAmEnd        = "09:27:59.999" // 集合竞价-早盘-结束时间
+	CN_CallAuctionAmFinished   = "09:27:00.000" // 集合竞价-早盘-数据结束时间
+	CN_CallAuctionPmBegin      = "14:57:00.000" // 集合竞价-尾盘-开始时间
+	CN_CallAuctionPmEnd        = "15:01:59.999" // 集合竞价-尾盘-结束时间
+	CN_CallAuctionPmFinished   = "15:01:00.000" // 集合竞价-尾盘-数据结束时间
 )
 
 // 集合竞价时间相关常量
@@ -359,10 +361,19 @@ func CheckCallAuctionTime(timestamp time.Time) (canUpdate bool) {
 	return CheckCallAuctionOpen(timestamp) || CheckCallAuctionClose(timestamp)
 }
 
-// CheckCallAuctionOpen 检查当前时间是否集合竞价阶段
+// CheckCallAuctionOpen 检查当前时间是否集合竞价阶段-进行中
 func CheckCallAuctionOpen(timestamp time.Time) (canUpdate bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
-	if tm >= CN_CallAuctionAmBegin && tm < CN_CallAuctionAmEnd {
+	if tm < CN_CallAuctionAmEnd {
+		return true
+	}
+	return false
+}
+
+// CheckCallAuctionOpenFinished 检查当前时间是否集合竞价阶段-结束
+func CheckCallAuctionOpenFinished(timestamp time.Time) (finished bool) {
+	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
+	if tm >= CN_CallAuctionAmFinished {
 		return true
 	}
 	return false
@@ -372,6 +383,15 @@ func CheckCallAuctionOpen(timestamp time.Time) (canUpdate bool) {
 func CheckCallAuctionClose(timestamp time.Time) (canUpdate bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if tm >= CN_CallAuctionPmBegin && tm < CN_CallAuctionPmEnd {
+		return true
+	}
+	return false
+}
+
+// CheckCallAuctionCloseFinished 检查当前时间是否集合竞价阶段-结束
+func CheckCallAuctionCloseFinished(timestamp time.Time) (finished bool) {
+	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
+	if tm >= CN_CallAuctionAmFinished {
 		return true
 	}
 	return false
