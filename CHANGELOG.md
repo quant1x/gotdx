@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.13.1] - 2023-07-21
+### Changed
+- 更新gox库.
+
 ## [1.13.0] - 2023-07-21
 ### Changed
 - 增加竞价数据结束时间及判断函数.
@@ -742,7 +746,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.1...HEAD
+[1.13.1]: https://gitee.com/quant1x/gotdx/compare/v1.13.0...v1.13.1
 [1.13.0]: https://gitee.com/quant1x/gotdx/compare/v1.12.9...v1.13.0
 [1.12.9]: https://gitee.com/quant1x/gotdx/compare/v1.12.8...v1.12.9
 [1.12.8]: https://gitee.com/quant1x/gotdx/compare/v1.12.7...v1.12.8
