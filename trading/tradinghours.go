@@ -364,7 +364,7 @@ func CheckCallAuctionTime(timestamp time.Time) (canUpdate bool) {
 // CheckCallAuctionOpen 检查当前时间是否集合竞价阶段-进行中
 func CheckCallAuctionOpen(timestamp time.Time) (canUpdate bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
-	if tm < CN_CallAuctionAmEnd {
+	if tm >= CN_CallAuctionAmBegin && tm < CN_CallAuctionAmEnd {
 		return true
 	}
 	return false
@@ -373,7 +373,7 @@ func CheckCallAuctionOpen(timestamp time.Time) (canUpdate bool) {
 // CheckCallAuctionOpenFinished 检查当前时间是否集合竞价阶段-结束
 func CheckCallAuctionOpenFinished(timestamp time.Time) (finished bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
-	if tm >= CN_CallAuctionAmFinished {
+	if tm >= CN_CallAuctionAmFinished && tm < CN_CallAuctionAmEnd {
 		return true
 	}
 	return false
@@ -391,7 +391,7 @@ func CheckCallAuctionClose(timestamp time.Time) (canUpdate bool) {
 // CheckCallAuctionCloseFinished 检查当前时间是否集合竞价阶段-结束
 func CheckCallAuctionCloseFinished(timestamp time.Time) (finished bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
-	if tm >= CN_CallAuctionAmFinished {
+	if tm >= CN_CallAuctionPmFinished && tm < CN_CallAuctionPmEnd {
 		return true
 	}
 	return false
