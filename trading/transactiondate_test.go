@@ -30,3 +30,9 @@ func TestGetLastDayForUpdate(t *testing.T) {
 func TestGetFrontTradeDay(t *testing.T) {
 	fmt.Println(GetFrontTradeDay())
 }
+
+func TestGetCurrentDate(t *testing.T) {
+	date := "20230721"
+	v := GetCurrentDate(date)
+	fmt.Println(v)
+}

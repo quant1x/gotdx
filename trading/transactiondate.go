@@ -154,8 +154,11 @@ func GetCurrentlyDay() (currentlyDay string) {
 }
 
 // GetCurrentDate 获取数据有效的最后一个交易日, 以9点整划分
-func GetCurrentDate() (currentDate string) {
+func GetCurrentDate(date ...string) (currentDate string) {
 	today := IndexToday()
+	if len(date) > 0 {
+		today = FixTradeDate(date[0])
+	}
 	dates := TradeRange(proto.MARKET_CN_FIRST_DATE, today)
 	days := len(dates)
 	currentDate = dates[days-1]

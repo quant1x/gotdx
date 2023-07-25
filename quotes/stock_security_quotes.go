@@ -197,6 +197,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.ReversedBytes1 = internal.DecodeVarint(data, &pos)
 
 		ele.Vol = internal.DecodeVarint(data, &pos)
+		ele.Vol *= 100
 		ele.CurVol = internal.DecodeVarint(data, &pos)
 
 		var amountraw uint32
