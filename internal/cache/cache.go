@@ -6,29 +6,32 @@ import (
 )
 
 const (
-	cacheRootPathOfWin = "c:/.quant1x"
+	cacheRootPathOfWin  = "c:/.quant1x"
+	cacheRootPathOfUinx = "~/.quant1x"
 )
 
 var (
-	default_cache_path = "~/.quant1x" // 数据根路径
+	__default_cache_path = "~/.quant1x" // 数据根路径
 )
 
 func init() {
 	// 初始化缓存路径
 	switch runtime.GOOS {
 	case "windows":
-		default_cache_path = cacheRootPathOfWin
+		__default_cache_path = cacheRootPathOfWin
+	default:
+		__default_cache_path = cacheRootPathOfUinx
 	}
-	rootPath, err := homedir.Expand(default_cache_path)
+	rootPath, err := homedir.Expand(__default_cache_path)
 	if err != nil {
 		panic(err)
 	}
-	default_cache_path = rootPath
+	__default_cache_path = rootPath
 }
 
 // DefaultCachePath 数据缓存的根路径
 func DefaultCachePath() string {
-	return default_cache_path
+	return __default_cache_path
 }
 
 // GetMetaPath 元数据缓存路径
