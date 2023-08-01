@@ -1,6 +1,13 @@
 package cache
 
-import "gitee.com/quant1x/gox/util/homedir"
+import (
+	"gitee.com/quant1x/gox/util/homedir"
+	"runtime"
+)
+
+const (
+	cacheRootPathOfWin = "c:/.quant1x"
+)
 
 var (
 	default_cache_path = "~/.quant1x" // 数据根路径
@@ -8,6 +15,10 @@ var (
 
 func init() {
 	// 初始化缓存路径
+	switch runtime.GOOS {
+	case "windows":
+		default_cache_path = cacheRootPathOfWin
+	}
 	rootPath, err := homedir.Expand(default_cache_path)
 	if err != nil {
 		panic(err)
