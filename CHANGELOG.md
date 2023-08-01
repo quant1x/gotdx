@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.13.5] - 2023-08-01
+### Changed
+- 调整默认目录.
+- Update changelog.
+
 ## [1.13.4] - 2023-08-01
 ### Changed
 - Windows目录默认值c:/.quant1x.
@@ -758,7 +763,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.5...HEAD
+[1.13.5]: https://gitee.com/quant1x/gotdx/compare/v1.13.4...v1.13.5
 [1.13.4]: https://gitee.com/quant1x/gotdx/compare/v1.13.3...v1.13.4
 [1.13.3]: https://gitee.com/quant1x/gotdx/compare/v1.13.2...v1.13.3
 [1.13.2]: https://gitee.com/quant1x/gotdx/compare/v1.13.1...v1.13.2
