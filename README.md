@@ -73,13 +73,13 @@ func getStockMarket(symbol string) string {
 
 func getStockMarketId(symbol string) uint8 {
 	market := getStockMarket(symbol)
-	marketId := proto.MarketShangHai
+	marketId := proto.MarketIdShangHai
 	if market == "sh" {
-		marketId = proto.MarketShangHai
+		marketId = proto.MarketIdShangHai
 	} else if market == "sz" {
-		marketId = proto.MarketShenZhen
+		marketId = proto.MarketIdShenZhen
 	} else if market == "bj" {
-		marketId = proto.MarketBeiJing
+		marketId = proto.MarketIdBeiJing
 	}
 	//# logger.debug(f"market => {market}")
 
