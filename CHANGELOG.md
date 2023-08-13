@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.13.6] - 2023-08-13
+### Changed
+- 升级go版本到1.21.0.
+
 ## [1.13.5] - 2023-08-01
 ### Changed
 - 调整默认目录.
@@ -763,7 +767,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.6...HEAD
+[1.13.6]: https://gitee.com/quant1x/gotdx/compare/v1.13.5...v1.13.6
 [1.13.5]: https://gitee.com/quant1x/gotdx/compare/v1.13.4...v1.13.5
 [1.13.4]: https://gitee.com/quant1x/gotdx/compare/v1.13.3...v1.13.4
 [1.13.3]: https://gitee.com/quant1x/gotdx/compare/v1.13.2...v1.13.3
