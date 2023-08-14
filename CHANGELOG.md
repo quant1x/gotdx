@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.13.7] - 2023-08-14
+### Changed
+- 快照增加计算平均竞价委托量.
+- !8 update README.md. * update README.md.
+
 ## [1.13.6] - 2023-08-13
 ### Changed
 - 升级go版本到1.21.0.
@@ -767,7 +772,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.7...HEAD
+[1.13.7]: https://gitee.com/quant1x/gotdx/compare/v1.13.6...v1.13.7
 [1.13.6]: https://gitee.com/quant1x/gotdx/compare/v1.13.5...v1.13.6
 [1.13.5]: https://gitee.com/quant1x/gotdx/compare/v1.13.4...v1.13.5
 [1.13.4]: https://gitee.com/quant1x/gotdx/compare/v1.13.3...v1.13.4
