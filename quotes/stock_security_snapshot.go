@@ -82,3 +82,10 @@ func (this *Snapshot) CheckDirection() (biddingDirection, volumeDirection int) {
 	volumeDirection = bidVol - askVol
 	return
 }
+
+// AverageBiddingVolume 平均竞量
+func (this *Snapshot) AverageBiddingVolume() int {
+	bidVol := this.BidVol1 + this.BidVol2 + this.BidVol3 + this.BidVol4 + this.BidVol5
+	askVol := this.AskVol1 + this.AskVol2 + this.AskVol3 + this.AskVol4 + this.AskVol5
+	return (bidVol + askVol) / 10
+}
