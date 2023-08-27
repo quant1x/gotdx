@@ -46,7 +46,7 @@ func GetFastHost(key string) []Server {
 	if as == nil {
 		logger.Infof("首次执行通达信数据接口, 正在进行服务器测速")
 		BestIP()
-	}
+
 	as = OpenConfig()
 	if as == nil && key == TDX_HOST_HQ {
 		return []Server{DefaultHQServer}
@@ -54,7 +54,7 @@ func GetFastHost(key string) []Server {
 	if as == nil && key == TDX_HOST_EX {
 		return []Server{DefaultHQServer}
 	}
-
+	}
 	bestIp := as.BestIP
 	if key == TDX_HOST_HQ {
 		if len(bestIp.HQ) > 0 {
