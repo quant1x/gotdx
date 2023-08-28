@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.13.8] - 2023-08-28
+### Changed
+- 更新依赖库.
+- !9 update quotes/bestip_cache.go. Merge pull request !9 from xubojam/N/A.
+- Update quotes/bestip_cache.go.
+
 ## [1.13.7] - 2023-08-14
 ### Changed
 - 快照增加计算平均竞价委托量.
@@ -772,7 +778,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.8...HEAD
+[1.13.8]: https://gitee.com/quant1x/gotdx/compare/v1.13.7...v1.13.8
 [1.13.7]: https://gitee.com/quant1x/gotdx/compare/v1.13.6...v1.13.7
 [1.13.6]: https://gitee.com/quant1x/gotdx/compare/v1.13.5...v1.13.6
 [1.13.5]: https://gitee.com/quant1x/gotdx/compare/v1.13.4...v1.13.5
