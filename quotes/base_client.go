@@ -115,9 +115,12 @@ func (client *TcpClient) heartbeat() {
 					Market: uint16(1),
 				})
 				err := client.Command(msg)
-				_ = err
-				client.updateCompletedTimestamp()
-				logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
+				if err != nil {
+					client.done <- true
+				} else {
+					client.updateCompletedTimestamp()
+					logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
+				}
 			}
 		case <-client.done:
 			logger.Warnf("client -> server[%s]: shutdown", client.Addr)
