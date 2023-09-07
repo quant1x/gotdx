@@ -116,7 +116,8 @@ func (client *TcpClient) heartbeat() {
 				})
 				err := client.Command(msg)
 				if err != nil {
-					client.done <- true
+					_ = client.Close()
+					return
 				} else {
 					client.updateCompletedTimestamp()
 					logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
