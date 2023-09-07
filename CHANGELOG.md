@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.13.9] - 2023-09-07
+### Changed
+- 心跳异常关闭连接.
+- 修订接口异常时终止心跳操作.
+
 ## [1.13.8] - 2023-08-28
 ### Changed
 - 更新依赖库.
@@ -778,7 +783,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.9...HEAD
+[1.13.9]: https://gitee.com/quant1x/gotdx/compare/v1.13.8...v1.13.9
 [1.13.8]: https://gitee.com/quant1x/gotdx/compare/v1.13.7...v1.13.8
 [1.13.7]: https://gitee.com/quant1x/gotdx/compare/v1.13.6...v1.13.7
 [1.13.6]: https://gitee.com/quant1x/gotdx/compare/v1.13.5...v1.13.6
