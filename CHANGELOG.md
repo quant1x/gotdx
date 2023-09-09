@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.14.0] - 2023-09-10
+### Changed
+- 调整单连接锁的用法.
+
 ## [1.13.9] - 2023-09-07
 ### Changed
 - 心跳异常关闭连接.
@@ -783,7 +787,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.13.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.14.0...HEAD
+[1.14.0]: https://gitee.com/quant1x/gotdx/compare/v1.13.9...v1.14.0
 [1.13.9]: https://gitee.com/quant1x/gotdx/compare/v1.13.8...v1.13.9
 [1.13.8]: https://gitee.com/quant1x/gotdx/compare/v1.13.7...v1.13.8
 [1.13.7]: https://gitee.com/quant1x/gotdx/compare/v1.13.6...v1.13.7
