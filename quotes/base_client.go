@@ -77,8 +77,8 @@ func (client *TcpClient) hasTimedOut() bool {
 
 // Command 执行通达信指令
 func (client *TcpClient) Command(msg Message) error {
-	defer client.Unlock()
 	client.Lock()
+	defer client.Unlock()
 	if client.conn == nil {
 		logger.Errorf("tcp连接失效")
 		return io.EOF
@@ -107,15 +107,16 @@ func (client *TcpClient) heartbeat() {
 		select {
 		case <-time.After(time.Second):
 			client.timeMutex.Lock()
-			timeouted := client.hasTimedOut()
+			timedOut := client.hasTimedOut()
 			client.timeMutex.Unlock()
-			if timeouted {
+			if timedOut {
 				msg := NewSecurityCountPackage()
 				msg.SetParams(&SecurityCountRequest{
 					Market: uint16(1),
 				})
 				err := client.Command(msg)
 				if err != nil {
+					logger.Warnf("client -> server[%s]: shutdown", client.Addr)
 					_ = client.Close()
 					return
 				} else {
@@ -132,8 +133,8 @@ func (client *TcpClient) heartbeat() {
 
 // Connect 连接服务器
 func (client *TcpClient) Connect() error {
-	defer client.Unlock()
 	client.Lock()
+	defer client.Unlock()
 	opt := client.opt
 	total := len(opt.Servers)
 	if opt.index >= total {
