@@ -3,7 +3,7 @@ module gitee.com/quant1x/gotdx
 go 1.21
 
 require (
-	gitee.com/quant1x/gox v1.10.5
+	gitee.com/quant1x/gox v1.10.6
 	github.com/dop251/goja v0.0.0-20230828202809-3dbe69dd2b8e
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9

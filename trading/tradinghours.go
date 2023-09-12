@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gox/errors"
 	"gitee.com/quant1x/gox/util"
-	"golang.org/x/exp/slices"
+	"slices"
 	"time"
 )
 

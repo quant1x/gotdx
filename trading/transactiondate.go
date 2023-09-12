@@ -3,7 +3,7 @@ package trading
 import (
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
-	"golang.org/x/exp/slices"
+	"slices"
 	"sort"
 	"time"
 )

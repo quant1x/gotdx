@@ -5,9 +5,9 @@ import (
 	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/text/encoding"
-	"golang.org/x/exp/slices"
 	"io"
 	"os"
+	"slices"
 	"strings"
 )
 

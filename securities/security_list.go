@@ -9,8 +9,8 @@ import (
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/util"
 	"golang.org/x/exp/maps"
-	"golang.org/x/exp/slices"
 	"os"
+	"slices"
 )
 
 var (
