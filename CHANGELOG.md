@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.14.2] - 2023-09-12
+### Changed
+- 调整服务器IP池的锁机制.
+
 ## [1.14.1] - 2023-09-10
 ### Changed
 - 升级依赖库版本.
@@ -791,7 +795,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.14.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.14.2...HEAD
+[1.14.2]: https://gitee.com/quant1x/gotdx/compare/v1.14.1...v1.14.2
 [1.14.1]: https://gitee.com/quant1x/gotdx/compare/v1.14.0...v1.14.1
 [1.14.0]: https://gitee.com/quant1x/gotdx/compare/v1.13.9...v1.14.0
 [1.13.9]: https://gitee.com/quant1x/gotdx/compare/v1.13.8...v1.13.9
