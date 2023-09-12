@@ -16,7 +16,7 @@ type TcpClient struct {
 	sync.Mutex
 	conn          net.Conn
 	Addr          string    // 当前连接成功的服务器地址
-	opt           *Opt      // 参数
+	opt           *Options  // 参数
 	complete      chan bool // 完成状态
 	sending       chan bool // 正在发送状态
 	done          chan bool // connection done
@@ -24,7 +24,8 @@ type TcpClient struct {
 	timeMutex     sync.Mutex
 }
 
-type Opt struct {
+type Options struct {
+	sync.Mutex
 	Servers           []Server      // 服务器组
 	index             int           // 索引
 	ConnectionTimeout time.Duration // 连接超时
@@ -34,7 +35,7 @@ type Opt struct {
 	RetryDuration     time.Duration // 重试时间
 }
 
-func NewClient(opt *Opt) *TcpClient {
+func NewClient(opt *Options) *TcpClient {
 	client := &TcpClient{}
 	if opt.MaxRetryTimes <= 0 {
 		opt.MaxRetryTimes = DefaultRetryTimes
@@ -133,15 +134,14 @@ func (client *TcpClient) heartbeat() {
 
 // Connect 连接服务器
 func (client *TcpClient) Connect() error {
-	client.Lock()
-	defer client.Unlock()
-	opt := client.opt
-	total := len(opt.Servers)
-	if opt.index >= total {
-		opt.index = 0
+	client.opt.Lock()
+	defer client.opt.Unlock()
+	total := len(client.opt.Servers)
+	if client.opt.index >= total {
+		client.opt.index = 0
 	}
-	for i := opt.index; i < total; i++ {
-		serv := opt.Servers[i]
+	for i := client.opt.index; i < total; i++ {
+		serv := client.opt.Servers[i]
 		//if i < total {
 		//	serv.Host = "127.0.0.1"
 		//}
@@ -156,14 +156,14 @@ func (client *TcpClient) Connect() error {
 			client.conn = conn
 			client.Addr = addr
 			client.updateCompletedTimestamp()
-			opt.index += 1
+			client.opt.index += 1
 			go client.heartbeat()
 			break
 		} else if i+1 >= total {
-			opt.index = 0
+			client.opt.index = 0
 			return err
 		} else {
-			opt.index += 1
+			client.opt.index += 1
 		}
 	}
 	if client.conn == nil {

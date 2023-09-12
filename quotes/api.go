@@ -27,6 +27,7 @@ func (s Server) Addr() string {
 
 type StdApi struct {
 	connPool *ConnPool
+	opt      *Options
 }
 
 // NewStdApi 创建一个标准接口
@@ -38,13 +39,13 @@ func NewStdApi() (*StdApi, error) {
 // NewStdApiWithServers 通过服务器组创建一个标准接口
 func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	size := 1
-	opt := Opt{
+	opt := Options{
 		Servers:           srvs,
 		ConnectionTimeout: CONN_TIMEOUT * time.Second,
 	}
-	stdApi := StdApi{}
+	stdApi := StdApi{opt: &opt}
 	_factory := func() (interface{}, error) {
-		client := NewClient(&opt)
+		client := NewClient(stdApi.opt)
 		err := client.Connect()
 		if err != nil {
 			return nil, err
@@ -69,7 +70,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		client := v.(*TcpClient)
 		return stdApi.tdx_ping(client)
 	}
-	cp, err := NewConnPool(opt, size, _factory, _close, _ping)
+	cp, err := NewConnPool(stdApi.opt, size, _factory, _close, _ping)
 	if err != nil {
 		return nil, err
 	}

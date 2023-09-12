@@ -25,7 +25,7 @@ type ConnPool struct {
 }
 
 // NewConnPool 创新一个新连接池
-func NewConnPool(opt Opt, size int, factory func() (interface{}, error), close func(interface{}) error, ping func(interface{}) error) (*ConnPool, error) {
+func NewConnPool(opt *Options, size int, factory func() (interface{}, error), close func(interface{}) error, ping func(interface{}) error) (*ConnPool, error) {
 	if size < POOL_INITED {
 		size = POOL_INITED
 	}
