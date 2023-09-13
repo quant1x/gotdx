@@ -10,7 +10,7 @@ func TestReOpen(t *testing.T) {
 	api := GetTdxApi()
 	v, _ := api.GetXdxrInfo("sh600072")
 	fmt.Println(v)
-	time.Sleep(20 * time.Second)
+	time.Sleep(2 * time.Second)
 	ReOpen()
 	v, _ = api.GetXdxrInfo("sh600072")
 	fmt.Println(v)

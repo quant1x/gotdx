@@ -9,19 +9,21 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 )
 
 type TcpClient struct {
 	sync.Mutex
 	conn          net.Conn
-	Addr          string    // 当前连接成功的服务器地址
-	opt           *Options  // 参数
-	complete      chan bool // 完成状态
-	sending       chan bool // 正在发送状态
-	done          chan bool // connection done
-	completedTime time.Time // 时间戳
-	timeMutex     sync.Mutex
+	Addr          string     // 当前连接成功的服务器地址
+	opt           *Options   // 参数
+	complete      chan bool  // 完成状态
+	sending       chan bool  // 正在发送状态
+	done          chan bool  // connection done
+	completedTime time.Time  // 时间戳
+	timeMutex     sync.Mutex // 时间锁
+	closed        uint32     // 关闭次数
 }
 
 // Server 主机信息
@@ -129,20 +131,20 @@ func (client *TcpClient) heartbeat() {
 				})
 				err := client.Command(msg)
 				if err != nil {
-					logger.Warnf("client -> server[%s]: shutdown", client.Addr)
-					//if client.opt != nil && client.opt.Close != nil {
-					//	_ = client.opt.Close(client)
-					//} else {
-					//	_ = client.Close()
-					//}
+					logger.Warnf("client -> server[%s]: error > shutdown", client.Addr)
+					_ = client.Close()
 					return
 				} else {
 					client.updateCompletedTimestamp()
 					logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
 				}
+				// 模拟服务器主动断开或者网络断开
+				//logger.Warnf("client -> server[%s]: test force > shutdown", client.Addr)
+				//_ = client.Close()
+				return
 			}
 		case <-client.done:
-			logger.Warnf("client -> server[%s]: shutdown", client.Addr)
+			logger.Warnf("client -> server[%s]: done > shutdown", client.Addr)
 			return
 		}
 	}
@@ -196,9 +198,13 @@ func (client *TcpClient) Close() error {
 			logger.Errorf("TcpClient.Close error=%+v\n", err)
 		}
 	}()
-	client.done <- true
-	close(client.sending)
-	close(client.complete)
-	api.CloseQuietly(client.conn)
+	if atomic.LoadUint32(&client.closed) == 0 {
+		client.done <- true
+		close(client.done)
+		close(client.sending)
+		close(client.complete)
+		api.CloseQuietly(client.conn)
+	}
+	atomic.AddUint32(&client.closed, 1)
 	return nil
 }
