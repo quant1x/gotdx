@@ -24,6 +24,18 @@ type TcpClient struct {
 	timeMutex     sync.Mutex
 }
 
+// Server 主机信息
+type Server struct {
+	Name      string `json:"name"`
+	Host      string `json:"host"`
+	Port      int    `json:"port"`
+	CrossTime int64  `json:"crossTime"`
+}
+
+func (s Server) Addr() string {
+	return strings.Join([]string{s.Host, strconv.Itoa(s.Port)}, ":")
+}
+
 type Options struct {
 	sync.Mutex
 	Servers           []Server      // 服务器组
@@ -118,7 +130,11 @@ func (client *TcpClient) heartbeat() {
 				err := client.Command(msg)
 				if err != nil {
 					logger.Warnf("client -> server[%s]: shutdown", client.Addr)
-					_ = client.Close()
+					//if client.opt != nil && client.opt.Close != nil {
+					//	_ = client.opt.Close(client)
+					//} else {
+					//	_ = client.Close()
+					//}
 					return
 				} else {
 					client.updateCompletedTimestamp()

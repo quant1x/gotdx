@@ -8,22 +8,8 @@ import (
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/num"
 	"io"
-	"strconv"
-	"strings"
 	"time"
 )
-
-// Server 主机信息
-type Server struct {
-	Name      string `json:"name"`
-	Host      string `json:"host"`
-	Port      int    `json:"port"`
-	CrossTime int64  `json:"crossTime"`
-}
-
-func (s Server) Addr() string {
-	return strings.Join([]string{s.Host, strconv.Itoa(s.Port)}, ":")
-}
 
 type StdApi struct {
 	connPool *ConnPool
