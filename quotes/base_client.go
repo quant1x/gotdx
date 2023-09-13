@@ -141,7 +141,7 @@ func (client *TcpClient) heartbeat() {
 				// 模拟服务器主动断开或者网络断开
 				//logger.Warnf("client -> server[%s]: test force > shutdown", client.Addr)
 				//_ = client.Close()
-				return
+				//return
 			}
 		case <-client.done:
 			logger.Warnf("client -> server[%s]: done > shutdown", client.Addr)
