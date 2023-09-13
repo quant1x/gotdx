@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.14.6] - 2023-09-14
+### Changed
+- 修复网络修复后的连接池hang的bug.
+
 ## [1.14.5] - 2023-09-13
 ### Changed
 - 修复网络修复后的连接池hang的bug.
@@ -807,7 +811,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.14.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.14.6...HEAD
+[1.14.6]: https://gitee.com/quant1x/gotdx/compare/v1.14.5...v1.14.6
 [1.14.5]: https://gitee.com/quant1x/gotdx/compare/v1.14.4...v1.14.5
 [1.14.4]: https://gitee.com/quant1x/gotdx/compare/v1.14.3...v1.14.4
 [1.14.3]: https://gitee.com/quant1x/gotdx/compare/v1.14.2...v1.14.3
