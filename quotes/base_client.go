@@ -161,9 +161,6 @@ func (client *TcpClient) Connect() error {
 	}
 	for i := client.opt.index; i < total; i++ {
 		serv := client.opt.Servers[i]
-		//if i < total {
-		//	serv.Host = "127.0.0.1"
-		//}
 		addr := strings.Join([]string{serv.Host, strconv.Itoa(serv.Port)}, ":")
 		conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
 		state := "connected"
