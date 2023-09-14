@@ -1,9 +1,6 @@
 package quotes
 
 import (
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/exception"
-	"gitee.com/quant1x/gox/logger"
 	"io"
 	"net"
 	"strconv"
@@ -11,6 +8,10 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/exception"
+	"gitee.com/quant1x/gox/logger"
 )
 
 type TcpClient struct {
@@ -198,13 +199,14 @@ func (client *TcpClient) Close() error {
 			logger.Errorf("TcpClient.Close error=%+v\n", err)
 		}
 	}()
-	if atomic.LoadUint32(&client.closed) == 0 {
-		client.done <- true
-		close(client.done)
-		close(client.sending)
-		close(client.complete)
-		api.CloseQuietly(client.conn)
+	if atomic.LoadUint32(&client.closed) > 0 {
+		return io.EOF
 	}
+	client.done <- true
+	close(client.done)
+	close(client.sending)
+	close(client.complete)
+	api.CloseQuietly(client.conn)
 	atomic.AddUint32(&client.closed, 1)
 	return nil
 }
