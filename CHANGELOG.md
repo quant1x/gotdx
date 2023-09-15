@@ -3,6 +3,26 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.15.1] - 2023-09-15
+### Changed
+- 优化缓存路径的处理方式.
+
+## [1.15.0] - 2023-09-15
+### Changed
+- 增加时间段的分钟数计算函数.
+
+## [1.14.9] - 2023-09-14
+### Changed
+- 按照不同的操作系统拆分默认的缓存路径.
+
+## [1.14.8] - 2023-09-14
+### Changed
+- 删除废弃的代码.
+
+## [1.14.7] - 2023-09-14
+### Changed
+- 修订tcp连接关闭的保护方式.
+
 ## [1.14.6] - 2023-09-14
 ### Changed
 - 修复网络修复后的连接池hang的bug.
@@ -811,7 +831,12 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.14.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.15.1...HEAD
+[1.15.1]: https://gitee.com/quant1x/gotdx/compare/v1.15.0...v1.15.1
+[1.15.0]: https://gitee.com/quant1x/gotdx/compare/v1.14.9...v1.15.0
+[1.14.9]: https://gitee.com/quant1x/gotdx/compare/v1.14.8...v1.14.9
+[1.14.8]: https://gitee.com/quant1x/gotdx/compare/v1.14.7...v1.14.8
+[1.14.7]: https://gitee.com/quant1x/gotdx/compare/v1.14.6...v1.14.7
 [1.14.6]: https://gitee.com/quant1x/gotdx/compare/v1.14.5...v1.14.6
 [1.14.5]: https://gitee.com/quant1x/gotdx/compare/v1.14.4...v1.14.5
 [1.14.4]: https://gitee.com/quant1x/gotdx/compare/v1.14.3...v1.14.4
