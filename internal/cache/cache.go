@@ -5,8 +5,7 @@ import (
 )
 
 var (
-	//__global_cache_path = cache_default_path // 数据根路径
-	__global_cache_path = "~/.quant1x"
+	__global_cache_path = "~/.quant1x" // 数据根路径
 )
 
 func init() {
