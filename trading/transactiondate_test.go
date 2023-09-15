@@ -36,3 +36,9 @@ func TestGetCurrentDate(t *testing.T) {
 	v := GetCurrentDate(date)
 	fmt.Println(v)
 }
+
+func TestTimeRange(t *testing.T) {
+	getTimeRanges()
+	tr := TimeRange{Begin: trAMBegin, End: trAMEnd}
+	fmt.Println(tr.Minutes())
+}

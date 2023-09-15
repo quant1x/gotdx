@@ -2,10 +2,11 @@ package trading
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gox/errors"
-	"gitee.com/quant1x/gox/util"
 	"slices"
 	"time"
+
+	"gitee.com/quant1x/gox/errors"
+	"gitee.com/quant1x/gox/util"
 )
 
 const (
@@ -55,6 +56,11 @@ const (
 type TimeRange struct {
 	Begin time.Time
 	End   time.Time
+}
+
+func (tr *TimeRange) Minutes() int {
+	n := tr.End.Sub(tr.Begin).Minutes()
+	return int(n)
 }
 
 var (
