@@ -25,6 +25,8 @@ const (
 	CN_CallAuctionAmBegin      = "09:15:00.000" // 集合竞价-早盘-开始时间
 	CN_CallAuctionAmEnd        = "09:27:59.999" // 集合竞价-早盘-结束时间
 	CN_CallAuctionAmFinished   = "09:27:00.000" // 集合竞价-早盘-数据结束时间
+	CN_CallAuctionTailBegin    = "14:30:00.000" // 尾盘时段-开始
+	CN_CallAuctionTailEnd      = "15:01:59.999" // 尾盘时段-结束
 	CN_CallAuctionPmBegin      = "14:57:00.000" // 集合竞价-尾盘-开始时间
 	CN_CallAuctionPmEnd        = "15:01:59.999" // 集合竞价-尾盘-结束时间
 	CN_CallAuctionPmFinished   = "15:01:00.000" // 集合竞价-尾盘-数据结束时间
@@ -398,6 +400,15 @@ func CheckCallAuctionClose(timestamp time.Time) (canUpdate bool) {
 func CheckCallAuctionCloseFinished(timestamp time.Time) (finished bool) {
 	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if tm >= CN_CallAuctionPmFinished && tm < CN_CallAuctionPmEnd {
+		return true
+	}
+	return false
+}
+
+// CheckCallAuctionTail 检查当前时间是否集合竞价阶段-结束
+func CheckCallAuctionTail(timestamp time.Time) (finished bool) {
+	tm := timestamp.Format(CN_SERVERTIME_FORMAT)
+	if tm >= CN_CallAuctionTailBegin && tm < CN_CallAuctionTailEnd {
 		return true
 	}
 	return false
