@@ -7,7 +7,7 @@ import (
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/util"
+	"gitee.com/quant1x/gox/coroutine"
 	"golang.org/x/exp/maps"
 	"os"
 	"slices"
@@ -19,7 +19,7 @@ var (
 
 var (
 	__mapStockList  = map[string]quotes.Security{} // 股票列表缓存
-	__onceStockList util.MultiOnce
+	__onceStockList coroutine.RollingMutex
 	__stock_list    = []string{}
 )
 
