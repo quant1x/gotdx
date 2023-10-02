@@ -1,5 +1,5 @@
-gitee.com/quant1x/gox v1.11.3 h1:dBBip0KODw7OS+91z3CkEEJQQVOMSYGO9HZXj7F9DzM=
-gitee.com/quant1x/gox v1.11.3/go.mod h1:9iYO+gRqp44WfwuPGhhl8nwsuZg9JNGZDsPw9jC8o5U=
+gitee.com/quant1x/gox v1.11.7 h1:noFG9uT6XoPgGNug8htR789WiVyvRTHeEGxD+gCQLdI=
+gitee.com/quant1x/gox v1.11.7/go.mod h1:9iYO+gRqp44WfwuPGhhl8nwsuZg9JNGZDsPw9jC8o5U=
 github.com/chzyer/logex v1.2.0/go.mod h1:9+9sk7u7pGNWYMkh0hdiL++6OeibzJccyQU4p4MedaY=
 github.com/chzyer/readline v1.5.0/go.mod h1:x22KAscuvRqlLoK9CsoYsmxoXZMMFVyOl86cAH8qUic=
 github.com/chzyer/test v0.0.0-20210722231415-061457976a23/go.mod h1:Q3SI9o4m/ZMnBNeIyt5eFwwo7qiLfzFZmjNmxjkiQlU=
