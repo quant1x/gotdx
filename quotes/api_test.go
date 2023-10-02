@@ -94,7 +94,8 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("%+v\n", sq2)
 
 	// 9. 分时数据
-	mt, err := stdApi.GetMinuteTimeData("sz159607")
+	//mt, err := stdApi.GetMinuteTimeData("sz159607") // 数据异常
+	mt, err := stdApi.GetMinuteTimeData("sh510050")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

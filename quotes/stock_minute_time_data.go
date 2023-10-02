@@ -83,9 +83,11 @@ func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error
 	pos += 6
 
 	lastprice := 0
+	//TODO: ETF的数据不对需要进一步处理
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		priceraw := internal.DecodeVarint(data, &pos)
-		internal.DecodeVarint(data, &pos)
+		reversed1 := internal.DecodeVarint(data, &pos)
+		_ = reversed1
 		vol := internal.DecodeVarint(data, &pos)
 		lastprice = lastprice + priceraw
 		ele := MinuteTime{float32(lastprice) / 100.0, vol}

@@ -178,11 +178,11 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		pos += 2
 
 		price := internal.DecodeVarint(data, &pos)
-		ele.Price = obj.getPrice(price, 0)
-		ele.LastClose = obj.getPrice(price, internal.DecodeVarint(data, &pos))
-		ele.Open = obj.getPrice(price, internal.DecodeVarint(data, &pos))
-		ele.High = obj.getPrice(price, internal.DecodeVarint(data, &pos))
-		ele.Low = obj.getPrice(price, internal.DecodeVarint(data, &pos))
+		ele.Price = obj.getPrice(ele.Code, price, 0)
+		ele.LastClose = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
+		ele.Open = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
+		ele.High = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
+		ele.Low = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
 
 		ele.ReversedBytes0 = internal.DecodeVarint(data, &pos)
 		if ele.ReversedBytes0 > 0 {
@@ -228,8 +228,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		var bidLevels []Level
 		var askLevels []Level
 		for i := 0; i < 5; i++ {
-			bidele := Level{Price: obj.getPrice(internal.DecodeVarint(data, &pos), price)}
-			offerele := Level{Price: obj.getPrice(internal.DecodeVarint(data, &pos), price)}
+			bidele := Level{Price: obj.getPrice(ele.Code, internal.DecodeVarint(data, &pos), price)}
+			offerele := Level{Price: obj.getPrice(ele.Code, internal.DecodeVarint(data, &pos), price)}
 			bidele.Vol = internal.DecodeVarint(data, &pos)
 			offerele.Vol = internal.DecodeVarint(data, &pos)
 			bidLevels = append(bidLevels, bidele)
@@ -335,6 +335,6 @@ func (obj *SecurityQuotesPackage) Reply() interface{} {
 	return obj.reply
 }
 
-func (obj *SecurityQuotesPackage) getPrice(price int, diff int) float64 {
-	return float64(price+diff) / 100.0
+func (obj *SecurityQuotesPackage) getPrice(code string, price int, diff int) float64 {
+	return float64(price+diff) / internal.BaseUnit(code)
 }
