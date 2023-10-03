@@ -4,14 +4,12 @@ import (
 	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gotdx/internal/dfcf"
 	"gitee.com/quant1x/gotdx/internal/js"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
 	"os"
 	"slices"
-	"sort"
-	"strings"
 	"time"
 )
 
@@ -22,14 +20,25 @@ const (
 )
 
 var (
-	//datesOnce            util.MultiOnce
-	__global_trade_dates []string // 交易日列表
-	//__calendarFilename   = ""     // 日历文件路径
-
+	__global_calendar_once coroutine.RollingMutex // 1D滚动锁
+	__global_trade_dates   []string               // 交易日列表
 )
 
-func init() {
-	resetCalendar()
+// 非安全方式交易日历
+func unsafeDates() []string {
+	return __global_trade_dates
+}
+
+// 只读, 直接返回日历全部
+func readOnlyDates() []string {
+	__global_calendar_once.Do(resetCalendar)
+	return __global_trade_dates
+}
+
+// 有修改需求的, 克隆一个副本
+func cloneAllDates() []string {
+	__global_calendar_once.Do(resetCalendar)
+	return slices.Clone(__global_trade_dates)
 }
 
 // resetCalendar 重置日历
@@ -43,18 +52,18 @@ func resetCalendar() {
 			updateCalendar(noDates...)
 		}
 	}
-	tradingDay := GetCurrentlyDay()
-	proto.CorrectTradingDay(tradingDay)
+	//tradingDay := GetCurrentlyDay()
+	//proto.CorrectTradingDay(tradingDay)
 }
 
-type Calendar struct {
+type calendar struct {
 	Date   string `dataframe:"date"`
 	Source string `dataframe:"source"`
 }
 
 // 加载交易日历
 func loadCalendar() {
-	list := []Calendar{}
+	list := []calendar{}
 	calendarFilename := cache.CalendarFilename()
 	err := api.CsvToSlices(calendarFilename, &list)
 	if err != nil && len(list) == 0 {
@@ -63,20 +72,6 @@ func loadCalendar() {
 	for _, v := range list {
 		__global_trade_dates = append(__global_trade_dates, v.Date)
 	}
-}
-
-func getAllDates() []string {
-	return slices.Clone(__global_trade_dates)
-}
-
-// IsHoliday 是否节假日
-func IsHoliday(date string) bool {
-	dates := getAllDates()
-	iRet, found := sort.Find(len(dates), func(i int) int {
-		return strings.Compare(date, dates[i])
-	})
-	_ = iRet
-	return !found
 }
 
 // 尝试更新日历
@@ -104,7 +99,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	toTm := now.Format(CN_SERVERTIME_FORMAT)
 	fileDate := fileModTime.Format(TradingDayDateFormat)
 	fileTm := fileModTime.Format(CN_SERVERTIME_FORMAT)
-	if !bUpdate && DateIsTradingDay(today) {
+	if !bUpdate && unsafeDateIsTradingDay(today) {
 		if fileDate < today && toTm >= CN_MarketInitTime {
 			bUpdate = true
 		} else if fileDate >= today && toTm >= CN_MarketInitTime && fileTm < CN_MarketInitTime {
@@ -114,7 +109,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 
 	// 如果不需要更新则直接加载缓存
 	if !bUpdate {
-		loadCalendar()
+		//loadCalendar()
 		return
 	}
 
@@ -137,11 +132,11 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	if err != nil {
 		panic("js解码失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}
-	dates := []Calendar{}
+	dates := []calendar{}
 	for _, v := range ret.([]any) {
 		ts := v.(time.Time)
 		date := ts.Format(TradingDayDateFormat)
-		e := Calendar{
+		e := calendar{
 			Date:   date,
 			Source: "sina",
 		}
@@ -150,13 +145,13 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	for _, v := range noDates {
 		ts, _ := api.ParseTime(v)
 		date := ts.Format(TradingDayDateFormat)
-		e := Calendar{
+		e := calendar{
 			Date:   date,
 			Source: "tdx",
 		}
 		dates = append(dates, e)
 	}
-	dates = api.SliceUnique(dates, func(a, b Calendar) int {
+	dates = api.SliceUnique(dates, func(a, b calendar) int {
 		if a.Date == b.Date {
 			return 0
 		}
