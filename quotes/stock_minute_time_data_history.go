@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/api"
 )
 
 type HistoryMinuteTimePackage struct {
@@ -76,6 +77,8 @@ func (obj *HistoryMinuteTimePackage) Serialize() ([]byte, error) {
 func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
+	code := api.Bytes2String(obj.request.Code[:])
+
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
@@ -83,24 +86,26 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 	_, _, _, bType := data[pos], data[pos+1], data[pos+2], data[pos+3]
 	pos += 4
 
-	lastprice := 0
+	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		priceraw := internal.DecodeVarint(data, &pos)
-		_ = internal.DecodeVarint(data, &pos)
+		rawPrice := internal.DecodeVarint(data, &pos)
+		reversed1 := internal.DecodeVarint(data, &pos)
+		_ = reversed1
 		vol := internal.DecodeVarint(data, &pos)
-		lastprice += priceraw
+		lastPrice += rawPrice
 
-		var p float32
-		if bType > 0x40 {
-			p = float32(lastprice) / 100.0
-		} else {
-			p = float32(lastprice) / 1000.0
-		}
+		//var p float32
+		//if bType > 0x40 {
+		//	p = float32(lastPrice) / 100.0
+		//} else {
+		//	p = float32(lastPrice) / 1000.0
+		//}
+		p := float32(lastPrice) / float32(internal.BaseUnit(code))
 
-		ele := HistoryMinuteTime{Price: p,
-			Vol: vol}
+		ele := HistoryMinuteTime{Price: p, Vol: vol}
 		obj.reply.List = append(obj.reply.List, ele)
 	}
+	_ = bType
 	return err
 }
 

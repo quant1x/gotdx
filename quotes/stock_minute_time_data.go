@@ -8,6 +8,7 @@ import (
 	"encoding/hex"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/api"
 )
 
 type MinuteTimePackage struct {
@@ -77,20 +78,28 @@ func (obj *MinuteTimePackage) Serialize() ([]byte, error) {
 func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
+	code := api.Bytes2String(obj.request.Code[:])
+
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
+	pos += 2
 	// 跳过4个字节
 	pos += 6
 
-	lastprice := 0
+	pos += 3
+
+	lastPrice := 0
 	//TODO: ETF的数据不对需要进一步处理
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		priceraw := internal.DecodeVarint(data, &pos)
+		rawPrice := internal.DecodeVarint(data, &pos)
 		reversed1 := internal.DecodeVarint(data, &pos)
 		_ = reversed1
 		vol := internal.DecodeVarint(data, &pos)
-		lastprice = lastprice + priceraw
-		ele := MinuteTime{float32(lastprice) / 100.0, vol}
+		lastPrice += rawPrice
+
+		p := float32(lastPrice) / float32(internal.BaseUnit(code))
+
+		ele := MinuteTime{p, vol}
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	return err
