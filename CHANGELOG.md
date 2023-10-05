@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.15.4] - 2023-10-05
+### Changed
+- 修复分时历史数据股价不准确的bug.
+- 优化交易日历的初始化方式, 从init方法改为懒加载.
+- 调整缓存目录的初始化方法, 支持默认和定制两种方式.
+
 ## [1.15.3] - 2023-10-02
 ### Changed
 - 调整util.MultiOne为coroutine.RollingMutex.
@@ -841,7 +847,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.15.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.15.4...HEAD
+[1.15.4]: https://gitee.com/quant1x/gotdx/compare/v1.15.3...v1.15.4
 [1.15.3]: https://gitee.com/quant1x/gotdx/compare/v1.15.2...v1.15.3
 [1.15.2]: https://gitee.com/quant1x/gotdx/compare/v1.15.1...v1.15.2
 [1.15.1]: https://gitee.com/quant1x/gotdx/compare/v1.15.0...v1.15.1
