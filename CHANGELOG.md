@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.15.6] - 2023-10-08
+### Changed
+- 更新gox版本.
+
 ## [1.15.5] - 2023-10-07
 ### Changed
 - 更新gox版本.
@@ -851,7 +855,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.15.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.15.6...HEAD
+[1.15.6]: https://gitee.com/quant1x/gotdx/compare/v1.15.5...v1.15.6
 [1.15.5]: https://gitee.com/quant1x/gotdx/compare/v1.15.4...v1.15.5
 [1.15.4]: https://gitee.com/quant1x/gotdx/compare/v1.15.3...v1.15.4
 [1.15.3]: https://gitee.com/quant1x/gotdx/compare/v1.15.2...v1.15.3
