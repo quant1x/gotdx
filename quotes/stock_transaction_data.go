@@ -46,11 +46,11 @@ type TransactionReply struct {
 }
 
 type TickTransaction struct {
-	Time      string
-	Price     float64
-	Vol       int
-	Num       int
-	BuyOrSell int
+	Time      string  `dataframe:"time"`
+	Price     float64 `dataframe:"price"`
+	Vol       int     `dataframe:"vol"`
+	Num       int     `dataframe:"num"`
+	BuyOrSell int     `dataframe:"buyorsell"`
 }
 
 func NewTransactionPackage() *TransactionPackage {
