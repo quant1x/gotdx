@@ -4,12 +4,12 @@ import (
 	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/util"
+	"gitee.com/quant1x/gox/coroutine"
 	"slices"
 )
 
 var (
-	__onceBlockFiles    util.MultiOnce
+	__onceBlockFiles    coroutine.PeriodicOnce
 	__global_block_list = []BlockInfo{}
 	__mapBlock          = map[string]BlockInfo{}
 )

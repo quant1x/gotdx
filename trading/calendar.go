@@ -20,7 +20,7 @@ const (
 )
 
 var (
-	__global_calendar_once coroutine.RollingMutex // 1D滚动锁
+	__global_calendar_once coroutine.PeriodicOnce // 1D滚动锁
 	__global_trade_dates   []string               // 交易日列表
 )
 
