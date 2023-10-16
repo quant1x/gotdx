@@ -3,14 +3,14 @@ module gitee.com/quant1x/gotdx
 go 1.21
 
 require (
-	gitee.com/quant1x/gox v1.12.5
+	gitee.com/quant1x/gox v1.12.6
 	github.com/dop251/goja v0.0.0-20231014103939-873a1496dc8e
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	golang.org/x/text v0.13.0
 )
 
-//replace gitee.com/quant1x/gox v1.10.6 => ../../mymmsc/gox
+//replace gitee.com/quant1x/gox v1.12.6 => ../../mymmsc/gox
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
