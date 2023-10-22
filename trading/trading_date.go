@@ -3,6 +3,7 @@ package trading
 import (
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/logger"
 	"slices"
 	"sort"
 	"strings"
@@ -30,6 +31,7 @@ func IsHoliday(date string) bool {
 func FixTradeDate(datetime string, format ...string) string {
 	dt, err := api.ParseTime(datetime)
 	if err != nil {
+		logger.Errorf("datetime: %s", datetime)
 		panic(err)
 	}
 	defaultDateFormat := TradingDayDateFormat
