@@ -269,7 +269,7 @@ func (this *StdApi) GetSecurityList(market proto.MarketType, start uint16) (*Sec
 
 // GetSecurityQuotes 获取盘口五档报价
 //
-//	deprecated: 不推荐
+// Deprecated: 废弃, 推荐 GetSnapshot.
 func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*SecurityQuotesReply, error) {
 	if len(markets) != len(symbols) {
 		return nil, errors.New("market code count error")
@@ -292,7 +292,7 @@ func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []stri
 
 // V2GetSecurityQuotes 测试版本快照
 //
-//	deprecated: 不推荐
+// Deprecated: 不推荐
 func (this *StdApi) V2GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*V2SecurityQuotesReply, error) {
 	if len(markets) != len(symbols) {
 		return nil, errors.New("market code count error")
