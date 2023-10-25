@@ -21,7 +21,7 @@ const (
 	CN_TradingStartTime        = "09:15:00.000" // A股数据开始时间
 	CN_TradingSuspendBeginTime = "11:30:00.000" // A股午间休市开始时间
 	CN_TradingSuspendEndTime   = "12:59:59.999" // A股午间休市结束时间
-	CN_TradingStopTime         = "15:00:00.000" // A股数据结束时间
+	CN_TradingStopTime         = "15:00:59.999" // A股数据结束时间
 	CN_CallAuctionAmBegin      = "09:15:00.000" // 集合竞价-早盘-开始时间
 	CN_CallAuctionAmEnd        = "09:27:59.999" // 集合竞价-早盘-结束时间
 	CN_CallAuctionAmFinished   = "09:27:00.000" // 集合竞价-早盘-数据结束时间
