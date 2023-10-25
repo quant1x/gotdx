@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.16.2] - 2023-10-25
+### Changed
+- 调整尾盘交易结束到15:00:59.999.
+
 ## [1.16.1] - 2023-10-22
 ### Changed
 - 增加异常日志.
@@ -878,7 +882,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.2...HEAD
+[1.16.2]: https://gitee.com/quant1x/gotdx/compare/v1.16.1...v1.16.2
 [1.16.1]: https://gitee.com/quant1x/gotdx/compare/v1.16.0...v1.16.1
 [1.16.0]: https://gitee.com/quant1x/gotdx/compare/v1.15.9...v1.16.0
 [1.15.9]: https://gitee.com/quant1x/gotdx/compare/v1.15.8...v1.15.9
