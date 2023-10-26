@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.16.4] - 2023-10-26
+### Changed
+- 修复sz000666 经纬纺机主动退市引发的历史分时的bug, 数据校验不严谨.
+
 ## [1.16.3] - 2023-10-26
 ### Changed
 - 更新gox版本.
@@ -886,7 +890,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.4...HEAD
+[1.16.4]: https://gitee.com/quant1x/gotdx/compare/v1.16.3...v1.16.4
 [1.16.3]: https://gitee.com/quant1x/gotdx/compare/v1.16.2...v1.16.3
 [1.16.2]: https://gitee.com/quant1x/gotdx/compare/v1.16.1...v1.16.2
 [1.16.1]: https://gitee.com/quant1x/gotdx/compare/v1.16.0...v1.16.1
