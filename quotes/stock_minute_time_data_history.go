@@ -78,11 +78,21 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 	obj.respHeader = header.(*StdResponseHeader)
 
 	code := api.Bytes2String(obj.request.Code[:])
+	data_len := len(data)
+	if data_len < 2 {
+		return nil
+	}
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
+	if obj.reply.Count == 0 {
+		return nil
+	}
 	// 跳过4个字节 功能未解析
+	if data_len < 6 {
+		return nil
+	}
 	_, _, _, bType := data[pos], data[pos+1], data[pos+2], data[pos+3]
 	pos += 4
 

@@ -30,10 +30,10 @@ func TestStockMinuteTimeHistory(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	code := "sh600105"
+	code := "sz000666"
 	//code = "sh000001"
 	//code = "sh510050"
-	var date uint32 = 20230928
+	var date uint32 = 20230103
 	reply, err := stdApi.GetHistoryMinuteTimeData(code, date)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
