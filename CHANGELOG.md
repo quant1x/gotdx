@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.16.5] - 2023-10-27
+### Changed
+- 更新gox版本.
+- 调整滑动锁.
+- 快照测试增加退市的证券代码000666.
+
 ## [1.16.4] - 2023-10-26
 ### Changed
 - 修复sz000666 经纬纺机主动退市引发的历史分时的bug, 数据校验不严谨.
@@ -890,7 +896,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.5...HEAD
+[1.16.5]: https://gitee.com/quant1x/gotdx/compare/v1.16.4...v1.16.5
 [1.16.4]: https://gitee.com/quant1x/gotdx/compare/v1.16.3...v1.16.4
 [1.16.3]: https://gitee.com/quant1x/gotdx/compare/v1.16.2...v1.16.3
 [1.16.2]: https://gitee.com/quant1x/gotdx/compare/v1.16.1...v1.16.2
