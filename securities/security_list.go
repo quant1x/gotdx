@@ -19,7 +19,7 @@ var (
 
 var (
 	__mapStockList  = map[string]quotes.Security{} // 股票列表缓存
-	__onceStockList coroutine.RollingMutex
+	__onceStockList coroutine.PeriodicOnce
 	__stock_list    = []string{}
 )
 
