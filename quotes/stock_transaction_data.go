@@ -49,7 +49,7 @@ type TickTransaction struct {
 	Time      string  `dataframe:"time"`
 	Price     float64 `dataframe:"price"`
 	Vol       int     `dataframe:"vol"`
-	Num       int     `dataframe:"num"`
+	Num       int     `dataframe:"num"` // 历史成交数据中并无这个字段
 	BuyOrSell int     `dataframe:"buyorsell"`
 }
 
