@@ -218,6 +218,14 @@ func AssertBlockBySecurityCode(securityCode *string) (isBlock bool) {
 	return true
 }
 
+// AssertETFByMarketAndCode 通过市场id和代码判断是否ETF
+func AssertETFByMarketAndCode(marketId MarketType, symbol string) (isETF bool) {
+	if marketId == MarketIdShangHai && api.StartsWith(symbol, []string{"510"}) {
+		return true
+	}
+	return false
+}
+
 // AssertStockByMarketAndCode 通过市场id和代码判断是否个股
 func AssertStockByMarketAndCode(marketId MarketType, symbol string) (isStock bool) {
 	if marketId == MarketIdShangHai && api.StartsWith(symbol, []string{"60", "68", "510"}) {
