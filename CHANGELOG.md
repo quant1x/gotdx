@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.16.6] - 2023-10-29
+### Changed
+- 修订TickTransaction的num字段, 在历史数据中该字段无效.
+- 更新gox版本.
+- 增加通过证券代码判断是否ETF.
+
 ## [1.16.5] - 2023-10-27
 ### Changed
 - 更新gox版本.
@@ -896,7 +902,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.6...HEAD
+[1.16.6]: https://gitee.com/quant1x/gotdx/compare/v1.16.5...v1.16.6
 [1.16.5]: https://gitee.com/quant1x/gotdx/compare/v1.16.4...v1.16.5
 [1.16.4]: https://gitee.com/quant1x/gotdx/compare/v1.16.3...v1.16.4
 [1.16.3]: https://gitee.com/quant1x/gotdx/compare/v1.16.2...v1.16.3
