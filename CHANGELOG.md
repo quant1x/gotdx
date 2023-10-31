@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.16.7] - 2023-10-31
+### Changed
+- 更新依赖库版本.
+- 修复每日初始化一次日历的死锁的bug.
+
 ## [1.16.6] - 2023-10-29
 ### Changed
 - 修订TickTransaction的num字段, 在历史数据中该字段无效.
@@ -902,7 +907,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.7...HEAD
+[1.16.7]: https://gitee.com/quant1x/gotdx/compare/v1.16.6...v1.16.7
 [1.16.6]: https://gitee.com/quant1x/gotdx/compare/v1.16.5...v1.16.6
 [1.16.5]: https://gitee.com/quant1x/gotdx/compare/v1.16.4...v1.16.5
 [1.16.4]: https://gitee.com/quant1x/gotdx/compare/v1.16.3...v1.16.4
