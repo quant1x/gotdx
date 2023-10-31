@@ -1,6 +1,8 @@
 package trading
 
-import "sort"
+import (
+	"sort"
+)
 
 // unsafeDateIsTradingDay date是否交易日?默认是今天
 func unsafeDateIsTradingDay(date ...string) bool {

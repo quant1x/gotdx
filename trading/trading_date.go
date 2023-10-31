@@ -54,16 +54,23 @@ func IndexToday() string {
 }
 
 // TradeRange 输出交易日范围
-func TradeRange(start, end string) []string {
-	tradeDates := readOnlyDates()
+//
+//	默认是线程安全
+func TradeRange(start, end string, threadSafe ...bool) []string {
+	isSafe := true
+	if len(threadSafe) > 0 {
+		isSafe = threadSafe[0]
+	}
+	var tradeDates []string
+	if isSafe {
+		tradeDates = readOnlyDates()
+	} else {
+		tradeDates = unsafeDates()
+	}
+
 	start = FixTradeDate(start)
 	end = FixTradeDate(end)
 
-	//is := slices.Index(tradeDates, start)
-	//ie := slices.Index(tradeDates, end)
-	//if is < 0 || ie < 0 {
-	//	return nil
-	//}
 	is := sort.SearchStrings(tradeDates, start)
 	ie := sort.SearchStrings(tradeDates, end)
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gox/api"
 	"testing"
+	"time"
 )
 
 func Test_updateHoliday(t *testing.T) {
@@ -73,4 +74,13 @@ func Test_checkCalendar(t *testing.T) {
 func TestGetShangHaiTradeDates(t *testing.T) {
 	dates := getShangHaiTradeDates()
 	fmt.Println(dates)
+}
+
+func TestOnce(t *testing.T) {
+	count := 1000
+	for i := 0; i < count; i++ {
+		lastDate := LastTradeDate()
+		fmt.Println(lastDate)
+		time.Sleep(time.Second * 1)
+	}
 }

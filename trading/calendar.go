@@ -185,7 +185,7 @@ func checkCalendar() (noDates []string, err error) {
 	}
 	start := dateList[0]
 	end := dateList[len(dateList)-1]
-	dest := TradeRange(start, end)
+	dest := TradeRange(start, end, false)
 	noDates = []string{}
 	for _, v := range dateList {
 		found := slices.Contains(dest, v)
