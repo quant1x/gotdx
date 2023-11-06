@@ -79,6 +79,19 @@ type XdxrInfo struct {
 	XingGuanJia   float64 // 行权价
 }
 
+// IsCapitalChange 是否股本变化
+func (x *XdxrInfo) IsCapitalChange() bool {
+	switch x.Category {
+	case 1, 11, 12, 13, 14:
+		return false
+	default:
+		if x.HouLiuTong > 0 && x.HouZongGuBen > 0 {
+			return true
+		}
+	}
+	return false
+}
+
 // Adjust 返回复权回调函数 factor
 func (x *XdxrInfo) Adjust() func(p float64) float64 {
 	songZhuangu := x.SongZhuanGu
