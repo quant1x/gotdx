@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.16.9] - 2023-11-13
+### Changed
+- 更新通达信行业板块配置文件.
+
 ## [1.16.8] - 2023-11-07
 ### Changed
 - 除权除息增加是否股本变化的判断方法.
@@ -911,7 +915,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.16.9...HEAD
+[1.16.9]: https://gitee.com/quant1x/gotdx/compare/v1.16.8...v1.16.9
 [1.16.8]: https://gitee.com/quant1x/gotdx/compare/v1.16.7...v1.16.8
 [1.16.7]: https://gitee.com/quant1x/gotdx/compare/v1.16.6...v1.16.7
 [1.16.6]: https://gitee.com/quant1x/gotdx/compare/v1.16.5...v1.16.6
