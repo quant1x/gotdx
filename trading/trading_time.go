@@ -1,12 +1,11 @@
 package trading
 
 import (
+	"errors"
 	"fmt"
+	"gitee.com/quant1x/gox/coroutine"
 	"slices"
 	"time"
-
-	"gitee.com/quant1x/gox/errors"
-	"gitee.com/quant1x/gox/util"
 )
 
 const (
@@ -55,20 +54,20 @@ const (
 	END_A_PM_MINUTE       = 0   // A股休市-分
 )
 
-type TimeRange struct {
+type DateTimeRange struct {
 	Begin time.Time
 	End   time.Time
 }
 
-func (tr *TimeRange) Minutes() int {
+func (tr *DateTimeRange) Minutes() int {
 	n := tr.End.Sub(tr.Begin).Minutes()
 	return int(n)
 }
 
 var (
-	onceTimeRange util.MultiOnce
-	cnTimeRange   []TimeRange // 交易时间范围
-	trAMBegin     time.Time   // 上午开盘时间
+	onceTimeRange coroutine.RollingMutex
+	cnTimeRange   []DateTimeRange // 交易时间范围
+	trAMBegin     time.Time       // 上午开盘时间
 	trAMEnd       time.Time
 	trPMBegin     time.Time
 	trPMEnd       time.Time
@@ -83,7 +82,7 @@ func resetTimeRange() {
 	now := time.Now()
 	trAMBegin = time.Date(now.Year(), now.Month(), now.Day(), BEGIN_A_AM_HOUR, BEGIN_A_AM_MINUTE, 0, 0, time.Local)
 	trAMEnd = time.Date(now.Year(), now.Month(), now.Day(), END_A_AM_HOUR, END_A_AM_MINUTE, 0, 0, time.Local)
-	tr_am := TimeRange{
+	tr_am := DateTimeRange{
 		Begin: trAMBegin,
 		End:   trAMEnd,
 	}
@@ -91,7 +90,7 @@ func resetTimeRange() {
 
 	trPMBegin = time.Date(now.Year(), now.Month(), now.Day(), BEGIN_A_PM_HOUR, BEGIN_A_PM_MINUTE, 0, 0, time.Local)
 	trPMEnd = time.Date(now.Year(), now.Month(), now.Day(), END_A_PM_HOUR, END_A_PM_MINUTE, 0, 0, time.Local)
-	tr_pm := TimeRange{
+	tr_pm := DateTimeRange{
 		Begin: trPMBegin,
 		End:   trPMEnd,
 	}
@@ -103,7 +102,7 @@ func resetTimeRange() {
 	CN_TOTALFZNUM = _minutes
 }
 
-func getTimeRanges() []TimeRange {
+func getTimeRanges() []DateTimeRange {
 	onceTimeRange.Do(resetTimeRange)
 	return slices.Clone(cnTimeRange)
 }
@@ -245,6 +244,7 @@ const (
 	//BeforeLastTradingDay TimeStatus = 1 << iota // 缓存非交易日, 可以更新
 
 	//ExchangeLastClosing TimeStatus = -2 // 隔日收盘收, 交易停止
+
 	ExchangePreMarket   TimeStatus = -1 // 盘前
 	ExchangeSuspend     TimeStatus = 0  // 休市中, 交易暂停
 	ExchangeTrading     TimeStatus = 1  // 交易中
@@ -308,19 +308,19 @@ func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHol
 		return
 	}
 	if currentTimestamp <= CN_TradingSuspendEndTime {
-		// 午间休市时段
+		// 午间休市时段, 也允许更新数据
 		//updateInRealTime = false
 		status = ExchangeSuspend
 		return
 	}
 	if currentTimestamp < CN_CallAuctionPmBegin {
 		// 下午交易时段
-		status = ExchangeCallAuction
+		status = ExchangeTrading
 		return
 	}
 	if currentTimestamp <= CN_TradingStopTime {
 		// 下午集合竞价收盘时段
-		status = ExchangeTrading
+		status = ExchangeCallAuction
 	} else {
 		// 当天收盘
 		status = ExchangeClosing

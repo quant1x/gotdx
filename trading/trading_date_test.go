@@ -39,6 +39,6 @@ func TestGetCurrentDate(t *testing.T) {
 
 func TestTimeRange(t *testing.T) {
 	getTimeRanges()
-	tr := TimeRange{Begin: trAMBegin, End: trAMEnd}
+	tr := DateTimeRange{Begin: trAMBegin, End: trAMEnd}
 	fmt.Println(tr.Minutes())
 }
