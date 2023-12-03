@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.1] - 2023-12-04
+### Changed
+- 更新http request的调用方法参数.
+
 ## [1.17.0] - 2023-11-27
 ### Changed
 - 修复A股尾盘竞价交易状态错误的bug.
@@ -919,7 +923,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.1...HEAD
+[1.17.1]: https://gitee.com/quant1x/gotdx/compare/v1.17.0...v1.17.1
 [1.17.0]: https://gitee.com/quant1x/gotdx/compare/v1.16.9...v1.17.0
 [1.16.9]: https://gitee.com/quant1x/gotdx/compare/v1.16.8...v1.16.9
 [1.16.8]: https://gitee.com/quant1x/gotdx/compare/v1.16.7...v1.16.8
