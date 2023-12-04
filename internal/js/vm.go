@@ -1,7 +1,8 @@
 package js
 
 import (
-	js "github.com/dop251/goja"
+	//js "github.com/dop251/goja"
+	js "gitee.com/quant1x/pkg/goja"
 	"strings"
 )
 
