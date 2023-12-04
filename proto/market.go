@@ -116,13 +116,16 @@ func DetectMarket(symbol string) (marketId MarketType, market string, code strin
 		// 前缀2位字母后面跟代码
 		market = strings.ToLower(code[0:2])
 		if code[2:3] == "." {
+			// SZ.000002
 			code = code[3:]
 		} else {
+			// SZ000002
 			code = code[2:]
 		}
 	} else if api.EndsWith(code, kMarketFlags) {
 		length := len(code)
 		// 后缀一个点号+2位字母, 代码在最前面
+		// 600000.SH
 		market = strings.ToLower(code[length-2:])
 		code = code[:length-3]
 	} else if api.StartsWith(code, []string{"50", "51", "60", "68", "90", "110", "113", "132", "204"}) {
