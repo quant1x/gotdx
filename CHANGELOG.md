@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.3] - 2023-12-10
+### Changed
+- 更新依赖库版本号.
+- 调整交易日历的日期检测, 将文件的修改时间提前1年.
+
 ## [1.17.2] - 2023-12-05
 ### Changed
 - 更新pkg, 将js vm路由到收录了goja的pkg(0.1.3).
@@ -928,7 +933,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.3...HEAD
+[1.17.3]: https://gitee.com/quant1x/gotdx/compare/v1.17.2...v1.17.3
 [1.17.2]: https://gitee.com/quant1x/gotdx/compare/v1.17.1...v1.17.2
 [1.17.1]: https://gitee.com/quant1x/gotdx/compare/v1.17.0...v1.17.1
 [1.17.0]: https://gitee.com/quant1x/gotdx/compare/v1.16.9...v1.17.0
