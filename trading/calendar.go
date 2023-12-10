@@ -89,10 +89,9 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	}
 	finfo, err := os.Stat(calendarFilename)
 	var fileModTime time.Time
-	//var fileCreateTime time.Time
 	if err == nil {
 		fileModTime = finfo.ModTime()
-		//fileCreateTime = cache.GetCreateTime(finfo)
+		fileModTime = fileModTime.AddDate(-1, 0, 0)
 	}
 	now := time.Now()
 	today := now.Format(TradingDayDateFormat)

@@ -3,9 +3,21 @@ package trading
 import (
 	"fmt"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/http"
 	"testing"
 	"time"
 )
+
+func TestDowndata(t *testing.T) {
+	header := map[string]any{
+		//http.IfModifiedSince: fileModTime,
+	}
+	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, "get", "", header)
+	if err != nil {
+		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
+	}
+	fmt.Println(data, lastModified, err)
+}
 
 func Test_updateHoliday(t *testing.T) {
 	updateCalendar()
