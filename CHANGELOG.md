@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.4] - 2023-12-11
+### Changed
+- 增加获取两融标的列表的函数.
+- 增加两融标的(2023-12-11).
+
 ## [1.17.3] - 2023-12-10
 ### Changed
 - 更新依赖库版本号.
@@ -933,7 +938,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.4...HEAD
+[1.17.4]: https://gitee.com/quant1x/gotdx/compare/v1.17.3...v1.17.4
 [1.17.3]: https://gitee.com/quant1x/gotdx/compare/v1.17.2...v1.17.3
 [1.17.2]: https://gitee.com/quant1x/gotdx/compare/v1.17.1...v1.17.2
 [1.17.1]: https://gitee.com/quant1x/gotdx/compare/v1.17.0...v1.17.1
