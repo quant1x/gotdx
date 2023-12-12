@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.6] - 2023-12-12
+### Changed
+- 更新依赖库版本.
+
 ## [1.17.5] - 2023-12-12
 ### Changed
 - 北交所涨跌停板限制为30%.
@@ -942,7 +946,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.6...HEAD
+[1.17.6]: https://gitee.com/quant1x/gotdx/compare/v1.17.5...v1.17.6
 [1.17.5]: https://gitee.com/quant1x/gotdx/compare/v1.17.4...v1.17.5
 [1.17.4]: https://gitee.com/quant1x/gotdx/compare/v1.17.3...v1.17.4
 [1.17.3]: https://gitee.com/quant1x/gotdx/compare/v1.17.2...v1.17.3
