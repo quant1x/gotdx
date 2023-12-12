@@ -247,7 +247,10 @@ func AssertStockBySecurityCode(securityCode string) (isStock bool) {
 
 // MarketLimit 涨跌停板限制
 func MarketLimit(securityCode string) float64 {
-	_, _, shortCode := DetectMarket(securityCode)
+	_, flag, shortCode := DetectMarket(securityCode)
+	if flag == MarketBeiJing {
+		return 0.30
+	}
 	if api.StartsWith(shortCode, []string{"30", "68"}) {
 		return 0.20
 	}
