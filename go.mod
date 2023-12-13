@@ -3,14 +3,11 @@ module gitee.com/quant1x/gotdx
 go 1.21.5
 
 require (
-	gitee.com/quant1x/gox v1.15.5
+	gitee.com/quant1x/gox v1.15.6
 	gitee.com/quant1x/pkg v0.1.5
 	golang.org/x/exp v0.0.0-20231206192017-f3f8817b8deb
 	golang.org/x/text v0.14.0
 )
-
-//replace gitee.com/quant1x/gox v1.15.1 => ../../mymmsc/gox
-//replace gitee.com/quant1x/pkg v0.1.3 => ../pkg
 
 require (
 	github.com/dlclark/regexp2 v1.10.0 // indirect
