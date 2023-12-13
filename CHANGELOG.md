@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.7] - 2023-12-14
+### Changed
+- 更新依赖库gox版本.
+
 ## [1.17.6] - 2023-12-12
 ### Changed
 - 更新依赖库版本.
@@ -946,7 +950,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.7...HEAD
+[1.17.7]: https://gitee.com/quant1x/gotdx/compare/v1.17.6...v1.17.7
 [1.17.6]: https://gitee.com/quant1x/gotdx/compare/v1.17.5...v1.17.6
 [1.17.5]: https://gitee.com/quant1x/gotdx/compare/v1.17.4...v1.17.5
 [1.17.4]: https://gitee.com/quant1x/gotdx/compare/v1.17.3...v1.17.4
