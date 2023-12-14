@@ -72,9 +72,7 @@ func TestTradeRange1(t *testing.T) {
 
 func TestUnique(t *testing.T) {
 	a := []int{4, 1, 2, 1, 2, 3, 3, 3}
-	api.Sort(api.IntSlice{&a})
-	fmt.Println(a)
-	api.Ints(&a)
+	a = api.Unique(a)
 	fmt.Println(a)
 }
 

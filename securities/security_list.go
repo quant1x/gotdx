@@ -64,7 +64,7 @@ func readCacheSecurityList() {
 
 func reloadCodeList() {
 	list := maps.Keys(__mapStockList)
-	api.Sort(api.StringSlice{P: &list})
+	list = api.Unique(list)
 	__stock_list = slices.Clone(list)
 }
 
