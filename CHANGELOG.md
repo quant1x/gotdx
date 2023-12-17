@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.17.9] - 2023-12-17
+### Changed
+- 快照结构体增加本地时间戳字段.
+- 更新依赖库gox版本.
+- 优化cache部分代码.
+
 ## [1.17.8] - 2023-12-14
 ### Changed
 - 修订去重函数.
@@ -954,7 +960,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.9...HEAD
+[1.17.9]: https://gitee.com/quant1x/gotdx/compare/v1.17.8...v1.17.9
 [1.17.8]: https://gitee.com/quant1x/gotdx/compare/v1.17.7...v1.17.8
 [1.17.7]: https://gitee.com/quant1x/gotdx/compare/v1.17.6...v1.17.7
 [1.17.6]: https://gitee.com/quant1x/gotdx/compare/v1.17.5...v1.17.6
