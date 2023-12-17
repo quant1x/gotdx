@@ -12,6 +12,9 @@ const (
 	CN_TransactionTimeFormat   = "15:04"        // 分笔成交时间格式
 	CN_SERVERTIME_FORMAT       = "15:04:05.000" // 服务器时间格式
 	CN_SERVERTIME_SHORT_FORMAT = "15:04:05"     // 服务器时间格式
+	TimeStampMilli             = "2006-01-02 15:04:05.000"
+	TimeStampMicro             = "2006-01-02 15:04:05.000000"
+	TimeStampNano              = "2006-01-02 15:04:05.000000000"
 )
 
 // 交易日时间相关常量
@@ -241,10 +244,6 @@ func GetTodayTimeByString(timeStr string) (time.Time, error) {
 type TimeStatus = int
 
 const (
-	//BeforeLastTradingDay TimeStatus = 1 << iota // 缓存非交易日, 可以更新
-
-	//ExchangeLastClosing TimeStatus = -2 // 隔日收盘收, 交易停止
-
 	ExchangePreMarket   TimeStatus = -1 // 盘前
 	ExchangeSuspend     TimeStatus = 0  // 休市中, 交易暂停
 	ExchangeTrading     TimeStatus = 1  // 交易中
@@ -257,9 +256,11 @@ const (
 //	默认检查当前时间是否可以...
 func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHoliday, beforeInitTime, cacheAfterInitTime, updateInRealTime bool, status TimeStatus) {
 	lastDay := LastTradeDate()
-	timestamp := time.Now()
+	var timestamp time.Time
 	if len(lastModified) > 0 {
 		timestamp = lastModified[0]
+	} else {
+		timestamp = time.Now()
 	}
 	status = ExchangeClosing
 	// 1. 缓存时间无效
@@ -270,8 +271,7 @@ func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHol
 		return
 	}
 	// 2 缓存日期和最后一个交易日相同
-	now := time.Now()
-	today := now.Format(TradingDayDateFormat)
+	today := timestamp.Format(TradingDayDateFormat)
 	// 2.1 当前日期非最后一个交易日, 也就是节假日了
 	if today != lastDay {
 		// 节假日
@@ -279,7 +279,7 @@ func checkTradingTimestamp(lastModified ...time.Time) (beforeLastTradeDay, isHol
 		return
 	}
 	// 3. 交易日, A股市场初始化前
-	currentTimestamp := now.Format(CN_SERVERTIME_FORMAT)
+	currentTimestamp := timestamp.Format(CN_SERVERTIME_FORMAT)
 	if currentTimestamp < CN_MarketInitTime {
 		beforeInitTime = true
 		return

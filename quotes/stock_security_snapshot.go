@@ -66,6 +66,7 @@ type Snapshot struct {
 	ReversedBytes8  int           // 保留
 	Rate            float64       // 涨速
 	Active2         uint16        // 活跃度, 如果是指数则为0, 个股同Active1
+	TimeStamp       string        // 本地当前时间戳
 }
 
 // CheckDirection 检测当前交易方向

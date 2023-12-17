@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/trading"
 	"math"
+	"time"
 )
 
 const (
@@ -101,6 +102,7 @@ type SecurityQuote struct {
 	ReversedBytes8  int        // 保留
 	Rate            float64    // 涨速
 	Active2         uint16     // 活跃度, 如果是指数则为0, 个股同Active1
+	TimeStamp       string     // 本地当前时间戳
 }
 
 type Level struct {
@@ -157,7 +159,9 @@ func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
 
 func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
-
+	now := time.Now()
+	timestamp := now.Format(trading.TimeStampMilli)
+	_, status := trading.CanUpdateInRealtime(now)
 	pos := 0
 	var _tmp uint16
 	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &_tmp)
@@ -200,10 +204,10 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.Vol *= 100
 		ele.CurVol = internal.DecodeVarint(data, &pos)
 
-		var amountraw uint32
-		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &amountraw)
+		var rawAmount uint32
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &rawAmount)
 		pos += 4
-		ele.Amount = internal.IntToFloat64(int(amountraw))
+		ele.Amount = internal.IntToFloat64(int(rawAmount))
 
 		ele.SVol = internal.DecodeVarint(data, &pos)
 		ele.BVol = internal.DecodeVarint(data, &pos)
@@ -297,7 +301,6 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			ele.IndexUpLimit = ele.BidVol2
 			ele.IndexUpLimit = ele.AskVol2
 		}
-		_, status := trading.CanUpdateInRealtime()
 		if status == trading.ExchangeClosing {
 			// 收盘
 			if isIndexOrBlock {
@@ -306,6 +309,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 				ele.CloseVolume = ele.CurVol * 100
 			}
 		}
+		ele.TimeStamp = timestamp
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	// 修正停牌的证券代码
