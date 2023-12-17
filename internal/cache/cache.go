@@ -6,10 +6,9 @@ import (
 )
 
 var (
-	__global_cache_path   string    = "~/.quant1x" // 数据根路径
-	__global_cache_once   sync.Once                // 懒加载锁
-	__once_temporary_path string    = "~/.quant1x" // 临时路径
-	//__once_temporary_count uint32         = 0            // 临时路径使用计数器
+	__global_cache_once   sync.Once      // 懒加载锁
+	__global_cache_path   = "~/.quant1x" // 数据根路径
+	__once_temporary_path = "~/.quant1x" // 临时路径
 )
 
 func initPath(path string) {
