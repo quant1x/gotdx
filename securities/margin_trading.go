@@ -12,6 +12,7 @@ import (
 const (
 	// 两融配置文件
 	marginTradingFilename = "margin-trading.csv"
+	// https://data.eastmoney.com/rzrq/detail/all.html
 )
 
 type FinancingAndSecuritiesLendingTarget struct {
