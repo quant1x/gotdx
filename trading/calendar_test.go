@@ -16,7 +16,8 @@ func TestDowndata(t *testing.T) {
 	if err != nil {
 		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}
-	fmt.Println(data, lastModified, err)
+	fmt.Println(data)
+	fmt.Println(lastModified, err)
 }
 
 func Test_updateHoliday(t *testing.T) {
