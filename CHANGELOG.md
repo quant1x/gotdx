@@ -3,6 +3,16 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.0] - 2023-12-23
+### Changed
+- 本地日历文件损坏从内置日历数据加载.
+- 从内置交易日历数据更新日历文件.
+- 尝试调整日历的创建时间.
+- 新增深证市场的交易日历链接地址.
+- 更新依赖库版本.
+- 新增东方财富两融数据页面地址, 备用.
+- 增加通达信最新的配置文件,备用.
+
 ## [1.17.9] - 2023-12-17
 ### Changed
 - 快照结构体增加本地时间戳字段.
@@ -960,7 +970,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.17.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.0...HEAD
+[1.18.0]: https://gitee.com/quant1x/gotdx/compare/v1.17.9...v1.18.0
 [1.17.9]: https://gitee.com/quant1x/gotdx/compare/v1.17.8...v1.17.9
 [1.17.8]: https://gitee.com/quant1x/gotdx/compare/v1.17.7...v1.17.8
 [1.17.7]: https://gitee.com/quant1x/gotdx/compare/v1.17.6...v1.17.7
