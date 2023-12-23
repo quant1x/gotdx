@@ -38,39 +38,36 @@ func BestIP() {
 	var as AllServers
 
 	// HQ-servers
-	src, dst := cleanServers(HQ_HOSTS, testHQ)
-	//as.Server.HQ = src
+	dst := cleanServers(StandardServer, testHQ)
 	as.BestIP.HQ = dst
-	// EX-server, reply提示版本不一致, 扩展服务暂不可用
-	src, dst = cleanServers(EX_HOSTS, testEX)
-	//as.Server.EX = src
-	as.BestIP.EX = dst
 
-	// SP-servers
-	src, dst = cleanServers(GP_HOSTS, testEX)
-	//as.Server.GP = src
-	as.BestIP.GP = dst
+	// EX-server, reply提示版本不一致, 扩展服务暂不可用
+	//dst = cleanServers(ExtensionServer, testEX)
+	//as.BestIP.EX = dst
+
+	//// SP-servers
+	//dst = cleanServers(GP_HOSTS, testEX)
+	//as.BestIP.GP = dst
 
 	str, _ := json.Marshal(as)
 	fmt.Println(string(str))
 	_ = CacheServers(as)
-	_ = src
 }
 
-func cleanServers(str string, test func(addr string) error) (src, dst []Server) {
-	err := json.Unmarshal([]byte(str), &src)
-	if err != nil {
-		return src, dst
-	}
-	fmt.Printf("%+v\n", src)
-	for i := 0; i < len(src); i++ {
-		v := &src[i]
+func cleanServers(src []Server, test func(addr string) error) (dst []Server) {
+	//err := json.Unmarshal([]byte(str), &src)
+	//if err != nil {
+	//	return src, dst
+	//}
+	//fmt.Printf("%+v\n", src)
+	dst = slices.Clone(src)
+	for i, _ := range dst {
+		v := &dst[i]
 		fmt.Printf("%d: %+v\n", i, v)
 		_ = detect(v, test)
 		fmt.Printf("%d: %+v\n", i, v)
 	}
 
-	dst = slices.Clone(src)
 	sort.Slice(dst, func(i, j int) bool {
 		return dst[i].CrossTime < dst[j].CrossTime
 	})

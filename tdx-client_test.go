@@ -2,6 +2,7 @@ package gotdx
 
 import (
 	"fmt"
+	"gitee.com/quant1x/gotdx/quotes"
 	"testing"
 	"time"
 )
@@ -14,4 +15,5 @@ func TestReOpen(t *testing.T) {
 	ReOpen()
 	v, _ = api.GetXdxrInfo("sh600072")
 	fmt.Println(v)
+	fmt.Println(quotes.NumberOfServers)
 }

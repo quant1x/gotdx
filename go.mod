@@ -8,8 +8,6 @@ require (
 	golang.org/x/text v0.14.0
 )
 
-//replace gitee.com/quant1x/gox v1.16.1 => ../../mymmsc/gox
-
 require (
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect

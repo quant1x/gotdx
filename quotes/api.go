@@ -11,6 +11,10 @@ import (
 	"time"
 )
 
+var (
+	NumberOfServers int = POOL_MAX // 服务器数量
+)
+
 type StdApi struct {
 	connPool *ConnPool
 	opt      *Options
@@ -61,6 +65,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		return nil, err
 	}
 	stdApi.connPool = cp
+	NumberOfServers = stdApi.NumOfServers()
 	return &stdApi, nil
 }
 
