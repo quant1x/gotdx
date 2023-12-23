@@ -75,6 +75,7 @@ func loadCalendarFromFile() {
 	calendarFilename := cache.CalendarFilename()
 	err := api.CsvToSlices(calendarFilename, &list)
 	if err != nil && len(list) == 0 {
+		loadCalendarFromCache()
 		return
 	}
 	__resouce_calendars = list

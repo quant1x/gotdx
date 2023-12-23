@@ -50,11 +50,13 @@ func v2downloadCalendar(fileModTime time.Time) ([]calendar, time.Time) {
 }
 
 var (
-	calendar2024ModTime = api.NanosecondToTime(1671616792000000000)
+	calendar2024ModTime = api.NanosecondToTime(timestamp20221221175952)
 )
 
 const (
-	calendar2024Data = `date,source
+	// 2022-12-21 17:59:52 +0800
+	timestamp20221221175952 = int64(1671616792000000000)
+	calendar2024Data        = `date,source
 1990-12-19,sina
 1990-12-20,sina
 1990-12-21,sina
