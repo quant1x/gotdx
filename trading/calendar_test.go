@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+func Test_resetCalendar(t *testing.T) {
+	resetCalendar()
+}
+
 func TestDowndata(t *testing.T) {
 	header := map[string]any{
 		//http.IfModifiedSince: fileModTime,

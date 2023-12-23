@@ -3,10 +3,8 @@ package trading
 import (
 	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gotdx/internal/dfcf"
-	"gitee.com/quant1x/gotdx/internal/js"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
-	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/pkg/gocsv"
 	"os"
@@ -25,6 +23,7 @@ const (
 var (
 	__global_calendar_once coroutine.PeriodicOnce // 1D滚动锁
 	__global_trade_dates   []string               // 交易日列表
+	__resouce_calendars    []calendar
 )
 
 // 非安全方式交易日历
@@ -62,40 +61,60 @@ type calendar struct {
 	Source string `dataframe:"source"`
 }
 
-// 加载交易日历, 数据源sina
-func loadCalendarFromSina() {
+func resetCacheTradeDates(list []calendar) {
+	trade_dates := make([]string, 0, len(list))
+	for _, v := range list {
+		trade_dates = append(trade_dates, v.Date)
+	}
+	__global_trade_dates = trade_dates
+}
+
+// 加载交易日历文件
+func loadCalendarFromFile() {
 	var list []calendar
 	calendarFilename := cache.CalendarFilename()
 	err := api.CsvToSlices(calendarFilename, &list)
 	if err != nil && len(list) == 0 {
 		return
 	}
-	for _, v := range list {
-		__global_trade_dates = append(__global_trade_dates, v.Date)
-	}
+	__resouce_calendars = list
+	resetCacheTradeDates(list)
 }
 
 // 加载交易日历, 数据源内置
 func loadCalendarFromCache() {
 	var list []calendar
-	reader := strings.NewReader(calendar2024)
+	reader := strings.NewReader(calendar2024Data)
 	err := gocsv.Unmarshal(reader, &list)
 	if err != nil && len(list) == 0 {
 		return
 	}
-	for _, v := range list {
-		__global_trade_dates = append(__global_trade_dates, v.Date)
+	__resouce_calendars = list
+	resetCacheTradeDates(list)
+}
+
+// 刷新交易日历文件
+func syncCalendarFile(dates []calendar, accessTime, modTime time.Time) {
+	calendarFilename := cache.CalendarFilename()
+	err := api.SlicesToCsv(calendarFilename, dates)
+	if err != nil {
+		return
+	}
+	err = os.Chtimes(calendarFilename, accessTime, modTime)
+	if err != nil {
+		logger.Error(err)
 	}
 }
 
 func loadCalendar() {
-	loadCalendarFromCache()
+	loadCalendarFromFile()
 }
 
 // 尝试更新日历
 func updateCalendar(noDates ...string) (bUpdate bool) {
 	bUpdate = false
-	bLoaded := false
+	var fileModTime, fileAccessTime time.Time
+	fileAccessTime = time.Now()
 	// 1. 检查日历文件是否存在
 	calendarFilename := cache.CalendarFilename()
 	if !api.FileExist(calendarFilename) {
@@ -106,67 +125,40 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 		bUpdate = true
 	} else {
 		loadCalendar()
-		bLoaded = true
-	}
-	fileStat, err := api.GetFileStat(calendarFilename)
-	var fileCreateTime time.Time
-	if err == nil {
-		fileCreateTime = fileStat.CreationTime
-	}
-	now := time.Now()
-	today := now.Format(TradingDayDateFormat)
-	toTm := now.Format(CN_SERVERTIME_FORMAT)
-	fileDate := fileCreateTime.Format(TradingDayDateFormat)
-	fileTm := fileCreateTime.Format(CN_SERVERTIME_FORMAT)
-	if !bUpdate && unsafeDateIsTradingDay(today) {
-		if fileDate < today && toTm >= CN_MarketInitTime {
-			bUpdate = true
-		} else if fileDate >= today && toTm >= CN_MarketInitTime && fileTm < CN_MarketInitTime {
-			bUpdate = true
+		fileStat, err := api.GetFileStat(calendarFilename)
+		if err == nil && fileStat != nil {
+			fileModTime = fileStat.LastWriteTime
+			//fmt.Println(fileModTime.UnixNano())
+			fileAccessTime = fileStat.LastAccessTime
+		}
+		today := fileAccessTime.Format(TradingDayDateFormat)
+		toTm := fileAccessTime.Format(CN_SERVERTIME_FORMAT)
+		fileDate := fileModTime.Format(TradingDayDateFormat)
+		fileTm := fileModTime.Format(CN_SERVERTIME_FORMAT)
+		if unsafeDateIsTradingDay(today) {
+			if fileDate < today && toTm >= CN_MarketInitTime {
+				bUpdate = true
+			} else if fileDate >= today && toTm >= CN_MarketInitTime && fileTm < CN_MarketInitTime {
+				bUpdate = true
+			}
 		}
 	}
 
 	// 如果不需要更新则直接加载缓存
 	if !bUpdate {
-		//if !bLoaded {
-		//	loadCalendar()
-		//}
-		//return
+		syncCalendarFile(__resouce_calendars, fileAccessTime, fileModTime)
+		return
 	}
-
-	header := map[string]any{
-		//http.IfModifiedSince: fileCreateTime,
-	}
-	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, http.MethodGet, "", header)
-	if err != nil {
-		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
-	}
-	if len(data) == 0 {
+	dates, lastModified := downloadCalendar(fileModTime)
+	if len(dates) == 0 {
 		// 如果没有数据, 则直接用缓存
-		if !bLoaded {
-			loadCalendar()
-		}
 		if !lastModified.IsZero() {
-			err = os.Chtimes(calendarFilename, lastModified, lastModified)
+			err := os.Chtimes(calendarFilename, lastModified, lastModified)
 			if err != nil {
 				logger.Error(err)
 			}
 		}
 		return
-	}
-	ret, err := js.SinaJsDecode(api.Bytes2String(data))
-	if err != nil {
-		panic("js解码失败: " + urlSinaRealstockCompanyKlcTdSh)
-	}
-	var dates []calendar
-	for _, v := range ret.([]any) {
-		ts := v.(time.Time)
-		date := ts.Format(TradingDayDateFormat)
-		e := calendar{
-			Date:   date,
-			Source: "sina",
-		}
-		dates = append(dates, e)
 	}
 	for _, v := range noDates {
 		ts, _ := api.ParseTime(v)
@@ -186,18 +178,10 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 		}
 		return 1
 	})
-
-	err = api.SlicesToCsv(calendarFilename, dates)
-	if err != nil {
-		return
-	}
-	err = os.Chtimes(calendarFilename, now, lastModified)
-	if err != nil {
-		logger.Error(err)
-	}
-	for _, v := range dates {
-		__global_trade_dates = append(__global_trade_dates, v.Date)
-	}
+	// 同步缓存文件
+	syncCalendarFile(dates, fileAccessTime, lastModified)
+	// 重置缓存中的交易日历
+	resetCacheTradeDates(dates)
 	return
 }
 

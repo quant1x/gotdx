@@ -1,7 +1,60 @@
 package trading
 
+import (
+	"gitee.com/quant1x/gotdx/internal/js"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/http"
+	"gitee.com/quant1x/pkg/gocsv"
+	"strings"
+	"time"
+)
+
+func downloadCalendar(fileModTime time.Time) ([]calendar, time.Time) {
+	var list []calendar
+	reader := strings.NewReader(calendar2024Data)
+	err := gocsv.Unmarshal(reader, &list)
+	if err != nil && len(list) == 0 {
+		return list, calendar2024ModTime
+	}
+	_ = fileModTime
+	return list, calendar2024ModTime
+}
+
+func v2downloadCalendar(fileModTime time.Time) ([]calendar, time.Time) {
+	header := map[string]any{
+		//http.IfModifiedSince: fileModTime,
+	}
+	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, http.MethodGet, "", header)
+	if err != nil {
+		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
+	}
+	if len(data) == 0 {
+		return nil, lastModified
+	}
+
+	ret, err := js.SinaJsDecode(api.Bytes2String(data))
+	if err != nil {
+		panic("js解码失败: " + urlSinaRealstockCompanyKlcTdSh)
+	}
+	var dates []calendar
+	for _, v := range ret.([]any) {
+		ts := v.(time.Time)
+		date := ts.Format(TradingDayDateFormat)
+		e := calendar{
+			Date:   date,
+			Source: "sina",
+		}
+		dates = append(dates, e)
+	}
+	return dates, lastModified
+}
+
 var (
-	calendar2024 = `date,source
+	calendar2024ModTime = api.NanosecondToTime(1671616792000000000)
+)
+
+const (
+	calendar2024Data = `date,source
 1990-12-19,sina
 1990-12-20,sina
 1990-12-21,sina
