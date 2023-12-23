@@ -64,6 +64,11 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	return &stdApi, nil
 }
 
+// NumOfServers 增加返回服务器IP数量
+func (this *StdApi) NumOfServers() int {
+	return len(this.opt.Servers)
+}
+
 // Close 关闭
 func (this *StdApi) Close() {
 	this.connPool.CloseAll()
