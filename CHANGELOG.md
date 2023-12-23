@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.1] - 2023-12-23
+### Changed
+- 调整服务器列表.
+- 新增返回服务器地址的数量.
+
 ## [1.18.0] - 2023-12-23
 ### Changed
 - 本地日历文件损坏从内置日历数据加载.
@@ -970,7 +975,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.1...HEAD
+[1.18.1]: https://gitee.com/quant1x/gotdx/compare/v1.18.0...v1.18.1
 [1.18.0]: https://gitee.com/quant1x/gotdx/compare/v1.17.9...v1.18.0
 [1.17.9]: https://gitee.com/quant1x/gotdx/compare/v1.17.8...v1.17.9
 [1.17.8]: https://gitee.com/quant1x/gotdx/compare/v1.17.7...v1.17.8
