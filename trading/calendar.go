@@ -8,8 +8,10 @@ import (
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/pkg/gocsv"
 	"os"
 	"slices"
+	"strings"
 	"time"
 )
 
@@ -53,8 +55,6 @@ func resetCalendar() {
 			updateCalendar(noDates...)
 		}
 	}
-	//tradingDay := GetCurrentlyDay()
-	//proto.CorrectTradingDay(tradingDay)
 }
 
 type calendar struct {
@@ -62,9 +62,9 @@ type calendar struct {
 	Source string `dataframe:"source"`
 }
 
-// 加载交易日历
-func loadCalendar() {
-	list := []calendar{}
+// 加载交易日历, 数据源sina
+func loadCalendarFromSina() {
+	var list []calendar
 	calendarFilename := cache.CalendarFilename()
 	err := api.CsvToSlices(calendarFilename, &list)
 	if err != nil && len(list) == 0 {
@@ -75,9 +75,28 @@ func loadCalendar() {
 	}
 }
 
+// 加载交易日历, 数据源内置
+func loadCalendarFromCache() {
+	var list []calendar
+	reader := strings.NewReader(calendar2024)
+	err := gocsv.Unmarshal(reader, &list)
+	if err != nil && len(list) == 0 {
+		return
+	}
+	for _, v := range list {
+		__global_trade_dates = append(__global_trade_dates, v.Date)
+	}
+}
+
+func loadCalendar() {
+	loadCalendarFromCache()
+}
+
 // 尝试更新日历
 func updateCalendar(noDates ...string) (bUpdate bool) {
 	bUpdate = false
+	bLoaded := false
+	// 1. 检查日历文件是否存在
 	calendarFilename := cache.CalendarFilename()
 	if !api.FileExist(calendarFilename) {
 		err := api.CheckFilepath(calendarFilename, true)
@@ -87,18 +106,18 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 		bUpdate = true
 	} else {
 		loadCalendar()
+		bLoaded = true
 	}
-	finfo, err := os.Stat(calendarFilename)
-	var fileModTime time.Time
+	fileStat, err := api.GetFileStat(calendarFilename)
+	var fileCreateTime time.Time
 	if err == nil {
-		fileModTime = finfo.ModTime()
-		fileModTime = fileModTime.AddDate(-1, 0, 0)
+		fileCreateTime = fileStat.CreationTime
 	}
 	now := time.Now()
 	today := now.Format(TradingDayDateFormat)
 	toTm := now.Format(CN_SERVERTIME_FORMAT)
-	fileDate := fileModTime.Format(TradingDayDateFormat)
-	fileTm := fileModTime.Format(CN_SERVERTIME_FORMAT)
+	fileDate := fileCreateTime.Format(TradingDayDateFormat)
+	fileTm := fileCreateTime.Format(CN_SERVERTIME_FORMAT)
 	if !bUpdate && unsafeDateIsTradingDay(today) {
 		if fileDate < today && toTm >= CN_MarketInitTime {
 			bUpdate = true
@@ -109,22 +128,29 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 
 	// 如果不需要更新则直接加载缓存
 	if !bUpdate {
-		//loadCalendar()
-		return
+		//if !bLoaded {
+		//	loadCalendar()
+		//}
+		//return
 	}
 
 	header := map[string]any{
-		http.IfModifiedSince: fileModTime,
+		//http.IfModifiedSince: fileCreateTime,
 	}
-	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, "get", "", header)
+	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, http.MethodGet, "", header)
 	if err != nil {
 		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}
 	if len(data) == 0 {
-		loadCalendar()
-		err = os.Chtimes(calendarFilename, now, now)
-		if err != nil {
-			logger.Error(err)
+		// 如果没有数据, 则直接用缓存
+		if !bLoaded {
+			loadCalendar()
+		}
+		if !lastModified.IsZero() {
+			err = os.Chtimes(calendarFilename, lastModified, lastModified)
+			if err != nil {
+				logger.Error(err)
+			}
 		}
 		return
 	}
@@ -132,7 +158,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	if err != nil {
 		panic("js解码失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}
-	dates := []calendar{}
+	var dates []calendar
 	for _, v := range ret.([]any) {
 		ts := v.(time.Time)
 		date := ts.Format(TradingDayDateFormat)
@@ -165,8 +191,7 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 	if err != nil {
 		return
 	}
-	now = time.Now()
-	err = os.Chtimes(calendarFilename, lastModified, now)
+	err = os.Chtimes(calendarFilename, now, lastModified)
 	if err != nil {
 		logger.Error(err)
 	}
@@ -195,48 +220,6 @@ func checkCalendar() (noDates []string, err error) {
 	}
 	return noDates, nil
 }
-
-//// 获取上证指数的交易日期, 目的是校验日期
-//func getShangHaiTradeDates() (dates []string) {
-//	securityCode := "sh000001"
-//	tdxApi, err := quotes.NewStdApi()
-//	if err != nil {
-//		return
-//	}
-//	history := make([]quotes.SecurityBar, 0)
-//	step := uint16(quotes.TDX_SECURITY_BARS_MAX)
-//	start := uint16(0)
-//	hs := make([]quotes.SecurityBarsReply, 0)
-//	for {
-//		count := step
-//		var data *quotes.SecurityBarsReply
-//		var err error
-//		data, err = tdxApi.GetIndexBars(securityCode, proto.KLINE_TYPE_RI_K, start, count)
-//		if err != nil {
-//			return
-//		}
-//		hs = append(hs, *data)
-//		if data.Count < count {
-//			// 已经是最早的记录
-//			// 需要排序
-//			break
-//		}
-//		start += count
-//	}
-//	hs = api.Reverse(hs)
-//	for _, v := range hs {
-//		history = append(history, v.ConstituentStocks...)
-//	}
-//	dates = []string{}
-//	for _, v := range history {
-//		date1 := v.DateTime
-//		dt, _ := api.ParseTime(date1)
-//		date1 = dt.Format(TradingDayDateFormat)
-//		dates = append(dates, date1)
-//	}
-//
-//	return dates
-//}
 
 // 获取上证指数的交易日期, 目的是校验日期
 func getShangHaiTradeDates() (dates []string) {

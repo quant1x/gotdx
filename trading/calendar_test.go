@@ -12,7 +12,7 @@ func TestDowndata(t *testing.T) {
 	header := map[string]any{
 		//http.IfModifiedSince: fileModTime,
 	}
-	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, "get", "", header)
+	data, lastModified, err := http.Request(urlSinaRealstockCompanyKlcTdSh, http.MethodGet, "", header)
 	if err != nil {
 		panic("获取交易日历失败: " + urlSinaRealstockCompanyKlcTdSh)
 	}

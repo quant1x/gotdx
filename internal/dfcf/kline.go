@@ -32,7 +32,7 @@ func GetHistory(fullCode string, datalen int) ([]DfcfHistory, error) {
 		"_":       {"1623766962675"},
 	}
 	url := em_url + "?" + params.Encode()
-	data, err := http.HttpGet(url)
+	data, err := http.Get(url)
 	if err != nil {
 		logger.Errorf("%+v\n", err)
 		return nil, err

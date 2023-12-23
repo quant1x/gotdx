@@ -61,7 +61,7 @@ func stock_hist(marketId int, symbol string, args ...string) ([]byte, error) {
 		"_":       {fmt.Sprint(timestamp)},
 	}
 	url := kUrlEastMonryZhKLine + "?" + params.Encode()
-	data, err := http.HttpGet(url)
+	data, err := http.Get(url)
 	return data, err
 }
 

@@ -8,7 +8,6 @@ import (
 	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
-	"golang.org/x/exp/maps"
 	"os"
 	"slices"
 )
@@ -63,7 +62,7 @@ func readCacheSecurityList() {
 }
 
 func reloadCodeList() {
-	list := maps.Keys(__mapStockList)
+	list := api.Keys(__mapStockList)
 	list = api.Unique(list)
 	__stock_list = slices.Clone(list)
 }
@@ -102,7 +101,7 @@ func lazyLoadStockList() {
 		__mapStockList[code] = v
 	}
 	// 更新缓存
-	list = maps.Values(__mapStockList)
+	list = api.Values(__mapStockList)
 	// 更新代码列表
 	reloadCodeList()
 	writeCacheSecurityList(list)
