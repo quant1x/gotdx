@@ -38,11 +38,11 @@ func BestIP() {
 	var as AllServers
 
 	// HQ-servers
-	dst := cleanServers(StandardServer, testHQ)
+	dst := cleanServers(StandardServerList, testHQ)
 	as.BestIP.HQ = dst
 
 	// EX-server, reply提示版本不一致, 扩展服务暂不可用
-	//dst = cleanServers(ExtensionServer, testEX)
+	//dst = cleanServers(ExtensionServerList, testEX)
 	//as.BestIP.EX = dst
 
 	//// SP-servers

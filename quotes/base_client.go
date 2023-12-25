@@ -29,6 +29,7 @@ type TcpClient struct {
 
 // Server 主机信息
 type Server struct {
+	Source    string `json:"source"`
 	Name      string `json:"name"`
 	Host      string `json:"host"`
 	Port      int    `json:"port"`
