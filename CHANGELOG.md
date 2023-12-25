@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.2] - 2023-12-25
+### Changed
+- 调整服务器列表.
+- 打开读取配置文件的功能.
+- 添加中信服务器配置.
+- 添加通达信服务器配置.
+- 添加华泰证券服务器配置.
+- 添加国泰君安服务器配置.
+
 ## [1.18.1] - 2023-12-23
 ### Changed
 - 调整服务器列表.
@@ -975,7 +984,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.2...HEAD
+[1.18.2]: https://gitee.com/quant1x/gotdx/compare/v1.18.1...v1.18.2
 [1.18.1]: https://gitee.com/quant1x/gotdx/compare/v1.18.0...v1.18.1
 [1.18.0]: https://gitee.com/quant1x/gotdx/compare/v1.17.9...v1.18.0
 [1.17.9]: https://gitee.com/quant1x/gotdx/compare/v1.17.8...v1.17.9
