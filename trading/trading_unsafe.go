@@ -32,3 +32,15 @@ func unsafeLastTradeDate() string {
 	}
 	return tradeDates[end]
 }
+
+// 日历是否已到最后
+func unsafeCalendarIsEOF() bool {
+	today := IndexToday()
+	tradeDates := unsafeDates()
+	end := sort.SearchStrings(tradeDates, today)
+	datesLength := len(tradeDates)
+	if end >= datesLength {
+		return true
+	}
+	return false
+}

@@ -145,6 +145,8 @@ func updateCalendar(noDates ...string) (bUpdate bool) {
 			} else if fileDate >= today && toTm >= CN_MarketInitTime && fileTm < CN_MarketInitTime {
 				bUpdate = true
 			}
+		} else if unsafeCalendarIsEOF() {
+			bUpdate = true
 		}
 	}
 
