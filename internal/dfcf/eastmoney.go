@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
-	json "gitee.com/quant1x/gox/fastjson"
 	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/pkg/fastjson"
 	urlpkg "net/url"
 	"strings"
 	"time"
@@ -70,7 +70,7 @@ func A(code string) ([]KLine, error) {
 	marketId, _, symbol := proto.DetectMarket(code)
 	data, err := stock_hist(int(marketId), symbol)
 	var kl = []KLine{}
-	obj, err := json.ParseBytes(data)
+	obj, err := fastjson.ParseBytes(data)
 	if err != nil {
 		logger.Errorf("%+v\n", err)
 		return kl, nil
@@ -93,7 +93,7 @@ func A(code string) ([]KLine, error) {
 		return kl, nil
 	}
 	for _, item := range history {
-		if item.Type() != json.TypeString {
+		if item.Type() != fastjson.TypeString {
 			continue
 		}
 		sb, err := item.StringBytes()

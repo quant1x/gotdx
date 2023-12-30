@@ -4,9 +4,9 @@ package dfcf
 
 import (
 	"gitee.com/quant1x/gox/api"
-	json "gitee.com/quant1x/gox/fastjson"
 	"gitee.com/quant1x/gox/http"
 	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/pkg/fastjson"
 	urlpkg "net/url"
 	"strings"
 )
@@ -38,9 +38,9 @@ func GetHistory(fullCode string, datalen int) ([]DfcfHistory, error) {
 		return nil, err
 	}
 	// m := make(map[string]map[string]interface{})
-	// err = json.Unmarshal(data, &m)
+	// err = fastjson.Unmarshal(data, &m)
 	var kl []DfcfHistory
-	obj, err := json.ParseBytes(data)
+	obj, err := fastjson.ParseBytes(data)
 	if err != nil {
 		logger.Errorf("%+v\n", err)
 		return kl, nil
@@ -63,7 +63,7 @@ func GetHistory(fullCode string, datalen int) ([]DfcfHistory, error) {
 		return kl, nil
 	}
 	for _, item := range history {
-		if item.Type() != json.TypeString {
+		if item.Type() != fastjson.TypeString {
 			continue
 		}
 		sb, err := item.StringBytes()
