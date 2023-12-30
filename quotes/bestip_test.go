@@ -8,6 +8,6 @@ func TestBestIP(t *testing.T) {
 	BestIP()
 }
 
-//func TestReadTdxConfig(t *testing.T) {
-//	loadAllConfig()
-//}
+func TestReadTdxConfig(t *testing.T) {
+	loadAllConfig()
+}

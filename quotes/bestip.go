@@ -42,8 +42,8 @@ func BestIP() {
 	as.BestIP.HQ = dst
 
 	// EX-server, reply提示版本不一致, 扩展服务暂不可用
-	//dst = cleanServers(ExtensionServerList, testEX)
-	//as.BestIP.EX = dst
+	dst = cleanServers(ExtensionServerList, testEX)
+	as.BestIP.EX = dst
 
 	//// SP-servers
 	//dst = cleanServers(GP_HOSTS, testEX)
