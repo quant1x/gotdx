@@ -2,6 +2,7 @@ package trading
 
 import (
 	"fmt"
+	"gitee.com/quant1x/gotdx/internal/js"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/http"
 	"testing"
@@ -22,6 +23,21 @@ func TestDowndata(t *testing.T) {
 	}
 	fmt.Println(data)
 	fmt.Println(lastModified, err)
+	ret, err := js.SinaJsDecode(api.Bytes2String(data))
+	if err != nil {
+		panic("js解码失败: " + urlSinaRealstockCompanyKlcTdSh)
+	}
+	var dates []calendar
+	for _, v := range ret.([]any) {
+		ts := v.(time.Time)
+		date := ts.Format(TradingDayDateFormat)
+		e := calendar{
+			Date:   date,
+			Source: "sina",
+		}
+		dates = append(dates, e)
+	}
+	fmt.Println(dates)
 }
 
 func Test_updateHoliday(t *testing.T) {

@@ -1,3 +1,4 @@
+// Package trading 包含交易中的日历和时段相关的功能函数
 package trading
 
 import (
@@ -56,11 +57,13 @@ func resetCalendar() {
 	}
 }
 
+// calendar 日历
 type calendar struct {
 	Date   string `dataframe:"date"`
 	Source string `dataframe:"source"`
 }
 
+// 重置缓存的交易日历列表
 func resetCacheTradeDates(list []calendar) {
 	trade_dates := make([]string, 0, len(list))
 	for _, v := range list {
