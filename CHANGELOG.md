@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.3] - 2023-12-30
+### Changed
+- 调整两融列表逻辑, 如果从东方财富获取失败, 则从内置资源导出后加载.
+- 修订部分注释.
+- 更新依赖库版本.
+- 更新依赖库版本.
+- 测试金融节日数据接口.
+- 应广大股民要求内地三大交易所2024年除夕2月9日, 休市.
+
 ## [1.18.2] - 2023-12-25
 ### Changed
 - 调整服务器列表.
@@ -984,7 +993,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.3...HEAD
+[1.18.3]: https://gitee.com/quant1x/gotdx/compare/v1.18.2...v1.18.3
 [1.18.2]: https://gitee.com/quant1x/gotdx/compare/v1.18.1...v1.18.2
 [1.18.1]: https://gitee.com/quant1x/gotdx/compare/v1.18.0...v1.18.1
 [1.18.0]: https://gitee.com/quant1x/gotdx/compare/v1.17.9...v1.18.0
