@@ -22,6 +22,10 @@ func unsafeLastTradeDate() string {
 	today := IndexToday()
 	tradeDates := unsafeDates()
 	end := sort.SearchStrings(tradeDates, today)
+	datesLength := len(tradeDates)
+	if end >= datesLength {
+		end = datesLength - 1
+	}
 	lastDay := tradeDates[end]
 	if lastDay > today {
 		end = end - 1
