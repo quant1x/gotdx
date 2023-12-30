@@ -11,7 +11,7 @@ require (
 require (
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
-	github.com/google/pprof v0.0.0-20231229022155-5aaadb5f27d9 // indirect
+	github.com/google/pprof v0.0.0-20231229205709-960ae82b1e42 // indirect
 	golang.org/x/exp v0.0.0-20231226003508-02704c960a9b // indirect
 	golang.org/x/sys v0.15.0 // indirect
 )
