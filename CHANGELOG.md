@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.6] - 2023-12-31
+### Changed
+- 调整地址模板, 去掉不符合go fmt格式的空白行.
+- 调整服务器列表,新增通过模版直接生成地址列表的go源文件.
+- 迁移fastjson从gox到pkg.
+
 ## [1.18.5] - 2023-12-30
 ### Changed
 - 修复日历数组到尾部的bug.
@@ -1001,7 +1007,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.6...HEAD
+[1.18.6]: https://gitee.com/quant1x/gotdx/compare/v1.18.5...v1.18.6
 [1.18.5]: https://gitee.com/quant1x/gotdx/compare/v1.18.4...v1.18.5
 [1.18.4]: https://gitee.com/quant1x/gotdx/compare/v1.18.3...v1.18.4
 [1.18.3]: https://gitee.com/quant1x/gotdx/compare/v1.18.2...v1.18.3
