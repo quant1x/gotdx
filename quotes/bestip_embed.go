@@ -35,13 +35,15 @@ var (
 var (
 	// StandardServerList 标准行情服务器列表
 	StandardServerList = []Server{
-		{{range .Std}}{Source: "{{.Source}}", Name: "{{.Name}}", Host: "{{.Host}}", Port: {{.Port}}, CrossTime: 0},
-		{{end}}
+		{{- range .Std}}
+		{Source: "{{.Source}}", Name: "{{.Name}}", Host: "{{.Host}}", Port: {{.Port}}, CrossTime: 0},
+		{{- end}}
 	}
 	// ExtensionServerList 扩展行情服务器列表
 	ExtensionServerList = []Server{
-		{{range .Ext}}{Source: "{{.Source}}", Name: "{{.Name}}", Host: "{{.Host}}", Port: {{.Port}}, CrossTime: 0},
-		{{end}}
+		{{- range .Std}}
+		{Source: "{{.Source}}", Name: "{{.Name}}", Host: "{{.Host}}", Port: {{.Port}}, CrossTime: 0},
+		{{- end}}
 	}
 )
 
