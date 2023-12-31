@@ -2,6 +2,7 @@ package proto
 
 import (
 	"fmt"
+	"gitee.com/quant1x/pkg/testify/assert"
 	"testing"
 )
 
@@ -22,4 +23,9 @@ func TestGetMarket(t *testing.T) {
 	code = "880818"
 	v := AssertBlockBySecurityCode(&code)
 	fmt.Println(v)
+}
+
+func TestCorrectSecurityCode(t *testing.T) {
+	correctedCode := CorrectSecurityCode("")
+	assert.Equal(t, 0, len(correctedCode))
 }
