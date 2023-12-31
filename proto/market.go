@@ -267,6 +267,9 @@ func LimtUp(securityCode string, price float64) float64 {
 
 // CorrectSecurityCode 修正证券代码
 func CorrectSecurityCode(securityCode string) string {
+	if len(securityCode) == 0 {
+		return ""
+	}
 	_, mFlag, mSymbol := DetectMarket(securityCode)
 	return mFlag + mSymbol
 }
