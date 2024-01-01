@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.8] - 2024-01-01
+### Changed
+- 修订服务列表模版的bug,标准行情和扩展行情都使用Std标签.
+
 ## [1.18.7] - 2023-12-31
 ### Changed
 - !10 修复CorrectSecurityCode没有正确处理空字符串参数 Merge pull request !10 from heathen666/master.
@@ -1012,7 +1016,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.8...HEAD
+[1.18.8]: https://gitee.com/quant1x/gotdx/compare/v1.18.7...v1.18.8
 [1.18.7]: https://gitee.com/quant1x/gotdx/compare/v1.18.6...v1.18.7
 [1.18.6]: https://gitee.com/quant1x/gotdx/compare/v1.18.5...v1.18.6
 [1.18.5]: https://gitee.com/quant1x/gotdx/compare/v1.18.4...v1.18.5
