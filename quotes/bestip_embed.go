@@ -41,7 +41,7 @@ var (
 	}
 	// ExtensionServerList 扩展行情服务器列表
 	ExtensionServerList = []Server{
-		{{- range .Std}}
+		{{- range .Ext}}
 		{Source: "{{.Source}}", Name: "{{.Name}}", Host: "{{.Host}}", Port: {{.Port}}, CrossTime: 0},
 		{{- end}}
 	}
