@@ -383,7 +383,7 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 			//	snapshot.CloseVolume = v.CurVol * 100
 			//}
 			amount := num.Decimal(snapshot.Amount, 4)
-			if amount <= float64(0.0000) {
+			if amount <= 0.0000 {
 				snapshot.Amount = 0.00
 			}
 			list = append(list, snapshot)
