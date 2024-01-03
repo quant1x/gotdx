@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.18.9] - 2024-01-03
+### Changed
+- 修订error信息秒数.
+- 精简部分代码.
+- 更新依赖库.
+
 ## [1.18.8] - 2024-01-01
 ### Changed
 - 修订服务列表模版的bug,标准行情和扩展行情都使用Std标签.
@@ -1016,7 +1022,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.18.9...HEAD
+[1.18.9]: https://gitee.com/quant1x/gotdx/compare/v1.18.8...v1.18.9
 [1.18.8]: https://gitee.com/quant1x/gotdx/compare/v1.18.7...v1.18.8
 [1.18.7]: https://gitee.com/quant1x/gotdx/compare/v1.18.6...v1.18.7
 [1.18.6]: https://gitee.com/quant1x/gotdx/compare/v1.18.5...v1.18.6
