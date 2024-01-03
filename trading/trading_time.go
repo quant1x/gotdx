@@ -78,7 +78,7 @@ var (
 )
 
 var (
-	ErrNoUpdateRequired = errors.New("No update required")
+	ErrNoUpdateRequired = errors.New("no update required")
 )
 
 func resetTimeRange() {
@@ -202,29 +202,6 @@ func IsTimeInRange(timeStr, startStr, endStr string) (bool, error) {
 		return true, nil
 	}
 	if startVal.Equal(endVal) && timeVal.Equal(startVal) {
-		return true, nil
-	}
-	return false, nil
-}
-
-// CompareTime 比较两个时间字符串大小
-// 如果t1 <= t2 返回true，否则返回false
-// 如果格式不正确或转换错误，返回错误
-func CompareTime(t1, t2 string) (bool, error) {
-	_, err := time.ParseDuration(t1)
-	if err == nil {
-		err = errors.New("Invalid time duration string")
-		return false, err
-	}
-	t1Time, err := time.Parse(CN_SERVERTIME_SHORT_FORMAT, t1)
-	if err != nil {
-		return false, err
-	}
-	t2Time, err := time.Parse(CN_SERVERTIME_SHORT_FORMAT, t2)
-	if err != nil {
-		return false, err
-	}
-	if t1Time.After(t2Time) || t1Time.Equal(t2Time) {
 		return true, nil
 	}
 	return false, nil
