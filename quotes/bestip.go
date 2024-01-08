@@ -20,6 +20,10 @@ const (
 	TDX_HOST_GP = "GP"
 )
 
+const (
+	maxCrossTime = 50 // 最大耗时
+)
+
 // ServerGroup 主机组
 type ServerGroup struct {
 	HQ []Server `json:"HQ"`
@@ -72,7 +76,7 @@ func cleanServers(src []Server, test func(addr string) error) (dst []Server) {
 		return dst[i].CrossTime < dst[j].CrossTime
 	})
 	dst = api.Filter(dst, func(e Server) bool {
-		return e.CrossTime < 100
+		return e.CrossTime < maxCrossTime
 	})
 	num := len(dst)
 	if num > POOL_MAX {

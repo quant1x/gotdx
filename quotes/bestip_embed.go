@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/pkg/ini"
 	"io"
 	"os"
+	"slices"
 	"strings"
 	"text/template"
 )
@@ -22,14 +23,32 @@ var resources embed.FS
 
 const (
 	sectionStandardServer  = "HQHOST"
+	defaultStandardPort    = 7709
 	keyHostNum             = "HostNum"
 	sectionExtensionServer = "DSHOST"
+	defaultExtensionPort   = 7727
 )
 
 var (
-	tdxServerConfigList = []string{"tdx.cfg", "zhongxin.cfg", "huatai.cfg", "guotaijunan.cfg"}
-	tdxServerSourceList = []string{"通达信", "中信证券", "华泰证券", "国泰君安"}
+	ignoreStandardPortList  = []int{80} // 标准行情需要忽略的端口号
+	ignoreExtensionPortList = []int{}   // 扩展行情需要忽略的端口号
+)
 
+type tdxConfig struct {
+	source   string
+	filename string
+}
+
+var (
+	tdxServerList = []tdxConfig{
+		tdxConfig{source: "通达信", filename: "tdx.cfg"},
+		tdxConfig{source: "中信证券", filename: "zhongxin.cfg"},
+		tdxConfig{source: "华泰证券", filename: "huatai.cfg"},
+		tdxConfig{source: "国泰君安", filename: "guotaijunan.cfg"},
+	}
+)
+
+var (
 	templateAddress = `package quotes
 
 var (
@@ -52,8 +71,8 @@ var (
 
 func loadAllConfig() {
 	var standardServers, extensionServers []Server
-	for i, filename := range tdxServerConfigList {
-		std, ext := loadTdxConfig(filename, tdxServerSourceList[i])
+	for _, config := range tdxServerList {
+		std, ext := loadTdxConfig(config)
 		if len(std) > 0 {
 			standardServers = append(standardServers, std...)
 		}
@@ -90,7 +109,9 @@ func loadAllConfig() {
 	}
 }
 
-func loadTdxConfig(name, source string) (std, ext []Server) {
+func loadTdxConfig(config tdxConfig) (std, ext []Server) {
+	name := config.filename
+	source := config.source
 	fs, err := api.OpenEmbed(resources, ResourcesPath+"/"+name)
 	if err != nil {
 		panic(err)
@@ -119,6 +140,9 @@ func loadTdxConfig(name, source string) (std, ext []Server) {
 		}
 		tmpPort := section.Key(fmt.Sprintf("Port%02d", i+1)).Value()
 		port := int(api.ParseInt(tmpPort))
+		if slices.Contains(ignoreStandardPortList, port) {
+			continue
+		}
 		srv := Server{Source: source, Name: hostName, Host: ipAddress, Port: port}
 		std = append(std, srv)
 	}
@@ -138,6 +162,9 @@ func loadTdxConfig(name, source string) (std, ext []Server) {
 		}
 		tmpPort := section.Key(fmt.Sprintf("Port%02d", i+1)).Value()
 		port := int(api.ParseInt(tmpPort))
+		if slices.Contains(ignoreExtensionPortList, port) {
+			continue
+		}
 		srv := Server{Source: source, Name: hostName, Host: ipAddress, Port: port}
 		ext = append(ext, srv)
 	}
