@@ -25,7 +25,7 @@ type FinancingAndSecuritiesLendingTarget struct {
 }
 
 var (
-	onceMarginTrading      coroutine.PeriodicOnce
+	onceMarginTrading      coroutine.RollingOnce
 	cacheMarginTradingList []string
 )
 
