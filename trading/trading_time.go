@@ -68,7 +68,7 @@ func (tr *DateTimeRange) Minutes() int {
 }
 
 var (
-	onceTimeRange coroutine.RollingMutex
+	onceTimeRange coroutine.PeriodicOnce
 	cnTimeRange   []DateTimeRange // 交易时间范围
 	trAMBegin     time.Time       // 上午开盘时间
 	trAMEnd       time.Time
