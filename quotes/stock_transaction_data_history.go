@@ -112,9 +112,11 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 
 		if isIndex {
 			amount := ele.Vol * 100
+			ele.Amount = float64(amount)
 			ele.Vol = int(float64(amount) / ele.Price)
 		} else {
 			ele.Vol *= 100
+			ele.Amount = float64(ele.Vol) * ele.Price
 		}
 
 		obj.reply.List = append(obj.reply.List, ele)

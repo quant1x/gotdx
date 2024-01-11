@@ -1,7 +1,7 @@
 package securities
 
 import (
-	"gitee.com/quant1x/gotdx/internal/cache"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 )

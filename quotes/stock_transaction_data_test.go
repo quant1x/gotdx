@@ -29,8 +29,8 @@ func TestHistoryTransaction(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	code := "sh600010"
-	date := 20231027
+	code := "sh880534"
+	date := 20240110
 	reply, err := stdApi.GetHistoryTransactionData(code, uint32(date), 0, 2)
 	if err != nil {
 		fmt.Printf("%+v\n", err)

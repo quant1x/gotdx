@@ -49,7 +49,8 @@ type TickTransaction struct {
 	Time      string  `dataframe:"time"`
 	Price     float64 `dataframe:"price"`
 	Vol       int     `dataframe:"vol"`
-	Num       int     `dataframe:"num"` // 历史成交数据中并无这个字段
+	Num       int     `dataframe:"num"`    // 历史成交数据中并无这个字段
+	Amount    float64 `dataframe:"amount"` // 新增金额字段
 	BuyOrSell int     `dataframe:"buyorsell"`
 }
 
@@ -115,9 +116,11 @@ func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) erro
 		ele.Price = float64(lastprice) / internal.BaseUnit(string(obj.request.Code[:]))
 		if isIndex {
 			amount := ele.Vol * 100
+			ele.Amount = float64(amount)
 			ele.Vol = int(float64(amount) / ele.Price)
 		} else {
 			ele.Vol *= 100
+			ele.Amount = float64(ele.Vol) * ele.Price
 		}
 		tmp := internal.DecodeVarint(data, &pos)
 		_ = tmp

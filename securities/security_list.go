@@ -1,11 +1,11 @@
 package securities
 
 import (
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx"
-	"gitee.com/quant1x/gotdx/internal/cache"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
-	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"os"
@@ -86,7 +86,7 @@ func lazyLoadStockList() {
 		readCacheSecurityList()
 		// 获取文件创建时间
 		finfo, _ := os.Stat(filename)
-		bUpdated = trading.CanInitialize(finfo.ModTime())
+		bUpdated = exchange.CanInitialize(finfo.ModTime())
 	}
 	if !bUpdated {
 		return

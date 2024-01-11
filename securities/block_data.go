@@ -1,9 +1,9 @@
 package securities
 
 import (
-	"gitee.com/quant1x/gotdx/internal/cache"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/quotes"
-	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"os"
 )
@@ -60,7 +60,7 @@ func updateCacheBlockFile() {
 		dataStat, err := os.Stat(blockFile)
 		if err == nil || os.IsExist(err) {
 			dataModifyTime := dataStat.ModTime()
-			toInit := trading.CanInitialize(dataModifyTime)
+			toInit := exchange.CanInitialize(dataModifyTime)
 			if toInit {
 				createOrUpdate = true
 			}

@@ -2,7 +2,7 @@ package quotes
 
 import (
 	"encoding/json"
-	"gitee.com/quant1x/gotdx/internal/cache"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/logger"
 	"os"
 )
@@ -47,13 +47,13 @@ func GetFastHost(key string) []Server {
 		logger.Infof("首次执行通达信数据接口, 正在进行服务器测速")
 		BestIP()
 
-	as = OpenConfig()
-	if as == nil && key == TDX_HOST_HQ {
-		return []Server{DefaultHQServer}
-	}
-	if as == nil && key == TDX_HOST_EX {
-		return []Server{DefaultHQServer}
-	}
+		as = OpenConfig()
+		if as == nil && key == TDX_HOST_HQ {
+			return []Server{DefaultHQServer}
+		}
+		if as == nil && key == TDX_HOST_EX {
+			return []Server{DefaultHQServer}
+		}
 	}
 	bestIp := as.BestIP
 	if key == TDX_HOST_HQ {

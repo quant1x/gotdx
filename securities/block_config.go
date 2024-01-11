@@ -2,7 +2,7 @@ package securities
 
 import (
 	"bufio"
-	"gitee.com/quant1x/gotdx/internal/cache"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/text/encoding"
 	"io"

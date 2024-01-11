@@ -3,9 +3,9 @@ package securities
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/internal/cache"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/http"
@@ -98,7 +98,7 @@ type rawMarginTrading struct {
 }
 
 func rawMarginTradingList(date string, pageNumber int) ([]SecurityMarginTrading, int, error) {
-	tradeDate := trading.FixTradeDate(date)
+	tradeDate := exchange.FixTradeDate(date)
 	params := urlpkg.Values{
 		"reportName":  {"RPTA_WEB_RZRQ_GGMX"},
 		"columns":     {"ALL"},
@@ -125,7 +125,7 @@ func rawMarginTradingList(date string, pageNumber int) ([]SecurityMarginTrading,
 }
 
 func getMarginTradingDate() string {
-	return trading.GetFrontTradeDay()
+	return exchange.GetFrontTradeDay()
 }
 
 // GetMarginTradingList 获取两融列表
@@ -160,8 +160,8 @@ func lazyLoadMarginTrading() {
 	// 2. 临时两融列表
 	var tempList []FinancingAndSecuritiesLendingTarget
 	// 3. 比较缓存日期和最新的时间
-	cacheLastDay := lastModified.Format(trading.TradingDayDateFormat)
-	if cacheLastDay < trading.LastTradeDate() {
+	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
+	if cacheLastDay < exchange.LastTradeDate() {
 		// 过时, 下载
 		list := GetMarginTradingList()
 		for _, v := range list {

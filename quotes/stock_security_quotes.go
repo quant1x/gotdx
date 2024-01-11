@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/trading"
 	"math"
 	"time"
 )
@@ -160,8 +160,8 @@ func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
 func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 	now := time.Now()
-	timestamp := now.Format(trading.TimeStampMilli)
-	_, status := trading.CanUpdateInRealtime(now)
+	timestamp := now.Format(exchange.TimeStampMilli)
+	_, status := exchange.CanUpdateInRealtime(now)
 	pos := 0
 	var _tmp uint16
 	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &_tmp)
@@ -301,7 +301,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			ele.IndexUpLimit = ele.BidVol2
 			ele.IndexUpLimit = ele.AskVol2
 		}
-		if status == trading.ExchangeClosing {
+		if status == exchange.ExchangeClosing {
 			// 收盘
 			if isIndexOrBlock {
 				ele.CloseVolume = int(float64(ele.CurVol*100) / ele.Price)

@@ -2,8 +2,8 @@ package quotes
 
 import (
 	"errors"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/num"
@@ -355,9 +355,9 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 	if err != nil {
 		return list, err
 	}
-	upDateInRealTime, status := trading.CanUpdateInRealtime()
+	upDateInRealTime, status := exchange.CanUpdateInRealtime()
 	quoteReply := reply.(*SecurityQuotesReply)
-	currentTransactionDate := trading.GetCurrentlyDay()
+	currentTransactionDate := exchange.GetCurrentlyDay()
 	for _, v := range quoteReply.List {
 		var snapshot Snapshot
 		err := api.Copy(&snapshot, &v)
@@ -374,7 +374,7 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 				// 交易时段
 				snapshot.ExchangeState = TDX_EXCHANGE_STATE_NORMAL
 			}
-			if status == trading.ExchangeSuspend {
+			if status == exchange.ExchangeSuspend {
 				// 交易暂停
 				snapshot.ExchangeState = TDX_EXCHANGE_STATE_PAUSE
 			}

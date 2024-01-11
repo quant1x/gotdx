@@ -1,9 +1,9 @@
 package securities
 
 import (
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx"
-	"gitee.com/quant1x/gotdx/internal/cache"
-	"gitee.com/quant1x/gotdx/trading"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 	"gitee.com/quant1x/gox/text/encoding"
@@ -17,7 +17,7 @@ func downloadBlockRawData(filename string) {
 	fn := cache.GetBlockPath() + "/" + filename
 	fileInfo, err := os.Stat(fn)
 	if err == nil || os.IsExist(err) {
-		toInit := trading.CanInitialize(fileInfo.ModTime())
+		toInit := exchange.CanInitialize(fileInfo.ModTime())
 		if !toInit {
 			return
 		}
