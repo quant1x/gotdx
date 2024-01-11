@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.1] - 2024-01-11
+### Changed
+- 移除二级市场代码,改从exchange获取.
+- 引入exchange组件, 移除交易日历和时间的处理功能到exchange.
+- 调整周期once组件.
+
 ## [1.19.0] - 2024-01-08
 ### Changed
 - 调整滑动窗口式的once, 测试.
@@ -1027,7 +1033,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.1...HEAD
+[1.19.1]: https://gitee.com/quant1x/gotdx/compare/v1.19.0...v1.19.1
 [1.19.0]: https://gitee.com/quant1x/gotdx/compare/v1.18.9...v1.19.0
 [1.18.9]: https://gitee.com/quant1x/gotdx/compare/v1.18.8...v1.18.9
 [1.18.8]: https://gitee.com/quant1x/gotdx/compare/v1.18.7...v1.18.8
