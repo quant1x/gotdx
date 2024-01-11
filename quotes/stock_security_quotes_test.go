@@ -3,7 +3,7 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gox/api"
 	"testing"
 )
@@ -16,7 +16,7 @@ func TestSecurityQuotesPackage(t *testing.T) {
 	defer stdApi.Close()
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen}, []string{"600275", "600455", "600086", "300742"})
 	sq1, err := stdApi.GetSecurityQuotes(
-		[]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen},
+		[]uint8{exchange.MarketIdShangHai, exchange.MarketIdShangHai, exchange.MarketIdShangHai, exchange.MarketIdShangHai, exchange.MarketIdShenZhen},
 		[]string{"000001", "000002", "880005", "880656", "399107"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)

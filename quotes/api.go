@@ -3,7 +3,6 @@ package quotes
 import (
 	"errors"
 	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/num"
@@ -191,7 +190,7 @@ func (this *StdApi) HeartBeat() (*HeartBeatReply, error) {
 // GetFinanceInfo 基本面
 func (this *StdApi) GetFinanceInfo(code string) (*FinanceInfo, error) {
 	msg := NewFinanceInfoPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	_market := mId
 	copy(_code[:], symbol)
@@ -211,7 +210,7 @@ func (this *StdApi) GetFinanceInfo(code string) (*FinanceInfo, error) {
 // GetKLine K线
 func (this *StdApi) GetKLine(code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
 	msg := NewSecurityBarsPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	_market := uint16(mId)
 	copy(_code[:], symbol)
@@ -233,7 +232,7 @@ func (this *StdApi) GetKLine(code string, category uint16, start uint16, count u
 // GetIndexBars 指数K线
 func (this *StdApi) GetIndexBars(code string, category uint16, start uint16, count uint16) (*SecurityBarsReply, error) {
 	msg := NewIndexBarsPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	_market := uint16(mId)
 	copy(_code[:], symbol)
@@ -252,7 +251,7 @@ func (this *StdApi) GetIndexBars(code string, category uint16, start uint16, cou
 }
 
 // GetSecurityCount 获取指定市场内的证券数目
-func (this *StdApi) GetSecurityCount(market proto.MarketType) (*SecurityCountReply, error) {
+func (this *StdApi) GetSecurityCount(market exchange.MarketType) (*SecurityCountReply, error) {
 	obj := NewSecurityCountPackage()
 	obj.SetParams(&SecurityCountRequest{
 		Market: uint16(market),
@@ -265,7 +264,7 @@ func (this *StdApi) GetSecurityCount(market proto.MarketType) (*SecurityCountRep
 }
 
 // GetSecurityList 股票列表
-func (this *StdApi) GetSecurityList(market proto.MarketType, start uint16) (*SecurityListReply, error) {
+func (this *StdApi) GetSecurityList(market exchange.MarketType, start uint16) (*SecurityListReply, error) {
 	msg := NewSecurityListPackage()
 	_market := uint16(market)
 	msg.SetParams(&SecurityListRequest{Market: _market, Start: start})
@@ -280,7 +279,7 @@ func (this *StdApi) GetSecurityList(market proto.MarketType, start uint16) (*Sec
 // GetSecurityQuotes 获取盘口五档报价
 //
 // Deprecated: 废弃, 推荐 GetSnapshot.
-func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*SecurityQuotesReply, error) {
+func (this *StdApi) GetSecurityQuotes(markets []exchange.MarketType, symbols []string) (*SecurityQuotesReply, error) {
 	if len(markets) != len(symbols) {
 		return nil, errors.New("market code count error")
 	}
@@ -303,7 +302,7 @@ func (this *StdApi) GetSecurityQuotes(markets []proto.MarketType, symbols []stri
 // V2GetSecurityQuotes 测试版本快照
 //
 // Deprecated: 不推荐
-func (this *StdApi) V2GetSecurityQuotes(markets []proto.MarketType, symbols []string) (*V2SecurityQuotesReply, error) {
+func (this *StdApi) V2GetSecurityQuotes(markets []exchange.MarketType, symbols []string) (*V2SecurityQuotesReply, error) {
 	if len(markets) != len(symbols) {
 		return nil, errors.New("market code count error")
 	}
@@ -325,10 +324,10 @@ func (this *StdApi) V2GetSecurityQuotes(markets []proto.MarketType, symbols []st
 
 // GetSnapshot 获取快照数据
 func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
-	marketIds := []proto.MarketType{}
+	marketIds := []exchange.MarketType{}
 	symbols := []string{}
 	for _, code := range codes {
-		id, _, symbol := proto.DetectMarket(code)
+		id, _, symbol := exchange.DetectMarket(code)
 		if len(symbol) == 6 {
 			marketIds = append(marketIds, id)
 			symbols = append(symbols, symbol)
@@ -363,7 +362,7 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 		err := api.Copy(&snapshot, &v)
 		if err == nil {
 			snapshot.Date = currentTransactionDate
-			snapshot.SecurityCode = proto.GetSecurityCode(v.Market, v.Code)
+			snapshot.SecurityCode = exchange.GetSecurityCode(v.Market, v.Code)
 			snapshot.Active = v.Active1
 			snapshot.ExchangeState = TDX_EXCHANGE_STATE_CLOSING
 			if snapshot.State == TDX_SECURITY_TRADE_STATE_DELISTING {
@@ -395,7 +394,7 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 // GetMinuteTimeData 获取分时图数据
 func (this *StdApi) GetMinuteTimeData(code string) (*MinuteTimeReply, error) {
 	obj := NewMinuteTimePackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	copy(_code[:], symbol)
 	obj.SetParams(&MinuteTimeRequest{
@@ -412,7 +411,7 @@ func (this *StdApi) GetMinuteTimeData(code string) (*MinuteTimeReply, error) {
 // GetHistoryMinuteTimeData 获取历史分时图数据
 func (this *StdApi) GetHistoryMinuteTimeData(code string, date uint32) (*HistoryMinuteTimeReply, error) {
 	obj := NewHistoryMinuteTimePackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	copy(_code[:], symbol)
 	obj.SetParams(&HistoryMinuteTimeRequest{
@@ -430,7 +429,7 @@ func (this *StdApi) GetHistoryMinuteTimeData(code string, date uint32) (*History
 // GetTransactionData 获取分时成交
 func (this *StdApi) GetTransactionData(code string, start uint16, count uint16) (*TransactionReply, error) {
 	obj := NewTransactionPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	copy(_code[:], symbol)
 	obj.SetParams(&TransactionRequest{
@@ -449,7 +448,7 @@ func (this *StdApi) GetTransactionData(code string, start uint16, count uint16) 
 // GetHistoryTransactionData 获取历史分时成交
 func (this *StdApi) GetHistoryTransactionData(code string, date uint32, start uint16, count uint16) (*TransactionReply, error) {
 	obj := NewHistoryTransactionPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	copy(_code[:], symbol)
 	obj.SetParams(&HistoryTransactionRequest{
@@ -469,7 +468,7 @@ func (this *StdApi) GetHistoryTransactionData(code string, date uint32, start ui
 // GetXdxrInfo 获取除权除息信息
 func (this *StdApi) GetXdxrInfo(code string) ([]XdxrInfo, error) {
 	obj := NewXdxrInfoPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	copy(_code[:], symbol)
 	obj.SetParams(&XdxrInfoRequest{
@@ -530,7 +529,7 @@ func (this *StdApi) GetBlockInfo(blockFile string) (*BlockInfoResponse, error) {
 
 func (this *StdApi) GetCompanyInfoCategory(code string) ([]CompanyInfoCategory, error) {
 	obj := NewCompanyInfoCategoryPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
 	_market := uint16(mId)
 	copy(_code[:], symbol)
@@ -562,7 +561,7 @@ func (this *StdApi) GetCompanyInfoContent(code string, name string) (*CompanyInf
 		return nil, errors.New("not found")
 	}
 	obj := NewCompanyInfoContentPackage()
-	mId, _, symbol := proto.DetectMarket(code)
+	mId, _, symbol := exchange.DetectMarket(code)
 	reqest := CompanyInfoContentRequest{
 		Market: uint16(mId),
 		Offset: category.Offset,

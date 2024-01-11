@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
@@ -95,9 +96,9 @@ func (obj *TransactionPackage) Serialize() ([]byte, error) {
 func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	marketId := proto.MarketType(obj.request.Market)
+	marketId := exchange.MarketType(obj.request.Market)
 	symbol := api.Bytes2String(obj.request.Code[:])
-	isIndex := proto.AssertIndexByMarketAndCode(marketId, symbol)
+	isIndex := exchange.AssertIndexByMarketAndCode(marketId, symbol)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)

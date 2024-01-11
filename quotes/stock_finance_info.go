@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
@@ -218,7 +219,7 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 	}
 	var resp FinanceInfo
 	raw := reply.First
-	resp.Code = proto.GetSecurityCode(obj.request.Market, api.Bytes2String(obj.request.Code[:]))
+	resp.Code = exchange.GetSecurityCode(obj.request.Market, api.Bytes2String(obj.request.Code[:]))
 	resp.LiuTongGuBen = internal.NumberToFloat64(raw.LiuTongGuBen) * 10000
 	resp.Province = raw.Province
 	resp.Industry = raw.Industry

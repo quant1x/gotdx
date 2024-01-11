@@ -131,7 +131,7 @@ func (obj *SecurityQuotesPackage) SetParams(req *SecurityQuotesRequest) {
 	obj.request = req
 	for i := 0; i < len(req.StockList); i++ {
 		v := req.StockList[i]
-		securityCode := proto.GetMarketFlag(v.Market) + v.Code
+		securityCode := exchange.GetMarketFlag(v.Market) + v.Code
 		obj.mapCode[securityCode] = v
 	}
 }
@@ -216,7 +216,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.IndexOpenAmount = internal.DecodeVarint(data, &pos) * 100
 		ele.StockOpenAmount = internal.DecodeVarint(data, &pos) * 100
 		// 确定当前数据是指数或者板块
-		isIndexOrBlock := proto.AssertIndexByMarketAndCode(ele.Market, ele.Code)
+		isIndexOrBlock := exchange.AssertIndexByMarketAndCode(ele.Market, ele.Code)
 		tmpOpenVolume := float64(0)
 		if isIndexOrBlock {
 			// 指数或者板块, 单位是"股"
@@ -284,7 +284,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			ele.State = TDX_SECURITY_TRADE_STATE_DELISTING
 		} else {
 			// 如果不是退市状态, 从临时映射中删除
-			securityCode := proto.GetMarketFlag(ele.Market) + ele.Code
+			securityCode := exchange.GetMarketFlag(ele.Market) + ele.Code
 			delete(obj.mapCode, securityCode)
 			// 如果开盘价非0, 交易状态正常
 			if ele.Open != float64(0) {
@@ -316,7 +316,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 	for i := 0; len(obj.mapCode) > 0 && i < len(obj.reply.List); i++ {
 		v := &(obj.reply.List[i])
 		if v.State == TDX_SECURITY_TRADE_STATE_DELISTING {
-			securityCode := proto.GetMarketFlag(v.Market) + v.Code
+			securityCode := exchange.GetMarketFlag(v.Market) + v.Code
 			if _, ok := obj.mapCode[securityCode]; ok {
 				// 代码正常
 				delete(obj.mapCode, securityCode)

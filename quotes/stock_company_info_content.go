@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
@@ -40,11 +41,11 @@ type CompanyInfoContentReply struct {
 }
 
 type CompanyInfoContent struct {
-	Market  proto.MarketType `dataframe:"market"`  // 市场代码
-	Code    string           `dataframe:"code"`    // 短码
-	Name    string           `dataframe:"name"`    // 名称
-	Length  uint32           `dataframe:"length"`  // 长度
-	Content string           `dataframe:"content"` // 内容
+	Market  exchange.MarketType `dataframe:"market"`  // 市场代码
+	Code    string              `dataframe:"code"`    // 短码
+	Name    string              `dataframe:"name"`    // 名称
+	Length  uint32              `dataframe:"length"`  // 长度
+	Content string              `dataframe:"content"` // 内容
 }
 
 func (this *CompanyInfoContent) Map(unit string) *linkedhashmap.Map {
@@ -151,7 +152,7 @@ func (obj *CompanyInfoContentPackage) UnSerialize(header interface{}, data []byt
 		return err
 	}
 	response := CompanyInfoContent{
-		Market:  proto.MarketType(reply.Market),
+		Market:  exchange.MarketType(reply.Market),
 		Code:    reply.Code,
 		Length:  uint32(reply.Length),
 		Content: internal.Utf8ToGbk(reply.Data),

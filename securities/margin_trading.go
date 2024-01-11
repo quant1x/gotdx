@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/http"
@@ -165,7 +164,7 @@ func lazyLoadMarginTrading() {
 		// 过时, 下载
 		list := GetMarginTradingList()
 		for _, v := range list {
-			securityCode := proto.CorrectSecurityCode(v.SecuCode)
+			securityCode := exchange.CorrectSecurityCode(v.SecuCode)
 			tempList = append(tempList, FinancingAndSecuritiesLendingTarget{Code: securityCode})
 		}
 		// 刷新本地缓存文件
@@ -186,7 +185,7 @@ func lazyLoadMarginTrading() {
 	var codes []string
 	for _, v := range tempList {
 		code := v.Code
-		securityCode := proto.CorrectSecurityCode(code)
+		securityCode := exchange.CorrectSecurityCode(code)
 		codes = append(codes, securityCode)
 	}
 	if len(codes) > 0 {

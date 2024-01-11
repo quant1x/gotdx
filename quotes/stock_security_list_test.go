@@ -3,7 +3,7 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gox/api"
 	"testing"
 )
@@ -14,7 +14,7 @@ func TestSecurityListPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	reply, err := stdApi.GetSecurityList(proto.MarketIdShangHai, TDX_SECURITY_LIST_MAX*19)
+	reply, err := stdApi.GetSecurityList(exchange.MarketIdShangHai, TDX_SECURITY_LIST_MAX*19)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

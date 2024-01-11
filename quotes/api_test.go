@@ -2,6 +2,7 @@ package quotes
 
 import (
 	"fmt"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/logger"
 	"testing"
@@ -54,7 +55,7 @@ func TestStdApi_ALL(t *testing.T) {
 	fmt.Printf("GetKLine: %+v\n", kl)
 
 	// 5. stock list
-	sl, err := stdApi.GetSecurityList(proto.MarketIdShangHai, 0)
+	sl, err := stdApi.GetSecurityList(exchange.MarketIdShangHai, 0)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -67,7 +68,7 @@ func TestStdApi_ALL(t *testing.T) {
 	}
 	fmt.Printf("GetIndexBars: %+v\n", ikl)
 	// 7. 获取指定市场内的证券数目
-	sc, err := stdApi.GetSecurityCount(proto.MarketIdShangHai)
+	sc, err := stdApi.GetSecurityCount(exchange.MarketIdShangHai)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
@@ -77,17 +78,14 @@ func TestStdApi_ALL(t *testing.T) {
 	// 8.1 获取5档行情
 	//sq, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai}, []string{"600030", "600600"})
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"600600"})
-	sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"688981"})
+	sq1, err := stdApi.GetSecurityQuotes([]uint8{exchange.MarketIdShangHai}, []string{"688981"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
 	fmt.Printf("%+v\n", sq1)
 
 	// 8.2 获取5档行情
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"600600"})
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShangHai}, []string{"880082"})
-	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShenZhen}, []string{"002423"})
-	//sq2, err := stdApi.V2GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai}, []string{"600030", "600600", "880082"})
+	sq2, err := stdApi.V2GetSecurityQuotes([]uint8{exchange.MarketIdShenZhen}, []string{"002423"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

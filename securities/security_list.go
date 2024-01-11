@@ -4,7 +4,6 @@ import (
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
@@ -110,7 +109,7 @@ func lazyLoadStockList() {
 // CheckoutSecurityInfo 获取证券名称
 func CheckoutSecurityInfo(securityCode string) (*quotes.Security, bool) {
 	__onceStockList.Do(lazyLoadStockList)
-	securityCode = proto.CorrectSecurityCode(securityCode)
+	securityCode = exchange.CorrectSecurityCode(securityCode)
 	security, ok := __mapStockList[securityCode]
 	if ok {
 		return &security, true
@@ -135,10 +134,10 @@ func AllCodeList() []string {
 
 // 检查指数和个股
 func checkIndexAndStock(security quotes.Security) bool {
-	if proto.AssertIndexBySecurityCode(security.Code) {
+	if exchange.AssertIndexBySecurityCode(security.Code) {
 		return true
 	}
-	if proto.AssertStockBySecurityCode(security.Code) {
+	if exchange.AssertStockBySecurityCode(security.Code) {
 		return true
 	}
 	return false
@@ -150,7 +149,7 @@ func getSecurityList() (allList []quotes.Security) {
 	offset := uint16(quotes.TDX_SECURITY_LIST_MAX)
 	start := uint16(0)
 	for {
-		reply, err := stdApi.GetSecurityList(proto.MarketIdShangHai, start)
+		reply, err := stdApi.GetSecurityList(exchange.MarketIdShangHai, start)
 		if err != nil {
 			return
 		}
@@ -168,7 +167,7 @@ func getSecurityList() (allList []quotes.Security) {
 	}
 	start = uint16(0)
 	for {
-		reply, err := stdApi.GetSecurityList(proto.MarketIdShenZhen, start)
+		reply, err := stdApi.GetSecurityList(exchange.MarketIdShenZhen, start)
 		if err != nil {
 			return
 		}

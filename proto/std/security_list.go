@@ -2,19 +2,19 @@ package std
 
 // 获取股票列表
 import (
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gotdx/proto"
 )
 
-// 请求包结构
+// GetSecurityListRequest 请求包结构
 type GetSecurityListRequest struct {
 	// struc不允许slice解析，只允许包含长度的array，该长度可根据hex字符串计算
 	Unknown1 []byte `struc:"[12]byte"`
 	// pytdx中使用struct.Pack进行反序列化
 	// 其中<H等价于这里的struc:"uint16,little"
 	// <I等价于struc:"uint32,little"
-	Market proto.MarketType `struc:"uint16,little" json:"market"`
-	Start  int              `struc:"uint16,little" json:"start"`
+	Market exchange.MarketType `struc:"uint16,little" json:"market"`
+	Start  int                 `struc:"uint16,little" json:"start"`
 }
 
 // 请求包序列化输出
@@ -92,7 +92,7 @@ func (resp *GetSecurityListResponse) Unmarshal(data []byte) error {
 }
 
 // todo: 检测market是否为合法值
-func NewGetSecurityListRequest(market proto.MarketType, start int) (*GetSecurityListRequest, error) {
+func NewGetSecurityListRequest(market exchange.MarketType, start int) (*GetSecurityListRequest, error) {
 	request := &GetSecurityListRequest{
 		Unknown1: internal.HexString2Bytes("0c 01 18 64 01 01 06 00 06 00 50 04"),
 		Market:   market,
@@ -101,7 +101,7 @@ func NewGetSecurityListRequest(market proto.MarketType, start int) (*GetSecurity
 	return request, nil
 }
 
-func NewGetSecurityList(market proto.MarketType, start int) (*GetSecurityListRequest, *GetSecurityListResponse, error) {
+func NewGetSecurityList(market exchange.MarketType, start int) (*GetSecurityListRequest, *GetSecurityListResponse, error) {
 	var response GetSecurityListResponse
 	var request, err = NewGetSecurityListRequest(market, start)
 	return request, &response, err

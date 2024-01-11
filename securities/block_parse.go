@@ -1,8 +1,8 @@
 package securities
 
 import (
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 )
 
@@ -46,8 +46,8 @@ func parseAndGenerateBlockFile() {
 				if len(sc.Code) < 5 {
 					continue
 				}
-				marketId, _, _ := proto.DetectMarket(sc.Code)
-				if marketId == proto.MarketIdBeiJing {
+				marketId, _, _ := exchange.DetectMarket(sc.Code)
+				if marketId == exchange.MarketIdBeiJing {
 					continue
 				}
 				list = append(list, sc.Code)

@@ -1,8 +1,8 @@
 package securities
 
 import (
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"slices"
@@ -36,11 +36,11 @@ func loadCacheBlockInfos() {
 		__global_block_list = []BlockInfo{}
 		for _, v := range list {
 			// 对齐板块代码
-			blockCode := proto.CorrectSecurityCode(v.Code)
+			blockCode := exchange.CorrectSecurityCode(v.Code)
 			v.Code = blockCode
 			for i := 0; i < len(v.ConstituentStocks); i++ {
 				// 对齐个股代码
-				stockCode := proto.CorrectSecurityCode(v.ConstituentStocks[i])
+				stockCode := exchange.CorrectSecurityCode(v.ConstituentStocks[i])
 				v.ConstituentStocks[i] = stockCode
 			}
 			// 缓存列表
@@ -60,7 +60,7 @@ func BlockList() (list []BlockInfo) {
 func GetBlockInfo(code string) *BlockInfo {
 	__onceBlockFiles.Do(loadCacheBlockInfos)
 	securityCode := code
-	if !proto.AssertBlockBySecurityCode(&securityCode) {
+	if !exchange.AssertBlockBySecurityCode(&securityCode) {
 		return nil
 	}
 	blockInfo, ok := __mapBlock[securityCode]

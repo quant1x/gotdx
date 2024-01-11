@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/logger"
@@ -169,7 +170,7 @@ func (obj *V2SecurityQuotesPackage) UnSerialize(header interface{}, data []byte)
 		} else {
 			ele.ServerTime = "0"
 			// 如果出现这种情况, 可能是退市或者其实交易状态异常的数据, 摘牌的情况下, 证券代码是错的
-			ele.Code = proto.StockDelisting
+			ele.Code = exchange.StockDelisting
 		}
 
 		ele.ReversedBytes1 = internal.DecodeVarint(data, &pos)
