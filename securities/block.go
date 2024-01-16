@@ -2,7 +2,6 @@ package securities
 
 import (
 	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"slices"
@@ -26,7 +25,7 @@ type BlockInfo struct {
 
 func loadCacheBlockInfos() {
 	syncBlockFiles()
-	bkFilename := cache.BlockFilename()
+	bkFilename := SectorFilename()
 	list := []BlockInfo{}
 	err := api.CsvToSlices(bkFilename, &list)
 	if err != nil {

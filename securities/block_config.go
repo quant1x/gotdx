@@ -14,16 +14,19 @@ import (
 func loadIndexBlockInfos() []BlockInfo {
 	bks := []string{"tdxzs.cfg", "tdxzs3.cfg"}
 	bis := []BlockInfo{}
-	tmpMap := map[string]bool{}
+	tmpMap := map[string]BlockInfo{}
 	for _, v := range bks {
 		bi := getBlockInfoFromConfig(v)
 		if len(bi) == 0 {
 			continue
 		}
 		for _, info := range bi {
-			if _, ok := tmpMap[info.Code]; !ok {
+			if bv, ok := tmpMap[info.Code]; !ok {
 				bis = append(bis, info)
-				tmpMap[info.Code] = true
+				tmpMap[info.Code] = info
+			} else {
+				//fmt.Println(info.Code, "=>", bv)
+				_ = bv
 			}
 		}
 	}
@@ -55,6 +58,11 @@ func getBlockInfoFromConfig(name string) []BlockInfo {
 		}
 		line := decoder.ConvertString(string(data))
 		arr := strings.Split(line, "|")
+		//cols := len(arr)
+		//fmt.Println(name, cols, arr[5])
+		//if arr[1] == "881432" {
+		//	fmt.Println("jj")
+		//}
 		bk := BlockInfo{
 			Name:  arr[0],
 			Code:  arr[1],

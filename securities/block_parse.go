@@ -1,18 +1,33 @@
 package securities
 
 import (
+	"fmt"
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 )
 
+// SectorFilename 板块缓存文件名
+func SectorFilename(date ...string) string {
+	name := "blocks"
+	cacheDate := exchange.LastTradeDate()
+	if len(date) > 0 {
+		cacheDate = exchange.FixTradeDate(date[0])
+	}
+	filename := fmt.Sprintf("%s/%s.%s", cache.GetMetaPath(), name, cacheDate)
+	return filename
+}
+
 // 读取板块数据
 func parseAndGenerateBlockFile() {
 	blockInfos := loadIndexBlockInfos()
+	//fmt.Println(blockInfos)
 	block2Name := map[string]string{}
 	for _, v := range blockInfos {
+		//fmt.Println(v)
 		block2Name[v.Block] = v.Name
 	}
+	//fmt.Println(block2Name)
 	bks := []string{"block.dat", "block_gn.dat", "block_fg.dat", "block_zs.dat"}
 	//bks := []string{"block_gn.dat", "block_fg.dat", "block_zs.dat"}
 	name2block := map[string]__raw_block_info{}
@@ -57,6 +72,10 @@ func parseAndGenerateBlockFile() {
 			continue
 		}
 		bc := v.Block
+		//fmt.Println(bc, v)
+		//if bc == "X6005" {
+		//	fmt.Println("kk")
+		//}
 		stockList := industryConstituentStockList(hys, bc)
 		if len(stockList) > 0 {
 			blockInfos[i].Count = len(stockList)
@@ -67,29 +86,7 @@ func parseAndGenerateBlockFile() {
 		return len(info.ConstituentStocks) > 0
 	})
 	if len(blockInfos) > 0 {
-		filename := cache.BlockFilename()
+		filename := SectorFilename()
 		_ = api.SlicesToCsv(filename, blockInfos)
 	}
-
-	//for _, v := range blockInfos {
-	//	if v.Count == 0 {
-	//		continue
-	//	}
-	//	bk_stock := v.ConstituentStocks
-	//	codes := pandas.NewSeries(stat.SERIES_TYPE_STRING, "code", bk_stock)
-	//	tmp := pandas.NewDataFrame(codes)
-	//	if tmp.Nrow() > 0 {
-	//		_ = tmp.WriteCSV(cache.GetBlockPath() + "/" + v.Code + ".csv")
-	//	}
-	//	bk_code = append(bk_code, v.Code)
-	//	bk_name = append(bk_name, v.Name)
-	//	bk_type = append(bk_type, v.Type)
-	//}
-	//bkc := pandas.NewSeries(stat.SERIES_TYPE_STRING, "code", bk_code)
-	//bkn := pandas.NewSeries(stat.SERIES_TYPE_STRING, "name", bk_name)
-	//bkt := pandas.NewSeries(stat.SERIES_TYPE_STRING, "type", bk_type)
-	//dfBk := pandas.NewDataFrame(bkc, bkn, bkt)
-	//if dfBk.Nrow() > 0 {
-	//	_ = dfBk.WriteCSV(cache.BlockFilename())
-	//}
 }

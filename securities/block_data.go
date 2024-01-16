@@ -2,7 +2,6 @@ package securities
 
 import (
 	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gox/api"
 	"os"
@@ -20,7 +19,7 @@ func syncBlockFiles() {
 // 更新缓存csv数据文件
 func updateCacheBlockFile() {
 	// 如果板块数据不存在, 从应用内导出
-	blockFile := cache.BlockFilename()
+	blockFile := SectorFilename()
 	createOrUpdate := false
 	if !api.FileExist(blockFile) {
 		createOrUpdate = true

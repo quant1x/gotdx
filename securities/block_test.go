@@ -10,8 +10,13 @@ func TestBlockList(t *testing.T) {
 	fmt.Println(v)
 }
 
+func TestParseAndGenerateBlockFile(t *testing.T) {
+	parseAndGenerateBlockFile()
+}
+
 func TestGetBlockInfo(t *testing.T) {
 	code := "880818"
+	code = "881432"
 	v := GetBlockInfo(code)
 	fmt.Println(v)
 }

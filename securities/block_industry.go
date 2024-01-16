@@ -13,9 +13,12 @@ import (
 
 // IndustryInfo 行业板块对应
 type IndustryInfo struct {
-	Code   string // 股票代码
-	Block  string // 行业板块代码
-	Block5 string // 二级行业板块代码
+	MarketId int    // 市场代码
+	Code     string // 股票代码
+	Block    string // 行业板块代码
+	Block5   string // 二级行业板块代码
+	XBlock   string // x行业代码
+	XBlock5  string // x二级行业代码
 }
 
 // 获取行业板块
@@ -45,19 +48,34 @@ func loadIndustryBlocks() []IndustryInfo {
 			break
 		}
 		line := decoder.ConvertString(string(data))
+		//if strings.Index(line, "600593") >= 0 {
+		//	fmt.Println("hh")
+		//}
 		arr := strings.Split(line, "|")
 		bc := arr[2]
 		bc5 := bc
 		if len(bc5) >= 5 {
 			bc5 = bc5[0:5]
 		}
+		var xbc, xbc5 string
+		if len(arr) >= 6 {
+			xbc5 = arr[5]
+			if len(xbc5) >= 6 {
+				xbc = xbc5[:5]
+			}
+		}
+
 		hy := IndustryInfo{
-			Code:   arr[1],
-			Block:  bc,
-			Block5: bc5,
+			MarketId: int(api.ParseInt(arr[0])),
+			Code:     arr[1],
+			Block:    bc,
+			Block5:   bc5,
+			XBlock:   xbc,
+			XBlock5:  xbc5,
 		}
 		hys = append(hys, hy)
 	}
+	//fmt.Println(hys)
 	return hys
 }
 
@@ -66,11 +84,12 @@ func industryConstituentStockList(hys []IndustryInfo, block string) []string {
 	list := []string{}
 	for _, v := range hys {
 		if len(block) == 5 {
-			if v.Block5 == block {
+			//if v.Block5 == block {
+			if strings.HasPrefix(v.Block5, block) || strings.HasPrefix(v.XBlock5, block) {
 				list = append(list, v.Code)
 			}
 		} else {
-			if v.Block == block {
+			if v.Block == block || v.XBlock == block {
 				list = append(list, v.Code)
 			}
 		}
