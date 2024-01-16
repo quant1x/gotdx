@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.3] - 2024-01-16
+### Changed
+- 更新依赖库版本.
+- 删除调试中预留的控制台输出代码.
+- 优化行业板块的数据处理.
+
 ## [1.19.2] - 2024-01-13
 ### Changed
 - 更新依赖库版本.
@@ -1038,7 +1044,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.3...HEAD
+[1.19.3]: https://gitee.com/quant1x/gotdx/compare/v1.19.2...v1.19.3
 [1.19.2]: https://gitee.com/quant1x/gotdx/compare/v1.19.1...v1.19.2
 [1.19.1]: https://gitee.com/quant1x/gotdx/compare/v1.19.0...v1.19.1
 [1.19.0]: https://gitee.com/quant1x/gotdx/compare/v1.18.9...v1.19.0
