@@ -48,9 +48,6 @@ func loadIndustryBlocks() []IndustryInfo {
 			break
 		}
 		line := decoder.ConvertString(string(data))
-		//if strings.Index(line, "600593") >= 0 {
-		//	fmt.Println("hh")
-		//}
 		arr := strings.Split(line, "|")
 		bc := arr[2]
 		bc5 := bc
@@ -75,7 +72,6 @@ func loadIndustryBlocks() []IndustryInfo {
 		}
 		hys = append(hys, hy)
 	}
-	//fmt.Println(hys)
 	return hys
 }
 

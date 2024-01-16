@@ -21,13 +21,10 @@ func SectorFilename(date ...string) string {
 // 读取板块数据
 func parseAndGenerateBlockFile() {
 	blockInfos := loadIndexBlockInfos()
-	//fmt.Println(blockInfos)
 	block2Name := map[string]string{}
 	for _, v := range blockInfos {
-		//fmt.Println(v)
 		block2Name[v.Block] = v.Name
 	}
-	//fmt.Println(block2Name)
 	bks := []string{"block.dat", "block_gn.dat", "block_fg.dat", "block_zs.dat"}
 	//bks := []string{"block_gn.dat", "block_fg.dat", "block_zs.dat"}
 	name2block := map[string]__raw_block_info{}
@@ -72,10 +69,6 @@ func parseAndGenerateBlockFile() {
 			continue
 		}
 		bc := v.Block
-		//fmt.Println(bc, v)
-		//if bc == "X6005" {
-		//	fmt.Println("kk")
-		//}
 		stockList := industryConstituentStockList(hys, bc)
 		if len(stockList) > 0 {
 			blockInfos[i].Count = len(stockList)
