@@ -8,6 +8,7 @@ import (
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/api"
 	"math"
 	"time"
 )
@@ -152,11 +153,13 @@ func (obj *SecurityQuotesPackage) Serialize() ([]byte, error) {
 
 	err = binary.Write(buf, binary.LittleEndian, obj.request.Count)
 	for _, stock := range obj.request.StockList {
-		code := make([]byte, 6)
-		copy(code, stock.Code)
-		tmp := []byte{stock.Market}
-		tmp = append(tmp, code...)
-		buf.Write(tmp)
+		//code := make([]byte, 6)
+		//copy(code, stock.Code)
+		//tmp := []byte{stock.Market}
+		//tmp = append(tmp, code...)
+		//buf.Write(tmp)
+		buf.WriteByte(stock.Market)
+		buf.WriteString(stock.Code[:6])
 	}
 
 	return buf.Bytes(), err
@@ -181,9 +184,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		pos += 1
 		var code [6]byte
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+6]), binary.LittleEndian, &code)
-		//enc := mahonia.NewDecoder("gbk")
-		//ele.Code = enc.ConvertString(string(code[:]))
-		ele.Code = internal.Utf8ToGbk(code[:])
+		//ele.Code = internal.Utf8ToGbk(code[:])
+		ele.Code = api.Bytes2String(code[:])
 		baseUnit := internal.BaseUnit(ele.Market, ele.Code)
 		pos += 6
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
@@ -279,10 +281,10 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		ele.ReversedBytes7 = internal.DecodeVarint(data, &pos)
 		ele.ReversedBytes8 = internal.DecodeVarint(data, &pos)
 
-		var reversedbytes9 int16
-		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedbytes9)
+		var reversedBytes9 int16
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &reversedBytes9)
 		pos += 2
-		ele.Rate = float64(reversedbytes9) / 100.0
+		ele.Rate = float64(reversedBytes9) / 100.0
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active2)
 		pos += 2
 
