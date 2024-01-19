@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.4] - 2024-01-19
+### Changed
+- 更新依赖库版本.
+- 备注基本的交易单位函数.
+- 删除废弃的同步脚本.
+- 替换部分代码的立即数为常量.
+
 ## [1.19.3] - 2024-01-16
 ### Changed
 - 更新依赖库版本.
@@ -1044,7 +1051,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.4...HEAD
+[1.19.4]: https://gitee.com/quant1x/gotdx/compare/v1.19.3...v1.19.4
 [1.19.3]: https://gitee.com/quant1x/gotdx/compare/v1.19.2...v1.19.3
 [1.19.2]: https://gitee.com/quant1x/gotdx/compare/v1.19.1...v1.19.2
 [1.19.1]: https://gitee.com/quant1x/gotdx/compare/v1.19.0...v1.19.1
