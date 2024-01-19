@@ -3,8 +3,6 @@ package quotes
 import (
 	"io"
 	"net"
-	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -15,9 +13,9 @@ import (
 )
 
 type TcpClient struct {
-	sync.Mutex
-	conn          net.Conn
-	Addr          string     // 当前连接成功的服务器地址
+	sync.Mutex               // 匿名属性
+	conn          net.Conn   // tcp连接
+	server        Server     // 服务器信息
 	opt           *Options   // 参数
 	complete      chan bool  // 完成状态
 	sending       chan bool  // 正在发送状态
@@ -25,30 +23,6 @@ type TcpClient struct {
 	completedTime time.Time  // 时间戳
 	timeMutex     sync.Mutex // 时间锁
 	closed        uint32     // 关闭次数
-}
-
-// Server 主机信息
-type Server struct {
-	Source    string `json:"source"`
-	Name      string `json:"name"`
-	Host      string `json:"host"`
-	Port      int    `json:"port"`
-	CrossTime int64  `json:"crossTime"`
-}
-
-func (s Server) Addr() string {
-	return strings.Join([]string{s.Host, strconv.Itoa(s.Port)}, ":")
-}
-
-type Options struct {
-	sync.Mutex
-	Servers           []Server      // 服务器组
-	index             int           // 索引
-	ConnectionTimeout time.Duration // 连接超时
-	ReadTimeout       time.Duration // 读超时
-	WriteTimeout      time.Duration // 写超时
-	MaxRetryTimes     int           // 最大重试次数
-	RetryDuration     time.Duration // 重试时间
 }
 
 func NewClient(opt *Options) *TcpClient {
@@ -133,12 +107,12 @@ func (client *TcpClient) heartbeat() {
 				})
 				err := client.Command(msg)
 				if err != nil {
-					logger.Warnf("client -> server[%s]: error > shutdown", client.Addr)
+					logger.Warnf("client -> server[%s]: error > shutdown", client.server)
 					_ = client.Close()
 					return
 				} else {
 					client.updateCompletedTimestamp()
-					logger.Warnf("client -> server[%s]: heartbeat", client.Addr)
+					logger.Warnf("client -> server[%s]: heartbeat", client.server)
 				}
 				// 模拟服务器主动断开或者网络断开
 				//logger.Warnf("client -> server[%s]: test force > shutdown", client.Addr)
@@ -146,43 +120,28 @@ func (client *TcpClient) heartbeat() {
 				//return
 			}
 		case <-client.done:
-			logger.Warnf("client -> server[%s]: done > shutdown", client.Addr)
+			logger.Warnf("client -> server[%s]: done > shutdown", client.server)
 			return
 		}
 	}
 }
 
 // Connect 连接服务器
-func (client *TcpClient) Connect() error {
-	client.opt.Lock()
-	defer client.opt.Unlock()
-	total := len(client.opt.Servers)
-	if client.opt.index >= total {
-		client.opt.index = 0
+func (client *TcpClient) Connect(server Server) error {
+	addr := server.Addr()
+	conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
+	state := "connected"
+	if err != nil {
+		state = err.Error()
 	}
-	for i := client.opt.index; i < total; i++ {
-		serv := client.opt.Servers[i]
-		addr := strings.Join([]string{serv.Host, strconv.Itoa(serv.Port)}, ":")
-		conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
-		state := "connected"
-		if err != nil {
-			state = err.Error()
-		}
-		logger.Warnf("client -> server[%s]: %s", addr, state)
-		if err == nil {
-			client.conn = conn
-			client.Addr = addr
-			client.updateCompletedTimestamp()
-			client.opt.index += 1
-			go client.heartbeat()
-			break
-		} else if i+1 >= total {
-			client.opt.index = 0
-			return err
-		} else {
-			client.opt.index += 1
-		}
+	logger.Warnf("client -> server[%s]: %s", addr, state)
+	if err == nil {
+		client.conn = conn
+		client.server = server
+		client.updateCompletedTimestamp()
+		go client.heartbeat()
 	}
+
 	if client.conn == nil {
 		return exception.New(1, "connect timeout")
 	}

@@ -25,23 +25,15 @@ type ConnPool struct {
 }
 
 // NewConnPool 创新一个新连接池
-func NewConnPool(opt *Options, size int, factory func() (interface{}, error), close func(interface{}) error, ping func(interface{}) error) (*ConnPool, error) {
-	if size < POOL_INITED {
-		size = POOL_INITED
-	}
-	poolMax := POOL_MAX
-	bestIpCount := len(opt.Servers)
-	if bestIpCount == 0 {
-		panic("No available hosts")
-	}
-	if bestIpCount < poolMax {
-		poolMax = bestIpCount
+func NewConnPool(maxCap, maxIdle int, factory func() (any, error), close func(any) error, ping func(any) error) (*ConnPool, error) {
+	if maxIdle < POOL_INITED {
+		maxIdle = POOL_INITED
 	}
 	// 创建一个连接池: 初始化5,最大连接30
 	poolConfig := &pool.Config{
 		InitialCap: POOL_INITED,
-		MaxCap:     poolMax,
-		MaxIdle:    size,
+		MaxCap:     maxCap,
+		MaxIdle:    maxIdle,
 		Factory:    factory,
 		Close:      close,
 		Ping:       ping,
@@ -54,7 +46,6 @@ func NewConnPool(opt *Options, size int, factory func() (interface{}, error), cl
 		return nil, err
 	}
 	cp := &ConnPool{
-		//addr: addr,
 		pool: _pool,
 	}
 	return cp, nil
