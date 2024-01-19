@@ -9,8 +9,6 @@ require (
 	golang.org/x/text v0.14.0
 )
 
-replace gitee.com/quant1x/exchange v0.2.5 => ../exchange
-
 require (
 	gitee.com/quant1x/pandas v1.2.8 // indirect
 	github.com/dlclark/regexp2 v1.10.0 // indirect
