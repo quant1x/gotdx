@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
@@ -78,6 +79,7 @@ func (obj *MinuteTimePackage) Serialize() ([]byte, error) {
 func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
+	market := exchange.MarketType(obj.request.Market)
 	code := api.Bytes2String(obj.request.Code[:])
 
 	pos := 0
@@ -88,6 +90,7 @@ func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error
 
 	pos += 3
 
+	baseUnit := internal.BaseUnit(market, code)
 	lastPrice := 0
 	//TODO: ETF的数据不对需要进一步处理
 	for index := uint16(0); index < obj.reply.Count; index++ {
@@ -97,7 +100,7 @@ func (obj *MinuteTimePackage) UnSerialize(header interface{}, data []byte) error
 		vol := internal.DecodeVarint(data, &pos)
 		lastPrice += rawPrice
 
-		p := float32(lastPrice) / float32(internal.BaseUnit(code))
+		p := float32(lastPrice) / float32(baseUnit)
 
 		ele := MinuteTime{p, vol}
 		obj.reply.List = append(obj.reply.List, ele)

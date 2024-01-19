@@ -84,9 +84,9 @@ func (obj *HistoryTransactionPackage) Serialize() ([]byte, error) {
 func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	marketId := exchange.MarketType(obj.request.Market)
-	symbol := api.Bytes2String(obj.request.Code[:])
-	isIndex := exchange.AssertIndexByMarketAndCode(marketId, symbol)
+	market := exchange.MarketType(obj.request.Market)
+	code := api.Bytes2String(obj.request.Code[:])
+	isIndex := exchange.AssertIndexByMarketAndCode(market, code)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
@@ -97,7 +97,7 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 	//binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &b)
 	// 跳过4个字节
 	pos += 4
-
+	baseUnit := internal.BaseUnit(market, code)
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
@@ -109,7 +109,7 @@ func (obj *HistoryTransactionPackage) UnSerialize(header interface{}, data []byt
 		internal.DecodeVarint(data, &pos)
 
 		lastPrice = lastPrice + rawPrice
-		ele.Price = float64(lastPrice) / internal.BaseUnit(string(obj.request.Code[:]))
+		ele.Price = float64(lastPrice) / baseUnit
 
 		if isIndex {
 			amount := ele.Vol * 100

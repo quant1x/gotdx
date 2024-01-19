@@ -4,15 +4,18 @@ import (
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx"
+	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
+	"math"
 	"os"
+	"path/filepath"
 	"slices"
 )
 
 var (
-	cacheSecurityCodeList = cache.GetMetaPath() + "/securities.csv"
+	cacheSecurityCodeList = filepath.Join(cache.GetMetaPath(), "securities.csv")
 )
 
 var (
@@ -20,27 +23,6 @@ var (
 	__onceStockList coroutine.PeriodicOnce
 	__stock_list    = []string{}
 )
-
-var (
-	// A股指数列表
-	aShareIndexList = []string{
-		"sh000001", // 上证综合指数
-		"sh000002", // 上证A股指数
-		"sh000905", // 中证500指数
-		"sz399001", // 深证成份指数
-		"sz399006", // 创业板指
-		"sz399107", // 深证A指
-		"sh880005", // 通达信板块-涨跌家数
-		"sh510050", // 上证50ETF
-		"sh510300", // 沪深300ETF
-		"sh510900", // H股ETF
-	}
-)
-
-// IndexList 指数列表
-func IndexList() []string {
-	return aShareIndexList
-}
 
 // 读取股票列表缓存
 func readCacheSecurityList() {
@@ -106,43 +88,6 @@ func lazyLoadStockList() {
 	writeCacheSecurityList(list)
 }
 
-// CheckoutSecurityInfo 获取证券名称
-func CheckoutSecurityInfo(securityCode string) (*quotes.Security, bool) {
-	__onceStockList.Do(lazyLoadStockList)
-	securityCode = exchange.CorrectSecurityCode(securityCode)
-	security, ok := __mapStockList[securityCode]
-	if ok {
-		return &security, true
-	}
-	return nil, false
-}
-
-// GetStockName 获取证券名称
-func GetStockName(securityCode string) string {
-	security, ok := CheckoutSecurityInfo(securityCode)
-	if ok {
-		return security.Name
-	}
-	return "Unknown"
-}
-
-// AllCodeList 获取全部证券代码
-func AllCodeList() []string {
-	__onceStockList.Do(lazyLoadStockList)
-	return __stock_list
-}
-
-// 检查指数和个股
-func checkIndexAndStock(security quotes.Security) bool {
-	if exchange.AssertIndexBySecurityCode(security.Code) {
-		return true
-	}
-	if exchange.AssertStockBySecurityCode(security.Code) {
-		return true
-	}
-	return false
-}
-
 // getSecurityList 证券列表
 func getSecurityList() (allList []quotes.Security) {
 	stdApi := gotdx.GetTdxApi()
@@ -185,4 +130,67 @@ func getSecurityList() (allList []quotes.Security) {
 	}
 
 	return
+}
+
+// CheckoutSecurityInfo 获取证券信息
+func CheckoutSecurityInfo(securityCode string) (*quotes.Security, bool) {
+	__onceStockList.Do(lazyLoadStockList)
+	securityCode = exchange.CorrectSecurityCode(securityCode)
+	security, ok := __mapStockList[securityCode]
+	if ok {
+		return &security, true
+	}
+	return nil, false
+}
+
+// 检查指数和个股
+func checkIndexAndStock(security quotes.Security) bool {
+	if exchange.AssertIndexBySecurityCode(security.Code) {
+		return true
+	}
+	if exchange.AssertStockBySecurityCode(security.Code) {
+		return true
+	}
+	return false
+}
+
+// GetStockName 获取证券名称
+func GetStockName(securityCode string) string {
+	security, ok := CheckoutSecurityInfo(securityCode)
+	if ok {
+		return security.Name
+	}
+	return "Unknown"
+}
+
+// AllCodeList 获取全部证券代码
+func AllCodeList() []string {
+	__onceStockList.Do(lazyLoadStockList)
+	return __stock_list
+}
+
+// SecurityBaseUnit 获取证券标价格的最小变动单位, 0.01返回100, 0.001返回1000
+func SecurityBaseUnit(marketId exchange.MarketType, code string) float64 {
+	securityCode := exchange.GetSecurityCode(marketId, code)
+	securityInfo, ok := CheckoutSecurityInfo(securityCode)
+	if !ok {
+		return 100.00
+	}
+	return math.Pow10(int(securityInfo.DecimalPoint))
+}
+
+// SecurityPriceDigits 获取证券标的价格保留小数点后几位
+//
+//	默认范围2, 即小数点后2位
+func SecurityPriceDigits(marketId exchange.MarketType, code string) int {
+	securityCode := exchange.GetSecurityCode(marketId, code)
+	securityInfo, ok := CheckoutSecurityInfo(securityCode)
+	if !ok {
+		return 2
+	}
+	return int(securityInfo.DecimalPoint)
+}
+
+func init() {
+	internal.RegisterBaseUnitFunction(SecurityBaseUnit)
 }

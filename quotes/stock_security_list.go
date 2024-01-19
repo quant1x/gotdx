@@ -107,9 +107,9 @@ func (obj *SecurityListPackage) UnSerialize(header interface{}, data []byte) err
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.DecimalPoint)
 		pos += 1
-		var precloseraw uint32
-		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &precloseraw)
-		ele.PreClose = internal.IntToFloat64(int(precloseraw))
+		var rawPreClose uint32
+		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &rawPreClose)
+		ele.PreClose = internal.IntToFloat64(int(rawPreClose))
 		pos += 4
 
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+4]), binary.LittleEndian, &ele.Reversed2)

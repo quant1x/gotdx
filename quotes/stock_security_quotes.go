@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"math"
@@ -13,6 +14,10 @@ import (
 
 const (
 	TDX_SECURITY_QUOTES_MAX = 80 // 单次最大获取80条实时数据
+)
+
+var (
+	poolSecurityQuote cache.Pool[SecurityQuote]
 )
 
 type TradeState int8
@@ -168,8 +173,10 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 	pos += 2 // 跳过两个字节
 	_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
+	obj.reply.List = make([]SecurityQuote, 0, obj.reply.Count)
 	for index := uint16(0); index < obj.reply.Count; index++ {
-		ele := SecurityQuote{}
+		//ele := SecurityQuote{}
+		ele := poolSecurityQuote.Acquire()
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+1]), binary.LittleEndian, &ele.Market)
 		pos += 1
 		var code [6]byte
@@ -177,16 +184,17 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		//enc := mahonia.NewDecoder("gbk")
 		//ele.Code = enc.ConvertString(string(code[:]))
 		ele.Code = internal.Utf8ToGbk(code[:])
+		baseUnit := internal.BaseUnit(ele.Market, ele.Code)
 		pos += 6
 		_ = binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &ele.Active1)
 		pos += 2
 
 		price := internal.DecodeVarint(data, &pos)
-		ele.Price = obj.getPrice(ele.Code, price, 0)
-		ele.LastClose = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
-		ele.Open = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
-		ele.High = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
-		ele.Low = obj.getPrice(ele.Code, price, internal.DecodeVarint(data, &pos))
+		ele.Price = obj.getPrice(baseUnit, price, 0)
+		ele.LastClose = obj.getPrice(baseUnit, price, internal.DecodeVarint(data, &pos))
+		ele.Open = obj.getPrice(baseUnit, price, internal.DecodeVarint(data, &pos))
+		ele.High = obj.getPrice(baseUnit, price, internal.DecodeVarint(data, &pos))
+		ele.Low = obj.getPrice(baseUnit, price, internal.DecodeVarint(data, &pos))
 
 		ele.ReversedBytes0 = internal.DecodeVarint(data, &pos)
 		if ele.ReversedBytes0 > 0 {
@@ -232,12 +240,12 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		var bidLevels []Level
 		var askLevels []Level
 		for i := 0; i < 5; i++ {
-			bidele := Level{Price: obj.getPrice(ele.Code, internal.DecodeVarint(data, &pos), price)}
-			offerele := Level{Price: obj.getPrice(ele.Code, internal.DecodeVarint(data, &pos), price)}
-			bidele.Vol = internal.DecodeVarint(data, &pos)
-			offerele.Vol = internal.DecodeVarint(data, &pos)
-			bidLevels = append(bidLevels, bidele)
-			askLevels = append(askLevels, offerele)
+			bidEle := Level{Price: obj.getPrice(baseUnit, internal.DecodeVarint(data, &pos), price)}
+			offerEle := Level{Price: obj.getPrice(baseUnit, internal.DecodeVarint(data, &pos), price)}
+			bidEle.Vol = internal.DecodeVarint(data, &pos)
+			offerEle.Vol = internal.DecodeVarint(data, &pos)
+			bidLevels = append(bidLevels, bidEle)
+			askLevels = append(askLevels, offerEle)
 		}
 		ele.Bid1 = bidLevels[0].Price
 		ele.Bid2 = bidLevels[1].Price
@@ -310,7 +318,8 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 			}
 		}
 		ele.TimeStamp = timestamp
-		obj.reply.List = append(obj.reply.List, ele)
+		obj.reply.List = append(obj.reply.List, *ele)
+		poolSecurityQuote.Release(ele)
 	}
 	// 修正停牌的证券代码
 	for i := 0; len(obj.mapCode) > 0 && i < len(obj.reply.List); i++ {
@@ -339,6 +348,10 @@ func (obj *SecurityQuotesPackage) Reply() interface{} {
 	return obj.reply
 }
 
-func (obj *SecurityQuotesPackage) getPrice(code string, price int, diff int) float64 {
-	return float64(price+diff) / internal.BaseUnit(code)
+func (obj *SecurityQuotesPackage) old_getPrice(market exchange.MarketType, code string, price int, diff int) float64 {
+	return float64(price+diff) / internal.BaseUnit(market, code)
+}
+
+func (obj *SecurityQuotesPackage) getPrice(baseUnit float64, price, diff int) float64 {
+	return float64(price+diff) / baseUnit
 }

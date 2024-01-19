@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
@@ -13,7 +14,7 @@ type HistoryMinuteTimePackage struct {
 	reqHeader  *StdRequestHeader
 	respHeader *StdResponseHeader
 	request    *HistoryMinuteTimeRequest
-	reply      *HistoryMinuteTimeReply
+	reply      *MinuteTimeReply
 
 	contentHex string
 }
@@ -24,22 +25,22 @@ type HistoryMinuteTimeRequest struct {
 	Code   [6]byte
 }
 
-type HistoryMinuteTimeReply struct {
-	Count uint16
-	List  []HistoryMinuteTime
-}
-
-type HistoryMinuteTime struct {
-	Price float32
-	Vol   int
-}
+//type HistoryMinuteTimeReply struct {
+//	Count uint16
+//	List  []HistoryMinuteTime
+//}
+//
+//type HistoryMinuteTime struct {
+//	Price float32
+//	Vol   int
+//}
 
 func NewHistoryMinuteTimePackage() *HistoryMinuteTimePackage {
 	obj := new(HistoryMinuteTimePackage)
 	obj.reqHeader = new(StdRequestHeader)
 	obj.respHeader = new(StdResponseHeader)
 	obj.request = new(HistoryMinuteTimeRequest)
-	obj.reply = new(HistoryMinuteTimeReply)
+	obj.reply = new(MinuteTimeReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
 	obj.reqHeader.SeqID = internal.SeqID()
@@ -77,9 +78,10 @@ func (obj *HistoryMinuteTimePackage) Serialize() ([]byte, error) {
 func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
+	market := exchange.MarketType(obj.request.Market)
 	code := api.Bytes2String(obj.request.Code[:])
-	data_len := len(data)
-	if data_len < 2 {
+	dataLen := len(data)
+	if dataLen < 2 {
 		return nil
 	}
 
@@ -90,12 +92,18 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 		return nil
 	}
 	// 跳过4个字节 功能未解析
-	if data_len < 6 {
+	if dataLen < 6 {
 		return nil
 	}
 	_, _, _, bType := data[pos], data[pos+1], data[pos+2], data[pos+3]
 	pos += 4
-
+	baseUnit := internal.BaseUnit(market, code)
+	//var baseUnit float32
+	//if bType > 0x40 {
+	//	baseUnit = 100.0
+	//} else {
+	//	baseUnit = 1000.0
+	//}
 	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		rawPrice := internal.DecodeVarint(data, &pos)
@@ -104,15 +112,8 @@ func (obj *HistoryMinuteTimePackage) UnSerialize(header interface{}, data []byte
 		vol := internal.DecodeVarint(data, &pos)
 		lastPrice += rawPrice
 
-		//var p float32
-		//if bType > 0x40 {
-		//	p = float32(lastPrice) / 100.0
-		//} else {
-		//	p = float32(lastPrice) / 1000.0
-		//}
-		p := float32(lastPrice) / float32(internal.BaseUnit(code))
-
-		ele := HistoryMinuteTime{Price: p, Vol: vol}
+		p := float32(lastPrice) / float32(baseUnit)
+		ele := MinuteTime{Price: p, Vol: vol}
 		obj.reply.List = append(obj.reply.List, ele)
 	}
 	_ = bType

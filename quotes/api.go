@@ -3,6 +3,7 @@ package quotes
 import (
 	"errors"
 	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/num"
@@ -322,10 +323,14 @@ func (this *StdApi) V2GetSecurityQuotes(markets []exchange.MarketType, symbols [
 	return reply.(*V2SecurityQuotesReply), err
 }
 
+var (
+	poolSnapshot cache.Pool[Snapshot]
+)
+
 // GetSnapshot 获取快照数据
 func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
-	marketIds := []exchange.MarketType{}
-	symbols := []string{}
+	var marketIds []exchange.MarketType
+	var symbols []string
 	for _, code := range codes {
 		id, _, symbol := exchange.DetectMarket(code)
 		if len(symbol) == 6 {
@@ -354,12 +359,15 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 	if err != nil {
 		return list, err
 	}
+
 	upDateInRealTime, status := exchange.CanUpdateInRealtime()
 	quoteReply := reply.(*SecurityQuotesReply)
+	list = make([]Snapshot, 0, len(quoteReply.List))
 	currentTransactionDate := exchange.GetCurrentlyDay()
 	for _, v := range quoteReply.List {
-		var snapshot Snapshot
-		err := api.Copy(&snapshot, &v)
+		//var snapshot Snapshot
+		snapshot := poolSnapshot.Acquire()
+		err := api.Copy(snapshot, &v)
 		if err == nil {
 			snapshot.Date = currentTransactionDate
 			snapshot.SecurityCode = exchange.GetSecurityCode(v.Market, v.Code)
@@ -385,7 +393,8 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 			if amount <= 0.0000 {
 				snapshot.Amount = 0.00
 			}
-			list = append(list, snapshot)
+			list = append(list, *snapshot)
+			poolSnapshot.Release(snapshot)
 		}
 	}
 	return list, nil
@@ -409,7 +418,7 @@ func (this *StdApi) GetMinuteTimeData(code string) (*MinuteTimeReply, error) {
 }
 
 // GetHistoryMinuteTimeData 获取历史分时图数据
-func (this *StdApi) GetHistoryMinuteTimeData(code string, date uint32) (*HistoryMinuteTimeReply, error) {
+func (this *StdApi) GetHistoryMinuteTimeData(code string, date uint32) (*MinuteTimeReply, error) {
 	obj := NewHistoryMinuteTimePackage()
 	mId, _, symbol := exchange.DetectMarket(code)
 	_code := [6]byte{}
@@ -423,7 +432,7 @@ func (this *StdApi) GetHistoryMinuteTimeData(code string, date uint32) (*History
 	if err != nil {
 		return nil, err
 	}
-	return reply.(*HistoryMinuteTimeReply), err
+	return reply.(*MinuteTimeReply), err
 }
 
 // GetTransactionData 获取分时成交

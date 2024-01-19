@@ -96,25 +96,26 @@ func (obj *TransactionPackage) Serialize() ([]byte, error) {
 func (obj *TransactionPackage) UnSerialize(header interface{}, data []byte) error {
 	obj.respHeader = header.(*StdResponseHeader)
 
-	marketId := exchange.MarketType(obj.request.Market)
-	symbol := api.Bytes2String(obj.request.Code[:])
-	isIndex := exchange.AssertIndexByMarketAndCode(marketId, symbol)
+	market := exchange.MarketType(obj.request.Market)
+	code := api.Bytes2String(obj.request.Code[:])
+	baseUnit := internal.BaseUnit(market, code)
+	isIndex := exchange.AssertIndexByMarketAndCode(market, code)
 
 	pos := 0
 	err := binary.Read(bytes.NewBuffer(data[pos:pos+2]), binary.LittleEndian, &obj.reply.Count)
 	pos += 2
 
-	lastprice := 0
+	lastPrice := 0
 	for index := uint16(0); index < obj.reply.Count; index++ {
 		ele := TickTransaction{}
 		hour, minute := internal.GetTime(data, &pos)
 		ele.Time = fmt.Sprintf("%02d:%02d", hour, minute)
-		priceraw := internal.DecodeVarint(data, &pos)
+		rawPrice := internal.DecodeVarint(data, &pos)
 		ele.Vol = internal.DecodeVarint(data, &pos)
 		ele.Num = internal.DecodeVarint(data, &pos)
 		ele.BuyOrSell = internal.DecodeVarint(data, &pos)
-		lastprice += priceraw
-		ele.Price = float64(lastprice) / internal.BaseUnit(string(obj.request.Code[:]))
+		lastPrice += rawPrice
+		ele.Price = float64(lastPrice) / baseUnit
 		if isIndex {
 			amount := ele.Vol * 100
 			ele.Amount = float64(amount)
