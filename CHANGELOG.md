@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.5] - 2024-01-19
+### Changed
+- 更新go.mod, 去掉本地调试配置.
+- 优化快照部分代码.
+- 统一计算价格小数点后的精度.
+
 ## [1.19.4] - 2024-01-19
 ### Changed
 - 更新依赖库版本.
@@ -1051,7 +1057,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.5...HEAD
+[1.19.5]: https://gitee.com/quant1x/gotdx/compare/v1.19.4...v1.19.5
 [1.19.4]: https://gitee.com/quant1x/gotdx/compare/v1.19.3...v1.19.4
 [1.19.3]: https://gitee.com/quant1x/gotdx/compare/v1.19.2...v1.19.3
 [1.19.2]: https://gitee.com/quant1x/gotdx/compare/v1.19.1...v1.19.2
