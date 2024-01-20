@@ -5,7 +5,7 @@ import (
 )
 
 func TestBestIP(t *testing.T) {
-	//BestIP()
+	BestIP()
 }
 
 func TestReadTdxConfig(t *testing.T) {

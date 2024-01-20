@@ -37,7 +37,7 @@ type AllServers struct {
 	BestIP ServerGroup `json:"BestIP"`
 }
 
-// BestIP 测试最快的服务器
+// ProfileBestIPList 测试最快的服务器
 func ProfileBestIPList() *AllServers {
 	var as AllServers
 

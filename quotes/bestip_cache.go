@@ -84,6 +84,32 @@ func lazyCachedSortedServerList() {
 	if err == nil {
 		lastModified = fs.LastWriteTime
 	}
+	//// 2.2 转换缓存文件最后修改日期, 时间格式和日历格式对齐
+	//cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
+	//
+	//var allServers *AllServers
+	//// 3. 比较缓存日期和最后一个交易日
+	//if cacheLastDay < exchange.LastTradeDate() {
+	//	// 缓存过时，重新生成
+	//	allServers = ProfileBestIPList()
+	//} else {
+	//	// 缓存有效，尝试加载
+	//	allServers = loadSortedServerList(filename)
+	//}
+	//// 4. 数据有效, 则缓存文件
+	//if allServers != nil && len(allServers.BestIP.HQ) > 0 /*&& len(allServers.BestIP.EX) > 0*/ {
+	//	// 保存有效缓存
+	//	_ = saveSortedServerList(allServers, filename)
+	//} else {
+	//	panic("not found")
+	//}
+	allServers := updateBestIpList(lastModified)
+	// 5. 更新缓存
+	cacheAllServers = *allServers
+}
+
+func updateBestIpList(lastModified time.Time) *AllServers {
+	filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
 	// 2.2 转换缓存文件最后修改日期, 时间格式和日历格式对齐
 	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
 
@@ -103,6 +129,11 @@ func lazyCachedSortedServerList() {
 	} else {
 		panic("not found")
 	}
-	// 5. 更新缓存
-	cacheAllServers = *allServers
+	return allServers
+}
+
+// BestIP 网络测速, 更新本地服务器列表配置文件
+func BestIP() {
+	var lastModified time.Time
+	updateBestIpList(lastModified)
 }
