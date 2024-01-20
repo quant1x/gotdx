@@ -7,6 +7,8 @@ import (
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"os"
+	"path/filepath"
+	"time"
 )
 
 var (
@@ -20,13 +22,14 @@ var (
 )
 
 const (
-	sortedServerListFileName = "tdx.json"
+	serverListFilename = "tdx.json"
 )
 
 var (
-	serverType             string
-	onceSortServers        coroutine.RollingOnce
-	cachedSortedServerList []Server
+	//serverType             string
+	onceSortServers coroutine.RollingOnce
+	//cachedSortedServerList []Server
+	cacheAllServers AllServers
 )
 
 func loadSortedServerList(configPath string) *AllServers {
@@ -52,57 +55,54 @@ func saveSortedServerList(as *AllServers, configPath string) error {
 	return err
 }
 
-func GetFastHost(inKey string) []Server {
-	serverType = inKey
+func GetFastHost(key string) []Server {
 	onceSortServers.Do(lazyCachedSortedServerList)
-	return cachedSortedServerList
-}
-
-func getServerListByKey(bestIp ServerGroup, key string) *[]Server {
+	bestIp := cacheAllServers.BestIP
 	if key == TDX_HOST_HQ {
 		if len(bestIp.HQ) > 0 {
-			return &bestIp.HQ
+			return bestIp.HQ
 		} else {
-			return &[]Server{DefaultHQServer}
+			return []Server{DefaultHQServer}
 		}
 	} else if key == TDX_HOST_EX {
 		if len(bestIp.EX) > 0 {
-			return &bestIp.EX
+			return bestIp.EX
 		} else {
-			return &[]Server{DefaultEXServer}
+			return []Server{DefaultHQServer}
 		}
 	}
-
-	// Should not reach
-	return nil
+	return []Server{DefaultHQServer}
 }
 
 func lazyCachedSortedServerList() {
-	target := cache.GetMetaPath() + "/" + sortedServerListFileName
-	var allServers *AllServers
+	// 1. 组织文件路径
+	filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
 
-	// 检查缓存文件是否存在
-	fs, err := api.GetFileStat(target)
+	// 2. 检查缓存文件是否存在
+	var lastModified time.Time
+	fs, err := api.GetFileStat(filename)
 	if err == nil {
-		lastModified := fs.LastWriteTime
-		cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
+		lastModified = fs.LastWriteTime
+	}
+	// 2.2 转换缓存文件最后修改日期, 时间格式和日历格式对齐
+	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
 
-		if cacheLastDay < exchange.LastTradeDate() {
-			// 缓存过时，重新生成
-			allServers = ProfileBestIPList()
-		} else {
-			// 缓存有效，尝试加载
-			allServers = loadSortedServerList(target)
-		}
-	} else {
-		// 缓存文件不存在，重新生成
+	var allServers *AllServers
+	// 3. 比较缓存日期和最后一个交易日
+	if cacheLastDay < exchange.LastTradeDate() {
+		// 缓存过时，重新生成
 		allServers = ProfileBestIPList()
+	} else {
+		// 缓存有效，尝试加载
+		allServers = loadSortedServerList(filename)
 	}
-
-	if allServers != nil && len(allServers.BestIP.HQ) > 0 && len(allServers.BestIP.EX) > 0 {
+	// 4. 数据有效, 则缓存文件
+	if allServers != nil && len(allServers.BestIP.HQ) > 0 /*&& len(allServers.BestIP.EX) > 0*/ {
 		// 保存有效缓存
-		_ = saveSortedServerList(allServers, target)
+		_ = saveSortedServerList(allServers, filename)
+	} else {
+		panic("not found")
 	}
-
-	cachedSortedServerList = *getServerListByKey(allServers.BestIP, serverType)
+	// 5. 更新缓存
+	cacheAllServers = *allServers
 }
