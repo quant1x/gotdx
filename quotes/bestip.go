@@ -38,7 +38,7 @@ type AllServers struct {
 }
 
 // BestIP 测试最快的服务器
-func BestIP() {
+func ProfileBestIPList() *AllServers {
 	var as AllServers
 
 	// HQ-servers
@@ -52,10 +52,9 @@ func BestIP() {
 	//// SP-servers
 	//dst = cleanServers(GP_HOSTS, testEX)
 	//as.BestIP.GP = dst
-
 	str, _ := json.Marshal(as)
 	fmt.Println(string(str))
-	_ = CacheServers(as)
+	return &as
 }
 
 func cleanServers(src []Server, test func(addr string) error) (dst []Server) {
@@ -64,6 +63,7 @@ func cleanServers(src []Server, test func(addr string) error) (dst []Server) {
 	//	return src, dst
 	//}
 	//fmt.Printf("%+v\n", src)
+
 	dst = slices.Clone(src)
 	for i, _ := range dst {
 		v := &dst[i]

@@ -20,8 +20,9 @@ const (
 
 // ConnPool 连接池
 type ConnPool struct {
-	addr string
-	pool pool.Pool
+	addr    string
+	pool    pool.Pool
+	maxIdle int
 }
 
 // NewConnPool 创新一个新连接池
@@ -46,9 +47,14 @@ func NewConnPool(maxCap, maxIdle int, factory func() (any, error), close func(an
 		return nil, err
 	}
 	cp := &ConnPool{
-		pool: _pool,
+		pool:    _pool,
+		maxIdle: maxIdle,
 	}
 	return cp, nil
+}
+
+func (p *ConnPool) GetMaxIdleCount() int {
+	return p.maxIdle
 }
 
 func (p *ConnPool) GetConn() interface{} {

@@ -1,6 +1,7 @@
 package quotes
 
 import (
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
@@ -98,7 +99,14 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	if bestIpCount < maxCap {
 		maxCap = bestIpCount
 	}
-	maxIdle := 1
+
+	maxIdle := maxCap
+
+	halfCpuCount := runtime.NumCPU() / 2
+	if maxIdle > halfCpuCount {
+		maxIdle = halfCpuCount
+	}
+
 	cp, err := NewConnPool(maxCap, maxIdle, _factory, _close, _ping)
 	if err != nil {
 		return nil, err
@@ -136,6 +144,10 @@ func (this *StdApi) Release(srv Server) {
 // NumOfServers 增加返回服务器IP数量
 func (this *StdApi) NumOfServers() int {
 	return len(this.Servers)
+}
+
+func (this *StdApi) GetMaxIdleCount() int {
+	return this.connPool.GetMaxIdleCount()
 }
 
 // Close 关闭

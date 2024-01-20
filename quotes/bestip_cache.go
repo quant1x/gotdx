@@ -2,14 +2,15 @@ package quotes
 
 import (
 	"encoding/json"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/coroutine"
 	"os"
 )
 
 var (
-	bestIpConfigPath = cache.DefaultCachePath() + "/tdx.json"
-	DefaultHQServer  = Server{
+	DefaultHQServer = Server{
 		Name:      "临时主机",
 		Host:      "119.147.212.81",
 		Port:      7709,
@@ -18,8 +19,18 @@ var (
 	DefaultEXServer = DefaultHQServer
 )
 
-func OpenConfig() *AllServers {
-	f, err := os.Open(bestIpConfigPath)
+const (
+	sortedServerListFileName = "tdx.json"
+)
+
+var (
+	serverType             string
+	onceSortServers        coroutine.RollingOnce
+	cachedSortedServerList []Server
+)
+
+func loadSortedServerList(configPath string) *AllServers {
+	f, err := os.Open(configPath)
 	if err != nil {
 		return nil
 	}
@@ -32,42 +43,66 @@ func OpenConfig() *AllServers {
 	return &as
 }
 
-func CacheServers(as AllServers) error {
+func saveSortedServerList(as *AllServers, configPath string) error {
 	data, err := json.Marshal(as)
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(bestIpConfigPath, data, 0644)
+	err = os.WriteFile(configPath, data, 0644)
 	return err
 }
 
-func GetFastHost(key string) []Server {
-	as := OpenConfig()
-	if as == nil {
-		logger.Infof("首次执行通达信数据接口, 正在进行服务器测速")
-		BestIP()
+func GetFastHost(inKey string) []Server {
+	serverType = inKey
+	onceSortServers.Do(lazyCachedSortedServerList)
+	return cachedSortedServerList
+}
 
-		as = OpenConfig()
-		if as == nil && key == TDX_HOST_HQ {
-			return []Server{DefaultHQServer}
-		}
-		if as == nil && key == TDX_HOST_EX {
-			return []Server{DefaultHQServer}
-		}
-	}
-	bestIp := as.BestIP
+func getServerListByKey(bestIp ServerGroup, key string) *[]Server {
 	if key == TDX_HOST_HQ {
 		if len(bestIp.HQ) > 0 {
-			return bestIp.HQ
+			return &bestIp.HQ
 		} else {
-			return []Server{DefaultHQServer}
+			return &[]Server{DefaultHQServer}
 		}
 	} else if key == TDX_HOST_EX {
 		if len(bestIp.EX) > 0 {
-			return bestIp.EX
+			return &bestIp.EX
 		} else {
-			return []Server{DefaultHQServer}
+			return &[]Server{DefaultEXServer}
 		}
 	}
-	return []Server{DefaultHQServer}
+
+	// Should not reach
+	return nil
+}
+
+func lazyCachedSortedServerList() {
+	target := cache.GetMetaPath() + "/" + sortedServerListFileName
+	var allServers *AllServers
+
+	// 检查缓存文件是否存在
+	fs, err := api.GetFileStat(target)
+	if err == nil {
+		lastModified := fs.LastWriteTime
+		cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
+
+		if cacheLastDay < exchange.LastTradeDate() {
+			// 缓存过时，重新生成
+			allServers = ProfileBestIPList()
+		} else {
+			// 缓存有效，尝试加载
+			allServers = loadSortedServerList(target)
+		}
+	} else {
+		// 缓存文件不存在，重新生成
+		allServers = ProfileBestIPList()
+	}
+
+	if allServers != nil && len(allServers.BestIP.HQ) > 0 && len(allServers.BestIP.EX) > 0 {
+		// 保存有效缓存
+		_ = saveSortedServerList(allServers, target)
+	}
+
+	cachedSortedServerList = *getServerListByKey(allServers.BestIP, serverType)
 }
