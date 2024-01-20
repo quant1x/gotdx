@@ -6,6 +6,6 @@ import (
 )
 
 func TestOpenConfig(t *testing.T) {
-	as := OpenConfig()
-	fmt.Printf("%+v\n", as)
+	list := GetFastHost(TDX_HOST_HQ)
+	fmt.Printf("%+v\n", list)
 }

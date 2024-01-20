@@ -2,14 +2,17 @@ package quotes
 
 import (
 	"encoding/json"
+	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/coroutine"
 	"os"
+	"path/filepath"
+	"time"
 )
 
 var (
-	bestIpConfigPath = cache.DefaultCachePath() + "/tdx.json"
-	DefaultHQServer  = Server{
+	DefaultHQServer = Server{
 		Name:      "临时主机",
 		Host:      "119.147.212.81",
 		Port:      7709,
@@ -18,8 +21,19 @@ var (
 	DefaultEXServer = DefaultHQServer
 )
 
-func OpenConfig() *AllServers {
-	f, err := os.Open(bestIpConfigPath)
+const (
+	serverListFilename = "tdx.json"
+)
+
+var (
+	//serverType             string
+	onceSortServers coroutine.RollingOnce
+	//cachedSortedServerList []Server
+	cacheAllServers AllServers
+)
+
+func loadSortedServerList(configPath string) *AllServers {
+	f, err := os.Open(configPath)
 	if err != nil {
 		return nil
 	}
@@ -32,30 +46,18 @@ func OpenConfig() *AllServers {
 	return &as
 }
 
-func CacheServers(as AllServers) error {
+func saveSortedServerList(as *AllServers, configPath string) error {
 	data, err := json.Marshal(as)
 	if err != nil {
 		return err
 	}
-	err = os.WriteFile(bestIpConfigPath, data, 0644)
+	err = os.WriteFile(configPath, data, 0644)
 	return err
 }
 
 func GetFastHost(key string) []Server {
-	as := OpenConfig()
-	if as == nil {
-		logger.Infof("首次执行通达信数据接口, 正在进行服务器测速")
-		BestIP()
-
-		as = OpenConfig()
-		if as == nil && key == TDX_HOST_HQ {
-			return []Server{DefaultHQServer}
-		}
-		if as == nil && key == TDX_HOST_EX {
-			return []Server{DefaultHQServer}
-		}
-	}
-	bestIp := as.BestIP
+	onceSortServers.Do(lazyCachedSortedServerList)
+	bestIp := cacheAllServers.BestIP
 	if key == TDX_HOST_HQ {
 		if len(bestIp.HQ) > 0 {
 			return bestIp.HQ
@@ -70,4 +72,68 @@ func GetFastHost(key string) []Server {
 		}
 	}
 	return []Server{DefaultHQServer}
+}
+
+func lazyCachedSortedServerList() {
+	// 1. 组织文件路径
+	filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
+
+	// 2. 检查缓存文件是否存在
+	var lastModified time.Time
+	fs, err := api.GetFileStat(filename)
+	if err == nil {
+		lastModified = fs.LastWriteTime
+	}
+	//// 2.2 转换缓存文件最后修改日期, 时间格式和日历格式对齐
+	//cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
+	//
+	//var allServers *AllServers
+	//// 3. 比较缓存日期和最后一个交易日
+	//if cacheLastDay < exchange.LastTradeDate() {
+	//	// 缓存过时，重新生成
+	//	allServers = ProfileBestIPList()
+	//} else {
+	//	// 缓存有效，尝试加载
+	//	allServers = loadSortedServerList(filename)
+	//}
+	//// 4. 数据有效, 则缓存文件
+	//if allServers != nil && len(allServers.BestIP.HQ) > 0 /*&& len(allServers.BestIP.EX) > 0*/ {
+	//	// 保存有效缓存
+	//	_ = saveSortedServerList(allServers, filename)
+	//} else {
+	//	panic("not found")
+	//}
+	allServers := updateBestIpList(lastModified)
+	// 5. 更新缓存
+	cacheAllServers = *allServers
+}
+
+func updateBestIpList(lastModified time.Time) *AllServers {
+	filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
+	// 2.2 转换缓存文件最后修改日期, 时间格式和日历格式对齐
+	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
+
+	var allServers *AllServers
+	// 3. 比较缓存日期和最后一个交易日
+	if cacheLastDay < exchange.LastTradeDate() {
+		// 缓存过时，重新生成
+		allServers = ProfileBestIPList()
+	} else {
+		// 缓存有效，尝试加载
+		allServers = loadSortedServerList(filename)
+	}
+	// 4. 数据有效, 则缓存文件
+	if allServers != nil && len(allServers.BestIP.HQ) > 0 /*&& len(allServers.BestIP.EX) > 0*/ {
+		// 保存有效缓存
+		_ = saveSortedServerList(allServers, filename)
+	} else {
+		panic("not found")
+	}
+	return allServers
+}
+
+// BestIP 网络测速, 更新本地服务器列表配置文件
+func BestIP() {
+	var lastModified time.Time
+	updateBestIpList(lastModified)
 }
