@@ -114,19 +114,22 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
 
 	var allServers *AllServers
+	needUpdate := false
 	// 3. 比较缓存日期和最后一个交易日
 	if cacheLastDay < exchange.LastTradeDate() {
 		// 缓存过时，重新生成
 		allServers = ProfileBestIPList()
+		needUpdate = true
 	} else {
 		// 缓存有效，尝试加载
 		allServers = loadSortedServerList(filename)
 	}
 	// 4. 数据有效, 则缓存文件
-	if allServers != nil && len(allServers.BestIP.HQ) > 0 /*&& len(allServers.BestIP.EX) > 0*/ {
+	ok := allServers != nil && len(allServers.BestIP.HQ) > 0 /*&& len(allServers.BestIP.EX) > 0*/
+	if needUpdate && ok {
 		// 保存有效缓存
 		_ = saveSortedServerList(allServers, filename)
-	} else {
+	} else if !ok {
 		panic("not found")
 	}
 	return allServers
