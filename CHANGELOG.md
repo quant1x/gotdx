@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.9] - 2024-01-22
+### Changed
+- 更新exchange版本号.
+
 ## [1.19.8] - 2024-01-22
 ### Changed
 - 调整缓存文件更新机制, 只是在重新bestip后才刷新本地缓存文件.
@@ -1077,7 +1081,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.9...HEAD
+[1.19.9]: https://gitee.com/quant1x/gotdx/compare/v1.19.8...v1.19.9
 [1.19.8]: https://gitee.com/quant1x/gotdx/compare/v1.19.7...v1.19.8
 [1.19.7]: https://gitee.com/quant1x/gotdx/compare/v1.19.6...v1.19.7
 [1.19.6]: https://gitee.com/quant1x/gotdx/compare/v1.19.5...v1.19.6
