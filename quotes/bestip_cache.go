@@ -26,9 +26,7 @@ const (
 )
 
 var (
-	//serverType             string
 	onceSortServers coroutine.RollingOnce
-	//cachedSortedServerList []Server
 	cacheAllServers AllServers
 )
 
@@ -75,6 +73,8 @@ func GetFastHost(key string) []Server {
 }
 
 func lazyCachedSortedServerList() {
+	// 0. 确定更新时间, 08:55:00, 服务器列表先于其它服务更新
+	onceSortServers.SetOffsetTime(8, 55)
 	// 1. 组织文件路径
 	filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
 

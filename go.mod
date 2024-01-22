@@ -4,7 +4,7 @@ go 1.21.5
 
 require (
 	gitee.com/quant1x/exchange v0.2.6
-	gitee.com/quant1x/gox v1.18.1
+	gitee.com/quant1x/gox v1.18.2
 	gitee.com/quant1x/pkg v0.2.6
 	golang.org/x/text v0.14.0
 )
