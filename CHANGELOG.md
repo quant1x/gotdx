@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.6] - 2024-01-22
+### Changed
+- 服务器列表先于默认9点整切换数据进行初始化服务器列表.
+- 更新依赖库版本.
+- !11 调整BestIp的缓存更新方式 Merge pull request !11 from heathen666/set_max_idle.
+- 拆分init函数, 恢复BestIP函数.
+- 调整BestIp的缓存更新方式.
+- 更新gox版本.
+- 设置maxidle.
+- 优化服务器地址同一时间只能调用一次的处理逻辑.
+
 ## [1.19.5] - 2024-01-19
 ### Changed
 - 更新go.mod, 去掉本地调试配置.
@@ -1057,7 +1068,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.6...HEAD
+[1.19.6]: https://gitee.com/quant1x/gotdx/compare/v1.19.5...v1.19.6
 [1.19.5]: https://gitee.com/quant1x/gotdx/compare/v1.19.4...v1.19.5
 [1.19.4]: https://gitee.com/quant1x/gotdx/compare/v1.19.3...v1.19.4
 [1.19.3]: https://gitee.com/quant1x/gotdx/compare/v1.19.2...v1.19.3
