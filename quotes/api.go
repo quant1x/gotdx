@@ -1,11 +1,16 @@
 package quotes
 
 import (
+	"errors"
 	"runtime"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+)
+
+var (
+	ErrInvalidServerAddress = errors.New("invalid server address")
 )
 
 // Server 主机信息
@@ -60,9 +65,12 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		Servers: srvs,
 		opt:     &opt,
 	}
-	_factory := func() (interface{}, error) {
+	_factory := func() (any, error) {
 		client := NewClient(stdApi.opt)
 		server := stdApi.Acquire()
+		if server == nil {
+			return nil, ErrInvalidServerAddress
+		}
 		err := client.Connect(server)
 		if err != nil {
 			stdApi.Release(client.server)
@@ -82,12 +90,12 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		}
 		return client, err
 	}
-	_close := func(v interface{}) error {
+	_close := func(v any) error {
 		client := v.(*TcpClient)
 		defer stdApi.Release(client.server)
 		return client.Close()
 	}
-	_ping := func(v interface{}) error {
+	_ping := func(v any) error {
 		client := v.(*TcpClient)
 		return stdApi.tdxPing(client)
 	}
@@ -127,18 +135,25 @@ func (this *StdApi) init() {
 }
 
 // Acquire 获取一个地址
-func (this *StdApi) Acquire() Server {
+func (this *StdApi) Acquire() *Server {
 	this.Once.Do(this.init)
 	// 非阻塞获取
 	//srv, ok := <-this.ch
 	// 阻塞获取一个地址
-	return <-this.ch
+	server := <-this.ch
+	if len(server.Host) == 0 || server.Port == 0 {
+		return nil
+	}
+	return &server
 }
 
 // Release 返还一个地址
-func (this *StdApi) Release(srv Server) {
+func (this *StdApi) Release(srv *Server) {
+	if srv == nil || len(srv.Host) == 0 || srv.Port == 0 {
+		return
+	}
 	this.Once.Do(this.init)
-	this.ch <- srv
+	this.ch <- *srv
 }
 
 // NumOfServers 增加返回服务器IP数量

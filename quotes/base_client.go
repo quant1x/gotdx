@@ -12,10 +12,14 @@ import (
 	"gitee.com/quant1x/gox/logger"
 )
 
+var (
+	ErrTimeOut = exception.New(1, "connect timeout")
+)
+
 type TcpClient struct {
 	sync.Mutex               // 匿名属性
 	conn          net.Conn   // tcp连接
-	server        Server     // 服务器信息
+	server        *Server    // 服务器信息
 	opt           *Options   // 参数
 	complete      chan bool  // 完成状态
 	sending       chan bool  // 正在发送状态
@@ -127,7 +131,7 @@ func (client *TcpClient) heartbeat() {
 }
 
 // Connect 连接服务器
-func (client *TcpClient) Connect(server Server) error {
+func (client *TcpClient) Connect(server *Server) error {
 	addr := server.Addr()
 	conn, err := net.DialTimeout("tcp", addr, client.opt.ConnectionTimeout) // net.DialTimeout()
 	state := "connected"
@@ -143,7 +147,7 @@ func (client *TcpClient) Connect(server Server) error {
 	}
 
 	if client.conn == nil {
-		return exception.New(1, "connect timeout")
+		return ErrTimeOut
 	}
 	return nil
 }

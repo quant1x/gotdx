@@ -27,12 +27,14 @@ type ConnPool struct {
 
 // NewConnPool 创新一个新连接池
 func NewConnPool(maxCap, maxIdle int, factory func() (any, error), close func(any) error, ping func(any) error) (*ConnPool, error) {
+	initialCap := POOL_INITED
 	if maxIdle < POOL_INITED {
 		maxIdle = POOL_INITED
 	}
+	maxIdle = maxCap
 	// 创建一个连接池: 初始化5,最大连接30
 	poolConfig := &pool.Config{
-		InitialCap: POOL_INITED,
+		InitialCap: initialCap,
 		MaxCap:     maxCap,
 		MaxIdle:    maxIdle,
 		Factory:    factory,
