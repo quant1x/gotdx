@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.19.7] - 2024-01-22
+### Changed
+- 更新exchange版本号.
+
 ## [1.19.6] - 2024-01-22
 ### Changed
 - 服务器列表先于默认9点整切换数据进行初始化服务器列表.
@@ -1068,7 +1072,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.7...HEAD
+[1.19.7]: https://gitee.com/quant1x/gotdx/compare/v1.19.6...v1.19.7
 [1.19.6]: https://gitee.com/quant1x/gotdx/compare/v1.19.5...v1.19.6
 [1.19.5]: https://gitee.com/quant1x/gotdx/compare/v1.19.4...v1.19.5
 [1.19.4]: https://gitee.com/quant1x/gotdx/compare/v1.19.3...v1.19.4
