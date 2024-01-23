@@ -2,6 +2,7 @@ package quotes
 
 import (
 	"errors"
+	"gitee.com/quant1x/gox/logger"
 	"runtime"
 	"strconv"
 	"strings"
@@ -102,7 +103,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	maxCap := POOL_MAX
 	bestIpCount := len(stdApi.Servers)
 	if bestIpCount == 0 {
-		panic("No available hosts")
+		logger.Fatalf("no available hosts")
 	}
 	if bestIpCount < maxCap {
 		maxCap = bestIpCount

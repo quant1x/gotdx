@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/pkg/ini"
 	"io"
 	"os"
@@ -90,7 +91,7 @@ func loadAllConfig() {
 	}
 	tmpl, err := template.New("address").Parse(templateAddress)
 	if err != nil {
-		panic(err)
+		logger.Fatalf("解析服务器地址模版失败, error=%+v", err)
 	}
 	data := struct {
 		Std []Server
@@ -101,11 +102,11 @@ func loadAllConfig() {
 	}
 	writer, err := os.Create("bestip_address.go")
 	if err != nil {
-		panic(err)
+		logger.Fatalf("创建bestip_address.go源文件失败, error=%+v", err)
 	}
 	err = tmpl.Execute(writer, data)
 	if err != nil {
-		panic(err)
+		logger.Fatalf("执行服务器地址模版失败, error=%+v", err)
 	}
 }
 
