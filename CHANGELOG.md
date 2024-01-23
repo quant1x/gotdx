@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.0] - 2024-01-23
+### Changed
+- 调整异常日志的输出.
+- 增加无法修复的异常日志.
+
 ## [1.19.9] - 2024-01-22
 ### Changed
 - 更新exchange版本号.
@@ -1081,7 +1086,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.19.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.0...HEAD
+[1.20.0]: https://gitee.com/quant1x/gotdx/compare/v1.19.9...v1.20.0
 [1.19.9]: https://gitee.com/quant1x/gotdx/compare/v1.19.8...v1.19.9
 [1.19.8]: https://gitee.com/quant1x/gotdx/compare/v1.19.7...v1.19.8
 [1.19.7]: https://gitee.com/quant1x/gotdx/compare/v1.19.6...v1.19.7
