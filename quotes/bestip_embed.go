@@ -115,15 +115,15 @@ func loadTdxConfig(config tdxConfig) (std, ext []Server) {
 	source := config.source
 	fs, err := api.OpenEmbed(resources, ResourcesPath+"/"+name)
 	if err != nil {
-		panic(err)
+		logger.Fatalf("%+v", err)
 	}
 	data, err := io.ReadAll(fs)
 	if err != nil {
-		panic(err)
+		logger.Fatalf("%+v", err)
 	}
 	cfg, err := ini.Load(data)
 	if err != nil {
-		panic(err)
+		logger.Fatalf("%+v", err)
 	}
 	//fmt.Println("----------<" + sectionStandardServer + ">----------")
 	section := cfg.Section(sectionStandardServer)

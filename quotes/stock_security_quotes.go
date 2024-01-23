@@ -5,10 +5,10 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/cache"
 	"math"
 	"time"
 )
