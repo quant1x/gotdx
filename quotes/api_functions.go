@@ -320,8 +320,8 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 				snapshot.Amount = 0.00
 			}
 			list = append(list, *snapshot)
-			poolSnapshot.Release(snapshot)
 		}
+		poolSnapshot.Release(snapshot)
 	}
 	return list, nil
 }
