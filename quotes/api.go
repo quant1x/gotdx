@@ -2,11 +2,12 @@ package quotes
 
 import (
 	"errors"
+	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/logger"
 	"runtime"
 	"strconv"
 	"strings"
-	"sync"
+	"sync/atomic"
 	"time"
 )
 
@@ -43,12 +44,12 @@ type Options struct {
 
 // StdApi 标准行情API接口
 type StdApi struct {
-	connPool   *ConnPool   // 连接池
-	opt        *Options    // 选项
-	sync.Mutex             // 锁
-	sync.Once              // 一次性初始化锁
-	Servers    []Server    // 服务器组
-	ch         chan Server // 服务器地址channel
+	connPool *ConnPool             // 连接池
+	opt      *Options              // 选项
+	once     coroutine.RollingOnce // 滑动窗口式Once
+	Servers  []Server              // 服务器组
+	ch       chan Server           // 服务器地址channel
+	inited   atomic.Uint32         // 首次初始化状态
 }
 
 // NewStdApi 创建一个标准接口
@@ -66,6 +67,8 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		Servers: srvs,
 		opt:     &opt,
 	}
+	stdApi.ch = make(chan Server, stdApi.Len())
+	stdApi.once.SetOffsetTime(serverResetOffsetHours, serverResetOffsetMinutes)
 	_factory := func() (any, error) {
 		client := NewClient(stdApi.opt)
 		server := stdApi.Acquire()
@@ -129,15 +132,28 @@ func (this *StdApi) Len() int {
 }
 
 func (this *StdApi) init() {
-	this.ch = make(chan Server, this.Len())
+	if this.inited.Load() == 1 {
+		servs := GetFastHost(TDX_HOST_HQ)
+		if len(servs) > 0 {
+			this.Servers = servs
+		}
+		// 关闭channel
+		close(this.ch)
+		// 读取剩余的服务地址
+		for v := range this.ch {
+			_ = v
+		}
+		this.ch = make(chan Server, this.Len())
+	}
 	for _, v := range this.Servers {
 		this.ch <- v
 	}
+	this.inited.Store(1)
 }
 
 // Acquire 获取一个地址
 func (this *StdApi) Acquire() *Server {
-	this.Once.Do(this.init)
+	this.once.Do(this.init)
 	// 非阻塞获取
 	//srv, ok := <-this.ch
 	// 阻塞获取一个地址
@@ -153,7 +169,7 @@ func (this *StdApi) Release(srv *Server) {
 	if srv == nil || len(srv.Host) == 0 || srv.Port == 0 {
 		return
 	}
-	this.Once.Do(this.init)
+	this.once.Do(this.init)
 	this.ch <- *srv
 }
 
