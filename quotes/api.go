@@ -2,12 +2,11 @@ package quotes
 
 import (
 	"errors"
-	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/logger"
 	"runtime"
 	"strconv"
 	"strings"
-	"sync/atomic"
+	"sync"
 	"time"
 )
 
@@ -39,17 +38,15 @@ type Options struct {
 	WriteTimeout      time.Duration // 写超时
 	MaxRetryTimes     int           // 最大重试次数
 	RetryDuration     time.Duration // 重试时间
-	//index             int           // 索引
 }
 
 // StdApi 标准行情API接口
 type StdApi struct {
-	connPool *ConnPool             // 连接池
-	opt      *Options              // 选项
-	once     coroutine.RollingOnce // 滑动窗口式Once
-	Servers  []Server              // 服务器组
-	ch       chan Server           // 服务器地址channel
-	inited   atomic.Uint32         // 首次初始化状态
+	connPool *ConnPool   // 连接池
+	opt      *Options    // 选项
+	once     sync.Once   // 滑动窗口式Once
+	Servers  []Server    // 服务器组
+	ch       chan Server // 服务器地址channel
 }
 
 // NewStdApi 创建一个标准接口
@@ -68,7 +65,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		opt:     &opt,
 	}
 	stdApi.ch = make(chan Server, stdApi.Len())
-	stdApi.once.SetOffsetTime(serverResetOffsetHours, serverResetOffsetMinutes)
+	//stdApi.once.SetOffsetTime(serverResetOffsetHours, serverResetOffsetMinutes)
 	_factory := func() (any, error) {
 		client := NewClient(stdApi.opt)
 		server := stdApi.Acquire()
@@ -132,23 +129,23 @@ func (this *StdApi) Len() int {
 }
 
 func (this *StdApi) init() {
-	if this.inited.Load() == 1 {
-		servs := GetFastHost(TDX_HOST_HQ)
-		if len(servs) > 0 {
-			this.Servers = servs
-		}
-		// 关闭channel
-		close(this.ch)
-		// 读取剩余的服务地址
-		for v := range this.ch {
-			_ = v
-		}
-		this.ch = make(chan Server, this.Len())
-	}
+	//if this.inited.Load() == 1 {
+	//	servs := GetFastHost(TDX_HOST_HQ)
+	//	if len(servs) > 0 {
+	//		this.Servers = servs
+	//	}
+	//	// 关闭channel
+	//	close(this.ch)
+	//	// 读取剩余的服务地址
+	//	for v := range this.ch {
+	//		_ = v
+	//	}
+	//	this.ch = make(chan Server, this.Len())
+	//}
 	for _, v := range this.Servers {
 		this.ch <- v
 	}
-	this.inited.Store(1)
+	//this.inited.Store(1)
 }
 
 // Acquire 获取一个地址
