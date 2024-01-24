@@ -5,11 +5,10 @@ import "sync/atomic"
 // 局部变量
 var (
 	// 序列号
-	_seqId uint32
+	_seqId atomic.Uint32
 )
 
-// SeqID 生成序列号
-func SeqID() uint32 {
-	atomic.AddUint32(&_seqId, 1)
-	return _seqId
+// SequenceId 生成序列号
+func SequenceId() uint32 {
+	return _seqId.Add(1)
 }
