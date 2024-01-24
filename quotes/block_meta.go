@@ -51,7 +51,7 @@ func NewBlockMetaPackage() *BlockMetaPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = 0x0c
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = internal.SeqID()
+	pkg.reqHeader.SeqID = internal.SequenceId()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00

@@ -53,7 +53,7 @@ func NewSecurityListPackage() *SecurityListPackage {
 	obj.reply = new(SecurityListReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SeqID()
+	obj.reqHeader.SeqID = internal.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_LIST
 	return obj

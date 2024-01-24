@@ -178,7 +178,7 @@ func NewFinanceInfoPackage() *FinanceInfoPackage {
 	//0c
 	pkg.reqHeader.ZipFlag = proto.FlagNotZipped
 	//1f 18 76 00
-	pkg.reqHeader.SeqID = internal.SeqID()
+	pkg.reqHeader.SeqID = internal.SequenceId()
 	//01
 	pkg.reqHeader.PacketType = 0x01
 	//0b 00

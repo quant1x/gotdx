@@ -33,7 +33,7 @@ func NewSecurityCountPackage() *SecurityCountPackage {
 	obj.reply = new(SecurityCountReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SeqID()
+	obj.reqHeader.SeqID = internal.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_COUNT
 	obj.contentHex = "75c73301" // 未解

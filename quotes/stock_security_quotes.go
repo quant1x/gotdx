@@ -124,7 +124,7 @@ func NewSecurityQuotesPackage() *SecurityQuotesPackage {
 	obj.reply = new(SecurityQuotesReply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SeqID()
+	obj.reqHeader.SeqID = internal.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_SECURITY_QUOTES_old
 	obj.contentHex = "0500000000000000" // 1.3.5以前的版本

@@ -33,7 +33,7 @@ func NewHello1() *Hello1Package {
 	obj.reply = new(Hello1Reply)
 
 	obj.reqHeader.ZipFlag = proto.FlagNotZipped
-	obj.reqHeader.SeqID = internal.SeqID()
+	obj.reqHeader.SeqID = internal.SequenceId()
 	obj.reqHeader.PacketType = 0x01
 	obj.reqHeader.Method = proto.STD_MSG_LOGIN1
 	obj.contentHex = "01"
