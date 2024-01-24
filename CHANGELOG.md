@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.4] - 2024-01-24
+### Changed
+- 连接池打开以后, 下一次才检查服务器列表是否需要更新.
+- 设置每天初始化服务器列表的时间常量.
+
 ## [1.20.3] - 2024-01-24
 ### Changed
 - 更新依赖库版本.
@@ -1102,7 +1107,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.4...HEAD
+[1.20.4]: https://gitee.com/quant1x/gotdx/compare/v1.20.3...v1.20.4
 [1.20.3]: https://gitee.com/quant1x/gotdx/compare/v1.20.2...v1.20.3
 [1.20.2]: https://gitee.com/quant1x/gotdx/compare/v1.20.1...v1.20.2
 [1.20.1]: https://gitee.com/quant1x/gotdx/compare/v1.20.0...v1.20.1
