@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.5] - 2024-01-24
+### Changed
+- 恢复连接池只初始化一次.
+
 ## [1.20.4] - 2024-01-24
 ### Changed
 - 连接池打开以后, 下一次才检查服务器列表是否需要更新.
@@ -1107,7 +1111,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.5...HEAD
+[1.20.5]: https://gitee.com/quant1x/gotdx/compare/v1.20.4...v1.20.5
 [1.20.4]: https://gitee.com/quant1x/gotdx/compare/v1.20.3...v1.20.4
 [1.20.3]: https://gitee.com/quant1x/gotdx/compare/v1.20.2...v1.20.3
 [1.20.2]: https://gitee.com/quant1x/gotdx/compare/v1.20.1...v1.20.2
