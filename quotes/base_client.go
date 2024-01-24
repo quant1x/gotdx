@@ -1,6 +1,7 @@
 package quotes
 
 import (
+	"gitee.com/quant1x/gox/runtime"
 	"io"
 	"net"
 	"sync"
@@ -17,16 +18,16 @@ var (
 )
 
 type TcpClient struct {
-	sync.Mutex               // 匿名属性
-	conn          net.Conn   // tcp连接
-	server        *Server    // 服务器信息
-	opt           *Options   // 参数
-	complete      chan bool  // 完成状态
-	sending       chan bool  // 正在发送状态
-	done          chan bool  // connection done
-	completedTime time.Time  // 时间戳
-	timeMutex     sync.Mutex // 时间锁
-	closed        uint32     // 关闭次数
+	sync.Mutex              // 匿名属性
+	conn          net.Conn  // tcp连接
+	server        *Server   // 服务器信息
+	opt           *Options  // 参数
+	complete      chan bool // 完成状态
+	sending       chan bool // 正在发送状态
+	done          chan bool // connection done
+	completedTime time.Time // 时间戳
+	//timeMutex     sync.Mutex // 时间锁
+	closed uint32 // 关闭次数
 }
 
 func NewClient(opt *Options) *TcpClient {
@@ -92,18 +93,13 @@ func (client *TcpClient) Command(msg Message) error {
 }
 
 func (client *TcpClient) heartbeat() {
-	defer func() {
-		// 解析失败以后输出日志, 以备检查
-		if err := recover(); err != nil {
-			logger.Errorf("heartbeat.done error=%+v\n", err)
-		}
-	}()
+	defer runtime.IgnorePanic("heartbeat.done")
 	for {
 		select {
 		case <-time.After(time.Second):
-			client.timeMutex.Lock()
+			client.Lock()
 			timedOut := client.hasTimedOut()
-			client.timeMutex.Unlock()
+			client.Unlock()
 			if timedOut {
 				msg := NewSecurityCountPackage()
 				msg.SetParams(&SecurityCountRequest{
@@ -154,12 +150,7 @@ func (client *TcpClient) Connect(server *Server) error {
 
 // Close 断开服务器
 func (client *TcpClient) Close() error {
-	defer func() {
-		// 解析失败以后输出日志, 以备检查
-		if err := recover(); err != nil {
-			logger.Errorf("TcpClient.Close error=%+v\n", err)
-		}
-	}()
+	defer runtime.IgnorePanic("TcpClient.Close")
 	if atomic.LoadUint32(&client.closed) > 0 {
 		return io.EOF
 	}
