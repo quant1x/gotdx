@@ -1,7 +1,7 @@
-gitee.com/quant1x/exchange v0.3.4 h1:Ws38NgCegudZlTa8GhkM941GPGr07MMpbv/oZQSKFCk=
-gitee.com/quant1x/exchange v0.3.4/go.mod h1:kpAi3IP1Tk/GWJh9f9Lsc3AnVGl9mO7JHuahg+UrsMo=
-gitee.com/quant1x/gox v1.19.1 h1:mo6IaH9dJlUman7ySSJLLR83u2GxJp6tXthfRoweGDI=
-gitee.com/quant1x/gox v1.19.1/go.mod h1:kgW39VLtTU+A+8G99vtVE+w65jLahQpVhnljqyULGGI=
+gitee.com/quant1x/exchange v0.3.5 h1:EreVdPDfv8SyOXfMOi9ye4L8GLcUtSNxdVH5OBcVD94=
+gitee.com/quant1x/exchange v0.3.5/go.mod h1:u3CFaqpNd0RD5071c7EW+12qOLy+ZLVkN9K/03d/b9Q=
+gitee.com/quant1x/gox v1.19.2 h1:HgdFC2fXwrNdwUVvP3RMpRohZxkc6DXTzThMudN7KQs=
+gitee.com/quant1x/gox v1.19.2/go.mod h1:kgW39VLtTU+A+8G99vtVE+w65jLahQpVhnljqyULGGI=
 gitee.com/quant1x/pandas v1.2.8 h1:YBJAPQKNmJ/hVsp+QBsVEltfdB3oQNkPzRbgxdGG+BA=
 gitee.com/quant1x/pandas v1.2.8/go.mod h1:HVdXHtC2eXAHMa/z2EIQxx51Qw4fPbHRgrChLuE6ZPs=
 gitee.com/quant1x/pkg v0.2.6 h1:u5IXv7pBIAByU4QwBtct0zINeso89yG76iaSK+vQKHU=
