@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.7] - 2024-01-25
+### Changed
+- 更新依赖库版本.
+
 ## [1.20.6] - 2024-01-25
 ### Changed
 - 更新gox,优化RollingOnce功能.
@@ -1116,7 +1120,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.7...HEAD
+[1.20.7]: https://gitee.com/quant1x/gotdx/compare/v1.20.6...v1.20.7
 [1.20.6]: https://gitee.com/quant1x/gotdx/compare/v1.20.5...v1.20.6
 [1.20.5]: https://gitee.com/quant1x/gotdx/compare/v1.20.4...v1.20.5
 [1.20.4]: https://gitee.com/quant1x/gotdx/compare/v1.20.3...v1.20.4
