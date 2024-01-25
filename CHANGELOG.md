@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.6] - 2024-01-25
+### Changed
+- 更新gox,优化RollingOnce功能.
+- 更新gox,优化RollingOnce功能.
+
 ## [1.20.5] - 2024-01-24
 ### Changed
 - 恢复连接池只初始化一次.
@@ -1111,7 +1116,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.5...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.6...HEAD
+[1.20.6]: https://gitee.com/quant1x/gotdx/compare/v1.20.5...v1.20.6
 [1.20.5]: https://gitee.com/quant1x/gotdx/compare/v1.20.4...v1.20.5
 [1.20.4]: https://gitee.com/quant1x/gotdx/compare/v1.20.3...v1.20.4
 [1.20.3]: https://gitee.com/quant1x/gotdx/compare/v1.20.2...v1.20.3
