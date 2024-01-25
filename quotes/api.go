@@ -45,7 +45,7 @@ type StdApi struct {
 	connPool *ConnPool   // 连接池
 	opt      *Options    // 选项
 	once     sync.Once   // 滑动窗口式Once
-	Servers  []Server    // 服务器组
+	servers  []Server    // 服务器组
 	ch       chan Server // 服务器地址channel
 }
 
@@ -61,7 +61,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		ConnectionTimeout: CONN_TIMEOUT * time.Second,
 	}
 	stdApi := StdApi{
-		Servers: srvs,
+		servers: srvs,
 		opt:     &opt,
 	}
 	stdApi.ch = make(chan Server, stdApi.Len())
@@ -101,7 +101,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		return stdApi.tdxPing(client)
 	}
 	maxCap := POOL_MAX
-	bestIpCount := len(stdApi.Servers)
+	bestIpCount := len(stdApi.servers)
 	if bestIpCount == 0 {
 		logger.Fatalf("no available hosts")
 	}
@@ -125,14 +125,14 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 }
 
 func (this *StdApi) Len() int {
-	return len(this.Servers)
+	return len(this.servers)
 }
 
 func (this *StdApi) init() {
 	//if this.inited.Load() == 1 {
 	//	servs := GetFastHost(TDX_HOST_HQ)
 	//	if len(servs) > 0 {
-	//		this.Servers = servs
+	//		this.servers = servs
 	//	}
 	//	// 关闭channel
 	//	close(this.ch)
@@ -142,7 +142,7 @@ func (this *StdApi) init() {
 	//	}
 	//	this.ch = make(chan Server, this.Len())
 	//}
-	for _, v := range this.Servers {
+	for _, v := range this.servers {
 		this.ch <- v
 	}
 	//this.inited.Store(1)
@@ -172,7 +172,7 @@ func (this *StdApi) Release(srv *Server) {
 
 // NumOfServers 增加返回服务器IP数量
 func (this *StdApi) NumOfServers() int {
-	return len(this.Servers)
+	return len(this.servers)
 }
 
 func (this *StdApi) GetMaxIdleCount() int {

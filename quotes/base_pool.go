@@ -1,7 +1,6 @@
 package quotes
 
 import (
-	"fmt"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/pool"
 	"time"
@@ -45,7 +44,7 @@ func NewConnPool(maxCap, maxIdle int, factory func() (any, error), close func(an
 	}
 	_pool, err := pool.NewChannelPool(poolConfig)
 	if err != nil {
-		fmt.Println("err=", err)
+		logger.Errorf("create channel pool failed, error=%+v", err)
 		return nil, err
 	}
 	cp := &ConnPool{
@@ -59,20 +58,20 @@ func (p *ConnPool) GetMaxIdleCount() int {
 	return p.maxIdle
 }
 
-func (p *ConnPool) GetConn() interface{} {
+func (p *ConnPool) GetConn() any {
 	conn, err := p.pool.Get()
 	if err != nil {
-		logger.Errorf("获取连接失败", err)
+		logger.Errorf("获取连接失败, error=%+v", err)
 		return nil
 	}
 	return conn
 }
 
-func (p *ConnPool) CloseConn(conn interface{}) error {
+func (p *ConnPool) CloseConn(conn any) error {
 	return p.pool.Close(conn)
 }
 
-func (p *ConnPool) ReturnConn(conn interface{}) {
+func (p *ConnPool) ReturnConn(conn any) {
 	_ = p.pool.Put(conn)
 }
 

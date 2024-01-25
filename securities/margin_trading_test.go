@@ -6,6 +6,8 @@ import (
 )
 
 func TestMarginTradingList(t *testing.T) {
-	v := MarginTradingList()
-	fmt.Println(v)
+	v1 := MarginTradingList()
+	fmt.Println(v1)
+	v2 := MarginTradingList()
+	fmt.Println(v2)
 }
