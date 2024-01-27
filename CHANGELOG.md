@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.8] - 2024-01-27
+### Changed
+- 更新依赖库版本.
+- 优化连接池及心跳协程的退出机制, 统一由客户端close方法处理资源释放.
+- 修订通达信业务2次握手的告警类日志内容.
+
 ## [1.20.7] - 2024-01-25
 ### Changed
 - 更新依赖库版本.
@@ -1120,7 +1126,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.8...HEAD
+[1.20.8]: https://gitee.com/quant1x/gotdx/compare/v1.20.7...v1.20.8
 [1.20.7]: https://gitee.com/quant1x/gotdx/compare/v1.20.6...v1.20.7
 [1.20.6]: https://gitee.com/quant1x/gotdx/compare/v1.20.5...v1.20.6
 [1.20.5]: https://gitee.com/quant1x/gotdx/compare/v1.20.4...v1.20.5
