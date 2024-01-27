@@ -26,8 +26,7 @@ type TcpClient struct {
 	sending       chan bool // 正在发送状态
 	done          chan bool // connection done
 	completedTime time.Time // 时间戳
-	//timeMutex     sync.Mutex // 时间锁
-	closed uint32 // 关闭次数
+	closed        uint32    // 关闭次数
 }
 
 func NewClient(opt *Options) *TcpClient {
@@ -158,6 +157,7 @@ func (client *TcpClient) Close() error {
 	close(client.done)
 	close(client.sending)
 	close(client.complete)
+	client.opt.releaseAddress(client.server)
 	api.CloseQuietly(client.conn)
 	atomic.AddUint32(&client.closed, 1)
 	return nil

@@ -33,11 +33,12 @@ func (s Server) String() string {
 }
 
 type Options struct {
-	ConnectionTimeout time.Duration // 连接超时
-	ReadTimeout       time.Duration // 读超时
-	WriteTimeout      time.Duration // 写超时
-	MaxRetryTimes     int           // 最大重试次数
-	RetryDuration     time.Duration // 重试时间
+	ConnectionTimeout time.Duration        // 连接超时
+	ReadTimeout       time.Duration        // 读超时
+	WriteTimeout      time.Duration        // 写超时
+	MaxRetryTimes     int                  // 最大重试次数
+	RetryDuration     time.Duration        // 重试时间
+	releaseAddress    func(server *Server) // 归还服务器地址回调函数
 }
 
 // StdApi 标准行情API接口
@@ -64,36 +65,34 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		servers: srvs,
 		opt:     &opt,
 	}
-	stdApi.ch = make(chan Server, stdApi.Len())
+	stdApi.ch = make(chan Server, POOL_MAX)
 	//stdApi.once.SetOffsetTime(serverResetOffsetHours, serverResetOffsetMinutes)
 	_factory := func() (any, error) {
 		client := NewClient(stdApi.opt)
-		server := stdApi.Acquire()
+		server := stdApi.AcquireAddress()
 		if server == nil {
 			return nil, ErrInvalidServerAddress
 		}
 		err := client.Connect(server)
 		if err != nil {
-			stdApi.Release(client.server)
+			stdApi.ReleaseAddress(client.server)
 			return nil, err
 		}
+		stdApi.opt.releaseAddress = stdApi.ReleaseAddress
 		err = stdApi.tdxHello1(client)
 		if err != nil {
 			_ = client.Close()
-			stdApi.Release(client.server)
 			return nil, err
 		}
 		err = stdApi.tdxHello2(client)
 		if err != nil {
 			_ = client.Close()
-			stdApi.Release(client.server)
 			return nil, err
 		}
 		return client, err
 	}
 	_close := func(v any) error {
 		client := v.(*TcpClient)
-		defer stdApi.Release(client.server)
 		return client.Close()
 	}
 	_ping := func(v any) error {
@@ -105,7 +104,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 	if bestIpCount == 0 {
 		logger.Fatalf("no available hosts")
 	}
-	if bestIpCount < maxCap {
+	if maxCap > bestIpCount {
 		maxCap = bestIpCount
 	}
 
@@ -148,26 +147,35 @@ func (this *StdApi) init() {
 	//this.inited.Store(1)
 }
 
-// Acquire 获取一个地址
-func (this *StdApi) Acquire() *Server {
+// AcquireAddress 获取一个地址
+func (this *StdApi) AcquireAddress() *Server {
 	this.once.Do(this.init)
 	// 非阻塞获取
 	//srv, ok := <-this.ch
+	logger.Warnf("获取一个服务器地址...begin")
 	// 阻塞获取一个地址
 	server := <-this.ch
+	logger.Warnf("获取一个服务器地址...end")
 	if len(server.Host) == 0 || server.Port == 0 {
+		logger.Warnf("获取一个服务器地址...failed: nil")
 		return nil
 	}
+	logger.Warnf("获取一个服务器地址...server=%s", server)
 	return &server
 }
 
-// Release 返还一个地址
-func (this *StdApi) Release(srv *Server) {
+// ReleaseAddress 返还一个地址
+func (this *StdApi) ReleaseAddress(srv *Server) {
+	logger.Warnf("返回一个服务器地址...")
 	if srv == nil || len(srv.Host) == 0 || srv.Port == 0 {
+		logger.Warnf("返回一个服务器地址...failed: nil")
 		return
 	}
 	this.once.Do(this.init)
+	logger.Warnf("返回一个服务器地址...server=%s, begin", *srv)
+	// 阻塞返还一个地址
 	this.ch <- *srv
+	logger.Warnf("返回一个服务器地址...server=%s, end", *srv)
 }
 
 // NumOfServers 增加返回服务器IP数量
