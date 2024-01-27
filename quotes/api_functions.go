@@ -19,7 +19,7 @@ func (this *StdApi) tdxHello1(client *TcpClient) error {
 		return err
 	}
 	reply := hello1.Reply().(*Hello1Reply)
-	logger.Warnf(reply.Info)
+	logger.Warnf("tdx-hello1: %s", reply.Info)
 	return nil
 }
 
@@ -32,7 +32,7 @@ func (this *StdApi) tdxHello2(client *TcpClient) error {
 		return err
 	}
 	reply := hello2.Reply().(*Hello2Reply)
-	logger.Warnf(reply.Info)
+	logger.Warnf("tdx-hello2: %s", reply.Info)
 	return nil
 }
 
