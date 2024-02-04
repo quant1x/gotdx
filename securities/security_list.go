@@ -99,7 +99,14 @@ func getSecurityList() (allList []quotes.Security) {
 			return
 		}
 		for i := 0; i < int(reply.Count); i++ {
-			reply.List[i].Code = "sh" + reply.List[i].Code
+			security := &reply.List[i]
+			security.Code = "sh" + security.Code
+			if exchange.AssertBlockBySecurityCode(&(security.Code)) {
+				blk := GetBlockInfo(security.Code)
+				if blk != nil {
+					security.Name = blk.Name
+				}
+			}
 		}
 		list := api.Filter(reply.List, checkIndexAndStock)
 		if len(list) > 0 {

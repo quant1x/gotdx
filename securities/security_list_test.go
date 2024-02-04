@@ -8,7 +8,7 @@ import (
 )
 
 func TestGetStockName(t *testing.T) {
-	code := "sh510050"
+	code := "sh880635"
 	v := GetStockName(code)
 	fmt.Println(v)
 }
