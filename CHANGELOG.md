@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.20.9] - 2024-02-05
+### Changed
+- 更新依赖库pandas版本.
+- 修复板块名称存在乱码的现象。问题的原因是数据接口的证券名称长度为8个字节，而部分板块名称则超过了8个字节。修改的方案是用板块数据中的名称代替证券列表中的名称。.
+
 ## [1.20.8] - 2024-01-27
 ### Changed
 - 更新依赖库版本.
@@ -1126,7 +1131,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.20.9...HEAD
+[1.20.9]: https://gitee.com/quant1x/gotdx/compare/v1.20.8...v1.20.9
 [1.20.8]: https://gitee.com/quant1x/gotdx/compare/v1.20.7...v1.20.8
 [1.20.7]: https://gitee.com/quant1x/gotdx/compare/v1.20.6...v1.20.7
 [1.20.6]: https://gitee.com/quant1x/gotdx/compare/v1.20.5...v1.20.6
