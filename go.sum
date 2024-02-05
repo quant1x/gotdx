@@ -2,8 +2,8 @@ gitee.com/quant1x/exchange v0.3.7 h1:YZ8wnAxjBKqlTYRgdk69Cm9Udrs5UeeiOGv5DwY/sHo
 gitee.com/quant1x/exchange v0.3.7/go.mod h1:0kzHEA/7EO58zUJnW9xxvOHCXe1KSkupu9S9ZrbaWHo=
 gitee.com/quant1x/gox v1.19.6 h1:+KWg/tTXq9SpXjUHmhDkPkMPG7mshyVctB5Ot2BkZK0=
 gitee.com/quant1x/gox v1.19.6/go.mod h1:Z+Hp5ZPjBhtE6LByW0BkCPl7G0k/hqk3FTGNgohOxYE=
-gitee.com/quant1x/pandas v1.2.8 h1:YBJAPQKNmJ/hVsp+QBsVEltfdB3oQNkPzRbgxdGG+BA=
-gitee.com/quant1x/pandas v1.2.8/go.mod h1:HVdXHtC2eXAHMa/z2EIQxx51Qw4fPbHRgrChLuE6ZPs=
+gitee.com/quant1x/pandas v1.3.0 h1:AaKEs5ql9XbFOlgeZD5kq954bytnwML/VA6Ri9z6xXY=
+gitee.com/quant1x/pandas v1.3.0/go.mod h1:l5SXWAqBuaK+JsfDf/UvSZCrPcN7Vr2laaRcGGjJdas=
 gitee.com/quant1x/pkg v0.2.6 h1:u5IXv7pBIAByU4QwBtct0zINeso89yG76iaSK+vQKHU=
 gitee.com/quant1x/pkg v0.2.6/go.mod h1:PxsmEZX9MfFtVYt5mn6lKd0SJ/dRVn39kElUOJo4dKs=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=

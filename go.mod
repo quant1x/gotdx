@@ -10,7 +10,7 @@ require (
 )
 
 require (
-	gitee.com/quant1x/pandas v1.2.8 // indirect
+	gitee.com/quant1x/pandas v1.3.0 // indirect
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
 	github.com/google/pprof v0.0.0-20240125082051-42cd04596328 // indirect
