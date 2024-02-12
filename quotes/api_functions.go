@@ -6,7 +6,7 @@ import (
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/cache"
 	"gitee.com/quant1x/gox/logger"
-	"gitee.com/quant1x/gox/num"
+	"gitee.com/quant1x/num"
 	"io"
 )
 
