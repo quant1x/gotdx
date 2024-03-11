@@ -1,9 +1,9 @@
-gitee.com/quant1x/exchange v0.4.0 h1:KaL7g1wMQN2s/3t7HXX+ZYvry4pBtsd/tk6RvpPL5jQ=
-gitee.com/quant1x/exchange v0.4.0/go.mod h1:/6QwgitMImv1xnV3Hhwdz3b30PDNB3vzN82hAYI5JXI=
-gitee.com/quant1x/gox v1.20.2 h1:/5D1aeDl/T/jWMuhYH/tV6vp1HkwbBsDBceIxbH2J4E=
-gitee.com/quant1x/gox v1.20.2/go.mod h1:7EoGDJOof8kQ/k3YbBhu442P3U/ZehKGLHG1dyLF5CY=
-gitee.com/quant1x/num v0.1.6 h1:BmhC1kFTIA9BLAgIZ72n+G5JlvJkVJKRyFb3QHRObDU=
-gitee.com/quant1x/num v0.1.6/go.mod h1:wkBxe7YzmNw78RvOc78nBOW/VCriw2vtGzCPtycEp3Q=
+gitee.com/quant1x/exchange v0.4.1 h1:ZALKblJUgeypDK3xe36ks0xZBcrLmgymy9q4paYpMGE=
+gitee.com/quant1x/exchange v0.4.1/go.mod h1:mn5X385xL2I85F8fXUMKLmfFsdgwWKJyV8hUutxOVio=
+gitee.com/quant1x/gox v1.20.4 h1:EYQ03JsYiN0mzt+37TTyzL9gyAHVaHNSy9L78NgX60s=
+gitee.com/quant1x/gox v1.20.4/go.mod h1:+bchuVRIoKHC2IQRWlH3bIOUbjWjhZ8OT78AslrfKXg=
+gitee.com/quant1x/num v0.2.0 h1:KhobhV1RyMlUa1M8ENcA/ryq8biwr+XEe0v3xWXO9Lg=
+gitee.com/quant1x/num v0.2.0/go.mod h1:E3xTxU/8UE4PitbXWuyk3AmuWq/oi9sat5g57RXDWM0=
 gitee.com/quant1x/pkg v0.2.6 h1:u5IXv7pBIAByU4QwBtct0zINeso89yG76iaSK+vQKHU=
 gitee.com/quant1x/pkg v0.2.6/go.mod h1:PxsmEZX9MfFtVYt5mn6lKd0SJ/dRVn39kElUOJo4dKs=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
@@ -22,8 +22,8 @@ github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZb
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rogpeppe/go-internal v1.12.0 h1:exVL4IDcn6na9z1rAb56Vxr+CgyK3nn3O+epU5NdKM8=
 github.com/rogpeppe/go-internal v1.12.0/go.mod h1:E+RYuTGaKKdloAfM02xzb0FW3Paa99yedzYV+kq4uf4=
-golang.org/x/sys v0.17.0 h1:25cE3gD+tdBA7lp7QfhuV+rJiE9YXTcS3VG1SqssI/Y=
-golang.org/x/sys v0.17.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
+golang.org/x/sys v0.18.0 h1:DBdB3niSjOA/O0blCZBqDefyWNYveAYMNF1Wum0DYQ4=
+golang.org/x/sys v0.18.0/go.mod h1:/VUhepiaJMQUp4+oa/7Zr1D23ma6VTLIYjOOTFZPUcA=
 golang.org/x/text v0.14.0 h1:ScX5w1eTa3QqT8oi6+ziP7dTV1S2+ALU0bI+0zXKWiQ=
 golang.org/x/text v0.14.0/go.mod h1:18ZOQIKpY8NJVqYksKHtTdi31H5itFRjB5/qKTNYzSU=
 gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c h1:Hei/4ADfdWqJk1ZMxUNpqntNwaWcugrBjAiHlqqRiVk=
