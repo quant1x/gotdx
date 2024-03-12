@@ -1,9 +1,9 @@
-gitee.com/quant1x/exchange v0.4.2 h1:lnIQBCKIMbpxkJ23FZylbHqjv7uAnmqFCLtPqBmHssc=
-gitee.com/quant1x/exchange v0.4.2/go.mod h1:GaJJQVZ0Fiaganz4q0rt+vC7Xkpgb9fdZq1UQDUKX44=
-gitee.com/quant1x/gox v1.20.5 h1:gsDgFLPyFaKpUCcd7236HYugAIlcfUajYoiQgRr/6Wg=
-gitee.com/quant1x/gox v1.20.5/go.mod h1:+bchuVRIoKHC2IQRWlH3bIOUbjWjhZ8OT78AslrfKXg=
-gitee.com/quant1x/num v0.2.2 h1:IM2JPHby/kLCcqcPUeRj47s5jW+pKa98XQarSM3VHRk=
-gitee.com/quant1x/num v0.2.2/go.mod h1:2BDrQtT7qX39mRMsU3BVwkdOcieL/PY4sFvJexW4sjA=
+gitee.com/quant1x/exchange v0.4.3 h1:7ixvUwsz2tIQcC+mQiTSV89IL0JgYcNuwiWwbM4WkQw=
+gitee.com/quant1x/exchange v0.4.3/go.mod h1:aB0ZxVRzPUEhKPiZ5ZAGqNirR+AFmv9aoFMDnrSm5Dc=
+gitee.com/quant1x/gox v1.20.7 h1:Ums+V3mPqbL9KlRBQYP42e+v3C2ViHttVXGDINeOpjs=
+gitee.com/quant1x/gox v1.20.7/go.mod h1:iI8m5sgeNvvyZE5rhtFYByOw8INw12GLtK0tUx8vZ1M=
+gitee.com/quant1x/num v0.2.3 h1:dmTzPaiHIFIa1yuimaiqM+mUPMte81rcZQRjLKRo7MA=
+gitee.com/quant1x/num v0.2.3/go.mod h1:ipW6qZdm7JZTZuQ2cWGQfjiLrUVYpZSStcKF/UCGgTs=
 gitee.com/quant1x/pkg v0.2.6 h1:u5IXv7pBIAByU4QwBtct0zINeso89yG76iaSK+vQKHU=
 gitee.com/quant1x/pkg v0.2.6/go.mod h1:PxsmEZX9MfFtVYt5mn6lKd0SJ/dRVn39kElUOJo4dKs=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
