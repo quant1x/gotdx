@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.21.7] - 2024-03-19
+### Changed
+- 更新板块配置信息.
+- 调整测试代码, 使用指定的服务器地址.
+
 ## [1.21.6] - 2024-03-18
 ### Changed
 - 更新依赖库exchange版本.
@@ -1160,7 +1165,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.21.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.21.7...HEAD
+[1.21.7]: https://gitee.com/quant1x/gotdx/compare/v1.21.6...v1.21.7
 [1.21.6]: https://gitee.com/quant1x/gotdx/compare/v1.21.5...v1.21.6
 [1.21.5]: https://gitee.com/quant1x/gotdx/compare/v1.21.4...v1.21.5
 [1.21.4]: https://gitee.com/quant1x/gotdx/compare/v1.21.3...v1.21.4
