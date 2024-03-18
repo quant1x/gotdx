@@ -8,7 +8,8 @@ import (
 )
 
 func TestSnapshotPackage(t *testing.T) {
-	stdApi, err := NewStdApi()
+	stdApi, err := NewStdApiWithServers([]Server{Server{Host: "123.125.108.14", Port: 7709, Name: "test"}})
+	//stdApi, err := NewStdApi()
 	if err != nil {
 		panic(err)
 	}
