@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.21.8] - 2024-03-21
+### Changed
+- 更新板块配置信息.
+
 ## [1.21.7] - 2024-03-19
 ### Changed
 - 更新板块配置信息.
@@ -1165,7 +1169,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.21.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.21.8...HEAD
+[1.21.8]: https://gitee.com/quant1x/gotdx/compare/v1.21.7...v1.21.8
 [1.21.7]: https://gitee.com/quant1x/gotdx/compare/v1.21.6...v1.21.7
 [1.21.6]: https://gitee.com/quant1x/gotdx/compare/v1.21.5...v1.21.6
 [1.21.5]: https://gitee.com/quant1x/gotdx/compare/v1.21.4...v1.21.5
