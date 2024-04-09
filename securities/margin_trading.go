@@ -26,6 +26,7 @@ type FinancingAndSecuritiesLendingTarget struct {
 var (
 	onceMarginTrading      coroutine.RollingOnce
 	cacheMarginTradingList []string
+	mapMarginTrading       = map[string]bool{}
 )
 
 const (
@@ -199,6 +200,10 @@ func lazyLoadMarginTrading() {
 			}
 		})
 		cacheMarginTradingList = slices.Clone(codes)
+		clear(mapMarginTrading)
+		for _, v := range cacheMarginTradingList {
+			mapMarginTrading[v] = true
+		}
 	}
 }
 
@@ -206,4 +211,12 @@ func lazyLoadMarginTrading() {
 func MarginTradingList() []string {
 	onceMarginTrading.Do(lazyLoadMarginTrading)
 	return cacheMarginTradingList
+}
+
+// IsMarginTradingTarget 是否两融标的
+func IsMarginTradingTarget(code string) bool {
+	onceMarginTrading.Do(lazyLoadMarginTrading)
+	securityCode := exchange.CorrectSecurityCode(code)
+	_, ok := mapMarginTrading[securityCode]
+	return ok
 }
