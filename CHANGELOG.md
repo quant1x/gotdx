@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.1] - 2024-04-10
+### Changed
+- 新增两融标的判断函数.
+
 ## [1.22.0] - 2024-04-10
 ### Changed
 - 更新依赖库版本.
@@ -1177,7 +1181,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.1...HEAD
+[1.22.1]: https://gitee.com/quant1x/gotdx/compare/v1.22.0...v1.22.1
 [1.22.0]: https://gitee.com/quant1x/gotdx/compare/v1.21.9...v1.22.0
 [1.21.9]: https://gitee.com/quant1x/gotdx/compare/v1.21.8...v1.21.9
 [1.21.8]: https://gitee.com/quant1x/gotdx/compare/v1.21.7...v1.21.8
