@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.0] - 2024-04-10
+### Changed
+- 更新依赖库版本.
+
 ## [1.21.9] - 2024-03-30
 ### Changed
 - 更新依赖库版本.
@@ -1173,7 +1177,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.21.9...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.0...HEAD
+[1.22.0]: https://gitee.com/quant1x/gotdx/compare/v1.21.9...v1.22.0
 [1.21.9]: https://gitee.com/quant1x/gotdx/compare/v1.21.8...v1.21.9
 [1.21.8]: https://gitee.com/quant1x/gotdx/compare/v1.21.7...v1.21.8
 [1.21.7]: https://gitee.com/quant1x/gotdx/compare/v1.21.6...v1.21.7
