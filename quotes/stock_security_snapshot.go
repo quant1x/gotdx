@@ -1,5 +1,7 @@
 package quotes
 
+import "gitee.com/quant1x/exchange"
+
 type ExchangeState int8
 
 const (
@@ -89,4 +91,36 @@ func (this *Snapshot) AverageBiddingVolume() int {
 	bidVol := this.BidVol1 + this.BidVol2 + this.BidVol3 + this.BidVol4 + this.BidVol5
 	askVol := this.AskVol1 + this.AskVol2 + this.AskVol3 + this.AskVol4 + this.AskVol5
 	return (bidVol + askVol) / 10
+}
+
+// DetectBiddingPhase 检测竞价阶段
+// 如果5档行情
+func (this *Snapshot) DetectBiddingPhase() (head, tail bool) {
+	head = false
+	tail = false
+	kind := exchange.AssertCode(this.SecurityCode)
+	switch kind {
+	case exchange.STOCK, exchange.ETF:
+		// 个股竞价阶段, 竞价3-5的数据都是0
+		bidPrice := int(this.Bid3 + this.Bid4 + this.Bid5)
+		bidVol := this.BidVol3 + this.BidVol4 + this.BidVol5
+		if bidPrice+bidVol == 0 {
+			// 早盘竞价时开盘等于0
+			if this.Open == 0 {
+				head = true
+			} else {
+				tail = true
+			}
+		}
+	case exchange.INDEX:
+		// 指数
+		head = this.Active == 0
+		tail = this.Active > 0
+	case exchange.BLOCK:
+		// 板块
+		head = this.Active == 0
+		tail = this.Active > 0
+	}
+
+	return
 }

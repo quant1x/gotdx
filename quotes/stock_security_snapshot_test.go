@@ -24,3 +24,10 @@ func TestSnapshotPackage(t *testing.T) {
 	text := api.Bytes2String(data)
 	fmt.Println(text)
 }
+
+func TestSnapshot_DetectBiddingPhase(t *testing.T) {
+	cacheList := []Snapshot{}
+	filename := "600903.csv"
+	err := api.CsvToSlices(filename, &cacheList)
+	fmt.Println(err)
+}
