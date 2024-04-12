@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.2] - 2024-04-12
+### Changed
+- 快照新增检测竞价阶段的方法.
+- Git仓库忽略csv文件.
+- 更新exchange版本到0.5.0.
+
 ## [1.22.1] - 2024-04-10
 ### Changed
 - 新增两融标的判断函数.
@@ -1181,7 +1187,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.2...HEAD
+[1.22.2]: https://gitee.com/quant1x/gotdx/compare/v1.22.1...v1.22.2
 [1.22.1]: https://gitee.com/quant1x/gotdx/compare/v1.22.0...v1.22.1
 [1.22.0]: https://gitee.com/quant1x/gotdx/compare/v1.21.9...v1.22.0
 [1.21.9]: https://gitee.com/quant1x/gotdx/compare/v1.21.8...v1.21.9
