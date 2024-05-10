@@ -75,7 +75,7 @@ func NewStdApiWithServers(srvs []Server) (*StdApi, error) {
 		}
 		err := client.Connect(server)
 		if err != nil {
-			stdApi.ReleaseAddress(client.server)
+			stdApi.ReleaseAddress(server)
 			return nil, err
 		}
 		stdApi.opt.releaseAddress = stdApi.ReleaseAddress
