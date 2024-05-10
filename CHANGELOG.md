@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.4] - 2024-05-11
+### Changed
+- 修复连接失败的时候存在服务器地址指针为空的bug.
+- 修复日志方法的错误用法.
+
 ## [1.22.3] - 2024-04-16
 ### Changed
 - 更新exchange版本到0.5.2.
@@ -1191,7 +1196,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.3...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.4...HEAD
+[1.22.4]: https://gitee.com/quant1x/gotdx/compare/v1.22.3...v1.22.4
 [1.22.3]: https://gitee.com/quant1x/gotdx/compare/v1.22.2...v1.22.3
 [1.22.2]: https://gitee.com/quant1x/gotdx/compare/v1.22.1...v1.22.2
 [1.22.1]: https://gitee.com/quant1x/gotdx/compare/v1.22.0...v1.22.1
