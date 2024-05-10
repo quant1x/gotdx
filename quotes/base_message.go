@@ -94,7 +94,7 @@ func process(client *TcpClient, msg Message) error {
 	}
 	_, err = io.ReadFull(conn, headerBytes)
 	if err != nil {
-		logger.Errorf("读取数据指令失败-1", err)
+		logger.Error("读取数据指令失败-1", err)
 		return err
 	}
 	if logger.IsDebug() {
@@ -105,7 +105,7 @@ func process(client *TcpClient, msg Message) error {
 	headerBuf := bytes.NewReader(headerBytes)
 	var header StdResponseHeader
 	if err := binary.Read(headerBuf, binary.LittleEndian, &header); err != nil {
-		logger.Errorf("读取数据指令失败-2", err)
+		logger.Error("读取数据指令失败-2", err)
 		return err
 	}
 	if logger.IsDebug() {
@@ -125,7 +125,7 @@ func process(client *TcpClient, msg Message) error {
 	}
 	_, err = io.ReadFull(conn, msgData)
 	if err != nil {
-		logger.Errorf("读取数据指令失败-3", err)
+		logger.Error("读取数据指令失败-3", err)
 		return err
 	}
 	// 3.5 反序列化响应的消息体
