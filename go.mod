@@ -3,10 +3,10 @@ module gitee.com/quant1x/gotdx
 go 1.21.8
 
 require (
-	gitee.com/quant1x/exchange v0.5.2
-	gitee.com/quant1x/gox v1.21.0
-	gitee.com/quant1x/num v0.3.0
-	gitee.com/quant1x/pkg v0.2.7
+	gitee.com/quant1x/exchange v0.5.3
+	gitee.com/quant1x/gox v1.21.1
+	gitee.com/quant1x/num v0.3.1
+	gitee.com/quant1x/pkg v0.2.8
 	golang.org/x/text v0.15.0
 )
 
