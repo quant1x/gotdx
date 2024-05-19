@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.8] - 2024-05-19
+### Changed
+- 调整演示代码.
+- 修复过时的演示代码.
+- 调整测试代码, 新增获取日K线的测试.
+
 ## [1.22.7] - 2024-05-16
 ### Changed
 - 更新依赖库版本.
@@ -1208,7 +1214,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.7...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.8...HEAD
+[1.22.8]: https://gitee.com/quant1x/gotdx/compare/v1.22.7...v1.22.8
 [1.22.7]: https://gitee.com/quant1x/gotdx/compare/v1.22.6...v1.22.7
 [1.22.6]: https://gitee.com/quant1x/gotdx/compare/v1.22.5...v1.22.6
 [1.22.5]: https://gitee.com/quant1x/gotdx/compare/v1.22.4...v1.22.5
