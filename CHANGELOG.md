@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.9] - 2024-05-20
+### Changed
+- 更新exchange版本到0.5.5.
+
 ## [1.22.8] - 2024-05-19
 ### Changed
 - 调整演示代码.
@@ -1214,7 +1218,8 @@ All notable changes to this project will be documented in this file.
 - Init.
 - First commit.
 
-[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.8...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx/compare/v1.22.9...HEAD
+[1.22.9]: https://gitee.com/quant1x/gotdx/compare/v1.22.8...v1.22.9
 [1.22.8]: https://gitee.com/quant1x/gotdx/compare/v1.22.7...v1.22.8
 [1.22.7]: https://gitee.com/quant1x/gotdx/compare/v1.22.6...v1.22.7
 [1.22.6]: https://gitee.com/quant1x/gotdx/compare/v1.22.5...v1.22.6
