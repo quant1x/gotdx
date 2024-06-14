@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.11] - 2024-06-19
+### Changed
+- 优化服务器列表更新逻辑, 如果在当日未过预定时间点, 服务器列表从缓存加载
+
 ## [1.22.10] - 2024-06-14
 ### Changed
 - 更新依赖库版本
@@ -10,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ## [1.22.9] - 2024-05-20
 ### Changed
 - 更新exchange版本到0.5.5
+- update changelog
 - update changelog
 
 ## [1.22.8] - 2024-05-19
@@ -1448,7 +1453,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.10...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.11...HEAD
+[1.22.11]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.10...v1.22.11
 [1.22.10]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.9...v1.22.10
 [1.22.9]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.8...v1.22.9
 [1.22.8]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.7...v1.22.8
