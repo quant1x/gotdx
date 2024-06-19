@@ -7,6 +7,7 @@ import (
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/timestamp"
 	"os"
 	"path/filepath"
 	"time"
@@ -98,10 +99,13 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 	// 2.2 转换缓存文件最后修改日期, 时间格式和日历格式对齐
 	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
 
+	observerTimestamp := onceSortServers.GetCurrentAnchorPoint()
+	now := timestamp.Now()
 	var allServers *AllServers
 	needUpdate := false
 	// 3. 比较缓存日期和最后一个交易日
-	if cacheLastDay < exchange.LastTradeDate() {
+	latestDay := exchange.LastTradeDate()
+	if cacheLastDay < latestDay && now >= observerTimestamp {
 		// 缓存过时，重新生成
 		allServers = ProfileBestIPList()
 		needUpdate = true
