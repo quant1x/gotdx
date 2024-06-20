@@ -126,6 +126,6 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 
 // BestIP 网络测速, 更新本地服务器列表配置文件
 func BestIP() {
-	var lastModified time.Time
+	var lastModified = time.Now()
 	updateBestIpList(lastModified)
 }
