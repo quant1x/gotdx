@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.15] - 2024-06-21
+### Changed
+- 修复时间戳判断逻辑，现在时间和观察点时间判断是必须的
+
 ## [1.22.14] - 2024-06-20
 ### Changed
 - 更新依赖库exchange版本号到0.5.8
@@ -10,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ## [1.22.13] - 2024-06-20
 ### Changed
 - 新增服务器列表文件当日缓存时间和约定时间戳的比对逻辑
+- update changelog
 
 ## [1.22.12] - 2024-06-20
 ### Changed
@@ -1468,7 +1473,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.14...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.15...HEAD
+[1.22.15]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.14...v1.22.15
 [1.22.14]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.13...v1.22.14
 [1.22.13]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.12...v1.22.13
 [1.22.12]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.11...v1.22.12
