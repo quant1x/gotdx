@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.13] - 2024-06-20
+### Changed
+- 新增服务器列表文件当日缓存时间和约定时间戳的比对逻辑
+
 ## [1.22.12] - 2024-06-20
 ### Changed
 - 调整BestIp的默认时间为当前时间戳
@@ -10,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ## [1.22.11] - 2024-06-19
 ### Changed
 - 优化服务器列表更新逻辑, 如果在当日未过预定时间点, 服务器列表从缓存加载
+- update changelog
 
 ## [1.22.10] - 2024-06-14
 ### Changed
@@ -1458,7 +1463,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.12...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.13...HEAD
+[1.22.13]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.12...v1.22.13
 [1.22.12]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.11...v1.22.12
 [1.22.11]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.10...v1.22.11
 [1.22.10]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.9...v1.22.10
