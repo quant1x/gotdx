@@ -100,12 +100,15 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 	cacheLastDay := lastModified.Format(exchange.TradingDayDateFormat)
 
 	observerTimestamp := onceSortServers.GetCurrentAnchorPoint()
+	observerTime := timestamp.Time(observerTimestamp)
 	now := timestamp.Now()
 	var allServers *AllServers
 	needUpdate := false
 	// 3. 比较缓存日期和最后一个交易日
 	latestDay := exchange.LastTradeDate()
-	if cacheLastDay < latestDay && now >= observerTimestamp {
+	c1 := cacheLastDay < latestDay && now >= observerTimestamp
+	c2 := lastModified.Before(observerTime)
+	if c1 || c2 {
 		// 缓存过时，重新生成
 		allServers = ProfileBestIPList()
 		needUpdate = true
@@ -126,6 +129,15 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 
 // BestIP 网络测速, 更新本地服务器列表配置文件
 func BestIP() {
-	var lastModified = time.Now()
-	updateBestIpList(lastModified)
+	//// 1. 组织文件路径
+	//filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
+	//
+	//// 2. 检查缓存文件是否存在
+	//var lastModified time.Time
+	//fs, err := api.GetFileStat(filename)
+	//if err == nil {
+	//	lastModified = fs.LastWriteTime
+	//}
+	//updateBestIpList(lastModified)
+	onceSortServers.Do(lazyCachedSortedServerList)
 }
