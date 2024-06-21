@@ -106,9 +106,10 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 	needUpdate := false
 	// 3. 比较缓存日期和最后一个交易日
 	latestDay := exchange.LastTradeDate()
-	c1 := cacheLastDay < latestDay && now >= observerTimestamp
-	c2 := lastModified.Before(observerTime)
-	if c1 || c2 {
+	c1 := now >= observerTimestamp
+	c2 := cacheLastDay < latestDay
+	c3 := lastModified.Before(observerTime)
+	if c1 && (c2 || c3) {
 		// 缓存过时，重新生成
 		allServers = ProfileBestIPList()
 		needUpdate = true
