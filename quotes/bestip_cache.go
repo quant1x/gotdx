@@ -109,7 +109,7 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 	c1 := now >= observerTimestamp
 	c2 := cacheLastDay < latestDay
 	c3 := lastModified.Before(observerTime)
-	if c1 && (c2 || c3) {
+	if c1 && (c2 && c3) {
 		// 缓存过时，重新生成
 		allServers = ProfileBestIPList()
 		needUpdate = true
