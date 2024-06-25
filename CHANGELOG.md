@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.18] - 2024-06-26
+### Changed
+- 调整BestIP工具,定义为强制更新服务器列表
+
 ## [1.22.17] - 2024-06-25
 ### Changed
 - 调整BestIP工具
@@ -10,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ## [1.22.16] - 2024-06-24
 ### Changed
 - 修复服务器列表更新逻辑,跨日期和时间戳都必须符合
+- update changelog
 
 ## [1.22.15] - 2024-06-21
 ### Changed
@@ -1483,7 +1488,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.17...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.18...HEAD
+[1.22.18]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.17...v1.22.18
 [1.22.17]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.16...v1.22.17
 [1.22.16]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.15...v1.22.16
 [1.22.15]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.14...v1.22.15
