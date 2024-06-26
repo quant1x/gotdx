@@ -129,15 +129,8 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 }
 
 // BestIP 网络测速, 更新本地服务器列表配置文件
+//
+//	强制刷新
 func BestIP() {
-	// 1. 组织文件路径
-	filename := filepath.Join(cache.GetMetaPath(), serverListFilename)
-
-	// 2. 检查缓存文件是否存在
-	var lastModified time.Time
-	fs, err := api.GetFileStat(filename)
-	if err == nil {
-		lastModified = fs.LastWriteTime
-	}
-	updateBestIpList(lastModified)
+	_ = ProfileBestIPList()
 }
