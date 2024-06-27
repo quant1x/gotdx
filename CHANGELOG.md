@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.22.20] - 2024-06-27
+### Changed
+- 除权除息因子去掉四舍五入的计算
+
 ## [1.22.19] - 2024-06-27
 ### Changed
 - 恢复BestIP强制更新本地服务器列表缓存的处理方式
@@ -10,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ## [1.22.18] - 2024-06-26
 ### Changed
 - 调整BestIP工具,定义为强制更新服务器列表
+- update changelog
 
 ## [1.22.17] - 2024-06-25
 ### Changed
@@ -1493,7 +1498,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.19...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.20...HEAD
+[1.22.20]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.19...v1.22.20
 [1.22.19]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.18...v1.22.19
 [1.22.18]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.17...v1.22.18
 [1.22.17]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.16...v1.22.17
