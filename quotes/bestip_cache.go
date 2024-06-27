@@ -132,5 +132,6 @@ func updateBestIpList(lastModified time.Time) *AllServers {
 //
 //	强制刷新
 func BestIP() {
-	_ = ProfileBestIPList()
+	var lastModified time.Time
+	updateBestIpList(lastModified)
 }
