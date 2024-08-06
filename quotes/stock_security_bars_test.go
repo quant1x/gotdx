@@ -9,7 +9,7 @@ import (
 )
 
 func TestSecurityBarsPackage(t *testing.T) {
-	stdApi, err := NewStdApiWithServers([]Server{Server{Host: "123.125.108.14", Port: 7709, Name: "test"}})
+	stdApi, err := NewStdApiWithServers([]Server{{Host: "123.125.108.14", Port: 7709, Name: "test"}})
 	if err != nil {
 		panic(err)
 	}
