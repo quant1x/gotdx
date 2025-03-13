@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.23.3] - 2025-03-13
+### Changed
+- 心跳包改用ticker即时
+
 ## [1.23.2] - 2025-03-11
 ### Changed
 - 更新依赖库gox版本到1.22.11
+- update changelog
 
 ## [1.23.1] - 2025-03-09
 ### Changed
@@ -1528,7 +1533,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.2...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.3...HEAD
+[1.23.3]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.2...v1.23.3
 [1.23.2]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.1...v1.23.2
 [1.23.1]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.0...v1.23.1
 [1.23.0]: https://gitee.com/quant1x/gotdx.git/compare/v1.22.23...v1.23.0
