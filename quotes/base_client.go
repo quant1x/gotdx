@@ -22,8 +22,6 @@ type TcpClient struct {
 	conn          net.Conn  // tcp连接
 	server        *Server   // 服务器信息
 	opt           *Options  // 参数
-	complete      chan bool // 完成状态
-	sending       chan bool // 正在发送状态
 	done          chan bool // connection done
 	completedTime time.Time // 时间戳
 	closed        uint32    // 关闭次数
@@ -45,8 +43,6 @@ func NewClient(opt *Options) *TcpClient {
 	}
 
 	client.opt = opt
-	client.sending = make(chan bool, 1)
-	client.complete = make(chan bool, 1)
 	client.done = make(chan bool, 1)
 	client.updateCompletedTimestamp()
 	return client
@@ -93,9 +89,11 @@ func (client *TcpClient) Command(msg Message) error {
 
 func (client *TcpClient) heartbeat() {
 	defer runtime.IgnorePanic("heartbeat.done")
+	ticker := time.NewTicker(time.Second * 1)
+	defer ticker.Stop()
 	for {
 		select {
-		case <-time.After(time.Second):
+		case <-ticker.C:
 			client.Lock()
 			timedOut := client.hasTimedOut()
 			client.Unlock()
@@ -155,8 +153,6 @@ func (client *TcpClient) Close() error {
 	}
 	client.done <- true
 	close(client.done)
-	close(client.sending)
-	close(client.complete)
 	client.opt.releaseAddress(client.server)
 	api.CloseQuietly(client.conn)
 	atomic.AddUint32(&client.closed, 1)
