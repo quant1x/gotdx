@@ -51,7 +51,7 @@ func process(client *TcpClient, msg Message) error {
 	// 1. 序列化
 	sendData, err := msg.Serialize()
 	if err != nil {
-		logger.Errorf("数据包编码失败", err)
+		logger.Errorf("数据包编码失败: %+v", err)
 		return err
 	}
 
@@ -72,7 +72,7 @@ func process(client *TcpClient, msg Message) error {
 			if retryTimes <= opt.MaxRetryTimes {
 				logger.Warnf("第%d次重试\n", retryTimes)
 			} else {
-				logger.Errorf("发送指令失败-1", err)
+				logger.Errorf("发送指令失败-1, %+v", err)
 				return err
 			}
 		} else {
