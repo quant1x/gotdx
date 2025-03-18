@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.23.5] - 2025-03-18
+### Changed
+- 删除废弃的代码段
+
 ## [1.23.4] - 2025-03-16
 ### Changed
 - 修复两处异常日志输出参数错误的问题
+- update changelog
 
 ## [1.23.3] - 2025-03-13
 ### Changed
@@ -1538,7 +1543,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.4...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.5...HEAD
+[1.23.5]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.4...v1.23.5
 [1.23.4]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.3...v1.23.4
 [1.23.3]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.2...v1.23.3
 [1.23.2]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.1...v1.23.2
