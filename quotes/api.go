@@ -128,23 +128,9 @@ func (this *StdApi) Len() int {
 }
 
 func (this *StdApi) init() {
-	//if this.inited.Load() == 1 {
-	//	servs := GetFastHost(TDX_HOST_HQ)
-	//	if len(servs) > 0 {
-	//		this.servers = servs
-	//	}
-	//	// 关闭channel
-	//	close(this.ch)
-	//	// 读取剩余的服务地址
-	//	for v := range this.ch {
-	//		_ = v
-	//	}
-	//	this.ch = make(chan Server, this.Len())
-	//}
 	for _, v := range this.servers {
 		this.ch <- v
 	}
-	//this.inited.Store(1)
 }
 
 // AcquireAddress 获取一个地址
