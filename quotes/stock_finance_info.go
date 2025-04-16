@@ -67,9 +67,9 @@ type RawFinanceInfo struct {
 	ZhuYingShouRu      float32 `struc:"float32,little"`
 	ZhuYingLiRun       float32 `struc:"float32,little"`
 	Yingshouzhangkuan  float32 `struc:"float32,little"`
-	YingyeLiRun        float32 `struc:"float32,little"`
+	YingYeLiRun        float32 `struc:"float32,little"`
 	TouZiShouYu        float32 `struc:"float32,little"`
-	JingYingxianJinLiu float32 `struc:"float32,little"`
+	JingYingXianJinLiu float32 `struc:"float32,little"`
 	ZongXianJinLiu     float32 `struc:"float32,little"`
 	CunHuo             float32 `struc:"float32,little"`
 	LiRunZongHe        float32 `struc:"float32,little"`
@@ -108,10 +108,10 @@ type RawFinanceInfo1 struct {
 	JingZiChan         float32 `struc:"float32,little"`
 	ZhuYingShouRu      float32 `struc:"float32,little"`
 	ZhuYingLiRun       float32 `struc:"float32,little"`
-	Yingshouzhangkuan  float32 `struc:"float32,little"`
-	YingyeLiRun        float32 `struc:"float32,little"`
+	YingShouZhangKuan  float32 `struc:"float32,little"`
+	YingYeLiRun        float32 `struc:"float32,little"`
 	TouZiShouYu        float32 `struc:"float32,little"`
-	JingYingxianJinLiu float32 `struc:"float32,little"`
+	JingYingXianJinLiu float32 `struc:"float32,little"`
 	ZongXianJinLiu     float32 `struc:"float32,little"`
 	CunHuo             float32 `struc:"float32,little"`
 	LiRunZongHe        float32 `struc:"float32,little"`
@@ -149,9 +149,9 @@ type FinanceInfo struct {
 	ZhuYingShouRu      float64 `struc:"float32,little" json:"zhu_ying_shou_ru"`
 	ZhuYingLiRun       float64 `struc:"float32,little" json:"zhu_ying_li_run"`
 	YingShouZhangKuan  float64 `struc:"float32,little" json:"ying_shou_zhang_kuan"`
-	YingyeLiRun        float64 `struc:"float32,little" json:"yingye_li_run"`
+	YingYeLiRun        float64 `struc:"float32,little" json:"ying_ye_li_run"`
 	TouZiShouYu        float64 `struc:"float32,little" json:"tou_zi_shou_yu"`
-	JingYingxianJinLiu float64 `struc:"float32,little" json:"jing_yingxian_jin_liu"`
+	JingYingXianJinLiu float64 `struc:"float32,little" json:"jing_ying_xian_jin_liu"`
 	ZongXianJinLiu     float64 `struc:"float32,little" json:"zong_xian_jin_liu"`
 	CunHuo             float64 `struc:"float32,little" json:"cun_huo"`
 	LiRunZongHe        float64 `struc:"float32,little" json:"li_run_zong_he"`
@@ -244,9 +244,9 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 	resp.ZhuYingShouRu = internal.NumberToFloat64(raw.ZhuYingShouRu) * 10000
 	resp.ZhuYingLiRun = internal.NumberToFloat64(raw.ZhuYingLiRun) * 10000
 	resp.YingShouZhangKuan = internal.NumberToFloat64(raw.Yingshouzhangkuan) * 10000
-	resp.YingyeLiRun = internal.NumberToFloat64(raw.YingyeLiRun) * 10000
+	resp.YingYeLiRun = internal.NumberToFloat64(raw.YingYeLiRun) * 10000
 	resp.TouZiShouYu = internal.NumberToFloat64(raw.TouZiShouYu) * 10000
-	resp.JingYingxianJinLiu = internal.NumberToFloat64(raw.JingYingxianJinLiu) * 10000
+	resp.JingYingXianJinLiu = internal.NumberToFloat64(raw.JingYingXianJinLiu) * 10000
 	resp.ZongXianJinLiu = internal.NumberToFloat64(raw.ZongXianJinLiu) * 10000
 	resp.CunHuo = internal.NumberToFloat64(raw.CunHuo) * 10000
 	resp.LiRunZongHe = internal.NumberToFloat64(raw.LiRunZongHe) * 10000
