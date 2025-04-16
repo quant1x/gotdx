@@ -66,7 +66,7 @@ type RawFinanceInfo struct {
 	JingZiChan         float32 `struc:"float32,little"`
 	ZhuYingShouRu      float32 `struc:"float32,little"`
 	ZhuYingLiRun       float32 `struc:"float32,little"`
-	Yingshouzhangkuan  float32 `struc:"float32,little"`
+	YingShouzhangkuan  float32 `struc:"float32,little"`
 	YingYeLiRun        float32 `struc:"float32,little"`
 	TouZiShouYu        float32 `struc:"float32,little"`
 	JingYingXianJinLiu float32 `struc:"float32,little"`
@@ -243,7 +243,7 @@ func (obj *FinanceInfoPackage) UnSerialize(header interface{}, data []byte) erro
 	resp.JingZiChan = internal.NumberToFloat64(raw.JingZiChan) * 10000
 	resp.ZhuYingShouRu = internal.NumberToFloat64(raw.ZhuYingShouRu) * 10000
 	resp.ZhuYingLiRun = internal.NumberToFloat64(raw.ZhuYingLiRun) * 10000
-	resp.YingShouZhangKuan = internal.NumberToFloat64(raw.Yingshouzhangkuan) * 10000
+	resp.YingShouZhangKuan = internal.NumberToFloat64(raw.YingShouzhangkuan) * 10000
 	resp.YingYeLiRun = internal.NumberToFloat64(raw.YingYeLiRun) * 10000
 	resp.TouZiShouYu = internal.NumberToFloat64(raw.TouZiShouYu) * 10000
 	resp.JingYingXianJinLiu = internal.NumberToFloat64(raw.JingYingXianJinLiu) * 10000
