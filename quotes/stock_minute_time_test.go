@@ -13,7 +13,7 @@ func TestStockMinuteTime(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	code := "sh600105"
+	code := "sh510050"
 	reply, err := stdApi.GetMinuteTimeData(code)
 	if err != nil {
 		fmt.Printf("%+v\n", err)

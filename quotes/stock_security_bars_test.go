@@ -15,7 +15,7 @@ func TestSecurityBarsPackage(t *testing.T) {
 	}
 	defer stdApi.Close()
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen}, []string{"600275", "600455", "600086", "300742"})
-	sq1, err := stdApi.GetKLine("sh510050", proto.KLINE_TYPE_DAILY, 0, 5)
+	sq1, err := stdApi.GetKLine("bj833171", proto.KLINE_TYPE_DAILY, 0, 5)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

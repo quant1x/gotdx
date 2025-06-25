@@ -17,6 +17,8 @@ func TestParseAndGenerateBlockFile(t *testing.T) {
 func TestGetBlockInfo(t *testing.T) {
 	code := "880818"
 	code = "881432"
+	code = "880978"
+	code = "881003"
 	v := GetBlockInfo(code)
 	fmt.Println(v)
 }

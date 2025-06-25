@@ -15,7 +15,7 @@ func TestSnapshotPackage(t *testing.T) {
 	}
 	defer stdApi.Close()
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen}, []string{"600275", "600455", "600086", "300742"})
-	sq1, err := stdApi.GetSnapshot([]string{"sh000001", "600105", "880656", "880367", "510050", "000666"})
+	sq1, err := stdApi.GetSnapshot([]string{"sh000001", "600105", "880656", "880367", "510050", "000666", "bj833171"})
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
