@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.23.7] - 2025-07-02
+### Changed
+- !12 Merge branch 'master' of gitee.com:quant1x/gotdx into optm/timeout
+* Merge branch 'master' of gitee.com:quant1x/gotdx into optm/timeout
+* 优化bestip 的超时从50ms到1s
+
 ## [1.23.6] - 2025-06-25
 ### Changed
 - 新增部分测试用例
@@ -10,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - 调整部分字段中文拼音拼写的错误
 - 调整部分字段中文拼音拼写的错误
 - K线的时间DateTime字段调整为年月日时分秒毫秒
+- update changelog
 
 ## [1.23.5] - 2025-03-18
 ### Changed
@@ -1552,7 +1559,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.6...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.7...HEAD
+[1.23.7]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.6...v1.23.7
 [1.23.6]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.5...v1.23.6
 [1.23.5]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.4...v1.23.5
 [1.23.4]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.3...v1.23.4
