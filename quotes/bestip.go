@@ -21,7 +21,7 @@ const (
 )
 
 const (
-	maxCrossTime = 50 // 最大耗时
+	maxCrossTime = 1000 // 最大耗时
 )
 
 // ServerGroup 主机组
