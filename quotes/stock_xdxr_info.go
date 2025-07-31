@@ -75,7 +75,7 @@ type XdxrInfo struct {
 	QianZongGuBen float64 // 前总股本
 	HouZongGuBen  float64 // 后总股本
 	FenShu        float64 // 份数
-	XingGuanJia   float64 // 行权价
+	XingQuanJia   float64 // 行权价
 }
 
 // IsCapitalChange 是否股本变化
@@ -204,7 +204,7 @@ func (obj *XdxrInfoPackage) UnSerialize(header interface{}, data []byte) error {
 			var f float32
 			pos := 0
 			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &f)
-			xdxr.XingGuanJia = float64(f)
+			xdxr.XingQuanJia = float64(f)
 			pos = 8
 			_ = binary.Read(bytes.NewBuffer(v.Data[pos:pos+4]), binary.LittleEndian, &f)
 			xdxr.FenShu = float64(f)
