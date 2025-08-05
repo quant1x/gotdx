@@ -34,8 +34,9 @@ func TestStockMinuteTimeHistory(t *testing.T) {
 	code = "sh000001"
 	code = "sh510050"
 	code = "sz159915"
-	code = "sh600178"
-	var date uint32 = 20240118
+	//code = "sh600178"
+	//code = "sh513100"
+	var date uint32 = 20250805
 	reply, err := stdApi.GetHistoryMinuteTimeData(code, date)
 	if err != nil {
 		fmt.Printf("%+v\n", err)

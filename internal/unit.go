@@ -9,18 +9,22 @@ import "gitee.com/quant1x/exchange"
 //	B股交易为0.001美元
 //	债券质押式回购交易为0.005元
 func defaultBaseUnit(marketId exchange.MarketType, code string) float64 {
-	_ = marketId
-	c := code[:2]
-	switch c {
-	case "60", "68", "00", "30", "39":
-		return 100.0
+	unit := 100.00
+	if marketId == exchange.MarketIdShangHai {
+		c := code[:2]
+		switch c {
+		case "51":
+			unit = 1000.00
+		}
+	} else if marketId == exchange.MarketIdShenZhen {
+		c := code[:3]
+		switch c {
+		case "159":
+			unit = 1000.0
+		}
 	}
-	c = code[:3]
-	switch c {
-	case "510":
-		return 1000.0
-	}
-	return 100.00
+
+	return unit
 }
 
 type unitHandler func(marketId exchange.MarketType, code string) float64

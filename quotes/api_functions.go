@@ -327,6 +327,8 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 }
 
 // GetMinuteTimeData 获取分时图数据
+//
+// Deprecated: 废弃, ETF的数据不对需要进一步处理, 推荐 GetHistoryMinuteTimeData
 func (this *StdApi) GetMinuteTimeData(code string) (*MinuteTimeReply, error) {
 	obj := NewMinuteTimePackage()
 	mId, _, symbol := exchange.DetectMarket(code)

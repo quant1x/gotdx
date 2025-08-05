@@ -37,6 +37,9 @@ type MinuteTime struct {
 	Vol   int
 }
 
+// NewMinuteTimePackage 获取分时数据
+//
+// Deprecated: 废弃, ETF的数据不对需要进一步处理, 推荐 NewHistoryMinuteTimePackage
 func NewMinuteTimePackage() *MinuteTimePackage {
 	obj := new(MinuteTimePackage)
 	obj.reqHeader = new(StdRequestHeader)
