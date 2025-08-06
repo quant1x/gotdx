@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.23.11] - 2025-08-06
+### Changed
+- 更新exchange版本到0.6.7
+
 ## [1.23.10] - 2025-08-05
 ### Changed
 - 修正补全ETF价格基数, 调整上海从510xxx改为51xxxx, 深圳159xxx
+- update changelog
 
 ## [1.23.9] - 2025-07-31
 ### Changed
@@ -1574,7 +1579,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.10...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.11...HEAD
+[1.23.11]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.10...v1.23.11
 [1.23.10]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.9...v1.23.10
 [1.23.9]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.8...v1.23.9
 [1.23.8]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.7...v1.23.8
