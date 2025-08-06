@@ -3,9 +3,10 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
+	"testing"
+
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
-	"testing"
 )
 
 func TestSecurityBarsPackage(t *testing.T) {
@@ -15,7 +16,7 @@ func TestSecurityBarsPackage(t *testing.T) {
 	}
 	defer stdApi.Close()
 	//sq1, err := stdApi.GetSecurityQuotes([]uint8{proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShangHai, proto.MarketIdShenZhen}, []string{"600275", "600455", "600086", "300742"})
-	sq1, err := stdApi.GetKLine("bj833171", proto.KLINE_TYPE_DAILY, 0, 5)
+	sq1, err := stdApi.GetKLine("bj833171", proto.KLINE_TYPE_EXHQ_1MIN, 0, 5)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}
