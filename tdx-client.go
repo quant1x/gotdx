@@ -1,8 +1,9 @@
 package gotdx
 
 import (
-	"gitee.com/quant1x/gotdx/quotes"
 	"sync"
+
+	"gitee.com/quant1x/gotdx/quotes"
 )
 
 var (

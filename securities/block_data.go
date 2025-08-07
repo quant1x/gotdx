@@ -1,10 +1,11 @@
 package securities
 
 import (
+	"os"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/quotes"
 	"gitee.com/quant1x/gox/api"
-	"os"
 )
 
 // 同步板块数据

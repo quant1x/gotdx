@@ -2,9 +2,10 @@ package securities
 
 import (
 	"fmt"
+	"testing"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
-	"testing"
 )
 
 func TestGetStockName(t *testing.T) {

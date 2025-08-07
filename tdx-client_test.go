@@ -2,9 +2,10 @@ package gotdx
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto"
 	"testing"
 	"time"
+
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 func TestReOpen(t *testing.T) {

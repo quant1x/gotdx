@@ -1,14 +1,15 @@
 package securities
 
 import (
+	"os"
+	"strings"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gotdx"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 	"gitee.com/quant1x/gox/text/encoding"
-	"os"
-	"strings"
 )
 
 // 下载板块原始数据文件

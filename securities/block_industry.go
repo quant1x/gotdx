@@ -2,13 +2,14 @@ package securities
 
 import (
 	"bufio"
-	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/text/encoding"
 	"io"
 	"os"
 	"slices"
 	"strings"
+
+	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/text/encoding"
 )
 
 // IndustryInfo 行业板块对应

@@ -3,14 +3,15 @@ package securities
 import (
 	"encoding/json"
 	"fmt"
+	urlpkg "net/url"
+	"slices"
+	"time"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/http"
-	urlpkg "net/url"
-	"slices"
-	"time"
 )
 
 const (
