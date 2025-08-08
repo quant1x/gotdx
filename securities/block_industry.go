@@ -80,15 +80,10 @@ func loadIndustryBlocks() []IndustryInfo {
 func industryConstituentStockList(hys []IndustryInfo, block string) []string {
 	list := []string{}
 	for _, v := range hys {
-		if len(block) == 5 {
-			//if v.Block5 == block {
-			if strings.HasPrefix(v.Block5, block) || strings.HasPrefix(v.XBlock5, block) {
-				list = append(list, v.Code)
-			}
-		} else {
-			if v.Block == block || v.XBlock == block {
-				list = append(list, v.Code)
-			}
+		if strings.HasPrefix(v.Block5, block) || strings.HasPrefix(v.XBlock5, block) {
+			list = append(list, v.Code)
+		} else if v.Block5 == block || v.Block == block || v.XBlock5 == block || v.XBlock == block {
+			list = append(list, v.Code)
 		}
 	}
 	if len(list) > 0 {
