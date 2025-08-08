@@ -1,12 +1,13 @@
 package quotes
 
 import (
-	"gitee.com/quant1x/gox/runtime"
 	"io"
 	"net"
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"gitee.com/quant1x/gox/runtime"
 
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/exception"

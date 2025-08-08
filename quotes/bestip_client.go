@@ -3,10 +3,11 @@ package quotes
 import (
 	"errors"
 	"fmt"
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gotdx/proto/std"
 	"net"
 	"time"
+
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto/std"
 )
 
 type LabClient struct {

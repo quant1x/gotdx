@@ -3,6 +3,7 @@ package quotes
 import (
 	"bytes"
 	"encoding/binary"
+
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 )

@@ -2,12 +2,13 @@ package quotes
 
 import (
 	"errors"
-	"gitee.com/quant1x/gox/logger"
 	"runtime"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"gitee.com/quant1x/gox/logger"
 )
 
 var (

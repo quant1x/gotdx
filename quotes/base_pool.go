@@ -1,9 +1,10 @@
 package quotes
 
 import (
+	"time"
+
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/pool"
-	"time"
 )
 
 const (

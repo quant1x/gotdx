@@ -3,15 +3,16 @@ package quotes
 import (
 	"embed"
 	"fmt"
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/logger"
-	"gitee.com/quant1x/pkg/ini"
 	"io"
 	"os"
 	"slices"
 	"strings"
 	"text/template"
+
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/pkg/ini"
 )
 
 var (

@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/binary"
 	"fmt"
+	"time"
+
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/api"
-	"time"
 )
 
 const (

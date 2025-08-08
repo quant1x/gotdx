@@ -3,8 +3,9 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gox/api"
 	"testing"
+
+	"gitee.com/quant1x/gox/api"
 )
 
 func TestNewFinanceInfoPackage(t *testing.T) {
@@ -13,7 +14,7 @@ func TestNewFinanceInfoPackage(t *testing.T) {
 		panic(err)
 	}
 	defer stdApi.Close()
-	sq1, err := stdApi.GetFinanceInfo("sh510050")
+	sq1, err := stdApi.GetFinanceInfo("bj920116")
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

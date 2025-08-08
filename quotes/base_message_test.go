@@ -6,9 +6,10 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"gitee.com/quant1x/gox/logger"
 	"io"
 	"testing"
+
+	"gitee.com/quant1x/gox/logger"
 )
 
 func parseResponseHeader(data []byte) (*StdResponseHeader, []byte, error) {

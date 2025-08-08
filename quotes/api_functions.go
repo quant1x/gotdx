@@ -2,12 +2,13 @@ package quotes
 
 import (
 	"errors"
+	"io"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/cache"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/num"
-	"io"
 )
 
 func (this *StdApi) tdxHello1(client *TcpClient) error {

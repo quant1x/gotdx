@@ -2,9 +2,10 @@ package quotes
 
 import (
 	"fmt"
-	"gitee.com/quant1x/gox/util/linkedhashmap"
 	"strings"
 	"testing"
+
+	"gitee.com/quant1x/gox/util/linkedhashmap"
 )
 
 func TestCompanyInfoContentPackage(t *testing.T) {

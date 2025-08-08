@@ -3,8 +3,9 @@ package internal
 import (
 	"bytes"
 	"compress/zlib"
-	"gitee.com/quant1x/gox/api"
 	"io"
+
+	"gitee.com/quant1x/gox/api"
 )
 
 // ZlibCompress 进行zlib压缩

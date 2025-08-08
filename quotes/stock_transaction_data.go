@@ -5,6 +5,7 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"

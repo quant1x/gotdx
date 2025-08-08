@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"

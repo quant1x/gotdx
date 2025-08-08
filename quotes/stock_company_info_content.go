@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"encoding/binary"
 	"encoding/hex"
+	"strings"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/encoding/binary/struc"
 	"gitee.com/quant1x/gox/util/linkedhashmap"
-	"strings"
 )
 
 // CompanyInfoContentPackage 企业基本信息

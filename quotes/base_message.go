@@ -5,11 +5,12 @@ import (
 	"compress/zlib"
 	"encoding/binary"
 	"encoding/hex"
+	"io"
+	"time"
+
 	"gitee.com/quant1x/gotdx/internal"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/logger"
-	"io"
-	"time"
 )
 
 // StdRequestHeader 标准行情-请求-消息头

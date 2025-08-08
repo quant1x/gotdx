@@ -3,8 +3,9 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gox/api"
 	"testing"
+
+	"gitee.com/quant1x/gox/api"
 )
 
 func TestXdxrInfoPackage(t *testing.T) {

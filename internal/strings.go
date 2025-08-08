@@ -2,11 +2,12 @@ package internal
 
 import (
 	"bytes"
+	"io"
+	"strings"
+
 	"golang.org/x/text/encoding/simplifiedchinese"
 	"golang.org/x/text/encoding/traditionalchinese"
 	"golang.org/x/text/transform"
-	"io"
-	"strings"
 )
 
 func Utf8ToGbk(text []byte) string {

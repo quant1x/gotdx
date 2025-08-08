@@ -2,10 +2,11 @@ package quotes
 
 import (
 	"fmt"
+	"testing"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gotdx/proto"
 	"gitee.com/quant1x/gox/logger"
-	"testing"
 )
 
 func TestStdApi_ALL(t *testing.T) {

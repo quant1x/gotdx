@@ -3,15 +3,16 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
-	"gitee.com/quant1x/gotdx/proto/ext"
-	"gitee.com/quant1x/gotdx/proto/std"
-	"gitee.com/quant1x/gox/api"
 	"math"
 	"slices"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
+
+	"gitee.com/quant1x/gotdx/proto/ext"
+	"gitee.com/quant1x/gotdx/proto/std"
+	"gitee.com/quant1x/gox/api"
 )
 
 const (

@@ -2,6 +2,7 @@ package quotes
 
 import (
 	"fmt"
+
 	"gitee.com/quant1x/gotdx/proto/std"
 )
 

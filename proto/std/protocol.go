@@ -2,8 +2,9 @@ package std
 
 import (
 	"bytes"
-	"gitee.com/quant1x/gox/encoding/binary/struc"
 	"log"
+
+	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
 type Factory func() (Marshaler, Unmarshaler, error)

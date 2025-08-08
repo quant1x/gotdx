@@ -3,9 +3,10 @@ package quotes
 import (
 	"encoding/json"
 	"fmt"
+	"testing"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/gox/api"
-	"testing"
 )
 
 func TestSecurityQuotesPackage(t *testing.T) {

@@ -2,15 +2,16 @@ package quotes
 
 import (
 	"encoding/json"
+	"os"
+	"path/filepath"
+	"time"
+
 	"gitee.com/quant1x/exchange"
 	"gitee.com/quant1x/exchange/cache"
 	"gitee.com/quant1x/gox/api"
 	"gitee.com/quant1x/gox/coroutine"
 	"gitee.com/quant1x/gox/logger"
 	"gitee.com/quant1x/gox/timestamp"
-	"os"
-	"path/filepath"
-	"time"
 )
 
 var (
