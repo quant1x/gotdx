@@ -3,10 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.23.14] - 2025-08-11
+### Changed
+- 更新exchange版本到0.6.8
+
 ## [1.23.13] - 2025-08-08
 ### Changed
 - sort imports
 - 修正行业版本的代码匹配, 补充细分行业的代码
+- update changelog
 
 ## [1.23.12] - 2025-08-07
 ### Changed
@@ -1591,7 +1596,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.13...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.14...HEAD
+[1.23.14]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.13...v1.23.14
 [1.23.13]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.12...v1.23.13
 [1.23.12]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.11...v1.23.12
 [1.23.11]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.10...v1.23.11
