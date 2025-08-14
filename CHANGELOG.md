@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.25.0] - 2025-08-14
+### Changed
+- 更新最新的行业板块数据据
+
 ## [1.24.0] - 2025-08-14
 ### Changed
 - go版本最低要求1.25
+- update changelog
 
 ## [1.23.15] - 2025-08-11
 ### Changed
@@ -1606,7 +1611,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.24.0...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.25.0...HEAD
+[1.25.0]: https://gitee.com/quant1x/gotdx.git/compare/v1.24.0...v1.25.0
 [1.24.0]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.15...v1.24.0
 [1.23.15]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.14...v1.23.15
 [1.23.14]: https://gitee.com/quant1x/gotdx.git/compare/v1.23.13...v1.23.14
