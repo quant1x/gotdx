@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/quant1x/x/logger"
+	"gitee.com/quant1x/gox/logger"
 )
 
 var (

@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/exchange/cache"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/coroutine"
-	"github.com/quant1x/x/logger"
-	"github.com/quant1x/x/timestamp"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/coroutine"
+	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/gox/timestamp"
 )
 
 var (

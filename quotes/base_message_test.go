@@ -9,7 +9,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/quant1x/x/logger"
+	"gitee.com/quant1x/gox/logger"
 )
 
 func parseResponseHeader(data []byte) (*StdResponseHeader, []byte, error) {

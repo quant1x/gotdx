@@ -3,9 +3,9 @@ package securities
 import (
 	"slices"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/coroutine"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/coroutine"
 )
 
 var (

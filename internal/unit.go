@@ -1,6 +1,6 @@
 package internal
 
-import "github.com/quant1x/exchange"
+import "gitee.com/quant1x/exchange"
 
 // BaseUnit 交易单位
 //

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/quant1x/gotdx/proto/ext"
-	"github.com/quant1x/gotdx/proto/std"
-	"github.com/quant1x/x/api"
+	"gitee.com/quant1x/gotdx/proto/ext"
+	"gitee.com/quant1x/gotdx/proto/std"
+	"gitee.com/quant1x/gox/api"
 )
 
 const (

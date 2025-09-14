@@ -5,9 +5,9 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto"
-	"github.com/quant1x/x/encoding/binary/struc"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/encoding/binary/struc"
 )
 
 // CompanyInfoCategoryPackage 企业基本信息

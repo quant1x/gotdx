@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"encoding/binary"
 
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto"
 )
 
 const (

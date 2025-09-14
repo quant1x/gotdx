@@ -7,9 +7,9 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/quant1x/exchange/cache"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/text/encoding"
+	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/text/encoding"
 )
 
 // IndustryInfo 行业板块对应

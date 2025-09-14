@@ -6,10 +6,10 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto"
-	"github.com/quant1x/x/api"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/api"
 )
 
 type HistoryTransactionPackage struct {

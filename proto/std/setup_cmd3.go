@@ -1,7 +1,7 @@
 package std
 
 import (
-	"github.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/internal"
 )
 
 // SetupCmd3Request 请求包结构

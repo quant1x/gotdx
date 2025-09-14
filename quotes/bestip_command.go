@@ -3,7 +3,7 @@ package quotes
 import (
 	"fmt"
 
-	"github.com/quant1x/gotdx/proto/std"
+	"gitee.com/quant1x/gotdx/proto/std"
 )
 
 func CommandWithConn(cli *LabClient, callback std.Factory) (std.Unmarshaler, error) {

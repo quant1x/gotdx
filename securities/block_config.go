@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/quant1x/exchange/cache"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/text/encoding"
+	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/text/encoding"
 )
 
 // 加载板块和板块名称对应

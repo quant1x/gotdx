@@ -4,11 +4,11 @@ import (
 	"errors"
 	"io"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/num"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/logger"
-	"github.com/quant1x/x/std/cache"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/cache"
+	"gitee.com/quant1x/gox/logger"
+	"gitee.com/quant1x/num"
 )
 
 func (this *StdApi) tdxHello1(client *TcpClient) error {

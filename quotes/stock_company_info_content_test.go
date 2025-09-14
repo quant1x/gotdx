@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/quant1x/x/util/linkedhashmap"
+	"gitee.com/quant1x/gox/util/linkedhashmap"
 )
 
 func TestCompanyInfoContentPackage(t *testing.T) {

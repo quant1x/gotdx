@@ -7,11 +7,11 @@ import (
 	"math"
 	"time"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/std/cache"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/cache"
 )
 
 const (

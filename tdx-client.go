@@ -3,7 +3,7 @@ package gotdx
 import (
 	"sync"
 
-	"github.com/quant1x/gotdx/quotes"
+	"gitee.com/quant1x/gotdx/quotes"
 )
 
 var (

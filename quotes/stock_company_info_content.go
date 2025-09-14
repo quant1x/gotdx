@@ -6,11 +6,11 @@ import (
 	"encoding/hex"
 	"strings"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto"
-	"github.com/quant1x/x/encoding/binary/struc"
-	"github.com/quant1x/x/util/linkedhashmap"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/encoding/binary/struc"
+	"gitee.com/quant1x/gox/util/linkedhashmap"
 )
 
 // CompanyInfoContentPackage 企业基本信息

@@ -5,11 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/exchange/cache"
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/coroutine"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/exchange/cache"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/coroutine"
 )
 
 var (

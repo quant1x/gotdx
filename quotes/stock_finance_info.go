@@ -5,11 +5,11 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"github.com/quant1x/exchange"
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto"
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/encoding/binary/cstruct"
+	"gitee.com/quant1x/exchange"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/encoding/binary/cstruct"
 )
 
 // FinanceInfoPackage 财务数据

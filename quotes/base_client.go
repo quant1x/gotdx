@@ -7,11 +7,11 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/quant1x/x/runtime"
+	"gitee.com/quant1x/gox/runtime"
 
-	"github.com/quant1x/x/api"
-	"github.com/quant1x/x/exception"
-	"github.com/quant1x/x/logger"
+	"gitee.com/quant1x/gox/api"
+	"gitee.com/quant1x/gox/exception"
+	"gitee.com/quant1x/gox/logger"
 )
 
 var (

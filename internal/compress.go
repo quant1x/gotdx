@@ -5,7 +5,7 @@ import (
 	"compress/zlib"
 	"io"
 
-	"github.com/quant1x/x/api"
+	"gitee.com/quant1x/gox/api"
 )
 
 // ZlibCompress 进行zlib压缩

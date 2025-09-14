@@ -1,6 +1,6 @@
 package quotes
 
-import "github.com/quant1x/exchange"
+import "gitee.com/quant1x/exchange"
 
 type ExchangeState int8
 

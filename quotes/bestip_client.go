@@ -6,8 +6,8 @@ import (
 	"net"
 	"time"
 
-	"github.com/quant1x/gotdx/internal"
-	"github.com/quant1x/gotdx/proto/std"
+	"gitee.com/quant1x/gotdx/internal"
+	"gitee.com/quant1x/gotdx/proto/std"
 )
 
 type LabClient struct {
