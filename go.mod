@@ -5,7 +5,7 @@ go 1.25
 require (
 	github.com/quant1x/exchange v0.8.2
 	github.com/quant1x/num v0.7.2
-	github.com/quant1x/x v0.1.22
+	github.com/quant1x/x v0.1.23
 	golang.org/x/text v0.29.0
 	gopkg.in/ini.v1 v1.67.0
 )
