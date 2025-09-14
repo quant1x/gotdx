@@ -3,9 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.26.2] - 2025-09-14
+### Changed
+- 更新基础库x版本到0.1.23
+
 ## [1.26.1] - 2025-09-14
 ### Changed
 - 更新基础库x版本到0.1.22
+- update changelog
 
 ## [1.26.0] - 2025-09-14
 ### Changed
@@ -1621,7 +1626,8 @@ Signed-off-by: 王布衣 <wangfengxy@sina.cn>
 - 调整分时测试参数
 
 
-[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.26.1...HEAD
+[Unreleased]: https://gitee.com/quant1x/gotdx.git/compare/v1.26.2...HEAD
+[1.26.2]: https://gitee.com/quant1x/gotdx.git/compare/v1.26.1...v1.26.2
 [1.26.1]: https://gitee.com/quant1x/gotdx.git/compare/v1.26.0...v1.26.1
 [1.26.0]: https://gitee.com/quant1x/gotdx.git/compare/v1.25.0...v1.26.0
 [1.25.0]: https://gitee.com/quant1x/gotdx.git/compare/v1.24.0...v1.25.0
