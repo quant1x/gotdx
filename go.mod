@@ -3,7 +3,7 @@ module github.com/quant1x/gotdx
 go 1.25
 
 require (
-	github.com/quant1x/exchange v0.8.4
+	github.com/quant1x/exchange v0.8.5
 	github.com/quant1x/num v0.7.5
 	github.com/quant1x/x v0.1.25
 	golang.org/x/text v0.29.0
