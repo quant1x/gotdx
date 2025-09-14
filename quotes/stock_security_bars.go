@@ -6,8 +6,8 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gotdx/proto"
+	"github.com/quant1x/gotdx/internal"
+	"github.com/quant1x/gotdx/proto"
 )
 
 const (
@@ -28,7 +28,7 @@ type SecurityBarsRequest struct {
 	Market   uint16
 	Code     [6]byte
 	Category uint16 // 种类 5分钟  10分钟
-	I        uint16 // 未知 填充
+	I        uint16 // 未知 填充, 间隔多少个Category
 	Start    uint16
 	Count    uint16
 }
@@ -75,7 +75,9 @@ func NewSecurityBarsPackage() *SecurityBarsPackage {
 
 func (obj *SecurityBarsPackage) SetParams(req *SecurityBarsRequest) {
 	obj.request = req
-	obj.request.I = 1
+	if req != nil && req.I < 1 {
+		obj.request.I = 1
+	}
 }
 
 func (obj *SecurityBarsPackage) Serialize() ([]byte, error) {

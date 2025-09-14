@@ -4,11 +4,11 @@ import (
 	"errors"
 	"io"
 
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/cache"
-	"gitee.com/quant1x/gox/logger"
-	"gitee.com/quant1x/num"
+	"github.com/quant1x/exchange"
+	"github.com/quant1x/num"
+	"github.com/quant1x/x/api"
+	"github.com/quant1x/x/logger"
+	"github.com/quant1x/x/std/cache"
 )
 
 func (this *StdApi) tdxHello1(client *TcpClient) error {
@@ -146,6 +146,7 @@ func (this *StdApi) GetKLine(code string, category uint16, start uint16, count u
 		Market:   _market,
 		Code:     _code,
 		Category: category,
+		I:        0,
 		Start:    start,
 		Count:    count,
 	})

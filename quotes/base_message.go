@@ -8,9 +8,9 @@ import (
 	"io"
 	"time"
 
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/logger"
+	"github.com/quant1x/gotdx/internal"
+	"github.com/quant1x/x/api"
+	"github.com/quant1x/x/logger"
 )
 
 // StdRequestHeader 标准行情-请求-消息头

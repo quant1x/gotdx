@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"testing"
 
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gox/logger"
+	"github.com/quant1x/exchange"
+	"github.com/quant1x/gotdx/proto"
+	"github.com/quant1x/x/logger"
 )
 
 func TestStdApi_ALL(t *testing.T) {

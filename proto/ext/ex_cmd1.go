@@ -1,8 +1,8 @@
 package ext
 
 import (
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gotdx/proto/std"
+	"github.com/quant1x/gotdx/internal"
+	"github.com/quant1x/gotdx/proto/std"
 )
 
 // ExCmd1Request 请求包结构

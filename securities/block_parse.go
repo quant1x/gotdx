@@ -3,9 +3,9 @@ package securities
 import (
 	"fmt"
 
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/exchange/cache"
-	"gitee.com/quant1x/gox/api"
+	"github.com/quant1x/exchange"
+	"github.com/quant1x/exchange/cache"
+	"github.com/quant1x/x/api"
 )
 
 // SectorFilename 板块缓存文件名

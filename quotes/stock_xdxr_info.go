@@ -6,9 +6,9 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gotdx/proto"
-	"gitee.com/quant1x/gox/encoding/binary/struc"
+	"github.com/quant1x/gotdx/internal"
+	"github.com/quant1x/gotdx/proto"
+	"github.com/quant1x/x/encoding/binary/struc"
 )
 
 var (

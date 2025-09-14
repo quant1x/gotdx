@@ -9,10 +9,10 @@ import (
 	"strings"
 	"text/template"
 
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gox/api"
-	"gitee.com/quant1x/gox/logger"
-	"gitee.com/quant1x/pkg/ini"
+	"github.com/quant1x/gotdx/internal"
+	"github.com/quant1x/x/api"
+	"github.com/quant1x/x/logger"
+	"gopkg.in/ini.v1"
 )
 
 var (

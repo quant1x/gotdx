@@ -1,8 +1,8 @@
 package std
 
 import (
-	"gitee.com/quant1x/exchange"
-	"gitee.com/quant1x/gotdx/internal"
+	"github.com/quant1x/exchange"
+	"github.com/quant1x/gotdx/internal"
 )
 
 // SecurityCountRequest 请求包结构

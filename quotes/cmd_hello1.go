@@ -5,8 +5,8 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 
-	"gitee.com/quant1x/gotdx/internal"
-	"gitee.com/quant1x/gotdx/proto"
+	"github.com/quant1x/gotdx/internal"
+	"github.com/quant1x/gotdx/proto"
 )
 
 type Hello1Package struct {

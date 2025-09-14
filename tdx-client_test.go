@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/quant1x/gotdx/proto"
+	"github.com/quant1x/gotdx/proto"
 )
 
 func TestReOpen(t *testing.T) {

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"log"
 
-	"gitee.com/quant1x/gox/encoding/binary/struc"
+	"github.com/quant1x/x/encoding/binary/struc"
 )
 
 type Factory func() (Marshaler, Unmarshaler, error)
