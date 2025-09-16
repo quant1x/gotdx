@@ -5,10 +5,10 @@ import "gitee.com/quant1x/exchange"
 type ExchangeState int8
 
 const (
-	TDX_EXCHANGE_STATE_DELISTING ExchangeState = iota - 1 // 终止上市
-	TDX_EXCHANGE_STATE_CLOSING                            // 收盘
-	TDX_EXCHANGE_STATE_NORMAL                             // 正常交易
-	TDX_EXCHANGE_STATE_PAUSE                              // 暂停交易
+	EXCHANGE_STATE_DELISTING ExchangeState = iota - 1 // 终止上市
+	EXCHANGE_STATE_CLOSING                            // 收盘
+	EXCHANGE_STATE_NORMAL                             // 正常交易
+	EXCHANGE_STATE_PAUSE                              // 暂停交易
 )
 
 // Snapshot L1 行情快照

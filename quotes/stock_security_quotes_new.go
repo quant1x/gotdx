@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	TDX_SECURITY_QUOTES_MAX_V2 = 80 // 单次最大获取80条实时数据
+	SECURITY_QUOTES_MAX_V2 = 80 // 单次最大获取80条实时数据
 )
 
 // V2SecurityQuotesPackage 盘口五档报价

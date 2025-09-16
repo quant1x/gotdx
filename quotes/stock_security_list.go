@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	TDX_SECURITY_LIST_MAX = 1000 // 单次最大获取多少条股票数据
+	SECURITY_LIST_MAX = 1000 // 单次最大获取多少条股票数据
 )
 
 // SecurityListPackage 股票列表

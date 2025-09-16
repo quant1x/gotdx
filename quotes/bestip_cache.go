@@ -61,13 +61,13 @@ func saveSortedServerList(as *AllServers, configPath string) error {
 func GetFastHost(key string) []Server {
 	onceSortServers.Do(lazyCachedSortedServerList)
 	bestIp := cacheAllServers.BestIP
-	if key == TDX_HOST_HQ {
+	if key == HOST_HQ {
 		if len(bestIp.HQ) > 0 {
 			return bestIp.HQ
 		} else {
 			return []Server{DefaultHQServer}
 		}
-	} else if key == TDX_HOST_EX {
+	} else if key == HOST_EX {
 		if len(bestIp.EX) > 0 {
 			return bestIp.EX
 		} else {

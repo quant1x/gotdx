@@ -16,9 +16,9 @@ import (
 )
 
 const (
-	TDX_HOST_HQ = "HQ"
-	TDX_HOST_EX = "EX"
-	TDX_HOST_GP = "GP"
+	HOST_HQ = "HQ"
+	HOST_EX = "EX"
+	HOST_GP = "GP"
 )
 
 const (

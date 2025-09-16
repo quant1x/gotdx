@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	TDX_SECURITY_QUOTES_MAX = 80 // 单次最大获取80条实时数据
+	SECURITY_QUOTES_MAX = 80 // 单次最大获取80条实时数据
 )
 
 var (
@@ -25,9 +25,9 @@ var (
 type TradeState int8
 
 const (
-	TDX_SECURITY_TRADE_STATE_DELISTING TradeState = iota // 终止上市
-	TDX_SECURITY_TRADE_STATE_NORMAL                      // 正常交易
-	TDX_SECURITY_TRADE_STATE_SUSPEND                     // 停牌
+	SECURITY_TRADE_STATE_DELISTING TradeState = iota // 终止上市
+	SECURITY_TRADE_STATE_NORMAL                      // 正常交易
+	SECURITY_TRADE_STATE_SUSPEND                     // 停牌
 )
 
 // SecurityQuotesPackage 盘口五档报价
@@ -292,17 +292,17 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 		// 交易状态判断
 		if ele.LastClose == float64(0) && ele.Open == float64(0) {
 			// 设置为退市状态
-			ele.State = TDX_SECURITY_TRADE_STATE_DELISTING
+			ele.State = SECURITY_TRADE_STATE_DELISTING
 		} else {
 			// 如果不是退市状态, 从临时映射中删除
 			securityCode := exchange.GetMarketFlag(ele.Market) + ele.Code
 			delete(obj.mapCode, securityCode)
 			// 如果开盘价非0, 交易状态正常
 			if ele.Open != float64(0) {
-				ele.State = TDX_SECURITY_TRADE_STATE_NORMAL
+				ele.State = SECURITY_TRADE_STATE_NORMAL
 			} else {
 				// 开盘价等于0, 停牌
-				ele.State = TDX_SECURITY_TRADE_STATE_SUSPEND
+				ele.State = SECURITY_TRADE_STATE_SUSPEND
 			}
 		}
 
@@ -327,7 +327,7 @@ func (obj *SecurityQuotesPackage) UnSerialize(header interface{}, data []byte) e
 	// 修正停牌的证券代码
 	for i := 0; len(obj.mapCode) > 0 && i < len(obj.reply.List); i++ {
 		v := &(obj.reply.List[i])
-		if v.State == TDX_SECURITY_TRADE_STATE_DELISTING {
+		if v.State == SECURITY_TRADE_STATE_DELISTING {
 			securityCode := exchange.GetMarketFlag(v.Market) + v.Code
 			if _, ok := obj.mapCode[securityCode]; ok {
 				// 代码正常

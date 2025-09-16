@@ -53,7 +53,7 @@ type StdApi struct {
 
 // NewStdApi 创建一个标准接口
 func NewStdApi() (*StdApi, error) {
-	server := GetFastHost(TDX_HOST_HQ)
+	server := GetFastHost(HOST_HQ)
 	return NewStdApiWithServers(server)
 }
 

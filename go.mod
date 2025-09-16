@@ -1,8 +1,9 @@
 module gitee.com/quant1x/gotdx
 
-go 1.25
+go 1.25.0
 
 require (
+	gitee.com/quant1x/asio v1.1.5
 	gitee.com/quant1x/exchange v0.8.6
 	gitee.com/quant1x/gox v1.24.10
 	gitee.com/quant1x/num v0.7.8

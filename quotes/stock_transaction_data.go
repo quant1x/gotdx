@@ -15,14 +15,14 @@ import (
 type TradeType = int32
 
 const (
-	TDX_TICK_BUY     TradeType = iota // 买入
-	TDX_TICK_SELL    TradeType = 1    // 卖出
-	TDX_TICK_NEUTRAL TradeType = 2    // 中性盘
-	TDX_TICK_UNKNOWN TradeType = 3    // 未知类型, 出现在09:27分的历史数据中, 暂时确定为中性盘
+	TICK_BUY     TradeType = iota // 买入
+	TICK_SELL    TradeType = 1    // 卖出
+	TICK_NEUTRAL TradeType = 2    // 中性盘
+	TICK_UNKNOWN TradeType = 3    // 未知类型, 出现在09:27分的历史数据中, 暂时确定为中性盘
 )
 
 const (
-	TDX_TRANSACTION_MAX = 1800 // 单次最多获取多少条分笔成交记录
+	TRANSACTION_MAX = 1800 // 单次最多获取多少条分笔成交记录
 )
 
 // TransactionPackage 当日分笔成交信息

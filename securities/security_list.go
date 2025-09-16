@@ -91,7 +91,7 @@ func lazyLoadStockList() {
 // getSecurityList 证券列表
 func getSecurityList() (allList []quotes.Security) {
 	stdApi := gotdx.GetTdxApi()
-	offset := uint16(quotes.TDX_SECURITY_LIST_MAX)
+	offset := uint16(quotes.SECURITY_LIST_MAX)
 	start := uint16(0)
 	for {
 		reply, err := stdApi.GetSecurityList(exchange.MarketIdShangHai, start)

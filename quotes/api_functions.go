@@ -270,7 +270,7 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 		err = errors.New("code count error")
 		return
 	}
-	if len(symbols) > TDX_SECURITY_QUOTES_MAX {
+	if len(symbols) > SECURITY_QUOTES_MAX {
 		err = errors.New("code count error")
 		return
 	}
@@ -300,20 +300,20 @@ func (this *StdApi) GetSnapshot(codes []string) (list []Snapshot, err error) {
 			snapshot.Date = currentTransactionDate
 			snapshot.SecurityCode = exchange.GetSecurityCode(v.Market, v.Code)
 			snapshot.Active = v.Active1
-			snapshot.ExchangeState = TDX_EXCHANGE_STATE_CLOSING
-			if snapshot.State == TDX_SECURITY_TRADE_STATE_DELISTING {
+			snapshot.ExchangeState = EXCHANGE_STATE_CLOSING
+			if snapshot.State == SECURITY_TRADE_STATE_DELISTING {
 				// 终止上市
-				snapshot.ExchangeState = TDX_EXCHANGE_STATE_DELISTING
+				snapshot.ExchangeState = EXCHANGE_STATE_DELISTING
 			}
 			if upDateInRealTime {
 				// 交易时段
-				snapshot.ExchangeState = TDX_EXCHANGE_STATE_NORMAL
+				snapshot.ExchangeState = EXCHANGE_STATE_NORMAL
 			}
 			if status == exchange.ExchangeSuspend {
 				// 交易暂停
-				snapshot.ExchangeState = TDX_EXCHANGE_STATE_PAUSE
+				snapshot.ExchangeState = EXCHANGE_STATE_PAUSE
 			}
-			//if snapshot.ExchangeState == TDX_EXCHANGE_STATE_CLOSING {
+			//if snapshot.ExchangeState == EXCHANGE_STATE_CLOSING {
 			//	// 收盘
 			//	snapshot.CloseVolume = v.CurVol * 100
 			//}

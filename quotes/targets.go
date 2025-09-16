@@ -91,7 +91,7 @@ func getSecurityList() (allList []Security) {
 		return
 	}
 	defer stdApi.Close()
-	offset := uint16(TDX_SECURITY_LIST_MAX)
+	offset := uint16(SECURITY_LIST_MAX)
 	start := uint16(0)
 	for {
 		reply, err := stdApi.GetSecurityList(exchange.MarketIdShangHai, start)
